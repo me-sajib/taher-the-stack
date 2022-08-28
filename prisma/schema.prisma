@@ -9,3 +9,44 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String      @id @default(uuid())
+  fullname  String
+  username  String      @unique
+  gmail     String      @unique
+  password  String
+  createAt  DateTime
+  updateAt  DateTime
+  ProxyList ProxyList[]
+}
+
+model ProxyList {
+  id       String   @id @default(uuid())
+  key      String   @unique
+  username String
+  password String
+  createAt DateTime
+  updateAt DateTime
+  author   User     @relation(fields: [userId], references: [id])
+  userId   String
+  Proxies  Proxy[]
+}
+
+enum ProxyStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Proxy {
+  id          Int         @id @default(autoincrement())
+  host        String
+  port        Int
+  country     String
+  totalHits   Int
+  createAt    DateTime
+  updateAt    DateTime
+  status      ProxyStatus
+  author      ProxyList   @relation(fields: [proxyListId], references: [id])
+  proxyListId String
+}
