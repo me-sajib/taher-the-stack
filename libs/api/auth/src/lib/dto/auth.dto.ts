@@ -45,7 +45,7 @@ class SigninWithEmail {
   password: string;
 }
 
-export type AuthSigninDto = SigninWithEmail | SininWithUsername;
+export type AuthSigninDto = SigninWithEmail & SininWithUsername;
 
 export class AuthSignupDto {
   @IsNotEmpty()
