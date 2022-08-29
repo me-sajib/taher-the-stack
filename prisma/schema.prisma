@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,10 +11,10 @@ model User {
   id        String      @id @default(uuid())
   fullname  String
   username  String      @unique
-  gmail     String      @unique
+  email     String      @unique
   password  String
-  createAt  DateTime
-  updateAt  DateTime
+  createAt  DateTime    @default(now())
+  updateAt  DateTime    @updatedAt
   ProxyList ProxyList[]
 }
 
@@ -26,16 +23,11 @@ model ProxyList {
   key      String   @unique
   username String
   password String
-  createAt DateTime
-  updateAt DateTime
-  author   User     @relation(fields: [userId], references: [id])
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
   userId   String
+  author   User     @relation(fields: [userId], references: [id])
   Proxies  Proxy[]
-}
-
-enum ProxyStatus {
-  ACTIVE
-  INACTIVE
 }
 
 model Proxy {
@@ -44,9 +36,14 @@ model Proxy {
   port        Int
   country     String
   totalHits   Int
-  createAt    DateTime
-  updateAt    DateTime
+  createAt    DateTime    @default(now())
+  updateAt    DateTime    @updatedAt
   status      ProxyStatus
-  author      ProxyList   @relation(fields: [proxyListId], references: [id])
   proxyListId String
+  author      ProxyList   @relation(fields: [proxyListId], references: [id])
+}
+
+enum ProxyStatus {
+  ACTIVE
+  INACTIVE
 }
