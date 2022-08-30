@@ -1,26 +1,40 @@
 import ApiPrismaService from '@api/prisma';
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { User } from '@prisma/client';
 import * as argon from 'argon2';
+import { UserDto } from '../dto';
 
 @Injectable()
 export class UsernameService {
   constructor(private prisma: ApiPrismaService) {}
 
-  getUser(user: User) {
-    delete user.password;
-    return user;
-  }
-
-  async deleteUser(user: User) {
-    await this.prisma.user.delete({
+  async getUser(dto: UserDto) {
+    const user = await this.prisma.user.findUnique({
       where: {
-        id: user.id,
+        id: dto.userId,
       },
     });
 
+    if (user) {
+      delete user.password;
+      Logger.log(`GET:/${user.username}`);
+      return user;
+    }
+
+    throw new ForbiddenException('Credential not exist');
+  }
+
+  async deleteUser(dto: UserDto) {
+    await this.prisma.user.delete({
+      where: {
+        id: dto.userId,
+      },
+    });
+
+    Logger.log(`DELETE:/${dto.username}`);
+
     return {
-      message: `${user.username} deleted successfully`,
+      message: `${dto.username} deleted successfully`,
     };
   }
 
@@ -40,6 +54,7 @@ export class UsernameService {
 
     delete updatedUser.password;
 
+    Logger.log(`UPDATE:/${updateUser.username}`);
     return updateUser;
   }
 }

@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
+import { UserDto } from '../dto';
 import { UsernameService } from './username.service';
 
 @Controller(':username')
@@ -19,13 +20,13 @@ export class UsernameController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   getUser(@Param('username') username: string, @Req() req: any) {
-    return this.userService.getUser(req.user as User);
+    return this.userService.getUser(req.user as UserDto);
   }
 
   @Delete()
   @UseGuards(AuthGuard('jwt'))
   deleteUser(@Param('username') username: string, @Req() req: any) {
-    return this.userService.deleteUser(req.user as User);
+    return this.userService.deleteUser(req.user as UserDto);
   }
 
   @Patch()
