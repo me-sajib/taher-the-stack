@@ -1,6 +1,7 @@
 import { ApiPrismaModule } from '@api/prisma';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { UsernameController } from './username/username.controller';
+import { UsernameMiddleware } from './username/username.middleware';
 import { UsernameService } from './username/username.service';
 
 @Module({
@@ -9,4 +10,8 @@ import { UsernameService } from './username/username.service';
   providers: [UsernameService],
   exports: [],
 })
-export class ApiUsernameModule {}
+export class ApiUsernameModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(UsernameMiddleware).forRoutes(UsernameController);
+  }
+}
