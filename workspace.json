@@ -4,6 +4,7 @@
   "projects": {
     "api": "apps/api",
     "api-auth": "libs/api/auth",
-    "api-prisma": "libs/api/prisma"
+    "api-prisma": "libs/api/prisma",
+    "api-username": "libs/api/username"
   }
 }
