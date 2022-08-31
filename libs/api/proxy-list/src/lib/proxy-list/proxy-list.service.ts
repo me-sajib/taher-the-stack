@@ -9,6 +9,8 @@ export class ProxyListService {
   constructor(private prisma: ApiPrismaService) {}
 
   async createProxyList(list: ProxyListDto) {
+    list.password = await argon.hash(list.password);
+
     const proxyList = await this.prisma.proxyList.create({
       data: list,
     });
