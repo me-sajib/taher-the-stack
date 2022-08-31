@@ -5,6 +5,7 @@
     "api": "apps/api",
     "api-auth": "libs/api/auth",
     "api-prisma": "libs/api/prisma",
+    "api-proxy-list": "libs/api/proxy-list",
     "api-username": "libs/api/username"
   }
 }
