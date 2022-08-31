@@ -29,7 +29,7 @@ export class ApiAuthService {
       });
 
       Logger.log(`${user.username} successfully registered`);
-      return this.signToken(user.id, user.email);
+      return this.signToken(user.id, user.email, user.username);
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2002') {
@@ -69,7 +69,7 @@ export class ApiAuthService {
 
     if (isValidPass) {
       Logger.log(`${user.username} successfully sign in`);
-      return this.signToken(user.id, user.email);
+      return this.signToken(user.id, user.email, user.username);
     }
 
     Logger.error('Incorrect login Credential');
@@ -78,11 +78,13 @@ export class ApiAuthService {
 
   async signToken(
     userId: string,
-    email: string
+    email: string,
+    username: string
   ): Promise<{ access_token: string }> {
     const payload = {
       sub: userId,
       email,
+      username,
     };
 
     const secret: string = this.config.get('JWT_SECRET');
