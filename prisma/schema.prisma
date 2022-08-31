@@ -20,6 +20,7 @@ model User {
 
 model ProxyList {
   key      String   @id @default(uuid())
+  name     String
   username String   @unique
   password String
   createAt DateTime @default(now())

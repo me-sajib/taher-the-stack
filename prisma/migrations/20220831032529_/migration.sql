@@ -16,15 +16,15 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "ProxyList" (
-    "id" TEXT NOT NULL,
     "key" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
 
-    CONSTRAINT "ProxyList_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ProxyList_pkey" PRIMARY KEY ("key")
 );
 
 -- CreateTable
@@ -49,10 +49,10 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ProxyList_key_key" ON "ProxyList"("key");
+CREATE UNIQUE INDEX "ProxyList_username_key" ON "ProxyList"("username");
 
 -- AddForeignKey
 ALTER TABLE "ProxyList" ADD CONSTRAINT "ProxyList_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Proxy" ADD CONSTRAINT "Proxy_proxyListId_fkey" FOREIGN KEY ("proxyListId") REFERENCES "ProxyList"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Proxy" ADD CONSTRAINT "Proxy_proxyListId_fkey" FOREIGN KEY ("proxyListId") REFERENCES "ProxyList"("key") ON DELETE RESTRICT ON UPDATE CASCADE;
