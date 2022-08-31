@@ -1,7 +1,6 @@
 import ApiPrismaService from '@api/prisma';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ProxyList } from '@prisma/client';
-import * as argon from 'argon2';
 import { ProxyListDto } from '../dto';
 
 @Injectable()
@@ -9,8 +8,6 @@ export class ProxyListService {
   constructor(private prisma: ApiPrismaService) {}
 
   async createProxyList(list: ProxyListDto) {
-    list.password = await argon.hash(list.password);
-
     const proxyList = await this.prisma.proxyList.create({
       data: list,
     });
@@ -34,7 +31,7 @@ export class ProxyListService {
     throw new BadRequestException('Proxy list not found');
   }
 
-  async bulkGetProxyLists(listKeys?: string[]) {
+  async GetBulkProxyLists(listKeys?: string[]) {
     const option = {
       where: {
         key: {
@@ -67,7 +64,7 @@ export class ProxyListService {
     return deletedProxyList;
   }
 
-  async bulkDeleteProxyList(listKeys?: string[]) {
+  async deleteBulkProxyList(listKeys?: string[]) {
     const option = {
       where: {
         key: {
@@ -88,10 +85,6 @@ export class ProxyListService {
 
   async updateProxyList(listKey: string, updatedProxyList: ProxyList) {
     delete updatedProxyList.key;
-
-    if ('password' in updatedProxyList) {
-      updatedProxyList.password = await argon.hash(updatedProxyList.password);
-    }
 
     const updatedList = await this.prisma.proxyList.update({
       where: {
