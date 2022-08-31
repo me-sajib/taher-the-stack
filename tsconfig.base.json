@@ -16,7 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@api/auth": ["libs/api/auth/src/index.ts"],
-      "@api/prisma": ["libs/api/prisma/src/index.ts"]
+      "@api/prisma": ["libs/api/prisma/src/index.ts"],
+      "@api/strategy": ["libs/api/strategy/src/index.ts"],
+      "@api/username": ["libs/api/username/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

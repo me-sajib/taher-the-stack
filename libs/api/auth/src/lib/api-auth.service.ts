@@ -86,13 +86,12 @@ export class ApiAuthService {
     };
 
     const secret: string = this.config.get('JWT_SECRET');
-    const token: string = await this.jwt.signAsync(payload, {
-      expiresIn: '24h',
-      secret,
-    });
 
     return {
-      access_token: `Bearer ${token}`,
+      access_token: await this.jwt.signAsync(payload, {
+        expiresIn: '24h',
+        secret,
+      }),
     };
   }
 }
