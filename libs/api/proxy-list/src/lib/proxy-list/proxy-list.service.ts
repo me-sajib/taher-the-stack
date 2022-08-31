@@ -1,7 +1,6 @@
 import ApiPrismaService from '@api/prisma';
 import { Injectable, Logger } from '@nestjs/common';
-import { ProxyList } from '@prisma/client';
-import { ProxyListDto } from '../dto';
+import { ProxyListDto, ProxyListUpdateDto } from '../dto';
 
 @Injectable()
 export class ProxyListService {
@@ -59,14 +58,14 @@ export class ProxyListService {
     };
   }
 
-  async updateProxyList(listKey: string, updatedProxyList: ProxyList) {
-    delete updatedProxyList.key;
+  async updateProxyList(updatedProxyList: ProxyListUpdateDto) {
+    const { key, ...restUpdatedProxyList } = updatedProxyList;
 
     const updatedList = await this.prisma.proxyList.update({
       where: {
-        key: listKey,
+        key,
       },
-      data: updatedProxyList,
+      data: restUpdatedProxyList,
     });
 
     delete updatedList.password;
