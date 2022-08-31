@@ -10,6 +10,12 @@ export class UsernameController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   getUser(@Param('username') username: string, @Req() req: any) {
-    return this.userService.getUser(username, req.user as User);
+    return this.userService.getUser(req.user as User);
+  }
+
+  @Delete()
+  @UseGuards(AuthGuard('jwt'))
+  deleteUser(@Param('username') username: string, @Req() req: any) {
+    return this.userService.deleteUser(req.user as User);
   }
 }

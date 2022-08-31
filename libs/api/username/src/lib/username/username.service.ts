@@ -1,14 +1,25 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import ApiPrismaService from '@api/prisma';
+import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 
 @Injectable()
 export class UsernameService {
-  getUser(paramsUsername: string, user: User) {
-    if (paramsUsername === user.username) {
-      delete user.password;
-      return user;
-    }
+  constructor(private prisma: ApiPrismaService) {}
 
-    throw new ForbiddenException('Invalid credential');
+  getUser(user: User) {
+    delete user.password;
+    return user;
+  }
+
+  async deleteUser(user: User) {
+    await this.prisma.user.delete({
+      where: {
+        id: user.id,
+      },
+    });
+
+    return {
+      message: `${user.username} deleted successfully`,
+    };
   }
 }
