@@ -2,12 +2,13 @@ import ApiPrismaService from '@api/prisma';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ProxyList } from '@prisma/client';
 import * as argon from 'argon2';
+import { ProxyListDto } from '../dto';
 
 @Injectable()
 export class ProxyListService {
   constructor(private prisma: ApiPrismaService) {}
 
-  async createProxyList(list: ProxyList) {
+  async createProxyList(list: ProxyListDto) {
     const proxyList = await this.prisma.proxyList.create({
       data: list,
     });
