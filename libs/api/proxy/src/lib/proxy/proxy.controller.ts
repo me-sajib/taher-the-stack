@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ProxyDto, ProxyQueryDto } from '../dto';
 import { ProxyService } from './proxy.service';
@@ -16,5 +16,10 @@ export class ProxyController {
   @Get('/proxies')
   getBulkProxies(@Body() dto: ProxyQueryDto) {
     return this.proxyService.getBulkProxies(dto.proxyIds);
+  }
+
+  @Delete('/proxies')
+  deleteBulkProxies(@Body() dto: ProxyQueryDto) {
+    return this.proxyService.deleteBulkProxies(dto.proxyIds);
   }
 }
