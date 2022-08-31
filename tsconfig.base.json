@@ -27,6 +27,9 @@
       "@api/proxy-list": [
         "libs/api/proxy-list/src/index.ts"
       ],
+      "@api/proxy": [
+        "libs/api/proxy/src/index.ts"
+      ],
       "@api/username": [
         "libs/api/username/src/index.ts"
       ]

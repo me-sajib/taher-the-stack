@@ -1,8 +1,10 @@
+import { ApiPrismaModule } from '@api/prisma';
 import { Module } from '@nestjs/common';
-import { ProxyService } from './proxy/proxy.service';
 import { ProxyController } from './proxy/proxy.controller';
+import { ProxyService } from './proxy/proxy.service';
 
 @Module({
+  imports: [ApiPrismaModule],
   controllers: [ProxyController],
   providers: [ProxyService],
   exports: [],
