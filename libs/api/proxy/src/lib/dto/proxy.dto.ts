@@ -46,9 +46,6 @@ export class ProxyQueryDto {
 
 export class ProxyUpdateDto {
   @IsNumber()
-  @Min(0, {
-    each: true,
-  })
   id: number;
 
   @IsOptional()
