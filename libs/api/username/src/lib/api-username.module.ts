@@ -2,9 +2,8 @@ import { ApiCheckProxyModule } from '@api/check-proxy';
 import { ApiPrismaModule } from '@api/prisma';
 import { ApiProxyModule } from '@api/proxy';
 import { ApiProxyListModule } from '@api/proxy-list';
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UsernameController } from './username/username.controller';
-import { UsernameMiddleware } from './username/username.middleware';
 import { UsernameService } from './username/username.service';
 
 @Module({
@@ -19,7 +18,7 @@ import { UsernameService } from './username/username.service';
   exports: [],
 })
 export class ApiUsernameModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UsernameMiddleware).forRoutes(UsernameController);
-  }
+  // configure(consumer: MiddlewareConsumer) { // TODO: Fix the middleware
+  //   consumer.apply(UsernameMiddleware).forRoutes(UsernameController);
+  // }
 }
