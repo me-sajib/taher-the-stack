@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@api-shared/basic-strategy": [
+        "libs/api/shared/basic-strategy/src/index.ts"
+      ],
       "@api/auth": ["libs/api/auth/src/index.ts"],
       "@api/check-proxy": ["libs/api/check-proxy/src/index.ts"],
       "@api/prisma": ["libs/api/prisma/src/index.ts"],

@@ -19,15 +19,16 @@ model User {
 }
 
 model ProxyList {
-  key      String   @id @default(uuid())
-  name     String
-  username String   @unique
-  password String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  userId   String
-  author   User     @relation(fields: [userId], references: [id])
-  Proxies  Proxy[]
+  key        String   @id @default(uuid())
+  rotatingId Int      @default(0)
+  name       String
+  username   String   @unique
+  password   String
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
+  userId     String
+  author     User     @relation(fields: [userId], references: [id])
+  Proxies    Proxy[]
 }
 
 model Proxy {
