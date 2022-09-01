@@ -52,9 +52,10 @@ export class UsernameService {
       data: updatedUser,
     });
 
-    delete updatedUser.password;
+    delete updateUser.password;
 
     Logger.log(`UPDATE:/${updateUser.username}`);
+    console.log({ updateUser });
     return updateUser;
   }
 }
