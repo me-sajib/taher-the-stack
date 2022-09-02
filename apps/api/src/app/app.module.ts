@@ -1,12 +1,13 @@
 import { ApiAuthModule } from '@api/auth';
 import { ApiUsernameModule } from '@api/username';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [ApiAuthModule, ApiUsernameModule],
+  imports: [ApiAuthModule, ApiUsernameModule, ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })

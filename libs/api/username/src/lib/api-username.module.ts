@@ -1,3 +1,4 @@
+import { ApiCheckProxyModule } from '@api/check-proxy';
 import { ApiPrismaModule } from '@api/prisma';
 import { ApiProxyModule } from '@api/proxy';
 import { ApiProxyListModule } from '@api/proxy-list';
@@ -7,7 +8,12 @@ import { UsernameMiddleware } from './username/username.middleware';
 import { UsernameService } from './username/username.service';
 
 @Module({
-  imports: [ApiPrismaModule, ApiProxyModule, ApiProxyListModule],
+  imports: [
+    ApiPrismaModule,
+    ApiCheckProxyModule,
+    ApiProxyModule,
+    ApiProxyListModule,
+  ],
   controllers: [UsernameController],
   providers: [UsernameService],
   exports: [],
