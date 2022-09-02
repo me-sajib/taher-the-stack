@@ -19,9 +19,9 @@ model User {
 }
 
 model ProxyList {
-  id       String   @id @default(uuid())
-  key      String   @unique
-  username String
+  key      String   @id @default(uuid())
+  name     String
+  username String   @unique
   password String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -40,7 +40,7 @@ model Proxy {
   updateAt    DateTime    @updatedAt
   status      ProxyStatus
   proxyListId String
-  author      ProxyList   @relation(fields: [proxyListId], references: [id])
+  author      ProxyList   @relation(fields: [proxyListId], references: [key])
 }
 
 enum ProxyStatus {
