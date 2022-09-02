@@ -1,7 +1,6 @@
 import ApiPrismaService from '@api/prisma';
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { ProxyList } from '@prisma/client';
-import { ProxyListDto } from '../dto';
+import { Injectable, Logger } from '@nestjs/common';
+import { ProxyListDto, ProxyListUpdateDto } from '../dto';
 
 @Injectable()
 export class ProxyListService {
@@ -16,22 +15,7 @@ export class ProxyListService {
     return proxyList;
   }
 
-  async getUniqueProxyList(listKey: string) {
-    const proxyList = await this.prisma.proxyList.findUnique({
-      where: {
-        key: listKey,
-      },
-    });
-
-    if (proxyList) {
-      Logger.log(`GET: username: ${proxyList.username} list`);
-      return proxyList;
-    }
-
-    throw new BadRequestException('Proxy list not found');
-  }
-
-  async GetBulkProxyLists(listKeys?: string[]) {
+  async getBulkProxyLists(listKeys?: string[]) {
     const option = {
       where: {
         key: {
@@ -51,19 +35,6 @@ export class ProxyListService {
     return proxyLists;
   }
 
-  async deleteUniqueProxyList(listKey: string) {
-    const deletedProxyList = await this.prisma.proxyList.delete({
-      where: {
-        key: listKey,
-      },
-    });
-
-    Logger.log(
-      `DELETE: deleted proxy list: ${JSON.stringify(deletedProxyList)}`
-    );
-    return deletedProxyList;
-  }
-
   async deleteBulkProxyList(listKeys?: string[]) {
     const option = {
       where: {
@@ -80,17 +51,21 @@ export class ProxyListService {
           `DELETE: bulk deletes proxy list: ${JSON.stringify(listKeys)}`
         )
       : Logger.log(`DELETE: all proxy lists`);
-    return listKeys;
+
+    return {
+      status: 200,
+      message: 'Deleted proxy list successfully',
+    };
   }
 
-  async updateProxyList(listKey: string, updatedProxyList: ProxyList) {
-    delete updatedProxyList.key;
+  async updateProxyList(updatedProxyList: ProxyListUpdateDto) {
+    const { key, ...restUpdatedProxyList } = updatedProxyList;
 
     const updatedList = await this.prisma.proxyList.update({
       where: {
-        key: listKey,
+        key,
       },
-      data: updatedProxyList,
+      data: restUpdatedProxyList,
     });
 
     delete updatedList.password;
