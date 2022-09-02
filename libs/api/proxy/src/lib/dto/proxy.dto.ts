@@ -30,9 +30,25 @@ export class ProxyDto {
   proxyListId: string;
 }
 
+export class ProxyQueryDto {
+  @IsOptional()
+  @IsNumber(
+    {},
+    {
+      each: true,
+    }
+  )
+  @Min(0, {
+    each: true,
+  })
+  proxyIds: number[];
+}
+
 export class ProxyUpdateDto {
   @IsNumber()
-  @Min(0)
+  @Min(0, {
+    each: true,
+  })
   id: number;
 
   @IsOptional()
