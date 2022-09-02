@@ -1,6 +1,6 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ProxyListDto } from '../dto';
+import { ProxyListBulkDto, ProxyListDto } from '../dto';
 import { ProxyListService } from './proxy-list.service';
 
 @UseGuards(AuthGuard('jwt'))
@@ -11,5 +11,10 @@ export class ProxyListController {
   @Post()
   createProxyList(@Body() dto: ProxyListDto) {
     return this.proxyListService.createProxyList(dto);
+  }
+
+  @Get()
+  getBulkProxyLists(@Body() dto: ProxyListBulkDto) {
+    return this.proxyListService.GetBulkProxyLists(dto.listKeys);
   }
 }
