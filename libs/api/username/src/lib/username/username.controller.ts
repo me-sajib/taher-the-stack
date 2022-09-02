@@ -28,6 +28,6 @@ export class UsernameController {
 
   @Patch()
   updateUser(@Req() req: any, @Body() updatedUser: User) {
-    return this.userService.updateUser(req.user.id, updatedUser);
+    return this.userService.updateUser(req.user.userId, updatedUser);
   }
 }
