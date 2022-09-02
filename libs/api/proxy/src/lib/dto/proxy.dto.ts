@@ -22,6 +22,8 @@ export class ProxyDto {
   @IsNumber()
   totalHits: number;
 
+  @IsString()
+  @IsNotEmpty()
   status: 'ACTIVE' | 'INACTIVE';
 
   @IsUUID()
