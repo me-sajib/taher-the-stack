@@ -20,7 +20,7 @@ model User {
 
 model ProxyList {
   key        String   @id @default(uuid())
-  rotatingId Int      @default(0)
+  rotatingIndex Int      @default(0)
   name       String
   username   String   @unique
   password   String

@@ -23,7 +23,6 @@
       "@api/prisma": ["libs/api/prisma/src/index.ts"],
       "@api/proxy": ["libs/api/proxy/src/index.ts"],
       "@api/proxy-list": ["libs/api/proxy-list/src/index.ts"],
-      "@api/rotate": ["libs/api/rotate/src/index.ts"],
       "@api/username": ["libs/api/username/src/index.ts"]
     }
   },
