@@ -1,5 +1,7 @@
 import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import { BasicStrategyDto } from '../basic-strategy/basic-strategy.dto';
 import { CheckProxyService } from './check-proxy.service';
 import { ParamDto } from './dto';
 
@@ -9,7 +11,7 @@ export class CheckProxyController {
   constructor(private checkProxyService: CheckProxyService) {}
 
   @Get('/:proxyId')
-  checkProxy(@Req() req: any, @Param() dto: ParamDto) {
-    return this.checkProxyService.checkProxy(req.user, dto);
+  checkProxy(@Req() req: Request, @Param() dto: ParamDto) {
+    return this.checkProxyService.checkProxy(req.user as BasicStrategyDto, dto);
   }
 }
