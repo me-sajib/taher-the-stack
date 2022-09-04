@@ -3,7 +3,6 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "api-auth": "libs/api/auth",
     "api-check-proxy": "libs/api/check-proxy",
     "api-prisma": "libs/api/prisma",
     "api-proxy-list": "libs/api/proxy-list",
