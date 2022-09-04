@@ -6,20 +6,28 @@ import { ProxyDto, ProxyUpdateDto } from './dto';
 export class ProxyService {
   constructor(private prisma: ApiPrismaService) {}
 
-  async createProxy(dto: ProxyDto) {
+  async createProxy(userId: string, dto: ProxyDto) {
     const proxy = await this.prisma.proxy.create({
-      data: dto,
+      data: {
+        ...dto,
+        userId,
+      },
     });
 
     Logger.log(`Proxy created successfully.:\n${JSON.stringify(proxy)}`);
     return proxy;
   }
 
-  async getBulkProxies(proxyListId: string, proxyIds?: number[]) {
+  async getBulkProxies(
+    userId: string,
+    proxyListKey: string,
+    proxyIds?: number[]
+  ) {
     const proxies = await this.prisma.proxy.findMany({
       where: Object.assign(
         {
-          proxyListId,
+          proxyListKey,
+          userId,
         },
         proxyIds && {
           id: {
@@ -36,11 +44,16 @@ export class ProxyService {
     return proxies;
   }
 
-  async deleteBulkProxies(proxyListId: string, proxyIds?: number[]) {
+  async deleteBulkProxies(
+    userId: string,
+    proxyListKey: string,
+    proxyIds?: number[]
+  ) {
     await this.prisma.proxy.deleteMany({
       where: Object.assign(
         {
-          proxyListId,
+          userId,
+          proxyListKey,
         },
         proxyIds && {
           id: {
@@ -69,7 +82,9 @@ export class ProxyService {
       where: {
         id,
       },
-      data: restUpdatedProxy,
+      data: {
+        ...restUpdatedProxy,
+      },
     });
 
     return updated;

@@ -5,9 +5,12 @@ import {
   Get,
   Patch,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import { UserDto } from '../user/dto';
 import { ProxyDto, ProxyQueryDto, ProxyUpdateDto } from './dto';
 import { ProxyService } from './proxy.service';
 
@@ -17,8 +20,8 @@ export class ProxyController {
   constructor(private proxyService: ProxyService) {}
 
   @Post()
-  createProxy(@Body() dto: ProxyDto) {
-    return this.proxyService.createProxy(dto);
+  createProxy(@Body() dto: ProxyDto, @Req() req: Request) {
+    return this.proxyService.createProxy((req.user as UserDto).userId, dto);
   }
 
   @Patch()
@@ -27,12 +30,20 @@ export class ProxyController {
   }
 
   @Get()
-  getBulkProxies(@Body() dto: ProxyQueryDto) {
-    return this.proxyService.getBulkProxies(dto.proxyListKey, dto.proxyIds);
+  getBulkProxies(@Body() dto: ProxyQueryDto, @Req() req: Request) {
+    return this.proxyService.getBulkProxies(
+      (req.user as UserDto).userId,
+      dto.proxyListKey,
+      dto.proxyIds
+    );
   }
 
   @Delete()
-  deleteBulkProxies(@Body() dto: ProxyQueryDto) {
-    return this.proxyService.deleteBulkProxies(dto.proxyListKey, dto.proxyIds);
+  deleteBulkProxies(@Body() dto: ProxyQueryDto, @Req() req: Request) {
+    return this.proxyService.deleteBulkProxies(
+      (req.user as UserDto).userId,
+      dto.proxyListKey,
+      dto.proxyIds
+    );
   }
 }
