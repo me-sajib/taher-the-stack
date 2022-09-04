@@ -2,7 +2,7 @@ import ApiPrismaService from '@api/prisma';
 import { Injectable } from '@nestjs/common';
 import { Proxy } from '@prisma/client';
 import axios from 'axios';
-import { ParamDto } from '../dto';
+import { ParamDto } from './dto';
 
 @Injectable()
 export class CheckProxyService {
