@@ -1,10 +1,10 @@
-import ApiPrismaService from '@api/prisma';
 import { Injectable, Logger } from '@nestjs/common';
+import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { ProxyListDto, ProxyListUpdateDto } from './dto';
 
 @Injectable()
 export class ProxyListService {
-  constructor(private prisma: ApiPrismaService) {}
+  constructor(private prisma: PrismaClientService) {}
 
   async createProxyList(list: ProxyListDto) {
     const proxyList = await this.prisma.proxyList.create({
