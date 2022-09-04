@@ -8,11 +8,11 @@ const checkAuth = async (req: IncomingMessage) => {
     const authHeader =
     req.headers.authorization || req.headers["proxy-authorization"];
 
-    const b64auth = (authHeader || "").split(" ")[1] || "";
-    const [usernmae, password] = Buffer.from(b64auth, "base64").toString().split(":");
+    const b64auth = authHeader?.split(/\s/)[1] ?? "";
+    const [username, password] = Buffer.from(b64auth, "base64").toString().split(":");
 
     try {
-        const proxyList = await getProxyList(usernmae, password)
+        const proxyList = await getProxyList(username, password)
         data.set(proxyList)
         return true
     } catch (e) {
