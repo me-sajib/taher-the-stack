@@ -7,6 +7,7 @@ import { ProxyListModule } from './proxy-list/proxy-list.module';
 import { UserModule } from './user/user.module';
 import { ProxyModule } from './proxy/proxy.module';
 import { CheckProxyModule } from './check-proxy/check-proxy.module';
+import { BasicStrategyModule } from './basic-strategy/basic-strategy.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CheckProxyModule } from './check-proxy/check-proxy.module';
     ProxyListModule,
     ProxyModule,
     CheckProxyModule,
+    BasicStrategyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
