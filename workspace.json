@@ -7,7 +7,6 @@
     "api-prisma": "libs/api/prisma",
     "api-proxy-list": "libs/api/proxy-list",
     "api-shared-basic-strategy": "libs/api/shared/basic-strategy",
-    "api-username": "libs/api/username",
     "proxy-rotate": "apps/proxy-rotate"
   }
 }

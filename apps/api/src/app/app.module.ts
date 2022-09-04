@@ -1,12 +1,12 @@
-import { ApiUsernameModule } from '@api/username';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [ApiUsernameModule, ConfigModule.forRoot(), AuthModule],
+  imports: [ConfigModule.forRoot(), AuthModule, UserModule],
   controllers: [AppController],
   providers: [AppService],
 })
