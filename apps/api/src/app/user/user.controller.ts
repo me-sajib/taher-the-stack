@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
+import { Request } from 'express';
 import { UserDto } from './dto';
 import { UserService } from './user.service';
 
@@ -18,17 +19,20 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
-  getUser(@Req() req: any) {
+  getUser(@Req() req: Request) {
     return this.userService.getUser(req.user as UserDto);
   }
 
   @Delete()
-  deleteUser(@Req() req: any) {
+  deleteUser(@Req() req: Request) {
     return this.userService.deleteUser(req.user as UserDto);
   }
 
   @Patch()
-  updateUser(@Req() req: any, @Body() updatedUser: User) {
-    return this.userService.updateUser(req.user.userId, updatedUser);
+  updateUser(@Req() req: Request, @Body() updatedUser: User) {
+    return this.userService.updateUser(
+      (req.user as UserDto).userId,
+      updatedUser
+    );
   }
 }
