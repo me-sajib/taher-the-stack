@@ -17,6 +17,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "ProxyList" (
     "key" TEXT NOT NULL,
+    "rotatingIndex" INTEGER NOT NULL DEFAULT 0,
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,

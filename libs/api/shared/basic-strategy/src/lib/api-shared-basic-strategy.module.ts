@@ -8,4 +8,4 @@ import { BasicStrategy } from './auth.strategy';
   imports: [PassportModule, ConfigModule, ApiPrismaModule],
   providers: [BasicStrategy],
 })
-export class AuthModule {}
+export class ApiSharedBasicStrategyModule {}
