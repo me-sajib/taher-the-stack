@@ -31,3 +31,9 @@ this app can be running by the below command:
 ```bash
 yarn nx serve proxy-rotator
 ```
+
+> Run for production build
+
+```bash
+yarn nx build proxy-rotator --prod
+```
