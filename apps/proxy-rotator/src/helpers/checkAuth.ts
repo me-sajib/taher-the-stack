@@ -13,8 +13,7 @@ const checkAuth = async (req: IncomingMessage) => {
     .split(':');
 
   try {
-    const proxyList = await getProxyList(username, password);
-    data.set(proxyList);
+    data.set(await getProxyList(username, password));
     return true;
   } catch (e) {
     return false;
