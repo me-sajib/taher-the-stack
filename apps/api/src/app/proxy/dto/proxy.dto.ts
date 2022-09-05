@@ -27,10 +27,13 @@ export class ProxyDto {
   status: 'ACTIVE' | 'INACTIVE';
 
   @IsUUID()
-  proxyListId: string;
+  proxyListKey: string;
 }
 
 export class ProxyQueryDto {
+  @IsUUID()
+  proxyListKey: string;
+
   @IsOptional()
   @IsNumber(
     {},

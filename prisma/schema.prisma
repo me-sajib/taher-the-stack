@@ -16,32 +16,35 @@ model User {
   createAt  DateTime    @default(now())
   updateAt  DateTime    @updatedAt
   ProxyList ProxyList[]
+  Proxy     Proxy[]
 }
 
 model ProxyList {
-  key        String   @id @default(uuid())
+  key           String   @id @default(uuid())
   rotatingIndex Int      @default(0)
-  name       String
-  username   String   @unique
-  password   String
-  createAt   DateTime @default(now())
-  updateAt   DateTime @updatedAt
-  userId     String
-  author     User     @relation(fields: [userId], references: [id])
-  Proxies    Proxy[]
+  name          String
+  username      String   @unique
+  password      String
+  createAt      DateTime @default(now())
+  updateAt      DateTime @updatedAt
+  userId        String
+  author        User     @relation(fields: [userId], references: [id])
+  Proxies       Proxy[]
 }
 
 model Proxy {
-  id          Int         @id @default(autoincrement())
-  host        String
-  port        Int
-  country     String
-  totalHits   Int
-  createAt    DateTime    @default(now())
-  updateAt    DateTime    @updatedAt
-  status      ProxyStatus
-  proxyListId String
-  author      ProxyList   @relation(fields: [proxyListId], references: [key])
+  id           Int         @id @default(autoincrement())
+  host         String
+  port         Int
+  country      String
+  totalHits    Int         @default(0)
+  createAt     DateTime    @default(now())
+  updateAt     DateTime    @updatedAt
+  status       ProxyStatus
+  proxyListKey String
+  proxyList    ProxyList   @relation(fields: [proxyListKey], references: [key])
+  author       User        @relation(fields: [userId], references: [id])
+  userId       String
 }
 
 enum ProxyStatus {

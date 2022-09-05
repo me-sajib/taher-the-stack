@@ -38,7 +38,7 @@ CREATE TABLE "Proxy" (
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
     "status" "ProxyStatus" NOT NULL,
-    "proxyListId" TEXT NOT NULL,
+    "proxyListKey" TEXT NOT NULL,
 
     CONSTRAINT "Proxy_pkey" PRIMARY KEY ("id")
 );
@@ -56,4 +56,4 @@ CREATE UNIQUE INDEX "ProxyList_username_key" ON "ProxyList"("username");
 ALTER TABLE "ProxyList" ADD CONSTRAINT "ProxyList_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Proxy" ADD CONSTRAINT "Proxy_proxyListId_fkey" FOREIGN KEY ("proxyListId") REFERENCES "ProxyList"("key") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Proxy" ADD CONSTRAINT "Proxy_proxyListKey_fkey" FOREIGN KEY ("proxyListKey") REFERENCES "ProxyList"("key") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -3,7 +3,6 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "api-check-proxy": "libs/api/check-proxy",
     "api-prisma": "libs/api/prisma",
     "api-shared-basic-strategy": "libs/api/shared/basic-strategy",
     "proxy-rotate": "apps/proxy-rotate"

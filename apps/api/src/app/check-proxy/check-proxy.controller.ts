@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ParamDto } from '../dto';
 import { CheckProxyService } from './check-proxy.service';
+import { ParamDto } from './dto';
 
 @UseGuards(AuthGuard('basic'))
-@Controller(':username/check-proxy')
+@Controller('check-proxy')
 export class CheckProxyController {
   constructor(private checkProxyService: CheckProxyService) {}
 
