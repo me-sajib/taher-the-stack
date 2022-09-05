@@ -3,7 +3,6 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "api-prisma": "libs/api/prisma",
     "proxy-rotate": "apps/proxy-rotate"
   }
 }

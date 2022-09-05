@@ -1,4 +1,3 @@
-import ApiPrismaService from '@api/prisma';
 import {
   ForbiddenException,
   HttpException,
@@ -10,12 +9,13 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, User } from '@prisma/client';
 import * as argon from 'argon2';
+import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { AuthSigninDto, AuthSignupDto } from './dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: ApiPrismaService,
+    private prisma: PrismaClientService,
     private jwt: JwtService,
     private config: ConfigService
   ) {}
