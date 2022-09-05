@@ -25,3 +25,9 @@ interface Proxy {
 ```
 
 After this it invokes the `getOptions` function that creates a new request option and includes the proxy-authorization by the proxy into the header & finally sending the request.
+
+this app can be running by the below command:
+
+```bash
+yarn nx serve proxy-rotator
+```
