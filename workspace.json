@@ -4,7 +4,6 @@
   "projects": {
     "api": "apps/api",
     "api-prisma": "libs/api/prisma",
-    "api-shared-basic-strategy": "libs/api/shared/basic-strategy",
     "proxy-rotate": "apps/proxy-rotate"
   }
 }
