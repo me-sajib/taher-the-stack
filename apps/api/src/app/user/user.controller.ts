@@ -9,12 +9,13 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
-import { UserDto } from '../dto';
-import { UsernameService } from './username.service';
+import { UserDto } from './dto';
+import { UserService } from './user.service';
+
 @UseGuards(AuthGuard('jwt'))
-@Controller(':username')
-export class UsernameController {
-  constructor(private userService: UsernameService) {}
+@Controller('user')
+export class UserController {
+  constructor(private userService: UserService) {}
 
   @Get()
   getUser(@Req() req: any) {

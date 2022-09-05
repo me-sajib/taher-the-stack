@@ -2,10 +2,10 @@ import ApiPrismaService from '@api/prisma';
 import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { User } from '@prisma/client';
 import * as argon from 'argon2';
-import { UserDto } from '../dto';
+import { UserDto } from './dto';
 
 @Injectable()
-export class UsernameService {
+export class UserService {
   constructor(private prisma: ApiPrismaService) {}
 
   async getUser(dto: UserDto) {
@@ -55,7 +55,6 @@ export class UsernameService {
     delete updateUser.password;
 
     Logger.log(`UPDATE:/${updateUser.username}`);
-    console.log({ updateUser });
     return updateUser;
   }
 }
