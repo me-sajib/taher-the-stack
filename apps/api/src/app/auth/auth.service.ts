@@ -13,7 +13,7 @@ import * as argon from 'argon2';
 import { AuthSigninDto, AuthSignupDto } from './dto';
 
 @Injectable()
-export class ApiAuthService {
+export class AuthService {
   constructor(
     private prisma: ApiPrismaService,
     private jwt: JwtService,
