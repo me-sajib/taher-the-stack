@@ -1,6 +1,6 @@
 import ApiPrismaService from '@api/prisma';
 import { Injectable, Logger } from '@nestjs/common';
-import { ProxyListDto, ProxyListUpdateDto } from '../dto';
+import { ProxyListDto, ProxyListUpdateDto } from './dto';
 
 @Injectable()
 export class ProxyListService {
@@ -11,40 +11,44 @@ export class ProxyListService {
       data: list,
     });
 
-    Logger.log(`Proxy list created successfully. ${JSON.stringify(proxyList)}`);
+    Logger.log(
+      `Proxy list created successfully.\n${JSON.stringify(proxyList, null, 2)}`
+    );
     return proxyList;
   }
 
-  async getBulkProxyLists(listKeys?: string[]) {
-    const option = {
-      where: {
-        key: {
-          in: listKeys,
-        },
-      },
-    };
-
-    const proxyLists = await this.prisma.proxyList.findMany(
-      listKeys ? option : null
-    );
+  async getBulkProxyLists(userId: string, listKeys?: string[]) {
+    const proxyLists = await this.prisma.proxyList.findMany({
+      where: Object.assign(
+        { userId },
+        listKeys && {
+          key: {
+            in: listKeys,
+          },
+        }
+      ),
+    });
 
     listKeys
-      ? Logger.log(`GET: all of proxyList keys: ${JSON.stringify(proxyLists)}`)
+      ? Logger.log(
+          `GET: all of proxyList keys:\n${JSON.stringify(proxyLists, null, 2)}`
+        )
       : Logger.log(`GET: all proxyList`);
 
     return proxyLists;
   }
 
-  async deleteBulkProxyList(listKeys?: string[]) {
-    const option = {
-      where: {
-        key: {
-          in: listKeys,
-        },
-      },
-    };
-
-    await this.prisma.proxyList.deleteMany(listKeys ? option : null);
+  async deleteBulkProxyList(userId: string, listKeys?: string[]) {
+    await this.prisma.proxyList.deleteMany({
+      where: Object.assign(
+        { userId },
+        listKeys && {
+          key: {
+            in: listKeys,
+          },
+        }
+      ),
+    });
 
     listKeys
       ? Logger.log(
@@ -67,8 +71,6 @@ export class ProxyListService {
       },
       data: restUpdatedProxyList,
     });
-
-    delete updatedList.password;
 
     return updatedList;
   }

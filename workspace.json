@@ -5,7 +5,6 @@
     "api": "apps/api",
     "api-check-proxy": "libs/api/check-proxy",
     "api-prisma": "libs/api/prisma",
-    "api-proxy-list": "libs/api/proxy-list",
     "api-shared-basic-strategy": "libs/api/shared/basic-strategy",
     "proxy-rotate": "apps/proxy-rotate"
   }

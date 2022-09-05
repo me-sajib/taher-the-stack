@@ -5,14 +5,17 @@ import {
   Get,
   Patch,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ProxyListBulkDto, ProxyListDto, ProxyListUpdateDto } from '../dto';
+import { Request } from 'express';
+import { UserDto } from '../user/dto';
+import { ProxyListBulkDto, ProxyListDto, ProxyListUpdateDto } from './dto';
 import { ProxyListService } from './proxy-list.service';
 
 @UseGuards(AuthGuard('jwt'))
-@Controller(':username/proxy-list')
+@Controller('proxy-list')
 export class ProxyListController {
   constructor(private proxyListService: ProxyListService) {}
 
@@ -22,13 +25,19 @@ export class ProxyListController {
   }
 
   @Get()
-  getBulkProxyLists(@Body() dto: ProxyListBulkDto) {
-    return this.proxyListService.getBulkProxyLists(dto.listKeys);
+  getBulkProxyLists(@Body() dto: ProxyListBulkDto, @Req() req: Request) {
+    return this.proxyListService.getBulkProxyLists(
+      (req.user as UserDto).userId,
+      dto.listKeys
+    );
   }
 
   @Delete()
-  deleteBulkProxyLists(@Body() dto: ProxyListBulkDto) {
-    return this.proxyListService.deleteBulkProxyList(dto.listKeys);
+  deleteBulkProxyLists(@Body() dto: ProxyListBulkDto, @Req() req: Request) {
+    return this.proxyListService.deleteBulkProxyList(
+      (req.user as UserDto).userId,
+      dto.listKeys
+    );
   }
 
   @Patch()
