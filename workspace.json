@@ -4,6 +4,6 @@
   "projects": {
     "api": "apps/api",
     "api-prisma": "libs/api/prisma",
-    "proxy-rotate": "apps/proxy-rotate"
+    "proxy-rotator": "apps/proxy-rotator"
   }
 }

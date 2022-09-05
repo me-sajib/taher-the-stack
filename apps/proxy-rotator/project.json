@@ -1,16 +1,17 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/proxy-rotate/src",
+  "sourceRoot": "apps/proxy-rotator/src",
   "projectType": "application",
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "outputPath": "dist/apps/proxy-rotate",
-        "main": "apps/proxy-rotate/src/main.ts",
-        "tsConfig": "apps/proxy-rotate/tsconfig.app.json",
-        "assets": ["apps/proxy-rotate/src/assets"]
+        "outputPath": "dist/apps/proxy-rotator",
+        "main": "apps/proxy-rotator/src/main.ts",
+        "tsConfig": "apps/proxy-rotator/tsconfig.app.json"
       },
       "configurations": {
         "production": {
@@ -19,8 +20,8 @@
           "inspect": false,
           "fileReplacements": [
             {
-              "replace": "apps/proxy-rotate/src/environments/environment.ts",
-              "with": "apps/proxy-rotate/src/environments/environment.prod.ts"
+              "replace": "apps/proxy-rotator/src/environments/environment.ts",
+              "with": "apps/proxy-rotator/src/environments/environment.prod.ts"
             }
           ]
         }
@@ -29,26 +30,32 @@
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "proxy-rotate:build"
+        "buildTarget": "proxy-rotator:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "proxy-rotate:build:production"
+          "buildTarget": "proxy-rotator:build:production"
         }
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/proxy-rotate/**/*.ts"]
+        "lintFilePatterns": [
+          "apps/proxy-rotator/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/proxy-rotate"],
+      "outputs": [
+        "coverage/apps/proxy-rotator"
+      ],
       "options": {
-        "jestConfig": "apps/proxy-rotate/jest.config.ts",
+        "jestConfig": "apps/proxy-rotator/jest.config.ts",
         "passWithNoTests": true
       }
     }
