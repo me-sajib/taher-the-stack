@@ -3,6 +3,6 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "proxy-rotate": "apps/proxy-rotate"
+    "proxy-rotator": "apps/proxy-rotator"
   }
 }
