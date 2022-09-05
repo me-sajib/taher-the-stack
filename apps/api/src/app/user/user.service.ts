@@ -1,12 +1,12 @@
-import ApiPrismaService from '@api/prisma';
 import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { User } from '@prisma/client';
 import * as argon from 'argon2';
+import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { UserDto } from './dto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: ApiPrismaService) {}
+  constructor(private prisma: PrismaClientService) {}
 
   async getUser(dto: UserDto) {
     const user = await this.prisma.user.findUnique({

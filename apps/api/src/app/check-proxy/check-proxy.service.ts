@@ -1,12 +1,12 @@
-import ApiPrismaService from '@api/prisma';
 import { Injectable } from '@nestjs/common';
 import { Proxy } from '@prisma/client';
 import axios from 'axios';
+import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { ParamDto } from './dto';
 
 @Injectable()
 export class CheckProxyService {
-  constructor(private prisma: ApiPrismaService) {}
+  constructor(private prisma: PrismaClientService) {}
 
   async checkProxy({ username, password }, params: ParamDto) {
     const proxy = await this.prisma.proxy.findUnique({
