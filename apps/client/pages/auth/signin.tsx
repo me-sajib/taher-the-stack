@@ -54,9 +54,7 @@ const LinkStyle = styled('a')(() => ({
   cursor: 'pointer',
 }));
 
-// ----------------------------------------------------------------------
-
-export default function Login() {
+const SignIn = () => {
   const router = useRouter();
   const smUp = useResponsive('up', 'sm');
   const mdUp = useResponsive('up', 'md');
@@ -116,4 +114,6 @@ export default function Login() {
       </RootStyle>
     </Page>
   );
-}
+};
+
+export default SignIn;
