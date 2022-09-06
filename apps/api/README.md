@@ -28,3 +28,7 @@ yarn nx serve api
 ```bash
 yarn nx build api --prod
 ```
+
+### API DB diagram
+
+![proxy-manager](diagram/proxy-manager.jpg)
