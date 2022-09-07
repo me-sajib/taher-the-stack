@@ -11,6 +11,8 @@ import { useState } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 
+import axios from 'axios';
+import { useRouter } from 'next/router';
 interface SignInFormTypes {
   email: string;
   password: string;
@@ -19,6 +21,7 @@ interface SignInFormTypes {
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const router = useRouter();
   const defaultValues: SignInFormTypes = {
     email: '',
     password: '',
@@ -32,7 +35,23 @@ const SignInForm = () => {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = () => null;
+  const onSubmit = async ({ email, password }: SignInFormTypes) => {
+    const { data: jwtToken } = await axios.post(
+      'http://localhost:3001/api/auth/sign-in',
+      {
+        email,
+        password,
+      }
+    );
+
+    if (jwtToken.name) {
+      return null;
+    }
+
+    localStorage.setItem('token', jwtToken);
+
+    router.push('/dashboard');
+  };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
