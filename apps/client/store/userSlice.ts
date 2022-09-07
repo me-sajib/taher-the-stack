@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { RootState } from 'store';
 
 const getUserProfile = createAsyncThunk('user/getUserProfile', async () => {
   const token = localStorage.getItem('proxy-manager-token');
@@ -31,5 +32,7 @@ export const store = createSlice({
     },
   },
 });
+
+export const getProfile = (state: RootState) => state.user.profile;
 
 export default store.reducer;
