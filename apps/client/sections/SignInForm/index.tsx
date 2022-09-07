@@ -48,7 +48,7 @@ const SignInForm = () => {
       return null;
     }
 
-    localStorage.setItem('token', jwtToken);
+    localStorage.setItem('proxy-manager-token', jwtToken);
 
     router.push('/dashboard');
   };
