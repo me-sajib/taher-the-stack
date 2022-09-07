@@ -4,7 +4,6 @@
   "projects": {
     "api": "apps/api",
     "client": "apps/client",
-    "client-e2e": "apps/client-e2e",
     "proxy-rotator": "apps/proxy-rotator"
   }
 }
