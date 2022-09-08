@@ -1,9 +1,3 @@
-import { useState } from 'react';
-import {
-  matchPath,
-  NavLink as RouterLink,
-  useLocation,
-} from 'react-router-dom';
 // material
 import {
   Box,
@@ -15,6 +9,7 @@ import {
 } from '@mui/material';
 import { alpha, styled, useTheme } from '@mui/material/styles';
 //
+import { useRouter } from 'next/router';
 import Iconify from './Iconify';
 
 // ----------------------------------------------------------------------
@@ -41,15 +36,10 @@ const ListItemIconStyle = styled(ListItemIcon)({
 
 // ----------------------------------------------------------------------
 
-function NavItem({ item, active }) {
+function NavItem({ item, isActiveRoot }) {
   const theme = useTheme();
-  const isActiveRoot = active(item.path);
   const { title, path, icon, info, children } = item;
-  const [open, setOpen] = useState(isActiveRoot);
-
-  const handleOpen = () => {
-    setOpen((prev) => !prev);
-  };
+  const router = useRouter();
 
   const activeRootStyle = {
     color: 'primary.main',
@@ -60,16 +50,10 @@ function NavItem({ item, active }) {
     ),
   };
 
-  const activeSubStyle = {
-    color: 'text.primary',
-    fontWeight: 'fontWeightMedium',
-  };
-
   if (children) {
     return (
       <>
         <ListItemStyle
-          onClick={handleOpen}
           sx={{
             ...(isActiveRoot && activeRootStyle),
           }}
@@ -87,21 +71,13 @@ function NavItem({ item, active }) {
           />
         </ListItemStyle>
 
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {children.map((item) => {
               const { title, path } = item;
-              const isActiveSub = active(path);
 
               return (
-                <ListItemStyle
-                  key={title}
-                  component={RouterLink}
-                  to={path}
-                  sx={{
-                    ...(isActiveSub && activeSubStyle),
-                  }}
-                >
+                <ListItemStyle key={title} to={path}>
                   <ListItemIconStyle>
                     <Box
                       component="span"
@@ -113,12 +89,6 @@ function NavItem({ item, active }) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         bgcolor: 'text.disabled',
-                        transition: (theme) =>
-                          theme.transitions.create('transform'),
-                        ...(isActiveSub && {
-                          transform: 'scale(2)',
-                          bgcolor: 'primary.main',
-                        }),
                       }}
                     />
                   </ListItemIconStyle>
@@ -134,8 +104,7 @@ function NavItem({ item, active }) {
 
   return (
     <ListItemStyle
-      component={RouterLink}
-      to={path}
+      onClick={() => router.push(item.path)}
       sx={{
         ...(isActiveRoot && activeRootStyle),
       }}
@@ -148,16 +117,17 @@ function NavItem({ item, active }) {
 }
 
 export default function NavSection({ navConfig, ...other }) {
-  const { pathname } = useLocation();
-
-  const match = (path) =>
-    path ? !!matchPath({ path, end: false }, pathname) : false;
+  const router = useRouter();
 
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
         {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
+          <NavItem
+            key={item.title}
+            item={item}
+            isActiveRoot={router.pathname === item.path}
+          />
         ))}
       </List>
     </Box>

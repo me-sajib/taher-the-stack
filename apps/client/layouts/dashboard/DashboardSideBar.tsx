@@ -8,6 +8,8 @@ import useResponsive from '@hooks/useResponsive';
 // import Logo from '../../components/Logo';
 // import NavSection from '@components/NavSection';
 import Scrollbar from '@components/ScrollBar';
+import NavSection from '@components/NavSection';
+import navConfig from './NavConfig';
 //
 // import navConfig from './NavConfig';
 
@@ -68,7 +70,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Box>
 
       {/* TODO: ADD nav section */}
-      {/* <NavSection navConfig={navConfig} /> */}
+      <NavSection navConfig={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
