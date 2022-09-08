@@ -12,11 +12,8 @@ import {
 import { alpha } from '@mui/material/styles';
 // components
 import MenuPopover from '@components/MenuPopover';
-import { User } from '@prisma/client';
-import { getProfile } from 'store/userSlice';
 
 // redux
-import { useSelector } from 'react-redux';
 
 const MENU_OPTIONS = [
   {
@@ -37,7 +34,7 @@ const MENU_OPTIONS = [
 ];
 
 const AccountPopover = () => {
-  const profile: User = useSelector(getProfile);
+  // const profile: User = useSelector(getProfile);
   const anchorRef = useRef(null);
 
   const [open, setOpen] = useState<HTMLButtonElement>(null);
@@ -89,10 +86,12 @@ const AccountPopover = () => {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {profile.fullname}
+            {/* {profile.fullname} */}
+            fahim faisal
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {profile.email}
+            {/* {profile.email} */}
+            fahimfaisaal@gmail.com
           </Typography>
         </Box>
 

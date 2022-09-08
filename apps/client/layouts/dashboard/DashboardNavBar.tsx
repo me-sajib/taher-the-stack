@@ -5,7 +5,6 @@ import { alpha, styled } from '@mui/material/styles';
 import Iconify from '../../components/Iconify';
 //
 import AccountPopover from './AccountPopover';
-import SearchBar from './SearchBar';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +41,6 @@ const DashboardNavbar = ({ onOpenSidebar }) => {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
 
-        <SearchBar />
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack

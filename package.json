@@ -24,6 +24,7 @@
     "@reduxjs/toolkit": "^1.8.5",
     "argon2": "^0.29.1",
     "axios": "^0.27.2",
+    "change-case": "^4.1.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "core-js": "^3.6.5",
@@ -31,6 +32,7 @@
     "express": "^4.18.1",
     "mock-req": "^0.2.0",
     "next": "12.2.5",
+    "next-redux-wrapper": "^7.0.5",
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
@@ -42,9 +44,11 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "rxjs": "^7.0.0",
+    "simplebar-react": "^2.4.1",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@nrwl/cli": "14.5.10",

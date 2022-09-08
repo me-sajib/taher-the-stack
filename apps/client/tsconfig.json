@@ -22,7 +22,13 @@
       ],
       "@hooks/*": [
         "./hooks/*"
-      ]
+      ],
+      "@layouts/*": [
+        "./layouts/*"
+      ],
+      "@sections/*": [
+        "./sections/*"
+      ],
     }
   },
   "include": [
@@ -30,7 +36,9 @@
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "layouts/dashboard/NavConfig.tsX",
+    "theme/index.tss"
   ],
   "exclude": [
     "node_modules",

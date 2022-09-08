@@ -1,13 +1,13 @@
 //
 
 import Autocomplete from './AutoComplete';
-import Backdrop from './Backdrop';
+import Backdrop from './BackDrop';
 import Button from './Button';
 import Card from './Card';
-import CssBaseline from './CssBaseline';
-import Input from './Input';
+import CssBaseline from './CssBaseLine';
+import Input from './input';
 import Paper from './Paper';
-import Tooltip from './Tooltip';
+import Tooltip from './ToolTip';
 import Typography from './Typography';
 
 // ----------------------------------------------------------------------
