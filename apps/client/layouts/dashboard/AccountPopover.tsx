@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import {
   Box,
@@ -101,8 +100,8 @@ const AccountPopover = () => {
           {MENU_OPTIONS.map((option) => (
             <MenuItem
               key={option.label}
+              component={null}
               to={option.linkTo}
-              component={RouterLink}
               onClick={handleClose}
             >
               {option.label}
