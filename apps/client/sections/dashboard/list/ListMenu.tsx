@@ -10,6 +10,13 @@ import {
 // component
 import Iconify from '@components/Iconify';
 import ProxyListModal from '@components/ProxyListModal';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteProxyList,
+  editProxyList,
+  getProxyList,
+} from 'store/proxyListSlice';
+import { AppThunkDispatch } from '../../../store/';
 
 // ----------------------------------------------------------------------
 
@@ -21,8 +28,22 @@ export default function ListMenu({ id }: ListMenuTypes) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProxyListModal, setProxyListStatus] = useState(false);
+  const proxyLists = useSelector(getProxyList);
+  const { name, username, password } = proxyLists.find(
+    (list) => list.key === id
+  );
 
   const proxyListModalHandler = () => setProxyListStatus(!isOpenProxyListModal);
+  const dispatch = useDispatch<AppThunkDispatch>();
+
+  const deleteProxyListHandler = () => {
+    dispatch(deleteProxyList({ listKeys: [id] }));
+  };
+
+  const editProxyListHandler = (data) => {
+    dispatch(editProxyList({ ...data, key: id }));
+    proxyListModalHandler();
+  };
 
   return (
     <>
@@ -31,9 +52,10 @@ export default function ListMenu({ id }: ListMenuTypes) {
       </IconButton>
 
       <ProxyListModal
+        formState={{ name, username, password }}
         open={isOpenProxyListModal}
         actionType="Update"
-        onSubmit={(data) => null} // TODO: Add proxyList update action
+        onSubmit={editProxyListHandler} // TODO: Add proxyList update action
         handleClose={proxyListModalHandler}
       />
 
@@ -47,7 +69,10 @@ export default function ListMenu({ id }: ListMenuTypes) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
+        <MenuItem
+          sx={{ color: 'text.secondary' }}
+          onClick={deleteProxyListHandler}
+        >
           <ListItemIcon>
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>

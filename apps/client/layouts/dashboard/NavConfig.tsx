@@ -9,7 +9,7 @@ const getIcon = (name: string) => (
 const navConfig = [
   {
     title: 'proxy list',
-    path: '/dashboard/proxy-list',
+    path: '/proxy-list',
     icon: getIcon('fluent:server-multiple-20-filled'),
   },
 ];

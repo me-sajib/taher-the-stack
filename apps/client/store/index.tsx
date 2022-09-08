@@ -1,8 +1,10 @@
 import {
   Action,
+  AnyAction,
   combineReducers,
   configureStore,
   ThunkAction,
+  ThunkDispatch,
 } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import proxyList from './proxyListSlice';
@@ -26,6 +28,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+export type AppThunkDispatch = ThunkDispatch<RootState, any, AnyAction>;
 
 export const wrapper = createWrapper(() => store, { debug: true });
 

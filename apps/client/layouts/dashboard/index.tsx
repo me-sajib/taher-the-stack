@@ -2,8 +2,8 @@ import { useState } from 'react';
 // material
 import { styled } from '@mui/material/styles';
 //
-import DashboardNavbar from '@layouts/dashboard/DashboardNavBar';
-import DashboardSidebar from '@layouts/dashboard/DashboardSideBar';
+import DashboardNavbar from './DashboardNavBar';
+import DashboardSidebar from './DashboardSideBar';
 // ----------------------------------------------------------------------
 
 const APP_BAR_MOBILE = 64;

@@ -40,6 +40,7 @@ interface ListToolbarTypes {
   placeholder: string;
   numSelected: number;
   filterName: string;
+  bulkDeleteHandler: () => void;
   onFilterName: (e: React.ChangeEvent) => void;
 }
 
@@ -47,6 +48,7 @@ export default function ListToolbar({
   placeholder,
   numSelected,
   filterName,
+  bulkDeleteHandler,
   onFilterName,
 }: ListToolbarTypes) {
   return (
@@ -80,7 +82,7 @@ export default function ListToolbar({
 
       {
         numSelected > 0 ? (
-          <Tooltip title="Delete">
+          <Tooltip title="Delete" onClick={bulkDeleteHandler}>
             <IconButton>
               <Iconify icon="eva:trash-2-fill" />
             </IconButton>
