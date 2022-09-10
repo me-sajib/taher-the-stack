@@ -17,7 +17,11 @@ export class ProxyListService {
     return proxyList;
   }
 
-  async getBulkProxyLists(userId: string, listKeys?: string[]) {
+  async getBulkProxyLists(
+    userId: string,
+    listKeys?: string[],
+    includeProxies?: boolean
+  ) {
     const proxyLists = await this.prisma.proxyList.findMany({
       where: Object.assign(
         { userId },
@@ -27,6 +31,9 @@ export class ProxyListService {
           },
         }
       ),
+      include: {
+        Proxies: includeProxies,
+      },
     });
 
     listKeys

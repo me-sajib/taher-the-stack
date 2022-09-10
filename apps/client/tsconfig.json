@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "jsx": "preserve",
     "allowJs": true,
     "esModuleInterop": true,
@@ -11,8 +12,36 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "types": ["jest", "node"]
+    "types": [
+      "jest",
+      "node"
+    ],
+    "paths": {
+      "@components/*": [
+        "./components/*"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ],
+      "@layouts/*": [
+        "./layouts/*"
+      ],
+      "@sections/*": [
+        "./sections/*"
+      ],
+    }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts"],
-  "exclude": ["node_modules", "jest.config.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "next-env.d.ts",
+    "layouts/dashboard/NavConfig.tsX",
+    "theme/index.tss"
+  ],
+  "exclude": [
+    "node_modules",
+    "jest.config.ts"
+  ]
 }

@@ -1,18 +1,16 @@
+import { BaseOptionChartStyle } from '@components/chart/BaseChartStyle';
 import { AppProps } from 'next/app';
-import Head from 'next/head';
+import { wrapper } from 'store';
+import ThemeProvider from '../theme/';
 import './styles.css';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <Head>
-        <title>Welcome to client!</title>
-      </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
-    </>
+    <ThemeProvider>
+      <BaseOptionChartStyle />
+      <Component {...pageProps} />
+    </ThemeProvider>
   );
 }
 
-export default CustomApp;
+export default wrapper.withRedux(App);
