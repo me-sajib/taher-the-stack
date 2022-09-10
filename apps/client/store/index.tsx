@@ -1,12 +1,24 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import proxyListReducer from './proxyListSlice';
-import userReducer from './userSlice';
+import {
+  Action,
+  AnyAction,
+  combineReducers,
+  configureStore,
+  ThunkAction,
+  ThunkDispatch,
+} from '@reduxjs/toolkit';
+import { createWrapper } from 'next-redux-wrapper';
+import proxyList from './proxyListSlice';
+import proxies from './proxySlice';
+import user from './userSlice';
+
+const reducer = combineReducers({
+  user,
+  proxyList,
+  proxies,
+});
 
 const store = configureStore({
-  reducer: {
-    user: userReducer,
-    proxyList: proxyListReducer,
-  },
+  reducer,
   devTools: process.env.NODE_ENV !== 'production',
 });
 
@@ -18,5 +30,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+export type AppThunkDispatch = ThunkDispatch<RootState, any, AnyAction>;
+
+export const wrapper = createWrapper(() => store, { debug: true });
 
 export default store;

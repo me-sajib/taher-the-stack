@@ -8,10 +8,16 @@ import { ParamDto } from './dto';
 export class CheckProxyService {
   constructor(private prisma: PrismaClientService) {}
 
-  async checkProxy({ username, password }, params: ParamDto) {
+  async checkProxy(params: ParamDto, listKey: string) {
     const proxy = await this.prisma.proxy.findUnique({
       where: {
         id: +params.proxyId,
+      },
+    });
+
+    const { username, password } = await this.prisma.proxyList.findUnique({
+      where: {
+        key: listKey,
       },
     });
 
@@ -26,16 +32,17 @@ export class CheckProxyService {
     auth: { username: string; password: string }
   ) {
     const { host, port } = proxy;
-    const { data } = await axios.get('https://www.httpbin.org/ip', {
-      proxy: {
-        host,
-        port,
-        auth,
-      },
-    });
-
-    const status = data?.origin === proxy.host ? 'ACTIVE' : 'INACTIVE';
-
-    return { status };
+    try {
+      const { data } = await axios.get('https://www.httpbin.org/ip', {
+        proxy: {
+          host,
+          port,
+          auth,
+        },
+      });
+      return { status: data?.origin === proxy.host ? 'ACTIVE' : 'INACTIVE' };
+    } catch (e) {
+      return { status: 'INACTIVE' };
+    }
   }
 }

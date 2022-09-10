@@ -20,7 +20,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  const port = process.env.PORT || 3001;
+  const port = process.env.PORT || 3333;
   await app.listen(port);
 
   Logger.log(
