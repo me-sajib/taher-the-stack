@@ -8,10 +8,16 @@ import { ParamDto } from './dto';
 export class CheckProxyService {
   constructor(private prisma: PrismaClientService) {}
 
-  async checkProxy({ username, password }, params: ParamDto) {
+  async checkProxy(params: ParamDto, listKey: string) {
     const proxy = await this.prisma.proxy.findUnique({
       where: {
         id: +params.proxyId,
+      },
+    });
+
+    const { username, password } = await this.prisma.proxyList.findUnique({
+      where: {
+        key: listKey,
       },
     });
 
