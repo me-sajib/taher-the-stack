@@ -10,7 +10,11 @@ export const getProxyList = async (
       username: authUser,
     },
     include: {
-      Proxies: true,
+      Proxies: {
+        orderBy: {
+          port: 'asc',
+        },
+      },
     },
   });
 
