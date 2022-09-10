@@ -65,7 +65,7 @@ const AccountPopover = () => {
           borderRadius: 1.5,
         }}
       >
-        {profile.username}
+        {profile?.username}
       </IconButton>
 
       <MenuPopover
@@ -83,10 +83,10 @@ const AccountPopover = () => {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {profile.fullname}
+            {profile?.fullname}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {profile.email}
+            {profile?.email}
           </Typography>
         </Box>
 
