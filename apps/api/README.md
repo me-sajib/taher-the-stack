@@ -10,7 +10,7 @@ It's has total six endpoints;
 2. `/auth/sing-in`
 3. `/user`
 4. `/proxy-list`
-5. `/proxy`
+5. `/proxies`
 6. `/check-proxy`
 
 user can sign in with validate username or email & password. each can handle CRUD operation with JWT token except `/auth` route. cause it's actually return the JWT token. each endpoint has include body validator for validate the data that user passed at first. It's used class-validator for validation.
