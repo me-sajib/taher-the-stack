@@ -20,7 +20,7 @@ export const getProxyList = async (
 
   if (!proxyList || proxyList.password !== authPass) {
     const error: any = new Error('Invalid Credential');
-    error.stausCode = 401;
+    error.statusCode = 401;
     throw error;
   }
 
