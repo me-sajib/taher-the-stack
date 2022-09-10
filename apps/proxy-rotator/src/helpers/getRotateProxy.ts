@@ -30,6 +30,15 @@ export const getRotateProxy = async (
     },
   });
 
+  await prisma.proxy.update({
+    where: {
+      id: proxy.id,
+    },
+    data: {
+      totalHits: proxy.totalHits + 1,
+    },
+  });
+
   return {
     host: proxy.host,
     port: proxy.port,

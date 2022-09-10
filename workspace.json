@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "client": "apps/client",
     "proxy-rotator": "apps/proxy-rotator"
   }
 }
