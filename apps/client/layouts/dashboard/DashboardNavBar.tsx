@@ -1,6 +1,10 @@
 // material
 import { AppBar, Box, IconButton, Stack, Toolbar } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppThunkDispatch } from 'store';
+import { fetchUserProfile } from 'store/userSlice';
 // components
 import Iconify from '../../components/Iconify';
 //
@@ -31,6 +35,11 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 const DashboardNavbar = ({ onOpenSidebar }) => {
+  const dispatch = useDispatch<AppThunkDispatch>();
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, [dispatch]);
+
   return (
     <RootStyle>
       <ToolbarStyle>

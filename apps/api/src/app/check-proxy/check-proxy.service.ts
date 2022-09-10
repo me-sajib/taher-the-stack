@@ -32,16 +32,17 @@ export class CheckProxyService {
     auth: { username: string; password: string }
   ) {
     const { host, port } = proxy;
-    const { data } = await axios.get('https://www.httpbin.org/ip', {
-      proxy: {
-        host,
-        port,
-        auth,
-      },
-    });
-
-    const status = data?.origin === proxy.host ? 'ACTIVE' : 'INACTIVE';
-
-    return { status };
+    try {
+      const { data } = await axios.get('https://www.httpbin.org/ip', {
+        proxy: {
+          host,
+          port,
+          auth,
+        },
+      });
+      return { status: data?.origin === proxy.host ? 'ACTIVE' : 'INACTIVE' };
+    } catch (e) {
+      return { status: 'INACTIVE' };
+    }
   }
 }

@@ -99,6 +99,7 @@ export const editProxy = createAsyncThunk(
   'proxies/editProxy',
   async (payload: Proxy) => {
     const token = localStorage.getItem('proxy-manager-token');
+    payload.port = Number(payload.port);
 
     const { data } = await axios.patch(PROXY_URL, payload, {
       headers: {
