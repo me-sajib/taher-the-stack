@@ -30,7 +30,11 @@ import {
 } from 'store/proxyListSlice';
 
 import { fetchUserProfile, getProfile } from 'store/userSlice';
-import { ListHead, ListMenu, ListToolbar } from '../sections/dashboard/list';
+import {
+  ListHead,
+  ListToolbar,
+  ProxyListMenu,
+} from '../sections/dashboard/list';
 import Iconify from './Iconify';
 import Page from './Page';
 import ProxyListModal from './ProxyListModal';
@@ -41,7 +45,8 @@ import SearchNotFound from './SearchNotFound';
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'username', label: 'Username', alignRight: false },
-  { id: 'password', label: 'password', alignRight: false },
+  { id: 'password', label: 'Password', alignRight: false },
+  { id: 'rotating', label: 'Rotating index', alignRight: false },
   {},
 ];
 
@@ -224,7 +229,13 @@ export default function Index() {
                   {filteredProxyList
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((proxyList: ProxyList) => {
-                      const { key: id, name, username, password } = proxyList;
+                      const {
+                        key: id,
+                        name,
+                        username,
+                        password,
+                        rotatingIndex,
+                      } = proxyList;
                       const isItemSelected = selected.indexOf(id) !== -1;
 
                       console.log({ proxyList });
@@ -249,8 +260,9 @@ export default function Index() {
                               alignItems="center"
                               spacing={2}
                             >
-                              {/* <Avatar alt={name} src={avatarUrl} /> */}
-                              <Link href={`proxies/${id}`}>
+                              <Link
+                                href={`proxies/${id}?name=${proxyList.name}`}
+                              >
                                 <Typography
                                   variant="subtitle2"
                                   noWrap
@@ -263,8 +275,9 @@ export default function Index() {
                           </TableCell>
                           <TableCell align="left">{username}</TableCell>
                           <TableCell align="left">{password}</TableCell>
+                          <TableCell align="left">{rotatingIndex}</TableCell>
                           <TableCell align="right">
-                            <ListMenu id={id} />
+                            <ProxyListMenu id={id} />
                           </TableCell>
                         </TableRow>
                       );

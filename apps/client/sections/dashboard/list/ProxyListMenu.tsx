@@ -16,7 +16,7 @@ import {
   editProxyList,
   getProxyList,
 } from 'store/proxyListSlice';
-import { AppThunkDispatch } from '../../../store/';
+import { AppThunkDispatch } from '../../../store';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ interface ListMenuTypes {
   id: string;
 }
 
-export default function ListMenu({ id }: ListMenuTypes) {
+export default function ProxyListMenu({ id }: ListMenuTypes) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProxyListModal, setProxyListStatus] = useState(false);
