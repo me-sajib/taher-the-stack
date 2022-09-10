@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 interface IconifyTypes {
   icon: string | IconifyIcon;
   sx?: any;
+  [key: string]: any;
 }
 
 const Iconify = ({ icon, sx, ...other }: IconifyTypes) => (

@@ -37,7 +37,7 @@ const SignInForm = () => {
 
   const onSubmit = async ({ email, password }: SignInFormTypes) => {
     const { data: jwtToken } = await axios.post(
-      'http://localhost:3001/api/auth/sign-in',
+      'http://localhost:3333/api/auth/sign-in',
       {
         email,
         password,
@@ -48,9 +48,9 @@ const SignInForm = () => {
       return null;
     }
 
-    localStorage.setItem('token', jwtToken);
+    localStorage.setItem('proxy-manager-token', jwtToken.access_token);
 
-    router.push('/dashboard');
+    router.push('/proxy-list');
   };
 
   return (

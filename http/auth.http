@@ -1,7 +1,7 @@
 # Test the root route
-GET http://localhost:3001/api
+GET http://localhost:3333/api
 
 ### Test the sign up endpoint
-POST http://localhost:3001/api/auth/sign-up
+POST http://localhost:3333/api/auth/sign-up
 content-type: "application/json"
 
