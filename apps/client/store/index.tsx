@@ -8,11 +8,13 @@ import {
 } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import proxyList from './proxyListSlice';
+import proxies from './proxySlice';
 import user from './userSlice';
 
 const reducer = combineReducers({
   user,
   proxyList,
+  proxies,
 });
 
 const store = configureStore({

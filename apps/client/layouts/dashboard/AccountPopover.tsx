@@ -8,9 +8,13 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { alpha } from '@mui/material/styles';
 // components
 import MenuPopover from '@components/MenuPopover';
+import { User } from '@prisma/client';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { getProfile } from 'store/userSlice';
 
 // redux
 
@@ -18,7 +22,7 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
-    linkTo: '/',
+    linkTo: '/proxy-list',
   },
   {
     label: 'Profile',
@@ -33,10 +37,10 @@ const MENU_OPTIONS = [
 ];
 
 const AccountPopover = () => {
-  // const profile: User = useSelector(getProfile);
+  const profile: User = useSelector(getProfile);
   const anchorRef = useRef(null);
-
   const [open, setOpen] = useState<HTMLButtonElement>(null);
+  const router = useRouter();
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
@@ -46,27 +50,22 @@ const AccountPopover = () => {
     setOpen(null);
   };
 
+  const logoutHandler = () => {
+    localStorage.removeItem('proxy-manager-token');
+    router.push('/auth/signin');
+  };
+
   return (
     <>
       <IconButton
         ref={anchorRef}
         onClick={handleOpen}
         sx={{
-          p: 0,
-          ...(open && {
-            '&:before': {
-              zIndex: 1,
-              content: "''",
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              position: 'absolute',
-              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
-            },
-          }),
+          p: 2,
+          borderRadius: 1.5,
         }}
       >
-        {/* <Avatar src={profile.photoURL} alt="photoURL" /> */}
+        {profile?.username}
       </IconButton>
 
       <MenuPopover
@@ -79,18 +78,15 @@ const AccountPopover = () => {
           ml: 0.75,
           '& .MuiMenuItem-root': {
             typography: 'body2',
-            borderRadius: 0.75,
           },
         }}
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {/* {profile.fullname} */}
-            fahim faisal
+            {profile?.fullname}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {/* {profile.email} */}
-            fahimfaisaal@gmail.com
+            {profile?.email}
           </Typography>
         </Box>
 
@@ -98,20 +94,21 @@ const AccountPopover = () => {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem
-              key={option.label}
-              component={null}
-              to={option.linkTo}
-              onClick={handleClose}
-            >
-              {option.label}
-            </MenuItem>
+            <Link key={Math.random().toString(32)} href={option.linkTo}>
+              <MenuItem
+                key={option.label}
+                component={null}
+                onClick={handleClose}
+              >
+                {option.label}
+              </MenuItem>
+            </Link>
           ))}
         </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={logoutHandler} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>
