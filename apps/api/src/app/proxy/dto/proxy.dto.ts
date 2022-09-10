@@ -66,6 +66,11 @@ export class ProxyUpdateDto {
   country: string;
 
   @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  status: 'ACTIVE' | 'INACTIVE';
+
+  @IsOptional()
   @IsNumber()
   totalHits: number;
 }

@@ -5,6 +5,7 @@ import {
   Get,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -30,7 +31,8 @@ export class ProxyController {
   }
 
   @Get()
-  getBulkProxies(@Body() dto: ProxyQueryDto, @Req() req: Request) {
+  getBulkProxies(@Query() dto: ProxyQueryDto, @Req() req: Request) {
+    console.log({ dto });
     return this.proxyService.getBulkProxies(
       (req.user as UserDto).userId,
       dto.proxyListKey,

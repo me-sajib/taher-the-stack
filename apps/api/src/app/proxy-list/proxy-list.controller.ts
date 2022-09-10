@@ -5,6 +5,7 @@ import {
   Get,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -25,10 +26,15 @@ export class ProxyListController {
   }
 
   @Get()
-  getBulkProxyLists(@Body() dto: ProxyListBulkDto, @Req() req: Request) {
+  getBulkProxyLists(
+    @Body() dto: ProxyListBulkDto,
+    @Req() req: Request,
+    @Query('include_proxies') includeProxies: boolean
+  ) {
     return this.proxyListService.getBulkProxyLists(
       (req.user as UserDto).userId,
-      dto.listKeys
+      dto.listKeys,
+      includeProxies
     );
   }
 
