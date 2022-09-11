@@ -42,10 +42,12 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'host', label: 'Host', alignRight: false },
-  { id: 'port', label: 'Port', alignRight: false },
-  { id: 'hits', label: 'Hits', alignRight: false },
-  { id: 'status', label: 'status', alignRight: false },
+  { id: 'host', label: 'Host' },
+  { id: 'port', label: 'Port' },
+  { id: 'hits', label: 'Hits', alignRight: 'center' },
+  { id: 'username', label: 'Username', alignRight: 'center' },
+  { id: 'password', label: 'Password', alignRight: 'center' },
+  { id: 'status', label: 'status', alignRight: 'center' },
   {},
 ];
 
@@ -237,7 +239,15 @@ export default function Index() {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((proxy: Proxy) => {
-                        const { id, host, port, status, totalHits } = proxy;
+                        const {
+                          id,
+                          host,
+                          port,
+                          status,
+                          totalHits,
+                          username,
+                          password,
+                        } = proxy;
                         const isItemSelected = selected.indexOf(id) !== -1;
 
                         return (
@@ -271,8 +281,14 @@ export default function Index() {
                               </Stack>
                             </TableCell>
                             <TableCell align="left">{port}</TableCell>
-                            <TableCell align="left">{totalHits}</TableCell>
-                            <TableCell align="left">
+                            <TableCell align="center">{totalHits}</TableCell>
+                            <TableCell align="center">
+                              {username ?? '-'}
+                            </TableCell>
+                            <TableCell align="center">
+                              {password ?? '-'}
+                            </TableCell>
+                            <TableCell align="center">
                               <Label
                                 variant="ghost"
                                 color={
