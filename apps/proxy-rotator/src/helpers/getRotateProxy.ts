@@ -6,7 +6,7 @@ import prisma from '../prismaClient';
 export const getRotateProxy = async (
   proxyList: ProxyList & { Proxies: Proxy[] }
 ): Promise<RotateProxy> => {
-  const { username, password, rotatingIndex, Proxies } = proxyList;
+  const { username, rotatingIndex, Proxies } = proxyList;
   let nextIndex: number = rotatingIndex + 1;
   let proxy: Proxy;
 
@@ -39,9 +39,12 @@ export const getRotateProxy = async (
     },
   });
 
-  return {
-    host: proxy.host,
-    port: proxy.port,
-    auth: `${username}:${password}`,
-  };
+  return Object.assign(
+    {
+      host: proxy.host,
+      port: proxy.port,
+    },
+    proxy.username &&
+      proxy.password && { auth: `${proxy.username}:${proxy.password}` }
+  );
 };
