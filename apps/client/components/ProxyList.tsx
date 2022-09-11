@@ -29,6 +29,7 @@ import {
   getProxyListStatus,
 } from 'store/proxyListSlice';
 
+import useSelection from '@hooks/useSelection';
 import { fetchUserProfile, getProfile } from 'store/userSlice';
 import {
   ListHead,
@@ -87,7 +88,6 @@ function applySortFilter(array, comparator, query) {
 export default function Index() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -96,6 +96,10 @@ export default function Index() {
   const proxyLists = useSelector(getProxyList);
   const status = useSelector(getProxyListStatus);
   const user = useSelector(getProfile);
+
+  // custom hooks
+  const { selects, clearSelection, handleClick, handleSelectAllClick } =
+    useSelection<string>();
 
   useEffect(() => {
     dispatch(fetchProxyList());
@@ -114,43 +118,14 @@ export default function Index() {
   };
 
   const handleBulkDelete = () => {
-    dispatch(deleteProxyList({ listKeys: selected }));
-    setSelected([]);
+    dispatch(deleteProxyList({ listKeys: [...selects] }));
+    clearSelection();
   };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = proxyLists.map((n) => n.key);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (id: string) => (_event: React.ChangeEvent) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -208,7 +183,7 @@ export default function Index() {
           <Card>
             <ListToolbar
               placeholder={'Search proxy list...'}
-              numSelected={selected.length}
+              numSelected={selects.size}
               filterName={filterName}
               onFilterName={handleFilterByName}
               bulkDeleteHandler={handleBulkDelete}
@@ -221,9 +196,11 @@ export default function Index() {
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={proxyLists.length}
-                  numSelected={selected.length}
+                  numSelected={selects.size}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
+                  onSelectAllClick={handleSelectAllClick(
+                    proxyLists.map((list) => list.key)
+                  )}
                 />
                 <TableBody>
                   {filteredProxyList
@@ -236,9 +213,8 @@ export default function Index() {
                         password,
                         rotatingIndex,
                       } = proxyList;
-                      const isItemSelected = selected.indexOf(id) !== -1;
+                      const isItemSelected = selects.has(id);
 
-                      console.log({ proxyList });
                       return (
                         <TableRow
                           hover
