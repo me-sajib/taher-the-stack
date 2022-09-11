@@ -34,6 +34,7 @@ export class ProxyDto {
   @IsString()
   password: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   lastCheckAt: string;
