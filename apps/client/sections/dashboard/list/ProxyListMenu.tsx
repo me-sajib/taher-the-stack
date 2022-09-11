@@ -38,11 +38,13 @@ export default function ProxyListMenu({ id }: ListMenuTypes) {
 
   const deleteProxyListHandler = () => {
     dispatch(deleteProxyList({ listKeys: [id] }));
+    setIsOpen(false);
   };
 
   const editProxyListHandler = (data) => {
     dispatch(editProxyList({ ...data, key: id }));
     proxyListModalHandler();
+    setIsOpen(false);
   };
 
   return (

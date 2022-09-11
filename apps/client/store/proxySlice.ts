@@ -2,7 +2,7 @@ import { Proxy } from '@prisma/client';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from 'store';
-
+import mainStore from './index';
 const API = 'http://localhost:3333/api';
 const PROXY_URL = `${API}/proxies`;
 
@@ -17,9 +17,10 @@ interface ProxyModalData {
 
 const checkProxyStatus = async (
   id: number,
-  listKey: string,
-  token: string
+  listKey: string
 ): Promise<Proxy> => {
+  const token = localStorage.getItem('proxy-manager-token');
+
   const {
     data: { status },
   } = await axios.get(`${API}/check-proxy/${id}?list_key=${listKey}`, {
@@ -33,6 +34,7 @@ const checkProxyStatus = async (
     {
       id,
       status,
+      lastCheckAt: new Date(),
     },
     {
       headers: {
@@ -50,13 +52,17 @@ export const fetchProxies = createAsyncThunk(
     const token = localStorage.getItem('proxy-manager-token');
     const queryParams = new URLSearchParams(payload).toString();
 
-    const { data } = await axios.get(`${PROXY_URL}?${queryParams}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const { data } = await axios.get(`${PROXY_URL}?${queryParams}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    return data;
+      return data;
+    } catch (e) {
+      return [];
+    }
   }
 );
 
@@ -65,7 +71,7 @@ export const createProxy = createAsyncThunk(
   async (payload: ProxyModalData) => {
     const token = localStorage.getItem('proxy-manager-token');
 
-    payload.status = 'INACTIVE';
+    payload.status = 'CHECKING';
     payload.totalHits = 0;
     payload.port = Number(payload.port);
 
@@ -75,7 +81,7 @@ export const createProxy = createAsyncThunk(
       },
     });
 
-    return checkProxyStatus(proxy.id, proxy.proxyListKey, token);
+    return proxy;
   }
 );
 
@@ -114,9 +120,7 @@ export const editProxy = createAsyncThunk(
 export const recheckProxy = createAsyncThunk(
   'proxies/recheckProxy',
   async (payload: Proxy) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
-    return checkProxyStatus(payload.id, payload.proxyListKey, token);
+    return checkProxyStatus(payload.id, payload.proxyListKey);
   }
 );
 
@@ -137,7 +141,15 @@ const initialState: initialStateType = {
 export const store = createSlice({
   name: 'proxies',
   initialState,
-  reducers: {},
+  reducers: {
+    updateToChecking(state, { payload }) {
+      const { proxyListKey, id } = payload;
+      const proxyIndex = state.collection[proxyListKey].findIndex(
+        (proxy) => proxy.id === id
+      );
+      state.collection[proxyListKey][proxyIndex].status = 'CHECKING';
+    },
+  },
   extraReducers: {
     [fetchProxies.pending as any]: (state) => {
       state.status = 'loading';
@@ -159,7 +171,17 @@ export const store = createSlice({
       state.status = 'failed';
     },
     [createProxy.fulfilled as any]: (state, { payload }) => {
-      state.collection[payload.proxyListKey].push(payload);
+      const { id, proxyListKey } = payload;
+
+      if (state.collection[proxyListKey]) {
+        state.collection[proxyListKey].push(payload);
+      } else {
+        state.collection[proxyListKey] = [payload];
+      }
+
+      checkProxyStatus(id, proxyListKey).then((updateProxy) => {
+        mainStore.dispatch(editProxy(updateProxy));
+      });
     },
     [deleteProxy.fulfilled as any]: (state, { payload }) => {
       const deleteIdSet = new Set(payload.proxyIds);
@@ -189,6 +211,8 @@ export const store = createSlice({
 });
 
 export const getProxies = (state: RootState) => state.proxies.collection;
+
+export const { updateToChecking } = store.actions;
 
 export const getProxyStatus = (state: RootState) => state.proxies.status;
 

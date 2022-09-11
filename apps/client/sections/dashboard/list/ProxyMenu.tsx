@@ -18,6 +18,7 @@ import {
   editProxy,
   getProxies,
   recheckProxy,
+  updateToChecking,
 } from 'store/proxySlice';
 import { AppThunkDispatch } from '../../../store';
 
@@ -40,18 +41,25 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
 
   const proxyListModalHandler = () => setProxyListStatus(!isOpenProxyListModal);
   const dispatch = useDispatch<AppThunkDispatch>();
+  const syncDispatch = useDispatch();
 
   const deleteProxyHandler = () => {
     dispatch(deleteProxy({ proxyListKey, proxyIds: [id] }));
+    setIsOpen(false);
   };
 
   const editProxyHandler = (data) => {
     dispatch(editProxy({ ...data, id }));
     proxyListModalHandler();
+    setIsOpen(false);
   };
 
   const recheckProxyHandler = () => {
+    syncDispatch(
+      updateToChecking({ proxyListKey: proxy.proxyListKey, id: proxy.id })
+    );
     dispatch(recheckProxy(proxy));
+    setIsOpen(false);
   };
 
   return (

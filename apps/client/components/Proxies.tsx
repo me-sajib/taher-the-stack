@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from 'date-fns';
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -16,6 +17,7 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography,
 } from '@mui/material';
 // components
@@ -247,6 +249,7 @@ export default function Index() {
                           totalHits,
                           username,
                           password,
+                          lastCheckAt,
                         } = proxy;
                         const isItemSelected = selected.indexOf(id) !== -1;
 
@@ -289,15 +292,25 @@ export default function Index() {
                               {password ?? '-'}
                             </TableCell>
                             <TableCell align="center">
-                              <Label
-                                variant="ghost"
-                                color={
-                                  (status === 'INACTIVE' && 'error') ||
-                                  'success'
-                                }
+                              <Tooltip
+                                title={`Checked ${formatDistanceToNow(
+                                  new Date(lastCheckAt)
+                                )}`}
+                                arrow
                               >
-                                {status}
-                              </Label>
+                                <span>
+                                  <Label
+                                    variant="ghost"
+                                    color={
+                                      (status === 'INACTIVE' && 'error') ||
+                                      (status === 'CHECKING' && 'warning') ||
+                                      'success'
+                                    }
+                                  >
+                                    {status}
+                                  </Label>
+                                </span>
+                              </Tooltip>
                             </TableCell>
 
                             <TableCell align="right">
