@@ -11,6 +11,8 @@ import {
 import Iconify from '@components/Iconify';
 import ProxyModal from '@components/ProxyModal';
 import { Proxy } from '@prisma/client';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
 import {
   deleteProxy,
@@ -19,8 +21,6 @@ import {
   recheckProxy,
   updateToChecking,
 } from 'store/proxySlice';
-import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   const proxiesMap = useSelector(getProxies);
   const proxies: Proxy[] = proxiesMap[proxyListKey as string];
   const proxy = proxies.find((proxy) => proxy.id === id);
-  const { host, port, country } = proxy;
+  const { host, port, country, username, password } = proxy;
 
   const proxyListModalHandler = () => setProxyListStatus(!isOpenProxyListModal);
   const dispatch = useDispatch<AppThunkDispatch>();
@@ -69,7 +69,7 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
       </IconButton>
 
       <ProxyModal
-        formState={{ host, port, country }}
+        formState={{ host, port, country, username, password }}
         open={isOpenProxyListModal}
         actionType="Update"
         onSubmit={editProxyHandler} // TODO: Add proxyList update action

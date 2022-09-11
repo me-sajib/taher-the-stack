@@ -36,8 +36,10 @@ import {
   ListToolbar,
   ProxyListMenu,
 } from '../sections/dashboard/list';
+import CopyToolTip from './CopyToolTip';
 import Iconify from './Iconify';
 import LoadingListFallback from './LoadingListFallback';
+import Musk from './Musk';
 import Page from './Page';
 import ProxyListModal from './ProxyListModal';
 import SearchNotFound from './SearchNotFound';
@@ -254,11 +256,22 @@ export default function Index() {
                                 </Link>
                               </Stack>
                             </TableCell>
-                            <TableCell align="center">{username}</TableCell>
-                            <TableCell align="center">{password}</TableCell>
+                            <TableCell align="center">
+                              <CopyToolTip text={username}>
+                                {username}
+                              </CopyToolTip>
+                            </TableCell>
+
+                            <TableCell align="center">
+                              <CopyToolTip text={password}>
+                                <Musk>{password}</Musk>
+                              </CopyToolTip>
+                            </TableCell>
+
                             <TableCell align="center">
                               {rotatingIndex}
                             </TableCell>
+
                             <TableCell align="right">
                               <ProxyListMenu id={id} />
                             </TableCell>

@@ -9,10 +9,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import RHFTextField from './hook-form/RHFTextFiled';
+import RHFPasswordField from './RHFPasswordField';
 
 interface ProxyModalData {
   host: string;
   port: number;
+  username: string;
+  password: string;
   country: string;
 }
 
@@ -86,12 +89,12 @@ export default function ProxyModal({
               fullWidth
               variant="standard"
             />
-            <RHFTextField
+
+            <RHFPasswordField
               margin="dense"
               id="password"
               name="password"
               label="Password"
-              type="text"
               fullWidth
               variant="standard"
             />

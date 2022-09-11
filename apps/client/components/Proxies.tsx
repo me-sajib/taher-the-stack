@@ -39,12 +39,14 @@ import {
   getProxies,
   getProxyStatus,
 } from 'store/proxySlice';
+import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
+import Musk from './Musk';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'host', label: 'Host' },
+  { id: 'proxyAddress', label: 'Proxy address' },
   { id: 'port', label: 'Port' },
   { id: 'hits', label: 'Hits', align: 'center' },
   { id: 'username', label: 'Username', align: 'center' },
@@ -259,18 +261,39 @@ export default function Index() {
                                 spacing={2}
                               >
                                 <Typography variant="subtitle2" noWrap>
-                                  {host}
+                                  <CopyToolTip text={host}>{host}</CopyToolTip>
                                 </Typography>
                               </Stack>
                             </TableCell>
-                            <TableCell align="left">{port}</TableCell>
+
+                            <TableCell align="left">
+                              <CopyToolTip text={String(port)}>
+                                {String(port)}
+                              </CopyToolTip>
+                            </TableCell>
+
                             <TableCell align="center">{totalHits}</TableCell>
+
                             <TableCell align="center">
-                              {username || '-'}
+                              {username ? (
+                                <CopyToolTip text={username}>
+                                  {username}
+                                </CopyToolTip>
+                              ) : (
+                                '-'
+                              )}
                             </TableCell>
+
                             <TableCell align="center">
-                              {password || '-'}
+                              {password ? (
+                                <CopyToolTip text={password}>
+                                  <Musk>{password}</Musk>
+                                </CopyToolTip>
+                              ) : (
+                                '-'
+                              )}
                             </TableCell>
+
                             <TableCell align="center">
                               <Tooltip
                                 title={`Checked ${formatDistanceToNow(
