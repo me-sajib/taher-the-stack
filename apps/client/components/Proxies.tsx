@@ -44,10 +44,10 @@ import {
 const TABLE_HEAD = [
   { id: 'host', label: 'Host' },
   { id: 'port', label: 'Port' },
-  { id: 'hits', label: 'Hits', alignRight: 'center' },
-  { id: 'username', label: 'Username', alignRight: 'center' },
-  { id: 'password', label: 'Password', alignRight: 'center' },
-  { id: 'status', label: 'status', alignRight: 'center' },
+  { id: 'hits', label: 'Hits', align: 'center' },
+  { id: 'username', label: 'Username', align: 'center' },
+  { id: 'password', label: 'Password', align: 'center' },
+  { id: 'status', label: 'status', align: 'center' },
   {},
 ];
 

@@ -43,10 +43,10 @@ import SearchNotFound from './SearchNotFound';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'username', label: 'Username', alignRight: false },
-  { id: 'password', label: 'Password', alignRight: false },
-  { id: 'rotating', label: 'Rotating index', alignRight: false },
+  { id: 'name', label: 'Name' },
+  { id: 'username', label: 'Username', align: 'center' },
+  { id: 'password', label: 'Password', align: 'center' },
+  { id: 'rotating', label: 'Rotating index', align: 'center' },
   {},
 ];
 
@@ -273,9 +273,9 @@ export default function Index() {
                               </Link>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{username}</TableCell>
-                          <TableCell align="left">{password}</TableCell>
-                          <TableCell align="left">{rotatingIndex}</TableCell>
+                          <TableCell align="center">{username}</TableCell>
+                          <TableCell align="center">{password}</TableCell>
+                          <TableCell align="center">{rotatingIndex}</TableCell>
                           <TableCell align="right">
                             <ProxyListMenu id={id} />
                           </TableCell>
