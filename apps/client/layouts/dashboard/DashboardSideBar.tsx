@@ -6,12 +6,13 @@ import { styled } from '@mui/material/styles';
 import useResponsive from '@hooks/useResponsive';
 // components
 // import Logo from '../../components/Logo';
-// import NavSection from '@components/NavSection';
-import Scrollbar from '@components/ScrollBar';
 import NavSection from '@components/NavSection';
+import Scrollbar from '@components/ScrollBar';
+import { AppThunkDispatch } from 'store';
+import { fetchUserProfile } from 'store/userSlice';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import navConfig from './NavConfig';
-//
-// import navConfig from './NavConfig';
 
 // ----------------------------------------------------------------------
 
@@ -36,13 +37,11 @@ const AccountStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const isDesktop = useResponsive('up', 'lg');
+  const asyncDispatch = useDispatch<AppThunkDispatch>();
 
-  // useEffect(() => {
-  //   if (isOpenSidebar) {
-  //     onCloseSidebar();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [pathname]);
+  useEffect(() => {
+    asyncDispatch(fetchUserProfile());
+  }, [asyncDispatch]);
 
   const renderContent = (
     <Scrollbar
@@ -69,7 +68,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </AccountStyle>
       </Box>
 
-      {/* TODO: ADD nav section */}
       <NavSection navConfig={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />

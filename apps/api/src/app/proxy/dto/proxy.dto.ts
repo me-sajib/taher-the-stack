@@ -24,7 +24,20 @@ export class ProxyDto {
 
   @IsString()
   @IsNotEmpty()
-  status: 'ACTIVE' | 'INACTIVE';
+  status: 'ACTIVE' | 'INACTIVE' | 'CHECKING';
+
+  @IsOptional()
+  @IsString()
+  username: string;
+
+  @IsOptional()
+  @IsString()
+  password: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  lastCheckAt: string;
 
   @IsUUID()
   proxyListKey: string;
@@ -68,7 +81,20 @@ export class ProxyUpdateDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  status: 'ACTIVE' | 'INACTIVE';
+  status: 'ACTIVE' | 'INACTIVE' | 'CHECKING';
+
+  @IsOptional()
+  @IsString()
+  username: string;
+
+  @IsOptional()
+  @IsString()
+  password: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  lastCheckAt: string;
 
   @IsOptional()
   @IsNumber()

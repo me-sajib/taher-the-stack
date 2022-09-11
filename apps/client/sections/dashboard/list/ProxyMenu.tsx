@@ -13,13 +13,14 @@ import ProxyModal from '@components/ProxyModal';
 import { Proxy } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppThunkDispatch } from 'store';
 import {
   deleteProxy,
   editProxy,
   getProxies,
   recheckProxy,
+  updateToChecking,
 } from 'store/proxySlice';
-import { AppThunkDispatch } from '../../../store';
 
 // ----------------------------------------------------------------------
 
@@ -36,22 +37,29 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   const proxiesMap = useSelector(getProxies);
   const proxies: Proxy[] = proxiesMap[proxyListKey as string];
   const proxy = proxies.find((proxy) => proxy.id === id);
-  const { host, port, country } = proxy;
+  const { host, port, country, username, password } = proxy;
 
   const proxyListModalHandler = () => setProxyListStatus(!isOpenProxyListModal);
   const dispatch = useDispatch<AppThunkDispatch>();
+  const syncDispatch = useDispatch();
 
   const deleteProxyHandler = () => {
     dispatch(deleteProxy({ proxyListKey, proxyIds: [id] }));
+    setIsOpen(false);
   };
 
   const editProxyHandler = (data) => {
     dispatch(editProxy({ ...data, id }));
     proxyListModalHandler();
+    setIsOpen(false);
   };
 
   const recheckProxyHandler = () => {
+    syncDispatch(
+      updateToChecking({ proxyListKey: proxy.proxyListKey, id: proxy.id })
+    );
     dispatch(recheckProxy(proxy));
+    setIsOpen(false);
   };
 
   return (
@@ -61,7 +69,7 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
       </IconButton>
 
       <ProxyModal
-        formState={{ host, port, country }}
+        formState={{ host, port, country, username, password }}
         open={isOpenProxyListModal}
         actionType="Update"
         onSubmit={editProxyHandler} // TODO: Add proxyList update action

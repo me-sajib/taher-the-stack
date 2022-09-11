@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from 'date-fns';
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -7,8 +8,6 @@ import {
   Card,
   Checkbox,
   Container,
-  Grid,
-  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -16,6 +15,7 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography,
 } from '@mui/material';
 // components
@@ -26,6 +26,7 @@ import Page from './Page';
 import ProxyModal from './ProxyModal';
 import SearchNotFound from './SearchNotFound';
 // store
+import useSelection from '@hooks/useSelection';
 import { Proxy } from '@prisma/client';
 import ProxyMenu from '@sections/dashboard/list/ProxyMenu';
 import { useRouter } from 'next/router';
@@ -38,14 +39,19 @@ import {
   getProxies,
   getProxyStatus,
 } from 'store/proxySlice';
+import CopyToolTip from './CopyToolTip';
+import LoadingListFallback from './LoadingListFallback';
+import Musk from './Musk';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'host', label: 'Host', alignRight: false },
-  { id: 'port', label: 'Port', alignRight: false },
-  { id: 'hits', label: 'Hits', alignRight: false },
-  { id: 'status', label: 'status', alignRight: false },
+  { id: 'proxyAddress', label: 'Proxy address' },
+  { id: 'port', label: 'Port' },
+  { id: 'hits', label: 'Hits', align: 'center' },
+  { id: 'username', label: 'Username', align: 'center' },
+  { id: 'password', label: 'Password', align: 'center' },
+  { id: 'status', label: 'Status', align: 'center' },
   {},
 ];
 
@@ -86,64 +92,37 @@ function applySortFilter(array, comparator, query) {
 export default function Index() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState<number[]>([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('port');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch<AppThunkDispatch>();
+  const asyncDispatch = useDispatch<AppThunkDispatch>();
   const proxyMap = useSelector(getProxies);
   const proxiesStatus = useSelector(getProxyStatus);
   const proxyListKey = router.query.id as string;
   const proxies = proxyMap[proxyListKey] ?? [];
 
+  // custom hooks
+  const { selects, clearSelection, handleSelectAllClick, handleClick } =
+    useSelection<number>();
+
   useEffect(() => {
-    dispatch(fetchProxies({ proxyListKey }));
-  }, [dispatch, proxyListKey]);
+    asyncDispatch(fetchProxies({ proxyListKey }));
+  }, [asyncDispatch, proxyListKey]);
 
   const handleProxyListModal = () =>
     setProxyListModalStatus(!openProxyListModal);
 
   const handleBulkDelete = () => {
-    dispatch(deleteProxy({ proxyListKey, proxyIds: selected }));
-    setSelected([]);
+    asyncDispatch(deleteProxy({ proxyListKey, proxyIds: [...selects] }));
+    clearSelection();
   };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = proxies.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-
-    setSelected([]);
-  };
-
-  const handleClick = (id: number) => (_event: React.ChangeEvent) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -160,7 +139,12 @@ export default function Index() {
   };
 
   const submitProxyHandler = (data) => {
-    dispatch(
+    if (+Boolean(data.username) ^ +Boolean(data.password)) {
+      delete data.username;
+      delete data.password;
+    }
+
+    asyncDispatch(
       createProxy({
         ...data,
         proxyListKey,
@@ -213,7 +197,7 @@ export default function Index() {
             <Card>
               <ListToolbar
                 placeholder={'Search proxy...'}
-                numSelected={selected.length}
+                numSelected={selects.size}
                 filterName={filterName}
                 bulkDeleteHandler={handleBulkDelete}
                 onFilterName={handleFilterByName}
@@ -226,9 +210,11 @@ export default function Index() {
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
                     rowCount={proxies.length}
-                    numSelected={selected.length}
+                    numSelected={selects.size}
                     onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
+                    onSelectAllClick={handleSelectAllClick(
+                      proxies.map((proxy) => proxy.id)
+                    )}
                   />
                   <TableBody>
                     {filteredProxies
@@ -237,8 +223,17 @@ export default function Index() {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((proxy: Proxy) => {
-                        const { id, host, port, status, totalHits } = proxy;
-                        const isItemSelected = selected.indexOf(id) !== -1;
+                        const {
+                          id,
+                          host,
+                          port,
+                          status,
+                          totalHits,
+                          username,
+                          password,
+                          lastCheckAt,
+                        } = proxy;
+                        const isItemSelected = selects.has(id);
 
                         return (
                           <TableRow
@@ -266,22 +261,59 @@ export default function Index() {
                                 spacing={2}
                               >
                                 <Typography variant="subtitle2" noWrap>
-                                  {host}
+                                  <CopyToolTip text={host}>{host}</CopyToolTip>
                                 </Typography>
                               </Stack>
                             </TableCell>
-                            <TableCell align="left">{port}</TableCell>
-                            <TableCell align="left">{totalHits}</TableCell>
+
                             <TableCell align="left">
-                              <Label
-                                variant="ghost"
-                                color={
-                                  (status === 'INACTIVE' && 'error') ||
-                                  'success'
-                                }
+                              <CopyToolTip text={String(port)}>
+                                {String(port)}
+                              </CopyToolTip>
+                            </TableCell>
+
+                            <TableCell align="center">{totalHits}</TableCell>
+
+                            <TableCell align="center">
+                              {username ? (
+                                <CopyToolTip text={username}>
+                                  {username}
+                                </CopyToolTip>
+                              ) : (
+                                '-'
+                              )}
+                            </TableCell>
+
+                            <TableCell align="center">
+                              {password ? (
+                                <CopyToolTip text={password}>
+                                  <Musk>{password}</Musk>
+                                </CopyToolTip>
+                              ) : (
+                                '-'
+                              )}
+                            </TableCell>
+
+                            <TableCell align="center">
+                              <Tooltip
+                                title={`Checked ${formatDistanceToNow(
+                                  new Date(lastCheckAt)
+                                )}`}
+                                arrow
                               >
-                                {status}
-                              </Label>
+                                <span>
+                                  <Label
+                                    variant="ghost"
+                                    color={
+                                      (status === 'INACTIVE' && 'error') ||
+                                      (status === 'CHECKING' && 'warning') ||
+                                      'success'
+                                    }
+                                  >
+                                    {status}
+                                  </Label>
+                                </span>
+                              </Tooltip>
                             </TableCell>
 
                             <TableCell align="right">
@@ -323,28 +355,6 @@ export default function Index() {
         </Page>
       );
     case 'loading':
-      return (
-        <Grid
-          container
-          alignItems="center"
-          justifyContent="center"
-          sx={{ opacity: 0.6 }}
-        >
-          <Stack spacing={1}>
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              sx={{ width: '65vw', height: '8vh' }}
-            />
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              sx={{ width: '65vw', height: '60vh' }}
-            />
-          </Stack>
-        </Grid>
-      );
-    case 'failed':
-      return <h3>Error: Proxies not found</h3>;
+      return <LoadingListFallback />;
   }
 }

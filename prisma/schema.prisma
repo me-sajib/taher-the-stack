@@ -40,7 +40,10 @@ model Proxy {
   totalHits    Int         @default(0)
   createAt     DateTime    @default(now())
   updateAt     DateTime    @updatedAt
+  username     String?
+  password     String?
   status       ProxyStatus
+  lastCheckAt  DateTime    @default(now())
   proxyListKey String
   proxyList    ProxyList   @relation(fields: [proxyListKey], references: [key])
   author       User        @relation(fields: [userId], references: [id])
@@ -50,4 +53,5 @@ model Proxy {
 enum ProxyStatus {
   ACTIVE
   INACTIVE
+  CHECKING
 }

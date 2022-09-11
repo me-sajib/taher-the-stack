@@ -9,10 +9,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import RHFTextField from './hook-form/RHFTextFiled';
+import RHFPasswordField from './RHFPasswordField';
 
 interface ProxyModalData {
   host: string;
   port: number;
+  username: string;
+  password: string;
   country: string;
 }
 
@@ -34,6 +37,8 @@ export default function ProxyModal({
   const defaultFormState = formState ?? {
     host: '',
     port: '',
+    username: '',
+    password: '',
     country: '',
   };
 
@@ -46,7 +51,7 @@ export default function ProxyModal({
   } = methods;
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
       <DialogTitle>{actionType.trim()} proxy</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -56,6 +61,7 @@ export default function ProxyModal({
           <Stack spacing={3} sx={{ my: 3 }}>
             <RHFTextField
               autoFocus
+              required
               margin="dense"
               id="host"
               name="host"
@@ -65,11 +71,30 @@ export default function ProxyModal({
               variant="standard"
             />
             <RHFTextField
+              required
               margin="dense"
               id="port"
               name="port"
               label="Port"
               type="number"
+              fullWidth
+              variant="standard"
+            />
+            <RHFTextField
+              margin="dense"
+              id="username"
+              name="username"
+              label="Username"
+              type="text"
+              fullWidth
+              variant="standard"
+            />
+
+            <RHFPasswordField
+              margin="dense"
+              id="password"
+              name="password"
+              label="Password"
               fullWidth
               variant="standard"
             />
