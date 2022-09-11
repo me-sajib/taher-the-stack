@@ -18,7 +18,7 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material';
 // components
 import { ListHead, ListToolbar } from '../sections/dashboard/list';
@@ -38,7 +38,7 @@ import {
   deleteProxy,
   fetchProxies,
   getProxies,
-  getProxyStatus
+  getProxyStatus,
 } from 'store/proxySlice';
 
 // ----------------------------------------------------------------------
@@ -49,7 +49,7 @@ const TABLE_HEAD = [
   { id: 'hits', label: 'Hits', align: 'center' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
-  { id: 'status', label: 'status', align: 'center' },
+  { id: 'status', label: 'Status', align: 'center' },
   {},
 ];
 
@@ -91,26 +91,26 @@ export default function Index() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState<number[]>([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('port');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch<AppThunkDispatch>();
+  const asyncDispatch = useDispatch<AppThunkDispatch>();
   const proxyMap = useSelector(getProxies);
   const proxiesStatus = useSelector(getProxyStatus);
   const proxyListKey = router.query.id as string;
   const proxies = proxyMap[proxyListKey] ?? [];
 
   useEffect(() => {
-    dispatch(fetchProxies({ proxyListKey }));
-  }, [dispatch, proxyListKey]);
+    asyncDispatch(fetchProxies({ proxyListKey }));
+  }, [asyncDispatch, proxyListKey]);
 
   const handleProxyListModal = () =>
     setProxyListModalStatus(!openProxyListModal);
 
   const handleBulkDelete = () => {
-    dispatch(deleteProxy({ proxyListKey, proxyIds: selected }));
+    asyncDispatch(deleteProxy({ proxyListKey, proxyIds: selected }));
     setSelected([]);
   };
 
@@ -164,7 +164,12 @@ export default function Index() {
   };
 
   const submitProxyHandler = (data) => {
-    dispatch(
+    if (+Boolean(data.username) ^ +Boolean(data.password)) {
+      delete data.username;
+      delete data.password;
+    }
+
+    asyncDispatch(
       createProxy({
         ...data,
         proxyListKey,
