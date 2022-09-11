@@ -18,7 +18,7 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
 // components
 import { ListHead, ListToolbar } from '../sections/dashboard/list';
@@ -38,7 +38,7 @@ import {
   deleteProxy,
   fetchProxies,
   getProxies,
-  getProxyStatus,
+  getProxyStatus
 } from 'store/proxySlice';
 
 // ----------------------------------------------------------------------
@@ -286,10 +286,10 @@ export default function Index() {
                             <TableCell align="left">{port}</TableCell>
                             <TableCell align="center">{totalHits}</TableCell>
                             <TableCell align="center">
-                              {username ?? '-'}
+                              {username || '-'}
                             </TableCell>
                             <TableCell align="center">
-                              {password ?? '-'}
+                              {password || '-'}
                             </TableCell>
                             <TableCell align="center">
                               <Tooltip
