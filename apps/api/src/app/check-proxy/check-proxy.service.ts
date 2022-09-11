@@ -9,21 +9,16 @@ export class CheckProxyService {
   constructor(private prisma: PrismaClientService) {}
 
   async checkProxy(params: ParamDto, listKey: string) {
-    const proxy = await this.prisma.proxy.findUnique({
+    const proxy = await this.prisma.proxy.findFirst({
       where: {
         id: +params.proxyId,
-      },
-    });
-
-    const { username, password } = await this.prisma.proxyList.findUnique({
-      where: {
-        key: listKey,
+        proxyListKey: listKey,
       },
     });
 
     return this.getProxyStatus(proxy, {
-      username,
-      password,
+      username: proxy.username,
+      password: proxy.password,
     });
   }
 
