@@ -59,7 +59,7 @@ export default function ListHead({
         {headLabel.map((headCell) => (
           <TableCell
             key={Math.random().toString(32)}
-            align={headCell.alignRight ? 'right' : 'left'}
+            align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel

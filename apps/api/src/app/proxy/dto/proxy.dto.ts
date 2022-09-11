@@ -91,6 +91,7 @@ export class ProxyUpdateDto {
   @IsString()
   password: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   lastCheckAt: string;
