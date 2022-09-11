@@ -30,13 +30,14 @@ import {
 } from 'store/proxyListSlice';
 
 import useSelection from '@hooks/useSelection';
-import { fetchUserProfile, getProfile } from 'store/userSlice';
+import { getProfile } from 'store/userSlice';
 import {
   ListHead,
   ListToolbar,
   ProxyListMenu,
 } from '../sections/dashboard/list';
 import Iconify from './Iconify';
+import LoadingListFallback from './LoadingListFallback';
 import Page from './Page';
 import ProxyListModal from './ProxyListModal';
 import SearchNotFound from './SearchNotFound';
@@ -92,7 +93,7 @@ export default function Index() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
-  const dispatch = useDispatch<AppThunkDispatch>();
+  const asyncDispatch = useDispatch<AppThunkDispatch>();
   const proxyLists = useSelector(getProxyList);
   const status = useSelector(getProxyListStatus);
   const user = useSelector(getProfile);
@@ -102,23 +103,19 @@ export default function Index() {
     useSelection<string>();
 
   useEffect(() => {
-    dispatch(fetchProxyList());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchUserProfile());
-  }, [dispatch]);
+    asyncDispatch(fetchProxyList());
+  }, [asyncDispatch]);
 
   const handleProxyListModal = () =>
     setProxyListModalStatus(!openProxyListModal);
 
   const submitProxyListHandler = (data) => {
     handleProxyListModal();
-    dispatch(createProxyList({ ...data, userId: user.id }));
+    asyncDispatch(createProxyList({ ...data, userId: user.id }));
   };
 
   const handleBulkDelete = () => {
-    dispatch(deleteProxyList({ listKeys: [...selects] }));
+    asyncDispatch(deleteProxyList({ listKeys: [...selects] }));
     clearSelection();
   };
 
@@ -152,147 +149,155 @@ export default function Index() {
 
   const isUserNotFound = filteredProxyList.length === 0;
 
-  if (status === 'success') {
-    return (
-      <Page title="Proxy List">
-        <Container>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            mb={5}
-          >
-            <Typography variant="h4" gutterBottom>
-              Proxy List
-            </Typography>
-            <Button
-              variant="contained"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-              onClick={handleProxyListModal}
+  switch (status) {
+    case 'success':
+      return (
+        <Page title="Proxy List">
+          <Container>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              mb={5}
             >
-              New Proxy List
-            </Button>
-            <ProxyListModal
-              actionType="Add"
-              open={openProxyListModal}
-              onSubmit={submitProxyListHandler} // TODO: Add the proxyList crate action
-              handleClose={handleProxyListModal}
-            />
-          </Stack>
+              <Typography variant="h4" gutterBottom>
+                Proxy List
+              </Typography>
+              <Button
+                variant="contained"
+                startIcon={<Iconify icon="eva:plus-fill" />}
+                onClick={handleProxyListModal}
+              >
+                New Proxy List
+              </Button>
+              <ProxyListModal
+                actionType="Add"
+                open={openProxyListModal}
+                onSubmit={submitProxyListHandler} // TODO: Add the proxyList crate action
+                handleClose={handleProxyListModal}
+              />
+            </Stack>
 
-          <Card>
-            <ListToolbar
-              placeholder={'Search proxy list...'}
-              numSelected={selects.size}
-              filterName={filterName}
-              onFilterName={handleFilterByName}
-              bulkDeleteHandler={handleBulkDelete}
-            />
+            <Card>
+              <ListToolbar
+                placeholder={'Search proxy list...'}
+                numSelected={selects.size}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                bulkDeleteHandler={handleBulkDelete}
+              />
 
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <ListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={proxyLists.length}
-                  numSelected={selects.size}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick(
-                    proxyLists.map((list) => list.key)
-                  )}
-                />
-                <TableBody>
-                  {filteredProxyList
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((proxyList: ProxyList) => {
-                      const {
-                        key: id,
-                        name,
-                        username,
-                        password,
-                        rotatingIndex,
-                      } = proxyList;
-                      const isItemSelected = selects.has(id);
-
-                      return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={handleClick(id)}
-                            />
-                          </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              spacing={2}
-                            >
-                              <Link
-                                href={`proxies/${id}?name=${proxyList.name}`}
-                              >
-                                <Typography
-                                  variant="subtitle2"
-                                  noWrap
-                                  sx={{ cursor: 'pointer' }}
-                                >
-                                  {name}
-                                </Typography>
-                              </Link>
-                            </Stack>
-                          </TableCell>
-                          <TableCell align="center">{username}</TableCell>
-                          <TableCell align="center">{password}</TableCell>
-                          <TableCell align="center">{rotatingIndex}</TableCell>
-                          <TableCell align="right">
-                            <ProxyListMenu id={id} />
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-
-                {isUserNotFound && (
+              <TableContainer sx={{ minWidth: 800 }}>
+                <Table>
+                  <ListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    rowCount={proxyLists.length}
+                    numSelected={selects.size}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick(
+                      proxyLists.map((list) => list.key)
+                    )}
+                  />
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
+                    {filteredProxyList
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((proxyList: ProxyList) => {
+                        const {
+                          key: id,
+                          name,
+                          username,
+                          password,
+                          rotatingIndex,
+                        } = proxyList;
+                        const isItemSelected = selects.has(id);
+
+                        return (
+                          <TableRow
+                            hover
+                            key={id}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isItemSelected}
+                                onChange={handleClick(id)}
+                              />
+                            </TableCell>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              padding="none"
+                            >
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                spacing={2}
+                              >
+                                <Link
+                                  href={`proxies/${id}?name=${proxyList.name}`}
+                                >
+                                  <Typography
+                                    variant="subtitle2"
+                                    noWrap
+                                    sx={{ cursor: 'pointer' }}
+                                  >
+                                    {name}
+                                  </Typography>
+                                </Link>
+                              </Stack>
+                            </TableCell>
+                            <TableCell align="center">{username}</TableCell>
+                            <TableCell align="center">{password}</TableCell>
+                            <TableCell align="center">
+                              {rotatingIndex}
+                            </TableCell>
+                            <TableCell align="right">
+                              <ProxyListMenu id={id} />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
                   </TableBody>
-                )}
-              </Table>
-            </TableContainer>
 
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={proxyLists.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Card>
-        </Container>
-      </Page>
-    );
-  }
+                  {isUserNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <SearchNotFound searchQuery={filterName} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  )}
+                </Table>
+              </TableContainer>
 
-  if (status === 'loading') {
-    return <h3>Loading...</h3>;
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={proxyLists.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Card>
+          </Container>
+        </Page>
+      );
+    case 'loading':
+      return <LoadingListFallback />;
   }
 }

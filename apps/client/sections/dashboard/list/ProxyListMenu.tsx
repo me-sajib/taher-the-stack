@@ -16,7 +16,7 @@ import {
   editProxyList,
   getProxyList,
 } from 'store/proxyListSlice';
-import { AppThunkDispatch } from '../../../store';
+import { AppThunkDispatch } from 'store';
 
 // ----------------------------------------------------------------------
 

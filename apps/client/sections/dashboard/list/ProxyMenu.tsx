@@ -11,8 +11,7 @@ import {
 import Iconify from '@components/Iconify';
 import ProxyModal from '@components/ProxyModal';
 import { Proxy } from '@prisma/client';
-import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { AppThunkDispatch } from 'store';
 import {
   deleteProxy,
   editProxy,
@@ -20,7 +19,8 @@ import {
   recheckProxy,
   updateToChecking,
 } from 'store/proxySlice';
-import { AppThunkDispatch } from '../../../store';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 

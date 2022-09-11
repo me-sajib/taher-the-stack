@@ -8,8 +8,6 @@ import {
   Card,
   Checkbox,
   Container,
-  Grid,
-  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -41,6 +39,7 @@ import {
   getProxies,
   getProxyStatus,
 } from 'store/proxySlice';
+import LoadingListFallback from './LoadingListFallback';
 
 // ----------------------------------------------------------------------
 
@@ -333,28 +332,6 @@ export default function Index() {
         </Page>
       );
     case 'loading':
-      return (
-        <Grid
-          container
-          alignItems="center"
-          justifyContent="center"
-          sx={{ opacity: 0.6 }}
-        >
-          <Stack spacing={1}>
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              sx={{ width: '65vw', height: '8vh' }}
-            />
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              sx={{ width: '65vw', height: '60vh' }}
-            />
-          </Stack>
-        </Grid>
-      );
-    case 'failed':
-      return <h3>Error: Proxies not found</h3>;
+      return <LoadingListFallback />;
   }
 }
