@@ -41,6 +41,7 @@ interface ListToolbarTypes {
   numSelected: number;
   filterName: string;
   bulkDeleteHandler: () => void;
+  bulkRecheckHandler: () => void;
   onFilterName: (e: React.ChangeEvent) => void;
 }
 
@@ -49,6 +50,7 @@ export default function ListToolbar({
   numSelected,
   filterName,
   bulkDeleteHandler,
+  bulkRecheckHandler,
   onFilterName,
 }: ListToolbarTypes) {
   return (
@@ -82,11 +84,18 @@ export default function ListToolbar({
 
       {
         numSelected > 0 ? (
-          <Tooltip title="Delete" onClick={bulkDeleteHandler}>
-            <IconButton>
-              <Iconify icon="eva:trash-2-fill" />
-            </IconButton>
-          </Tooltip>
+          <span>
+            <Tooltip title="Delete" onClick={bulkDeleteHandler}>
+              <IconButton>
+                <Iconify icon="eva:trash-2-fill" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Recheck" onClick={bulkRecheckHandler}>
+              <IconButton>
+                <Iconify icon="fluent:arrow-clockwise-16-filled" />
+              </IconButton>
+            </Tooltip>
+          </span>
         ) : null
         // TODO: ADD filter feature
         /*           {<Tooltip title="Filter list">

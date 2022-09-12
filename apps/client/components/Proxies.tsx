@@ -38,6 +38,8 @@ import {
   fetchProxies,
   getProxies,
   getProxyStatus,
+  recheckProxy,
+  updateToBulkChecking,
 } from 'store/proxySlice';
 import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
@@ -98,6 +100,7 @@ export default function Index() {
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const router = useRouter();
   const asyncDispatch = useDispatch<AppThunkDispatch>();
+  const syncDispatch = useDispatch();
   const proxyMap = useSelector(getProxies);
   const proxiesStatus = useSelector(getProxyStatus);
   const proxyListKey = router.query.id as string;
@@ -116,6 +119,17 @@ export default function Index() {
 
   const handleBulkDelete = () => {
     asyncDispatch(deleteProxy({ proxyListKey, proxyIds: [...selects] }));
+    clearSelection();
+  };
+
+  const handleBulkRecheck = () => {
+    const check = {
+      listKey: proxyListKey,
+      ids: [...selects],
+    };
+    asyncDispatch(recheckProxy([check]));
+
+    syncDispatch(updateToBulkChecking([check]));
     clearSelection();
   };
 
@@ -200,6 +214,7 @@ export default function Index() {
                 numSelected={selects.size}
                 filterName={filterName}
                 bulkDeleteHandler={handleBulkDelete}
+                bulkRecheckHandler={handleBulkRecheck}
                 onFilterName={handleFilterByName}
               />
 

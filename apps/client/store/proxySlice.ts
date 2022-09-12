@@ -1,4 +1,4 @@
-import { Proxy } from '@prisma/client';
+import { Proxy, ProxyStatus } from '@prisma/client';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from 'store';
@@ -15,27 +15,28 @@ interface ProxyModalData {
   totalHits: number;
 }
 
+interface ProxyResponse {
+  id: number;
+  lastCheckAt: Date;
+  status: ProxyStatus;
+}
+interface CheckProxyResponse {
+  listKey: string;
+  responseStatusList: ProxyResponse[];
+}
+interface CheckProxyPayload {
+  listKey: string;
+  ids: number[];
+}
+
 const checkProxyStatus = async (
-  id: number,
-  listKey: string
-): Promise<Proxy> => {
+  checkList: CheckProxyPayload[]
+): Promise<CheckProxyResponse[]> => {
   const token = localStorage.getItem('proxy-manager-token');
 
-  const {
-    data: { status },
-  } = await axios.get(`${API}/check-proxy/${id}?list_key=${listKey}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const { data: updatedProxy } = await axios.patch(
-    PROXY_URL,
-    {
-      id,
-      status,
-      lastCheckAt: new Date(),
-    },
+  const { data } = await axios.post(
+    `${API}/check-proxy`,
+    { checkList },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -43,7 +44,7 @@ const checkProxyStatus = async (
     }
   );
 
-  return updatedProxy;
+  return data;
 };
 
 export const fetchProxies = createAsyncThunk(
@@ -103,9 +104,11 @@ export const deleteProxy = createAsyncThunk(
 
 export const editProxy = createAsyncThunk(
   'proxies/editProxy',
-  async (payload: Proxy) => {
+  async (payload: any) => {
     const token = localStorage.getItem('proxy-manager-token');
-    payload.port = Number(payload.port);
+    if ('port' in payload) {
+      payload.port = Number(payload.port);
+    }
 
     const { data } = await axios.patch(PROXY_URL, payload, {
       headers: {
@@ -119,8 +122,8 @@ export const editProxy = createAsyncThunk(
 
 export const recheckProxy = createAsyncThunk(
   'proxies/recheckProxy',
-  async (payload: Proxy) => {
-    return checkProxyStatus(payload.id, payload.proxyListKey);
+  async (payload: CheckProxyPayload[]) => {
+    return checkProxyStatus(payload);
   }
 );
 
@@ -148,6 +151,20 @@ export const store = createSlice({
         (proxy) => proxy.id === id
       );
       state.collection[proxyListKey][proxyIndex].status = 'CHECKING';
+    },
+    updateToBulkChecking(state, action) {
+      const checkProxies = action.payload as CheckProxyPayload[];
+
+      for (const payload of checkProxies) {
+        const { listKey, ids } = payload;
+
+        for (const id of ids) {
+          const proxyIndex = state.collection[listKey].findIndex(
+            (proxy) => proxy.id === id
+          );
+          state.collection[listKey][proxyIndex].status = 'CHECKING';
+        }
+      }
     },
   },
   extraReducers: {
@@ -179,8 +196,18 @@ export const store = createSlice({
         state.collection[proxyListKey] = [payload];
       }
 
-      checkProxyStatus(id, proxyListKey).then((updateProxy) => {
-        mainStore.dispatch(editProxy(updateProxy));
+      checkProxyStatus([
+        {
+          listKey: proxyListKey,
+          ids: [id],
+        },
+      ]).then((recheckProxy: CheckProxyResponse[]) => {
+        const res = recheckProxy.at(0);
+        const { status, id } = res.responseStatusList.at(0);
+
+        mainStore.dispatch(
+          editProxy({ proxyListKey: res.listKey, id, status })
+        );
       });
     },
     [deleteProxy.fulfilled as any]: (state, { payload }) => {
@@ -199,20 +226,41 @@ export const store = createSlice({
 
       state.collection[payload.proxyListKey][updatedIndex] = payload;
     },
-    [recheckProxy.fulfilled as any]: (state, { payload }) => {
-      const proxies = state.collection[payload.proxyListKey];
-      const updatedIndex = proxies.findIndex(
-        (proxy) => proxy.id === payload.id
-      );
+    [recheckProxy.fulfilled as any]: (state, action) => {
+      const checkResponse = action.payload as CheckProxyResponse[];
 
-      state.collection[payload.proxyListKey][updatedIndex] = payload;
+      for (const { listKey, responseStatusList } of checkResponse) {
+        const idMap = responseStatusList.reduce(
+          (acc, cur) =>
+            acc.set(cur.id, {
+              status: cur.status,
+              lastCheckAt: cur.lastCheckAt,
+            }),
+          new Map<
+            number,
+            {
+              status: ProxyStatus;
+              lastCheckAt: Date;
+            }
+          >()
+        );
+
+        state.collection[listKey] = state.collection[listKey].map((proxy) => {
+          if (idMap.has(proxy.id)) {
+            proxy.status = idMap.get(proxy.id).status;
+            proxy.lastCheckAt = idMap.get(proxy.id).lastCheckAt;
+          }
+
+          return proxy;
+        });
+      }
     },
   },
 });
 
 export const getProxies = (state: RootState) => state.proxies.collection;
 
-export const { updateToChecking } = store.actions;
+export const { updateToChecking, updateToBulkChecking } = store.actions;
 
 export const getProxyStatus = (state: RootState) => state.proxies.status;
 

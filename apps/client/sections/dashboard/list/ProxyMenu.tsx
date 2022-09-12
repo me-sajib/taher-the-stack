@@ -58,7 +58,14 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
     syncDispatch(
       updateToChecking({ proxyListKey: proxy.proxyListKey, id: proxy.id })
     );
-    dispatch(recheckProxy(proxy));
+    dispatch(
+      recheckProxy([
+        {
+          listKey: proxy.proxyListKey,
+          ids: [proxy.id],
+        },
+      ])
+    );
     setIsOpen(false);
   };
 
