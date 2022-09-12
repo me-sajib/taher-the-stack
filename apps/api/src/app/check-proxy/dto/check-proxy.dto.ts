@@ -1,6 +1,12 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsObject } from 'class-validator';
 
-export class ParamDto {
-  @IsNotEmpty()
-  proxyId: string;
+interface CheckProxy {
+  listKey: string;
+  ids: number[];
+}
+export class BodyDto {
+  @IsObject({
+    each: true,
+  })
+  checkList: CheckProxy[];
 }
