@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from 'store';
 import mainStore from './index';
-const API = 'http://localhost:3333/api';
-const PROXY_URL = `${API}/proxies`;
+
+const PROXY_URL = `/api/proxies`;
 
 interface ProxyModalData {
   host: string;
@@ -35,7 +35,7 @@ const checkProxyStatus = async (
   const token = localStorage.getItem('proxy-manager-token');
 
   const { data } = await axios.post(
-    `${API}/check-proxy`,
+    `/api/check-proxy`,
     { checkList },
     {
       headers: {
@@ -59,6 +59,8 @@ export const fetchProxies = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log({ data });
 
       return data;
     } catch (e) {

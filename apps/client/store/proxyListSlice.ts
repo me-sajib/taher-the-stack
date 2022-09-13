@@ -3,8 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from 'store';
 
-const API = 'http://localhost:3333/api';
-const PROXY_LIST_URL = `${API}/proxy-list`;
+const PROXY_LIST_URL = `/api/proxy-list`;
 
 interface ProxyListModalData {
   name: string;
