@@ -26,7 +26,7 @@ interface CheckProxyResponse {
 }
 interface CheckProxyPayload {
   listKey: string;
-  ids: number[];
+  ids?: number[];
 }
 
 const checkProxyStatus = async (
@@ -59,8 +59,6 @@ export const fetchProxies = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log({ data });
 
       return data;
     } catch (e) {
@@ -158,7 +156,13 @@ export const store = createSlice({
       const checkProxies = action.payload as CheckProxyPayload[];
 
       for (const payload of checkProxies) {
-        const { listKey, ids } = payload;
+        const { listKey, ids = [] } = payload;
+
+        if (ids.length === 0) {
+          ids.push(...state.collection[listKey].map((proxy) => proxy.id));
+        }
+
+        console.log({ ids });
 
         for (const id of ids) {
           const proxyIndex = state.collection[listKey].findIndex(

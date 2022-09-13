@@ -27,9 +27,24 @@ export class CheckProxyService {
     const response = [];
 
     for (const list of checkList) {
-      const { listKey, ids } = list;
+      const { listKey, ids = [] } = list;
 
       const responseStatusList = [];
+
+      if (ids.length === 0) {
+        ids.push(
+          ...(
+            await this.prisma.proxy.findMany({
+              where: {
+                proxyListKey: listKey,
+              },
+            })
+          ).map(({ id }) => {
+            this.setStatus('CHECKING', id);
+            return id;
+          })
+        );
+      }
 
       for (const id of ids) {
         responseStatusList.push(
@@ -46,11 +61,30 @@ export class CheckProxyService {
     return response;
   }
 
+  async setStatus(status: ProxyStatus, id: number) {
+    const data = Object.assign(
+      { status },
+      status !== 'CHECKING' && { lastCheckAt: new Date() }
+    );
+
+    await this.prisma.proxy.update({
+      where: {
+        id,
+      },
+      data,
+    });
+
+    return {
+      id,
+      ...data,
+    };
+  }
+
   async getProxyStatus(proxy: Proxy) {
     const { id, host, port, username, password } = proxy;
 
     try {
-      const { data: res } = await axios.get('https://www.httpbin.org/ip', {
+      await axios.get('https://www.httpbin.org/ip', {
         proxy: {
           host,
           port,
@@ -61,29 +95,9 @@ export class CheckProxyService {
         },
       });
 
-      const data = {
-        status: (res?.origin === proxy.host
-          ? 'ACTIVE'
-          : 'INACTIVE') as ProxyStatus,
-        lastCheckAt: new Date(),
-      };
-      await this.prisma.proxy.update({
-        where: {
-          id,
-        },
-        data,
-      });
-
-      return {
-        id,
-        ...data,
-      };
+      return this.setStatus('ACTIVE', id);
     } catch (e) {
-      return {
-        id,
-        status: 'INACTIVE',
-        lastCheckAt: new Date(),
-      };
+      return this.setStatus('INACTIVE', id);
     }
   }
 }

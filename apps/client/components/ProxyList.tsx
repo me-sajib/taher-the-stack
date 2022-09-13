@@ -30,6 +30,7 @@ import {
 } from 'store/proxyListSlice';
 
 import useSelection from '@hooks/useSelection';
+import { recheckProxy } from 'store/proxySlice';
 import { getProfile } from 'store/userSlice';
 import {
   ListHead,
@@ -96,6 +97,7 @@ export default function Index() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const asyncDispatch = useDispatch<AppThunkDispatch>();
+  const syncDispatch = useDispatch();
   const proxyLists = useSelector(getProxyList);
   const status = useSelector(getProxyListStatus);
   const user = useSelector(getProfile);
@@ -140,6 +142,13 @@ export default function Index() {
     setFilterName(event.target.value);
   };
 
+  const handleBulkRecheck = () => {
+    const recheckList = [...selects].map((id) => ({ listKey: id }));
+    asyncDispatch(recheckProxy(recheckList));
+
+    clearSelection();
+  };
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - proxyLists.length) : 0;
 
@@ -175,7 +184,7 @@ export default function Index() {
               <ProxyListModal
                 actionType="Add"
                 open={openProxyListModal}
-                onSubmit={submitProxyListHandler} // TODO: Add the proxyList crate action
+                onSubmit={submitProxyListHandler}
                 handleClose={handleProxyListModal}
               />
             </Stack>
@@ -187,6 +196,7 @@ export default function Index() {
                 filterName={filterName}
                 onFilterName={handleFilterByName}
                 bulkDeleteHandler={handleBulkDelete}
+                bulkRecheckHandler={handleBulkRecheck}
               />
 
               <TableContainer sx={{ minWidth: 800 }}>
