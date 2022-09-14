@@ -52,7 +52,7 @@ export const deleteProxyList = createAsyncThunk(
 
 export const editProxyList = createAsyncThunk(
   'proxyList/editProxyList',
-  async (payload: ProxyList) => {
+  async (payload: ProxyList[]) => {
     const token = localStorage.getItem('proxy-manager-token');
 
     const { data } = await axios.patch(PROXY_LIST_URL, payload, {

@@ -40,7 +40,7 @@ export default function ProxyListMenu({ id }: ListMenuTypes) {
   };
 
   const editProxyListHandler = (data) => {
-    dispatch(editProxyList({ ...data, key: id }));
+    dispatch(editProxyList([{ ...data, key: id }]));
     proxyListModalHandler();
     setIsOpen(false);
   };

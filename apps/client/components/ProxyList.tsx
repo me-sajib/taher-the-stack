@@ -27,6 +27,7 @@ import { getProxyList, getProxyListStatus } from 'store/proxyListSlice';
 import {
   createProxyList,
   deleteProxyList,
+  editProxyList,
   fetchProxies,
   fetchProxyList,
 } from 'store/thunks';
@@ -102,6 +103,11 @@ export default function Index() {
   const proxyLists = useSelector(getProxyList);
   const status = useSelector(getProxyListStatus);
   const user = useSelector(getProfile);
+  const editList = proxyLists.map((list) => ({
+    name: list.name,
+    username: list.username,
+    password: list.password,
+  }));
 
   // custom hooks
   const { selects, clearSelection, handleClick, handleSelectAllClick } =
@@ -152,6 +158,20 @@ export default function Index() {
     clearSelection();
   };
 
+  const handleBulkEdit = (changedMap: Map<number, any>) => {
+    const updatedIterator = changedMap.values();
+    const updatePayload = [...changedMap.keys()].map((index) => {
+      const { key } = proxyLists.at(index);
+
+      return {
+        key,
+        ...updatedIterator.next().value,
+      };
+    });
+
+    asyncDispatch(editProxyList(updatePayload));
+  };
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - proxyLists.length) : 0;
 
@@ -194,12 +214,14 @@ export default function Index() {
 
             <Card>
               <ListToolbar
+                editStateData={JSON.stringify(editList, null, 2)}
                 placeholder={'Search proxy list...'}
                 numSelected={selects.size}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
                 bulkDeleteHandler={handleBulkDelete}
                 bulkRecheckHandler={handleBulkRecheck}
+                bulkEditHandler={handleBulkEdit}
               />
 
               <TableContainer sx={{ minWidth: 800 }}>

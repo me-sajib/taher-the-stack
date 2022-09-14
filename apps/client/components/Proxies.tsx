@@ -103,8 +103,6 @@ export default function Index() {
   const proxyListKey = router.query.id as string;
   const proxies = proxyMap[proxyListKey] ?? [];
 
-  console.log({ proxies });
-
   // custom hooks
   const { selects, clearSelection, handleSelectAllClick, handleClick } =
     useSelection<number>();
