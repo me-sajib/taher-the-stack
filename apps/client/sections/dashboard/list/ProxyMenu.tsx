@@ -8,19 +8,15 @@ import {
   MenuItem,
 } from '@mui/material';
 // component
-import Iconify from '@components/Iconify';
-import ProxyModal from '@components/ProxyModal';
 import { Proxy } from '@prisma/client';
+import Iconify from 'components/Iconify';
+import ProxyModal from 'components/ProxyModal';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
-import {
-  deleteProxy,
-  editProxy,
-  getProxies,
-  recheckProxy,
-  updateToChecking,
-} from 'store/proxySlice';
+import { getProxies } from 'store/proxySlice';
+
+import { deleteProxy, editProxy, recheckProxy } from 'store/thunks';
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +37,6 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
 
   const proxyListModalHandler = () => setProxyListStatus(!isOpenProxyListModal);
   const dispatch = useDispatch<AppThunkDispatch>();
-  const syncDispatch = useDispatch();
 
   const deleteProxyHandler = () => {
     dispatch(deleteProxy({ proxyListKey, proxyIds: [id] }));
@@ -55,9 +50,6 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   };
 
   const recheckProxyHandler = () => {
-    syncDispatch(
-      updateToChecking({ proxyListKey: proxy.proxyListKey, id: proxy.id })
-    );
     dispatch(
       recheckProxy([
         {

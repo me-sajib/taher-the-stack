@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // component
-import Iconify from '@components/Iconify';
+import Iconify from 'components/Iconify';
 import React from 'react';
 
 // ----------------------------------------------------------------------

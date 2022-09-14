@@ -16,20 +16,7 @@
       "jest",
       "node"
     ],
-    "paths": {
-      "@components/*": [
-        "./components/*"
-      ],
-      "@hooks/*": [
-        "./hooks/*"
-      ],
-      "@layouts/*": [
-        "./layouts/*"
-      ],
-      "@sections/*": [
-        "./sections/*"
-      ],
-    }
+    "paths": {}
   },
   "include": [
     "**/*.ts",

@@ -14,28 +14,25 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
-  Typography,
+  Typography
 } from '@mui/material';
 // components
 import { ProxyList } from '@prisma/client';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
-import {
-  createProxyList,
-  deleteProxyList,
-  fetchProxyList,
-  getProxyList,
-  getProxyListStatus,
-} from 'store/proxyListSlice';
+import { getProxyList, getProxyListStatus } from 'store/proxyListSlice';
 
-import useSelection from '@hooks/useSelection';
-import { recheckProxy } from 'store/proxySlice';
+// thunks
+import { createProxyList, deleteProxyList, fetchProxyList } from 'store/thunks';
+
+import useSelection from 'hooks/useSelection';
+import { recheckProxy } from 'store/thunks';
 import { getProfile } from 'store/userSlice';
 import {
   ListHead,
   ListToolbar,
-  ProxyListMenu,
+  ProxyListMenu
 } from '../sections/dashboard/list';
 import CopyToolTip from './CopyToolTip';
 import Iconify from './Iconify';
@@ -97,7 +94,6 @@ export default function Index() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const asyncDispatch = useDispatch<AppThunkDispatch>();
-  const syncDispatch = useDispatch();
   const proxyLists = useSelector(getProxyList);
   const status = useSelector(getProxyListStatus);
   const user = useSelector(getProfile);

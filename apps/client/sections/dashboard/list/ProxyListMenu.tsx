@@ -8,15 +8,13 @@ import {
   MenuItem,
 } from '@mui/material';
 // component
-import Iconify from '@components/Iconify';
-import ProxyListModal from '@components/ProxyListModal';
+import Iconify from 'components/Iconify';
+import ProxyListModal from 'components/ProxyListModal';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteProxyList,
-  editProxyList,
-  getProxyList,
-} from 'store/proxyListSlice';
 import { AppThunkDispatch } from 'store';
+import { getProxyList } from 'store/proxyListSlice';
+
+import { deleteProxyList, editProxyList } from 'store/thunks';
 
 // ----------------------------------------------------------------------
 

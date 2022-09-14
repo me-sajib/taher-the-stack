@@ -9,8 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 // components
-import MenuPopover from '@components/MenuPopover';
 import { User } from '@prisma/client';
+import MenuPopover from 'components/MenuPopover';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';

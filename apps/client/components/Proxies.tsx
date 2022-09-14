@@ -26,21 +26,19 @@ import Page from './Page';
 import ProxyModal from './ProxyModal';
 import SearchNotFound from './SearchNotFound';
 // store
-import useSelection from '@hooks/useSelection';
 import { Proxy } from '@prisma/client';
-import ProxyMenu from '@sections/dashboard/list/ProxyMenu';
+import useSelection from 'hooks/useSelection';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import ProxyMenu from 'sections/dashboard/list/ProxyMenu';
 import { AppThunkDispatch } from 'store';
+import { getProxies, getProxyStatus } from 'store/proxySlice';
 import {
   createProxy,
   deleteProxy,
   fetchProxies,
-  getProxies,
-  getProxyStatus,
   recheckProxy,
-  updateToBulkChecking,
-} from 'store/proxySlice';
+} from 'store/thunks';
 import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
@@ -100,17 +98,19 @@ export default function Index() {
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const router = useRouter();
   const asyncDispatch = useDispatch<AppThunkDispatch>();
-  const syncDispatch = useDispatch();
   const proxyMap = useSelector(getProxies);
   const proxiesStatus = useSelector(getProxyStatus);
   const proxyListKey = router.query.id as string;
   const proxies = proxyMap[proxyListKey] ?? [];
+
+  console.log({ proxies });
 
   // custom hooks
   const { selects, clearSelection, handleSelectAllClick, handleClick } =
     useSelection<number>();
 
   useEffect(() => {
+    console.log('Proxies effect called');
     asyncDispatch(fetchProxies({ proxyListKey }));
   }, [asyncDispatch, proxyListKey]);
 
@@ -129,7 +129,6 @@ export default function Index() {
     };
     asyncDispatch(recheckProxy([check]));
 
-    syncDispatch(updateToBulkChecking([check]));
     clearSelection();
   };
 

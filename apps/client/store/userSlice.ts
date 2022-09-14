@@ -1,21 +1,7 @@
 import { User } from '@prisma/client';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from 'store';
-
-export const fetchUserProfile = createAsyncThunk(
-  'user/fetchUserProfile',
-  async () => {
-    const token = localStorage.getItem('proxy-manager-token');
-    const { data } = await axios.get('/api/user', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return data;
-  }
-);
+import { fetchUserProfile } from 'store/thunks';
 
 interface initialStateTypes {
   profile: User | null;
@@ -29,10 +15,10 @@ export const store = createSlice({
   name: 'user',
   initialState,
   reducers: {},
-  extraReducers: {
-    [fetchUserProfile.fulfilled as any]: (state, { payload }) => {
+  extraReducers(builder) {
+    builder.addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
       state.profile = payload;
-    },
+    });
   },
 });
 

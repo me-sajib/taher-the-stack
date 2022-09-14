@@ -4,7 +4,7 @@ import { alpha, styled } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppThunkDispatch } from 'store';
-import { fetchUserProfile } from 'store/userSlice';
+import { fetchUserProfile } from 'store/thunks';
 // components
 import Iconify from '../../components/Iconify';
 //

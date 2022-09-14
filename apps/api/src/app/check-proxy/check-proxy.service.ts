@@ -39,11 +39,12 @@ export class CheckProxyService {
                 proxyListKey: listKey,
               },
             })
-          ).map(({ id }) => {
-            this.setStatus('CHECKING', id);
-            return id;
-          })
+          ).map(({ id }) => id)
         );
+      }
+
+      for (const id of ids) {
+        await this.setStatus('CHECKING', id);
       }
 
       for (const id of ids) {
