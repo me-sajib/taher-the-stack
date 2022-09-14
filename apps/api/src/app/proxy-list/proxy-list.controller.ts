@@ -47,7 +47,7 @@ export class ProxyListController {
   }
 
   @Patch()
-  updateProxyList(@Body() dto: ProxyListUpdateDto) {
+  updateProxyList(@Body() dto: ProxyListUpdateDto[]) {
     return this.proxyListService.updateProxyList(dto);
   }
 }

@@ -32,7 +32,7 @@ export class ProxyListService {
         }
       ),
       include: {
-        Proxies: includeProxies,
+        Proxies: includeProxies ?? false,
       },
     });
 
@@ -69,15 +69,21 @@ export class ProxyListService {
     };
   }
 
-  async updateProxyList(updatedProxyList: ProxyListUpdateDto) {
-    const { key, ...restUpdatedProxyList } = updatedProxyList;
+  async updateProxyList(updatedProxyList: ProxyListUpdateDto[]) {
+    const updatedList = [];
 
-    const updatedList = await this.prisma.proxyList.update({
-      where: {
-        key,
-      },
-      data: restUpdatedProxyList,
-    });
+    for (const proxyList of updatedProxyList) {
+      const { key, ...restUpdatedProxyList } = proxyList;
+
+      updatedList.push(
+        await this.prisma.proxyList.update({
+          where: {
+            key,
+          },
+          data: restUpdatedProxyList,
+        })
+      );
+    }
 
     return updatedList;
   }
