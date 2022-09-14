@@ -45,6 +45,7 @@ export class ProxyDto {
 
 export class ProxyQueryDto {
   @IsUUID()
+  @IsOptional()
   proxyListKey: string;
 
   @IsOptional()

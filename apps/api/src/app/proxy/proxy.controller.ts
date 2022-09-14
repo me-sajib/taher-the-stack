@@ -32,7 +32,6 @@ export class ProxyController {
 
   @Get()
   getBulkProxies(@Query() dto: ProxyQueryDto, @Req() req: Request) {
-    console.log({ dto });
     return this.proxyService.getBulkProxies(
       (req.user as UserDto).userId,
       dto.proxyListKey,

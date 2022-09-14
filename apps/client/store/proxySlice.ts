@@ -82,7 +82,7 @@ export const store = createSlice({
         const checkPayload = action.meta.arg as CheckProxyPayload[];
         console.log('Recheck pending called', { checkPayload });
         const checkProxyIdSet = checkPayload.reduce((set, payload) => {
-          payload.ids ??= state.collection[payload.listKey].map(
+          payload.ids ??= state.collection[payload.listKey]?.map(
             (proxy) => proxy.id
           );
 

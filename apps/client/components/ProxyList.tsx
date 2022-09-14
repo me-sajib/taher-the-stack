@@ -14,7 +14,7 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
 } from '@mui/material';
 // components
 import { ProxyList } from '@prisma/client';
@@ -24,7 +24,12 @@ import { AppThunkDispatch } from 'store';
 import { getProxyList, getProxyListStatus } from 'store/proxyListSlice';
 
 // thunks
-import { createProxyList, deleteProxyList, fetchProxyList } from 'store/thunks';
+import {
+  createProxyList,
+  deleteProxyList,
+  fetchProxies,
+  fetchProxyList,
+} from 'store/thunks';
 
 import useSelection from 'hooks/useSelection';
 import { recheckProxy } from 'store/thunks';
@@ -32,7 +37,7 @@ import { getProfile } from 'store/userSlice';
 import {
   ListHead,
   ListToolbar,
-  ProxyListMenu
+  ProxyListMenu,
 } from '../sections/dashboard/list';
 import CopyToolTip from './CopyToolTip';
 import Iconify from './Iconify';
@@ -104,6 +109,7 @@ export default function Index() {
 
   useEffect(() => {
     asyncDispatch(fetchProxyList());
+    asyncDispatch(fetchProxies({}));
   }, [asyncDispatch]);
 
   const handleProxyListModal = () =>
@@ -140,6 +146,7 @@ export default function Index() {
 
   const handleBulkRecheck = () => {
     const recheckList = [...selects].map((id) => ({ listKey: id }));
+
     asyncDispatch(recheckProxy(recheckList));
 
     clearSelection();

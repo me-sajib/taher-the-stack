@@ -7,7 +7,7 @@ const PROXY_URL = `/api/proxies`;
 
 export const fetchProxies = createAsyncThunk(
   'proxies/fetchProxies',
-  async (payload: { proxyListKey: string }) => {
+  async (payload: { proxyListKey?: string }) => {
     const token = localStorage.getItem('proxy-manager-token');
     const queryParams = new URLSearchParams(payload).toString();
 
@@ -93,8 +93,6 @@ export const recheckProxy = createAsyncThunk(
         },
       }
     );
-
-    console.log({ data });
 
     return data;
   }
