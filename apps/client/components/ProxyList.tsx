@@ -54,7 +54,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
-  { id: 'rotating', label: 'Rotating index', align: 'center' },
+  { id: 'rotatingIndex', label: 'Rotating index', align: 'center' },
   {},
 ];
 
@@ -103,11 +103,6 @@ export default function Index() {
   const proxyLists = useSelector(getProxyList);
   const status = useSelector(getProxyListStatus);
   const user = useSelector(getProfile);
-  const editList = proxyLists.map((list) => ({
-    name: list.name,
-    username: list.username,
-    password: list.password,
-  }));
 
   // custom hooks
   const { selects, clearSelection, handleClick, handleSelectAllClick } =
@@ -158,19 +153,6 @@ export default function Index() {
     clearSelection();
   };
 
-  const handleBulkEdit = (changedMap: Map<number, any>) => {
-    const updatedIterator = changedMap.values();
-    const updatePayload = [...changedMap.keys()].map((index) => {
-      const { key } = proxyLists.at(index);
-
-      return {
-        key,
-        ...updatedIterator.next().value,
-      };
-    });
-    asyncDispatch(editProxyList(updatePayload));
-
-  };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - proxyLists.length) : 0;
@@ -180,6 +162,26 @@ export default function Index() {
     getComparator(order, orderBy),
     filterName
   );
+
+  const editList = filteredProxyList.map((list) => ({
+    name: list.name,
+    username: list.username,
+    password: list.password,
+  })).slice(page * rowsPerPage, page + rowsPerPage * page)
+
+  const handleBulkEdit = (changedMap: Map<number, any>) => {
+    const updatedIterator = changedMap.values();
+    const updatePayload = [...changedMap.keys()].map((index) => {
+      const { key } = filteredProxyList.at(index + page * rowsPerPage);
+
+      return {
+        key,
+        ...updatedIterator.next().value,
+      };
+    });
+    asyncDispatch(editProxyList(updatePayload));
+
+  };
 
   const isUserNotFound = filteredProxyList.length === 0;
 
