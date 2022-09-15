@@ -62,11 +62,14 @@ export const deleteProxy = createAsyncThunk(
 
 export const editProxy = createAsyncThunk(
   'proxies/editProxy',
-  async (payload: Proxy) => {
+  async (payload: Proxy[]) => {
     const token = localStorage.getItem('proxy-manager-token');
-    if ('port' in payload) {
-      payload.port = Number(payload.port);
-    }
+
+    payload = payload.map((proxy) => {
+      proxy.port &&= Number(proxy.port);
+
+      return proxy;
+    });
 
     const { data } = await axios.patch(PROXY_URL, payload, {
       headers: {

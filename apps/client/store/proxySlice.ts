@@ -71,12 +71,14 @@ export const store = createSlice({
         );
       })
       .addCase(editProxy.fulfilled, (state, { payload }) => {
-        const proxies = state.collection[payload.proxyListKey];
-        const updatedIndex = proxies.findIndex(
-          (proxy) => proxy.id === payload.id
-        );
+        payload.forEach((proxy: Proxy) => {
+          const proxies = state.collection[proxy.proxyListKey];
+          const updatedIndex = proxies.findIndex(
+            (proxy) => proxy.id === proxy.id
+          );
 
-        state.collection[payload.proxyListKey][updatedIndex] = payload;
+          state.collection[proxy.proxyListKey][updatedIndex] = proxy;
+        });
       })
       .addCase(recheckProxy.pending, (state, action) => {
         const checkPayload = action.meta.arg as CheckProxyPayload[];

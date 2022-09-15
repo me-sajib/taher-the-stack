@@ -26,8 +26,8 @@ export class ProxyController {
   }
 
   @Patch()
-  updateProxy(@Body() dto: ProxyUpdateDto) {
-    return this.proxyService.updateProxy(dto);
+  updateBulkProxy(@Body() dto: ProxyUpdateDto[]) {
+    return this.proxyService.updateBulkProxy(dto);
   }
 
   @Get()

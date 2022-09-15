@@ -277,7 +277,7 @@ export default function Index() {
                         return (
                           <TableRow
                             hover
-                            key={id}
+                            key={Math.random().toString(32)}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}

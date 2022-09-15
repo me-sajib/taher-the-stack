@@ -168,8 +168,8 @@ export default function Index() {
         ...updatedIterator.next().value,
       };
     });
-
     asyncDispatch(editProxyList(updatePayload));
+
   };
 
   const emptyRows =
