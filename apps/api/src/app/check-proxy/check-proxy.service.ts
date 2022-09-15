@@ -38,14 +38,24 @@ export class CheckProxyService {
               where: {
                 proxyListKey: listKey,
               },
+              select: {
+                id: true,
+              },
             })
           ).map(({ id }) => id)
         );
       }
 
-      for (const id of ids) {
-        await this.setStatus('CHECKING', id);
-      }
+      await this.prisma.proxy.updateMany({
+        where: {
+          id: {
+            in: ids,
+          },
+        },
+        data: {
+          status: 'CHECKING',
+        },
+      });
 
       for (const id of ids) {
         responseStatusList.push(
