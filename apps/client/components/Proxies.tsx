@@ -36,6 +36,7 @@ import { getProxies, getProxyStatus } from 'store/proxySlice';
 import {
   createProxy,
   deleteProxy,
+  editProxy,
   fetchProxies,
   recheckProxy,
 } from 'store/thunks';
@@ -195,8 +196,7 @@ export default function Index() {
       };
     });
 
-    console.log({ updatePayload });
-    return null;
+    asyncDispatch(editProxy(updatePayload));
   };
 
   const isUserNotFound = filteredProxies.length === 0;

@@ -86,7 +86,7 @@ export default function ListToolbar({
       bulkEditHandler(getChange(prevState, recentChange));
       toggleModal();
     } catch (e) {
-      setModalText(editStateData);
+      return null;
     }
   };
 
