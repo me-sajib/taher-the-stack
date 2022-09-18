@@ -4,6 +4,7 @@ interface CheckProxy {
   listKey: string;
   ids: number[];
 }
+
 export class BodyDto {
   @IsObject({
     each: true,

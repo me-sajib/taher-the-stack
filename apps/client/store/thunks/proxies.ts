@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { CheckProxyPayload, ProxyModalData } from 'interfaces';
 
-const PROXY_URL = `/api/proxies`;
+const PROXY_URL = '/api/proxies';
 
 export const fetchProxies = createAsyncThunk(
   'proxies/fetchProxies',
@@ -34,11 +34,13 @@ export const createProxy = createAsyncThunk(
     payload.totalHits = 0;
     payload.port = Number(payload.port);
 
-    const { data: proxy } = await axios.post(PROXY_URL, payload, {
+    const { data: proxy } = await axios.post(`${PROXY_URL}/new`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    console.log("PROXY CREATED:", proxy)
 
     return proxy;
   }
@@ -49,7 +51,7 @@ export const deleteProxy = createAsyncThunk(
   async (payload: { proxyListKey: string; proxyIds: number[] }) => {
     const token = localStorage.getItem('proxy-manager-token');
 
-    await axios.delete(PROXY_URL, {
+    await axios.delete(`${PROXY_URL}/delete`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -71,7 +73,7 @@ export const editProxy = createAsyncThunk(
       return proxy;
     });
 
-    const { data } = await axios.patch(PROXY_URL, payload, {
+    const { data } = await axios.patch(`${PROXY_URL}/update`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -88,7 +90,7 @@ export const recheckProxy = createAsyncThunk(
 
     console.log('Recheck proxy called');
     const { data } = await axios.post(
-      `/api/check-proxy`,
+      `${PROXY_URL}/check`,
       { checkList },
       {
         headers: {

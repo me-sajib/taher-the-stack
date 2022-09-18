@@ -61,6 +61,9 @@ export const store = createSlice({
         } else {
           state.collection[proxyListKey] = [payload];
         }
+
+        console.log("PROXY CREATED IN FULLFILLED BLOCK")
+
       })
       .addCase(deleteProxy.fulfilled, (state, { payload }) => {
         const deleteIdSet = new Set(payload.proxyIds);

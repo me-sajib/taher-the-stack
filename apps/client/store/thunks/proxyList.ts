@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ProxyListModalData } from 'interfaces';
 
-const PROXY_LIST_URL = `/api/proxy-list`;
+const PROXY_LIST_URL = '/api/proxy-list';
 
 export const fetchProxyList = createAsyncThunk(
   'proxyList/fetchProxyList',
