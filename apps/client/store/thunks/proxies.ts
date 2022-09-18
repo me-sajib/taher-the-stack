@@ -2,7 +2,7 @@ import { Proxy } from '@prisma/client';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { CheckProxyPayload, ProxyModalData } from 'interfaces';
-
+import store from 'store';
 const PROXY_URL = '/api/proxies';
 
 export const fetchProxies = createAsyncThunk(
@@ -13,7 +13,10 @@ export const fetchProxies = createAsyncThunk(
 
     try {
       const { data } = await axios.get(
-        `${PROXY_URL}${queryParams.padStart(queryParams.length, '?')}`,
+        `${PROXY_URL}${queryParams.padStart(
+          queryParams.length && queryParams.length + 1,
+          '?'
+        )}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -33,8 +36,6 @@ export const createProxy = createAsyncThunk(
   async (payload: ProxyModalData) => {
     const token = localStorage.getItem('proxy-manager-token');
 
-    payload.status = 'CHECKING';
-    payload.totalHits = 0;
     payload.port = Number(payload.port);
 
     const { data: proxy } = await axios.post(`${PROXY_URL}/new`, payload, {
@@ -44,6 +45,14 @@ export const createProxy = createAsyncThunk(
     });
 
     console.log('PROXY CREATED:', proxy);
+    store.dispatch(
+      recheckProxy([
+        {
+          listKey: proxy.proxyListKey,
+          ids: [proxy.id],
+        },
+      ])
+    );
 
     return proxy;
   }
