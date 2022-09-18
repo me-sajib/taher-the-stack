@@ -12,11 +12,14 @@ export const fetchProxies = createAsyncThunk(
     const queryParams = new URLSearchParams(payload).toString();
 
     try {
-      const { data } = await axios.get(`${PROXY_URL}?${queryParams}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await axios.get(
+        `${PROXY_URL}${queryParams.padStart(queryParams.length, '?')}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       return data;
     } catch (e) {
@@ -40,7 +43,7 @@ export const createProxy = createAsyncThunk(
       },
     });
 
-    console.log("PROXY CREATED:", proxy)
+    console.log('PROXY CREATED:', proxy);
 
     return proxy;
   }
