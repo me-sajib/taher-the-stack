@@ -2,6 +2,7 @@ import { Proxy, ProxyStatus } from '@prisma/client';
 import { createSlice } from '@reduxjs/toolkit';
 import { CheckProxyPayload, CheckProxyResponse } from 'interfaces';
 import { RootState } from 'store';
+
 import {
   createProxy,
   deleteProxy,
@@ -61,9 +62,6 @@ export const store = createSlice({
         } else {
           state.collection[proxyListKey] = [payload];
         }
-
-        console.log("PROXY CREATED IN FULLFILLED BLOCK")
-
       })
       .addCase(deleteProxy.fulfilled, (state, { payload }) => {
         const deleteIdSet = new Set(payload.proxyIds);
