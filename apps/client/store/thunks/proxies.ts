@@ -34,15 +34,9 @@ export const fetchProxies = createAsyncThunk(
 export const createProxy = createAsyncThunk(
   'proxies/createProxy',
   async (payload: ProxyModalData) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
     payload.port = Number(payload.port);
 
-    const { data: proxy } = await axios.post(`${PROXY_URL}/new`, payload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data: proxy } = await axios.post(`${PROXY_URL}/new`, payload);
 
     console.log('PROXY CREATED:', proxy);
     store.dispatch(
@@ -61,12 +55,7 @@ export const createProxy = createAsyncThunk(
 export const deleteProxy = createAsyncThunk(
   'proxies/deleteProxy',
   async (payload: { proxyListKey: string; proxyIds: number[] }) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
     await axios.delete(`${PROXY_URL}/delete`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       data: payload,
     });
 
@@ -77,19 +66,13 @@ export const deleteProxy = createAsyncThunk(
 export const editProxy = createAsyncThunk(
   'proxies/editProxy',
   async (payload: Proxy[]) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
     payload = payload.map((proxy) => {
       proxy.port &&= Number(proxy.port);
 
       return proxy;
     });
 
-    const { data } = await axios.patch(`${PROXY_URL}/update`, payload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data } = await axios.patch(`${PROXY_URL}/update`, payload);
 
     return data;
   }
@@ -98,18 +81,8 @@ export const editProxy = createAsyncThunk(
 export const recheckProxy = createAsyncThunk(
   'proxies/recheckProxy',
   async (checkList: CheckProxyPayload[]) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
     console.log('Recheck proxy called');
-    const { data } = await axios.post(
-      `${PROXY_URL}/check`,
-      { checkList },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const { data } = await axios.post(`${PROXY_URL}/check`, { checkList });
 
     return data;
   }

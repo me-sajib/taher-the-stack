@@ -9,8 +9,15 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, User } from '@prisma/client';
 import * as argon from 'argon2';
+import { Response } from 'express';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { AuthSigninDto, AuthSignupDto } from './dto';
+
+interface JWTDto {
+  userId: string;
+  username: string;
+  email: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -20,7 +27,7 @@ export class AuthService {
     private config: ConfigService
   ) {}
 
-  async register(dto: AuthSignupDto) {
+  async register(dto: AuthSignupDto, res: Response) {
     dto.password = await argon.hash(dto.password);
 
     try {
@@ -29,7 +36,19 @@ export class AuthService {
       });
 
       Logger.log(`${user.username} successfully registered`);
-      return this.signToken(user.id, user.email, user.username);
+
+      const payload = {
+        userId: user.id,
+        username: user.username,
+        email: user.email,
+      };
+
+      const { token } = await this.signToken(payload);
+      res.cookie('auth-cookie', token, { httpOnly: true });
+
+      return {
+        message: 'Successfully signed up',
+      };
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2002') {
@@ -50,7 +69,7 @@ export class AuthService {
     }
   }
 
-  async login(dto: AuthSigninDto) {
+  async login(dto: AuthSigninDto, res: Response) {
     const { email, username, password } = dto;
 
     const user: User = await this.prisma.user.findUnique({
@@ -69,18 +88,36 @@ export class AuthService {
 
     if (isValidPass) {
       Logger.log(`${user.username} successfully sign in`);
-      return this.signToken(user.id, user.email, user.username);
+
+      const payload = {
+        userId: user.id,
+        username: user.username,
+        email: user.email,
+      };
+
+      const { token } = await this.signToken(payload);
+      res.cookie('auth-cookie', token, { httpOnly: true });
+
+      return {
+        message: 'Successfully signed in',
+      };
     }
 
     Logger.error('Incorrect login Credential');
     return forbiddenError;
   }
 
-  async signToken(
-    userId: string,
-    email: string,
-    username: string
-  ): Promise<{ access_token: string }> {
+  async logout(res: Response) {
+    res.clearCookie('auth-cookie');
+
+    console.log(res);
+    return {
+      message: 'Sign out success',
+    };
+  }
+
+  async signToken(jwtPayload: JWTDto): Promise<{ token: string }> {
+    const { userId, username, email } = jwtPayload;
     const payload = {
       sub: userId,
       email,
@@ -88,12 +125,11 @@ export class AuthService {
     };
 
     const secret: string = this.config.get('JWT_SECRET');
+    const token = await this.jwt.signAsync(payload, {
+      expiresIn: '24h',
+      secret,
+    });
 
-    return {
-      access_token: await this.jwt.signAsync(payload, {
-        expiresIn: '24h',
-        secret,
-      }),
-    };
+    return { token };
   }
 }
