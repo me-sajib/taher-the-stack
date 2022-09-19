@@ -4,9 +4,9 @@ A simple rotate proxy manager to manage proxies. this app generated with nx & it
 
 1. api - Mange proxies with REST api
 2. proxy-rotator - Rotate proxy server
-3. client - Frontend app (coming soon)
+3. client - Frontend app for manage proxies as GUI
 
-### Usage
+## Usage
 
 > Run api app
 
@@ -19,3 +19,17 @@ yarn nx serve api
 ```bash
 yarn nx serve proxy-rotator
 ```
+
+> Run client app
+
+```bash
+yarn nx serve client
+```
+
+> To run apps parallel via nx just type 🚀
+
+```bash
+yarn nx run-many --target=serve --maxParallel=3
+```
+
+To build all apps, just replace the target flags value as `--target=build`
