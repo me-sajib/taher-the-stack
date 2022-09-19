@@ -4,7 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ProxyListModule } from './proxy-list/proxy-list.module';
-import { ProxyModule } from './proxies/proxy.module';
+import { ProxyModule } from './proxy-list/proxies/proxy.module';
 import { UserModule } from './user/user.module';
 import { PrismaClientModule } from './prisma-client/prisma-client.module';
 
