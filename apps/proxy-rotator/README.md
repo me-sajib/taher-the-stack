@@ -12,7 +12,7 @@ For get rotating proxy by using curl
 curl -x http://username:password@localhost:port http://httpbin.org/ip
 ```
 
-It's search with username from proxyList records & authenticate the password if its match then return the rotate proxy & increment the `rotatingIndex` by 1 if the index is greater then ProxyList length then it's will start from 0 again. for more details checkout the `getRotateProxy` function.
+It searches with the username from proxyList records & authenticates the password if it matches then returns the rotate proxy if the proxy has username & password, it'll pass as auth in proxy request & increment the `rotatingIndex` by 1 if the index is greater then ProxyList length then it's will start from 0 again. for more details check out the `getRotateProxy` function.
 
 The returned proxy looks like:
 
@@ -20,7 +20,7 @@ The returned proxy looks like:
 interface Proxy {
   host: string;
   port: number;
-  auth: string; // format ->`username:password`
+  auth?: string; // format ->`username:password`
 }
 ```
 
