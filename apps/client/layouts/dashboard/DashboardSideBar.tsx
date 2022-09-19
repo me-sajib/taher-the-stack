@@ -3,15 +3,12 @@ import { Box, Drawer, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 // hooks
-import useResponsive from '@hooks/useResponsive';
+import useResponsive from 'hooks/useResponsive';
 // components
-// import Logo from '../../components/Logo';
-import NavSection from '@components/NavSection';
-import Scrollbar from '@components/ScrollBar';
-import { AppThunkDispatch } from 'store';
-import { fetchUserProfile } from 'store/userSlice';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import NavSection from 'components/NavSection';
+import Scrollbar from 'components/ScrollBar';
+
+// store
 import navConfig from './NavConfig';
 
 // ----------------------------------------------------------------------
@@ -37,11 +34,6 @@ const AccountStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const isDesktop = useResponsive('up', 'lg');
-  const asyncDispatch = useDispatch<AppThunkDispatch>();
-
-  useEffect(() => {
-    asyncDispatch(fetchUserProfile());
-  }, [asyncDispatch]);
 
   const renderContent = (
     <Scrollbar

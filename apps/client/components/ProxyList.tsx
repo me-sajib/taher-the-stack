@@ -21,15 +21,19 @@ import { ProxyList } from '@prisma/client';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
+import { getProxyList, getProxyListStatus } from 'store/proxyListSlice';
+
+// thunks
 import {
   createProxyList,
   deleteProxyList,
+  editProxyList,
+  fetchProxies,
   fetchProxyList,
-  getProxyList,
-  getProxyListStatus,
-} from 'store/proxyListSlice';
+} from 'store/thunks';
 
-import useSelection from '@hooks/useSelection';
+import useSelection from 'hooks/useSelection';
+import { recheckProxy } from 'store/thunks';
 import { getProfile } from 'store/userSlice';
 import {
   ListHead,
@@ -50,7 +54,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
-  { id: 'rotating', label: 'Rotating index', align: 'center' },
+  { id: 'rotatingIndex', label: 'Rotating index', align: 'center' },
   {},
 ];
 
@@ -106,6 +110,7 @@ export default function Index() {
 
   useEffect(() => {
     asyncDispatch(fetchProxyList());
+    asyncDispatch(fetchProxies({}));
   }, [asyncDispatch]);
 
   const handleProxyListModal = () =>
@@ -140,6 +145,14 @@ export default function Index() {
     setFilterName(event.target.value);
   };
 
+  const handleBulkRecheck = () => {
+    const recheckList = [...selects].map((id) => ({ listKey: id }));
+
+    asyncDispatch(recheckProxy(recheckList));
+
+    clearSelection();
+  };
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - proxyLists.length) : 0;
 
@@ -148,6 +161,27 @@ export default function Index() {
     getComparator(order, orderBy),
     filterName
   );
+
+  const editList = filteredProxyList
+    .map((list) => ({
+      name: list.name,
+      username: list.username,
+      password: list.password,
+    }))
+    .slice(page * rowsPerPage, rowsPerPage + page * rowsPerPage);
+
+  const handleBulkEdit = (changedMap: Map<number, any>) => {
+    const updatedIterator = changedMap.values();
+    const updatePayload = [...changedMap.keys()].map((index) => {
+      const { key } = filteredProxyList.at(index + page * rowsPerPage);
+
+      return {
+        key,
+        ...updatedIterator.next().value,
+      };
+    });
+    asyncDispatch(editProxyList(updatePayload));
+  };
 
   const isUserNotFound = filteredProxyList.length === 0;
 
@@ -175,18 +209,21 @@ export default function Index() {
               <ProxyListModal
                 actionType="Add"
                 open={openProxyListModal}
-                onSubmit={submitProxyListHandler} // TODO: Add the proxyList crate action
+                onSubmit={submitProxyListHandler}
                 handleClose={handleProxyListModal}
               />
             </Stack>
 
             <Card>
               <ListToolbar
+                editStateData={JSON.stringify(editList, null, 2)}
                 placeholder={'Search proxy list...'}
                 numSelected={selects.size}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
                 bulkDeleteHandler={handleBulkDelete}
+                bulkRecheckHandler={handleBulkRecheck}
+                bulkEditHandler={handleBulkEdit}
               />
 
               <TableContainer sx={{ minWidth: 800 }}>

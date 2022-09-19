@@ -19,9 +19,11 @@ export class ProxyDto {
   @IsNotEmpty()
   country: string;
 
+  @IsOptional()
   @IsNumber()
   totalHits: number;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   status: 'ACTIVE' | 'INACTIVE' | 'CHECKING';
@@ -45,6 +47,7 @@ export class ProxyDto {
 
 export class ProxyQueryDto {
   @IsUUID()
+  @IsOptional()
   proxyListKey: string;
 
   @IsOptional()

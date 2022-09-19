@@ -26,19 +26,20 @@ import Page from './Page';
 import ProxyModal from './ProxyModal';
 import SearchNotFound from './SearchNotFound';
 // store
-import useSelection from '@hooks/useSelection';
 import { Proxy } from '@prisma/client';
-import ProxyMenu from '@sections/dashboard/list/ProxyMenu';
+import useSelection from 'hooks/useSelection';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import ProxyMenu from 'sections/dashboard/list/ProxyMenu';
 import { AppThunkDispatch } from 'store';
+import { getProxies, getProxyStatus } from 'store/proxySlice';
 import {
   createProxy,
   deleteProxy,
+  editProxy,
   fetchProxies,
-  getProxies,
-  getProxyStatus,
-} from 'store/proxySlice';
+  recheckProxy,
+} from 'store/thunks';
 import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
@@ -46,9 +47,9 @@ import Musk from './Musk';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'proxyAddress', label: 'Proxy address' },
+  { id: 'host', label: 'Proxy address' },
   { id: 'port', label: 'Port' },
-  { id: 'hits', label: 'Hits', align: 'center' },
+  { id: 'totalHits', label: 'Hits', align: 'center' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
   { id: 'status', label: 'Status', align: 'center' },
@@ -92,7 +93,7 @@ function applySortFilter(array, comparator, query) {
 export default function Index() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('port');
+  const [orderBy, setOrderBy] = useState('');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
@@ -108,7 +109,7 @@ export default function Index() {
     useSelection<number>();
 
   useEffect(() => {
-    asyncDispatch(fetchProxies({ proxyListKey }));
+    proxyListKey && asyncDispatch(fetchProxies({ proxyListKey }));
   }, [asyncDispatch, proxyListKey]);
 
   const handleProxyListModal = () =>
@@ -116,6 +117,16 @@ export default function Index() {
 
   const handleBulkDelete = () => {
     asyncDispatch(deleteProxy({ proxyListKey, proxyIds: [...selects] }));
+    clearSelection();
+  };
+
+  const handleBulkRecheck = () => {
+    const check = {
+      listKey: proxyListKey,
+      ids: [...selects],
+    };
+    asyncDispatch(recheckProxy([check]));
+
     clearSelection();
   };
 
@@ -163,6 +174,30 @@ export default function Index() {
     filterName
   );
 
+  const editProxiesState = filteredProxies
+    .map((proxy: Proxy) => ({
+      host: proxy.host,
+      port: proxy.port,
+      username: proxy.username,
+      password: proxy.password,
+      country: proxy.country,
+    }))
+    .slice(page * rowsPerPage, rowsPerPage + page * rowsPerPage);
+
+  const handleBulkEdit = (changedMap) => {
+    const updatedIterator = changedMap.values();
+    const updatePayload = [...changedMap.keys()].map((index) => {
+      const { id } = filteredProxies.at(index + page * rowsPerPage);
+
+      return {
+        id,
+        ...updatedIterator.next().value,
+      };
+    });
+
+    asyncDispatch(editProxy(updatePayload));
+  };
+
   const isUserNotFound = filteredProxies.length === 0;
 
   switch (proxiesStatus) {
@@ -196,11 +231,14 @@ export default function Index() {
 
             <Card>
               <ListToolbar
+                editStateData={JSON.stringify(editProxiesState, null, 2)}
                 placeholder={'Search proxy...'}
                 numSelected={selects.size}
                 filterName={filterName}
                 bulkDeleteHandler={handleBulkDelete}
+                bulkRecheckHandler={handleBulkRecheck}
                 onFilterName={handleFilterByName}
+                bulkEditHandler={handleBulkEdit}
               />
 
               <TableContainer sx={{ minWidth: 800 }}>
@@ -238,7 +276,7 @@ export default function Index() {
                         return (
                           <TableRow
                             hover
-                            key={id}
+                            key={Math.random().toString(32)}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}

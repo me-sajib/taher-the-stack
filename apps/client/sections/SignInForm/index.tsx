@@ -1,15 +1,15 @@
 // form
-import FormProvider from '@components/hook-form/FormProvider';
-import RHFCheckbox from '@components/hook-form/RHFCheckBox';
-import RHFTextField from '@components/hook-form/RHFTextFiled';
+import FormProvider from 'components/hook-form/FormProvider';
+import RHFCheckbox from 'components/hook-form/RHFCheckBox';
+import RHFTextField from 'components/hook-form/RHFTextFiled';
 // @mui
 import { LoadingButton } from '@mui/lab';
 import { Link, Stack } from '@mui/material';
 // form
 import { useForm } from 'react-hook-form';
 
-import RHFPasswordField from '@components/RHFPasswordField';
 import axios from 'axios';
+import RHFPasswordField from 'components/RHFPasswordField';
 import { useRouter } from 'next/router';
 interface SignInFormTypes {
   email: string;
@@ -33,7 +33,7 @@ const SignInForm = () => {
 
   const onSubmit = async ({ email, password }: SignInFormTypes) => {
     const { data: jwtToken } = await axios.post(
-      'http://localhost:3333/api/auth/sign-in',
+      '/api/auth/sign-in',
       {
         email,
         password,

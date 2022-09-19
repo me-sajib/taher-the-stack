@@ -2,9 +2,9 @@
 import { Card, Container, Link, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // hooks
-import useResponsive from '@hooks/useResponsive';
+import useResponsive from 'hooks/useResponsive';
 // components
-import Page from '@components/Page';
+import Page from 'components/Page';
 import { useRouter } from 'next/router';
 // sections
 import SignInForm from 'sections/SignInForm';
@@ -54,7 +54,7 @@ const LinkStyle = styled('a')(() => ({
   cursor: 'pointer',
 }));
 
-const SignIn = () => {
+const Index = () => {
   const router = useRouter();
   const smUp = useResponsive('up', 'sm');
   const mdUp = useResponsive('up', 'md');
@@ -116,4 +116,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Index;

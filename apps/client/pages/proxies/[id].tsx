@@ -1,13 +1,10 @@
-import Proxies from '@components/Proxies';
-import DashboardLayout from '@layouts/dashboard';
-import { useRouter } from 'next/router';
+import Proxies from 'components/Proxies';
+import DashboardLayout from 'layouts/dashboard';
 
 export default function Proxy() {
-  const router = useRouter();
-
   return (
     <DashboardLayout>
-      <Proxies id={router.query.id} />
+      <Proxies />
     </DashboardLayout>
   );
 }
