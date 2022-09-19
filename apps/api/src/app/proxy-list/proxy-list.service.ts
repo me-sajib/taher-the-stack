@@ -86,7 +86,7 @@ export class ProxyListService {
     };
   }
 
-  async updateProxyList(updatedProxyList: ProxyListUpdateDto[]) {
+  async bulkUpdateProxyList(updatedProxyList: ProxyListUpdateDto[]) {
     const updatedList = [];
 
     for (const proxyList of updatedProxyList) {
