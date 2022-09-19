@@ -17,13 +17,11 @@ interface ProxyMap {
 
 interface initialStateType {
   collection: ProxyMap;
-  checkingProxyIds: number[];
   status: 'none' | 'loading' | 'success' | 'failed';
 }
 
 const initialState: initialStateType = {
   collection: {},
-  checkingProxyIds: [],
   status: 'none',
 };
 
@@ -104,8 +102,6 @@ export const store = createSlice({
             return proxy;
           });
         }
-
-        console.log(state.collection);
       })
       .addCase(recheckProxy.fulfilled, (state, action) => {
         const checkResponse = action.payload as CheckProxyResponse[];
