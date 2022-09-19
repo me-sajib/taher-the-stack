@@ -17,7 +17,7 @@ export const fetchProxyList = createAsyncThunk(
 export const createProxyList = createAsyncThunk(
   'proxyList/createProxyList',
   async (payload: ProxyListModalData) => {
-    const { data } = await axios.post(PROXY_LIST_URL, payload);
+    const { data } = await axios.post(`${PROXY_LIST_URL}/new`, payload);
 
     return data;
   }
@@ -26,12 +26,7 @@ export const createProxyList = createAsyncThunk(
 export const deleteProxyList = createAsyncThunk(
   'proxyList/deleteProxyList',
   async (payload: { listKeys: string[] }) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
-    await axios.delete(PROXY_LIST_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    await axios.delete(`${PROXY_LIST_URL}/delete`, {
       data: payload,
     });
 
@@ -42,7 +37,7 @@ export const deleteProxyList = createAsyncThunk(
 export const editProxyList = createAsyncThunk(
   'proxyList/editProxyList',
   async (payload: ProxyList[]) => {
-    const { data } = await axios.patch(PROXY_LIST_URL, payload);
+    const { data } = await axios.patch(`${PROXY_LIST_URL}/update`, payload);
 
     return data;
   }
