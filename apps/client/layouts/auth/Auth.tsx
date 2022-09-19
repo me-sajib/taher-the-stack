@@ -7,7 +7,8 @@ import useResponsive from 'hooks/useResponsive';
 import Page from 'components/Page';
 import { useRouter } from 'next/router';
 // sections
-import SignInForm from 'sections/SignInForm';
+
+// ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -50,29 +51,47 @@ const ContentStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0),
 }));
 
-const LinkStyle = styled('a')(() => ({
+const LinkStyle = styled('span')(() => ({
   cursor: 'pointer',
 }));
 
-const Index = () => {
+// ----------------------------------------------------------------------
+
+interface AuthPropTypes {
+  title: string;
+  redirect: {
+    path: string;
+    title: string;
+    placeholder: string;
+  };
+  sideTitle: string;
+  children: JSX.Element[];
+}
+
+export default function Index({
+  title,
+  redirect,
+  sideTitle,
+  children,
+}: AuthPropTypes) {
   const router = useRouter();
   const smUp = useResponsive('up', 'sm');
   const mdUp = useResponsive('up', 'md');
 
-  const signUpHandler = () => {
-    router.push('/auth/signup');
+  const redirectHandler = () => {
+    router.push(redirect.path);
   };
 
   return (
-    <Page title="Sign in">
+    <Page title={title}>
       <RootStyle>
         <HeaderStyle>
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {''}
+              {redirect.title} {''}
               <LinkStyle>
-                <Link variant="subtitle2" onClick={signUpHandler}>
-                  Get started
+                <Link variant="subtitle2" onClick={redirectHandler}>
+                  {redirect.placeholder}
                 </Link>
               </LinkStyle>
             </Typography>
@@ -82,29 +101,21 @@ const Index = () => {
         {mdUp && (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+              {sideTitle}
             </Typography>
           </SectionStyle>
         )}
 
-        <Container maxWidth="sm">
+        <Container>
           <ContentStyle>
-            <Typography variant="h4" gutterBottom>
-              Sign in
-            </Typography>
-
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-              Enter your details below.
-            </Typography>
-
-            <SignInForm />
+            {children}
 
             {!smUp && (
-              <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-                Don’t have an account?{' '}
+              <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
+                {redirect.title} {''}
                 <LinkStyle>
-                  <Link variant="subtitle2" onClick={signUpHandler}>
-                    Get started
+                  <Link variant="subtitle2" onClick={redirectHandler}>
+                    {redirect.placeholder}
                   </Link>
                 </LinkStyle>
               </Typography>
@@ -114,6 +125,4 @@ const Index = () => {
       </RootStyle>
     </Page>
   );
-};
-
-export default Index;
+}

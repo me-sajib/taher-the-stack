@@ -110,7 +110,6 @@ export class AuthService {
   async logout(res: Response) {
     res.clearCookie('auth-cookie');
 
-    console.log(res);
     return {
       message: 'Sign out success',
     };
