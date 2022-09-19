@@ -1,7 +1,7 @@
 import { IconButton, InputAdornment } from '@mui/material';
 import { useState } from 'react';
-import RHFTextField from './hook-form/RHFTextFiled';
-import Iconify from './Iconify';
+import RHFTextField from './RHFTextFiled';
+import Iconify from '../Iconify';
 
 interface RHFPasswordFieldTypes {
   [key: string]: unknown;

@@ -23,12 +23,12 @@ export class UserController {
     return this.userService.getUser(req.user as UserDto);
   }
 
-  @Delete()
+  @Delete('/delete')
   deleteUser(@Req() req: Request) {
     return this.userService.deleteUser(req.user as UserDto);
   }
 
-  @Patch()
+  @Patch('/update')
   updateUser(@Req() req: Request, @Body() updatedUser: User) {
     return this.userService.updateUser(
       (req.user as UserDto).userId,

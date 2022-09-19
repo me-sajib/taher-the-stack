@@ -4,7 +4,7 @@ export function Index() {
    *
    * Note: The corresponding styles are in the ./index.scss file.
    */
-  return <h1>Here is the Dashboard</h1>;
+  return <h1>Welcome to proxy manager</h1>;
 }
 
 export default Index;
