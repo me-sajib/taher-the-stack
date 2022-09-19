@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { AppThunkDispatch } from 'store';
 import { fetchUserProfile } from 'store/thunks';
 // components
-import Iconify from '../../components/Iconify';
+import Iconify from 'components/Iconify';
 //
 import AccountPopover from './AccountPopover';
 

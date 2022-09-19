@@ -1,7 +1,7 @@
 // form
-import FormProvider from '../../components/hook-form/FormProvider';
-import RHFCheckbox from '../../components/hook-form/RHFCheckBox';
-import RHFTextField from '../../components/hook-form/RHFTextFiled';
+import FormProvider from 'components/hook-form/FormProvider';
+import RHFCheckbox from 'components/hook-form/RHFCheckBox';
+import RHFTextField from 'components/hook-form/RHFTextFiled';
 // @mui
 import { LoadingButton } from '@mui/lab';
 import { Stack } from '@mui/material';
@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import RHFPasswordField from '../../components/RHFPasswordField';
+import RHFPasswordField from 'components/RHFPasswordField';
 
 interface SignUpFormTypes {
   fullname: string;

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import React from 'react';
-import Auth from '../../layouts/auth/Auth';
-import SignInForm from '../../sections/SignInForm';
+import Auth from 'layouts/auth/Auth';
+import SignInForm from 'sections/SignInForm';
 
 export default function SingInPage() {
   return (
