@@ -12,7 +12,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, Theme } from '@mui/material/styles';
 import { Stack } from '@mui/system';
 // component
 import Iconify from 'components/Iconify';
@@ -28,18 +28,25 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(0, 1, 0, 3),
 }));
 
-const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 240,
-  transition: theme.transitions.create(['box-shadow', 'width'], {
-    easing: theme.transitions.easing.easeInOut,
-    duration: theme.transitions.duration.shorter,
-  }),
-  '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
-  '& fieldset': {
-    borderWidth: `1px !important`,
-    borderColor: `${theme.palette.grey[500_32]} !important`,
-  },
-}));
+interface CustomTheme extends Theme {
+  customShadows: any;
+}
+
+const SearchStyle = styled(OutlinedInput)(
+  ({ theme }: { theme: CustomTheme }) => ({
+    width: 240,
+    transition: theme.transitions.create(['box-shadow', 'width'], {
+      easing: theme.transitions.easing.easeInOut,
+      duration: theme.transitions.duration.shorter,
+    }),
+
+    '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
+    '& fieldset': {
+      borderWidth: `1px !important`,
+      borderColor: `${theme.palette.grey[500_32]} !important`,
+    },
+  })
+);
 
 // ----------------------------------------------------------------------
 // akar-icons:edit

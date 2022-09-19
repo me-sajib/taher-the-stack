@@ -1,11 +1,20 @@
 import PropTypes from 'prop-types';
 // @mui
-import { alpha, styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('span')(({ theme, ownerState }) => {
+interface RootProps {
+  ownerState: {
+    color?: string;
+    variant?: string;
+  };
+}
+
+const RootStyle = styled('span', {
+  shouldForwardProp: (prop) => prop !== 'ownerState',
+})<RootProps>(({ theme, ownerState }) => {
   const isLight = theme.palette.mode === 'light';
   const { color, variant } = ownerState;
 
