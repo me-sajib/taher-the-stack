@@ -2,8 +2,8 @@ import { Proxy } from '@prisma/client';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { CheckProxyPayload, ProxyModalData } from 'interfaces';
-
-const PROXY_URL = `/api/proxies`;
+import store from 'store';
+const PROXY_URL = '/api/proxies';
 
 export const fetchProxies = createAsyncThunk(
   'proxies/fetchProxies',
@@ -12,11 +12,17 @@ export const fetchProxies = createAsyncThunk(
     const queryParams = new URLSearchParams(payload).toString();
 
     try {
-      const { data } = await axios.get(`${PROXY_URL}?${queryParams}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await axios.get(
+        `${PROXY_URL}${queryParams.padStart(
+          queryParams.length && queryParams.length + 1,
+          '?'
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       return data;
     } catch (e) {
@@ -28,17 +34,19 @@ export const fetchProxies = createAsyncThunk(
 export const createProxy = createAsyncThunk(
   'proxies/createProxy',
   async (payload: ProxyModalData) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
-    payload.status = 'CHECKING';
-    payload.totalHits = 0;
     payload.port = Number(payload.port);
 
-    const { data: proxy } = await axios.post(PROXY_URL, payload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data: proxy } = await axios.post(`${PROXY_URL}/new`, payload);
+
+    console.log('PROXY CREATED:', proxy);
+    store.dispatch(
+      recheckProxy([
+        {
+          listKey: proxy.proxyListKey,
+          ids: [proxy.id],
+        },
+      ])
+    );
 
     return proxy;
   }
@@ -47,12 +55,7 @@ export const createProxy = createAsyncThunk(
 export const deleteProxy = createAsyncThunk(
   'proxies/deleteProxy',
   async (payload: { proxyListKey: string; proxyIds: number[] }) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
-    await axios.delete(PROXY_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    await axios.delete(`${PROXY_URL}/delete`, {
       data: payload,
     });
 
@@ -63,19 +66,13 @@ export const deleteProxy = createAsyncThunk(
 export const editProxy = createAsyncThunk(
   'proxies/editProxy',
   async (payload: Proxy[]) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
     payload = payload.map((proxy) => {
       proxy.port &&= Number(proxy.port);
 
       return proxy;
     });
 
-    const { data } = await axios.patch(PROXY_URL, payload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data } = await axios.patch(`${PROXY_URL}/update`, payload);
 
     return data;
   }
@@ -84,18 +81,8 @@ export const editProxy = createAsyncThunk(
 export const recheckProxy = createAsyncThunk(
   'proxies/recheckProxy',
   async (checkList: CheckProxyPayload[]) => {
-    const token = localStorage.getItem('proxy-manager-token');
-
     console.log('Recheck proxy called');
-    const { data } = await axios.post(
-      `/api/check-proxy`,
-      { checkList },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const { data } = await axios.post(`${PROXY_URL}/check`, { checkList });
 
     return data;
   }

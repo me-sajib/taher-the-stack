@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Proxy, ProxyStatus } from '@prisma/client';
 import axios from 'axios';
-import { PrismaClientService } from '../prisma-client/prisma-client.service';
+import { PrismaClientService } from '../../prisma-client/prisma-client.service';
 import { BodyDto } from './dto';
 
 @Injectable()

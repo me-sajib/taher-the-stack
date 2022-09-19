@@ -153,7 +153,6 @@ export default function Index() {
     clearSelection();
   };
 
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - proxyLists.length) : 0;
 
@@ -163,11 +162,13 @@ export default function Index() {
     filterName
   );
 
-  const editList = filteredProxyList.map((list) => ({
-    name: list.name,
-    username: list.username,
-    password: list.password,
-  })).slice(page * rowsPerPage, page + rowsPerPage * page)
+  const editList = filteredProxyList
+    .map((list) => ({
+      name: list.name,
+      username: list.username,
+      password: list.password,
+    }))
+    .slice(page * rowsPerPage, rowsPerPage + page * rowsPerPage);
 
   const handleBulkEdit = (changedMap: Map<number, any>) => {
     const updatedIterator = changedMap.values();
@@ -180,7 +181,6 @@ export default function Index() {
       };
     });
     asyncDispatch(editProxyList(updatePayload));
-
   };
 
   const isUserNotFound = filteredProxyList.length === 0;

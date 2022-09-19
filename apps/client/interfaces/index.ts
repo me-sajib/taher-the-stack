@@ -10,10 +10,10 @@ export interface ProxyListModalData {
 export interface ProxyModalData {
   host: string;
   port: number;
-  country: string;
+  country?: string;
   status?: string;
   proxyListKey: string;
-  totalHits: number;
+  totalHits?: number;
 }
 
 export interface ProxyResponse {

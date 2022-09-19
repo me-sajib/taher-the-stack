@@ -33,7 +33,7 @@ const SignInForm = () => {
 
   const onSubmit = async ({ email, password }: SignInFormTypes) => {
     const { data: jwtToken } = await axios.post(
-      'http://localhost:3333/api/auth/sign-in',
+      '/api/auth/sign-in',
       {
         email,
         password,

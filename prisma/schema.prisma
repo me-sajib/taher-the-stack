@@ -42,7 +42,7 @@ model Proxy {
   updateAt     DateTime    @updatedAt
   username     String?
   password     String?
-  status       ProxyStatus
+  status       ProxyStatus @default(CHECKING)
   lastCheckAt  DateTime    @default(now())
   proxyListKey String
   proxyList    ProxyList   @relation(fields: [proxyListKey], references: [key])

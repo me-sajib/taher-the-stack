@@ -21,10 +21,12 @@ export class ProxyListDto {
   @IsString()
   @MinLength(3)
   password: string;
-
+}
+export class ProxyListParamDto {
   @IsNotEmpty()
   @IsString()
-  userId: string;
+  @MinLength(3)
+  username: string;
 }
 
 export class ProxyListBulkDto {

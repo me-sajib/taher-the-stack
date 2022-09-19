@@ -109,8 +109,7 @@ export default function Index() {
     useSelection<number>();
 
   useEffect(() => {
-    console.log('Proxies effect called');
-    asyncDispatch(fetchProxies({ proxyListKey }));
+    proxyListKey && asyncDispatch(fetchProxies({ proxyListKey }));
   }, [asyncDispatch, proxyListKey]);
 
   const handleProxyListModal = () =>
