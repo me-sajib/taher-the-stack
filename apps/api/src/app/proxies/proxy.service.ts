@@ -75,18 +75,22 @@ export class ProxyService {
     };
   }
 
-  async updateProxy(updatedProxy: ProxyUpdateDto) {
-    const { id, ...restUpdatedProxy } = updatedProxy;
+  async updateBulkProxy(updatedProxies: ProxyUpdateDto[]) {
+    return Promise.all(
+      updatedProxies.map(async (updatedProxy) => {
+        const { id, ...restUpdatedProxy } = updatedProxy;
 
-    const updated = await this.prisma.proxy.update({
-      where: {
-        id,
-      },
-      data: {
-        ...restUpdatedProxy,
-      },
-    });
+        const updated = await this.prisma.proxy.update({
+          where: {
+            id,
+          },
+          data: {
+            ...restUpdatedProxy,
+          },
+        });
 
-    return updated;
+        return updated;
+      })
+    );
   }
 }

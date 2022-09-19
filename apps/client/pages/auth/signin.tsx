@@ -54,7 +54,7 @@ const LinkStyle = styled('a')(() => ({
   cursor: 'pointer',
 }));
 
-const SignIn = () => {
+const Index = () => {
   const router = useRouter();
   const smUp = useResponsive('up', 'sm');
   const mdUp = useResponsive('up', 'md');
@@ -116,4 +116,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Index;

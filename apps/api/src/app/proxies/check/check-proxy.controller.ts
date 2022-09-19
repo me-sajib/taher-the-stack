@@ -4,7 +4,7 @@ import { CheckProxyService } from './check-proxy.service';
 import { BodyDto } from './dto';
 
 @UseGuards(AuthGuard('jwt'))
-@Controller('check-proxy')
+@Controller('proxies/check')
 export class CheckProxyController {
   constructor(private checkProxyService: CheckProxyService) {}
 

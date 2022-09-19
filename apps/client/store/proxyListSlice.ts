@@ -43,13 +43,15 @@ export const store = createSlice({
         state.list = state.list.filter((list) => !keysSet.has(list.key));
       })
       .addCase(editProxyList.fulfilled, (state, { payload }) => {
-        const editedIndex = state.list.findIndex(
-          (list) => list.key === payload.key
-        );
+        for (const updatedList of payload) {
+          const editedIndex = state.list.findIndex(
+            (list) => list.key === updatedList.key
+          );
 
-        state.list[editedIndex] = {
-          ...payload,
-        };
+          state.list[editedIndex] = {
+            ...updatedList,
+          };
+        }
       });
   },
 });

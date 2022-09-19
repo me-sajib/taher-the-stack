@@ -27,6 +27,7 @@ import { getProxyList, getProxyListStatus } from 'store/proxyListSlice';
 import {
   createProxyList,
   deleteProxyList,
+  editProxyList,
   fetchProxies,
   fetchProxyList,
 } from 'store/thunks';
@@ -53,7 +54,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
-  { id: 'rotating', label: 'Rotating index', align: 'center' },
+  { id: 'rotatingIndex', label: 'Rotating index', align: 'center' },
   {},
 ];
 
@@ -161,6 +162,27 @@ export default function Index() {
     filterName
   );
 
+  const editList = filteredProxyList
+    .map((list) => ({
+      name: list.name,
+      username: list.username,
+      password: list.password,
+    }))
+    .slice(page * rowsPerPage, rowsPerPage + page * rowsPerPage);
+
+  const handleBulkEdit = (changedMap: Map<number, any>) => {
+    const updatedIterator = changedMap.values();
+    const updatePayload = [...changedMap.keys()].map((index) => {
+      const { key } = filteredProxyList.at(index + page * rowsPerPage);
+
+      return {
+        key,
+        ...updatedIterator.next().value,
+      };
+    });
+    asyncDispatch(editProxyList(updatePayload));
+  };
+
   const isUserNotFound = filteredProxyList.length === 0;
 
   switch (status) {
@@ -194,12 +216,14 @@ export default function Index() {
 
             <Card>
               <ListToolbar
+                editStateData={JSON.stringify(editList, null, 2)}
                 placeholder={'Search proxy list...'}
                 numSelected={selects.size}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
                 bulkDeleteHandler={handleBulkDelete}
                 bulkRecheckHandler={handleBulkRecheck}
+                bulkEditHandler={handleBulkEdit}
               />
 
               <TableContainer sx={{ minWidth: 800 }}>

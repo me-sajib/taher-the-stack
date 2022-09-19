@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 // components
 import { User } from '@prisma/client';
+import axios from 'axios';
 import MenuPopover from 'components/MenuPopover';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -50,8 +51,8 @@ const AccountPopover = () => {
     setOpen(null);
   };
 
-  const logoutHandler = () => {
-    localStorage.removeItem('proxy-manager-token');
+  const logoutHandler = async () => {
+    await axios.delete('/auth/sign-out');
     router.push('/auth/signin');
   };
 

@@ -2,6 +2,7 @@ import { Proxy, ProxyStatus } from '@prisma/client';
 import { createSlice } from '@reduxjs/toolkit';
 import { CheckProxyPayload, CheckProxyResponse } from 'interfaces';
 import { RootState } from 'store';
+
 import {
   createProxy,
   deleteProxy,
@@ -16,13 +17,11 @@ interface ProxyMap {
 
 interface initialStateType {
   collection: ProxyMap;
-  checkingProxyIds: number[];
   status: 'none' | 'loading' | 'success' | 'failed';
 }
 
 const initialState: initialStateType = {
   collection: {},
-  checkingProxyIds: [],
   status: 'none',
 };
 
@@ -71,12 +70,14 @@ export const store = createSlice({
         );
       })
       .addCase(editProxy.fulfilled, (state, { payload }) => {
-        const proxies = state.collection[payload.proxyListKey];
-        const updatedIndex = proxies.findIndex(
-          (proxy) => proxy.id === payload.id
-        );
+        payload.forEach((proxy: Proxy) => {
+          const proxies = state.collection[proxy.proxyListKey];
+          const updatedIndex = proxies.findIndex(
+            (proxy) => proxy.id === proxy.id
+          );
 
-        state.collection[payload.proxyListKey][updatedIndex] = payload;
+          state.collection[proxy.proxyListKey][updatedIndex] = proxy;
+        });
       })
       .addCase(recheckProxy.pending, (state, action) => {
         const checkPayload = action.meta.arg as CheckProxyPayload[];
@@ -101,8 +102,6 @@ export const store = createSlice({
             return proxy;
           });
         }
-
-        console.log(state.collection);
       })
       .addCase(recheckProxy.fulfilled, (state, action) => {
         const checkResponse = action.payload as CheckProxyResponse[];

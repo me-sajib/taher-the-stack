@@ -20,16 +20,6 @@ import { ProxyService } from './proxy.service';
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}
 
-  @Post()
-  createProxy(@Body() dto: ProxyDto, @Req() req: Request) {
-    return this.proxyService.createProxy((req.user as UserDto).userId, dto);
-  }
-
-  @Patch()
-  updateProxy(@Body() dto: ProxyUpdateDto) {
-    return this.proxyService.updateProxy(dto);
-  }
-
   @Get()
   getBulkProxies(@Query() dto: ProxyQueryDto, @Req() req: Request) {
     return this.proxyService.getBulkProxies(
@@ -38,8 +28,18 @@ export class ProxyController {
       dto.proxyIds
     );
   }
+  
+  @Post('/new')
+  createProxy(@Body() dto: ProxyDto, @Req() req: Request) {
+    return this.proxyService.createProxy((req.user as UserDto).userId, dto);
+  }
 
-  @Delete()
+  @Patch('/update')
+  updateBulkProxy(@Body() dto: ProxyUpdateDto[]) {
+    return this.proxyService.updateBulkProxy(dto);
+  }
+
+  @Delete('/delete')
   deleteBulkProxies(@Body() dto: ProxyQueryDto, @Req() req: Request) {
     return this.proxyService.deleteBulkProxies(
       (req.user as UserDto).userId,

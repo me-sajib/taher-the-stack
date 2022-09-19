@@ -1,20 +1,37 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ProxyList } from '@prisma/client';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
-import { ProxyListDto, ProxyListUpdateDto } from './dto';
+import { ProxyListDto, ProxyListParamDto, ProxyListUpdateDto } from './dto';
 
 @Injectable()
 export class ProxyListService {
   constructor(private prisma: PrismaClientService) {}
 
-  async createProxyList(list: ProxyListDto) {
+  async createProxyList(list: ProxyListDto, userId: string) {
     const proxyList = await this.prisma.proxyList.create({
-      data: list,
+      data: {
+        ...list,
+        userId,
+      },
     });
 
     Logger.log(
       `Proxy list created successfully.\n${JSON.stringify(proxyList, null, 2)}`
     );
     return proxyList;
+  }
+
+  async getProxyList(param: ProxyListParamDto) {
+    const uniqueProxyList: ProxyList = await this.prisma.proxyList.findUnique({
+      where: {
+        username: param.username,
+      },
+      include: {
+        Proxies: true,
+      },
+    });
+
+    return uniqueProxyList;
   }
 
   async getBulkProxyLists(
@@ -32,7 +49,7 @@ export class ProxyListService {
         }
       ),
       include: {
-        Proxies: includeProxies,
+        Proxies: includeProxies ?? false,
       },
     });
 
@@ -69,15 +86,21 @@ export class ProxyListService {
     };
   }
 
-  async updateProxyList(updatedProxyList: ProxyListUpdateDto) {
-    const { key, ...restUpdatedProxyList } = updatedProxyList;
+  async bulkUpdateProxyList(updatedProxyList: ProxyListUpdateDto[]) {
+    const updatedList = [];
 
-    const updatedList = await this.prisma.proxyList.update({
-      where: {
-        key,
-      },
-      data: restUpdatedProxyList,
-    });
+    for (const proxyList of updatedProxyList) {
+      const { key, ...restUpdatedProxyList } = proxyList;
+
+      updatedList.push(
+        await this.prisma.proxyList.update({
+          where: {
+            key,
+          },
+          data: restUpdatedProxyList,
+        })
+      );
+    }
 
     return updatedList;
   }
