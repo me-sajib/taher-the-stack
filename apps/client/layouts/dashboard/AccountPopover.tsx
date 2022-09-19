@@ -52,7 +52,7 @@ const AccountPopover = () => {
   };
 
   const logoutHandler = async () => {
-    await axios.delete('/auth/sign-out');
+    await axios.delete('/api/auth/sign-out');
     router.push('/auth/signin');
   };
 
