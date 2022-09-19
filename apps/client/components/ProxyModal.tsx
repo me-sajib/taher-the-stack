@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FormProvider from 'components/hook-form/FormProvider';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import RHFTextField from './hook-form/RHFTextFiled';
-import RHFPasswordField from './RHFPasswordField';
+import RHFPasswordField from './hook-form/RHFPasswordField';
 
 interface ProxyModalData {
   host: string;

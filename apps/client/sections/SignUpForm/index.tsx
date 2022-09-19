@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import RHFPasswordField from 'components/RHFPasswordField';
+import RHFPasswordField from 'components/hook-form/RHFPasswordField';
 
 interface SignUpFormTypes {
   fullname: string;

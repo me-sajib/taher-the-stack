@@ -9,7 +9,7 @@ import { Link, Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
-import RHFPasswordField from 'components/RHFPasswordField';
+import RHFPasswordField from 'components/hook-form/RHFPasswordField';
 import { useRouter } from 'next/router';
 interface SignInFormTypes {
   email: string;
