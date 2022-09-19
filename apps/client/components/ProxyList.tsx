@@ -281,7 +281,7 @@ export default function Index() {
                                 spacing={2}
                               >
                                 <Link
-                                  href={`proxies/${id}?name=${proxyList.name}`}
+                                  href={`/proxy-list/${id}/proxies?name=${proxyList.name}`}
                                 >
                                   <Typography
                                     variant="subtitle2"
