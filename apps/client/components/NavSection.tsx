@@ -14,9 +14,17 @@ import Iconify from './Iconify';
 
 // ----------------------------------------------------------------------
 
-const ListItemStyle = styled((props) => (
-  <ListItemButton disableGutters {...props} />
-))(({ theme }) => ({
+interface ListItemButtonType {
+  [key: string]: any;
+}
+
+const button = ({ children, ...props }: ListItemButtonType) => (
+  <ListItemButton disableGutters {...props}>
+    {children}
+  </ListItemButton>
+);
+
+const ListItemStyle = styled(button)(({ theme }) => ({
   ...theme.typography.body2,
   height: 48,
   position: 'relative',
@@ -38,7 +46,7 @@ const ListItemIconStyle = styled(ListItemIcon)({
 
 function NavItem({ item, isActiveRoot }) {
   const theme = useTheme();
-  const { title, path, icon, info, children } = item;
+  const { title, icon, info, children } = item;
   const router = useRouter();
 
   const activeRootStyle = {
