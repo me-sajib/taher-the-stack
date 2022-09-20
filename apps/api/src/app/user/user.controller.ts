@@ -3,15 +3,13 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Patch,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from '@prisma/client';
 import { Request } from 'express';
-import { ResetPassDto, UserDto } from './dto';
+import { ResetPassDto, UpdateUser, UserDto } from './dto';
 import { UserService } from './user.service';
 
 @UseGuards(AuthGuard('jwt'))
@@ -35,7 +33,7 @@ export class UserController {
   }
 
   @Patch('/update')
-  updateUser(@Req() req: Request, @Body() updatedUser: User) {
+  updateUser(@Req() req: Request, @Body() updatedUser: UpdateUser) {
     return this.userService.updateUser(
       (req.user as UserDto).userId,
       updatedUser

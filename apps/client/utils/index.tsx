@@ -1,1 +1,2 @@
-export * from './getChange'
+export * from './getChange';
+export * from './validators';

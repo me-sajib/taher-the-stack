@@ -1,3 +1,5 @@
+import { validateUsername } from 'utils';
+
 import {
   IsEmail,
   IsNotEmpty,
@@ -13,9 +15,7 @@ const usernameValidator: [ValidateByOptions, ValidationOptions] = [
   {
     name: 'username',
     validator: {
-      validate: ([first, ...rest]: string[]) =>
-        !/\d|[A-Z]/.test(first) &&
-        rest.every((letter) => /[a-z]|\d/.test(letter)),
+      validate: validateUsername,
     },
   },
   {
@@ -23,7 +23,7 @@ const usernameValidator: [ValidateByOptions, ValidationOptions] = [
   },
 ];
 
-class SininWithUsername {
+export class SininWithUsernameDto {
   @IsNotEmpty()
   @IsEmail()
   @ValidateBy(...usernameValidator)
@@ -34,7 +34,7 @@ class SininWithUsername {
   @MinLength(3)
   password: string;
 }
-class SigninWithEmail {
+export class SigninWithEmailDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
@@ -45,7 +45,7 @@ class SigninWithEmail {
   password: string;
 }
 
-export type AuthSigninDto = SigninWithEmail & SininWithUsername;
+export type AuthSigninDto = SigninWithEmailDto & SininWithUsernameDto;
 
 export class AuthSignupDto {
   @IsNotEmpty()

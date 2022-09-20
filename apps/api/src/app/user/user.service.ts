@@ -1,8 +1,14 @@
-import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
-import { User } from '@prisma/client';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import * as argon from 'argon2';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
-import { ResetPassDto, UserDto } from './dto';
+import { ResetPassDto, UpdateUser, UserDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -68,23 +74,33 @@ export class UserService {
     };
   }
 
-  async updateUser(userId: string, updatedUser: User) {
-    delete updatedUser.id;
+  async updateUser(userId: string, updatedUser: UpdateUser) {
+    try {
+      const updateUser = await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: updatedUser,
+      });
 
-    if ('password' in updatedUser) {
-      updatedUser.password = await argon.hash(updatedUser.password);
+      Logger.log(`UPDATE:/${updateUser.username}`);
+      return updateUser;
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          const uniqueProp: string = e.message
+            .match(/\(`(.+)`\)/g)
+            .at(0)
+            .replace(/[()`]/g, '');
+
+          // if username & email already registered
+          Logger.error('Credential already exist');
+          return new HttpException(
+            `${uniqueProp} already registered`,
+            HttpStatus.BAD_REQUEST
+          );
+        }
+      }
     }
-
-    const updateUser = await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: updatedUser,
-    });
-
-    delete updateUser.password;
-
-    Logger.log(`UPDATE:/${updateUser.username}`);
-    return updateUser;
   }
 }
