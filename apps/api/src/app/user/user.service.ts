@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { User } from '@prisma/client';
 import * as argon from 'argon2';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
-import { UserDto } from './dto';
+import { ResetPassDto, UserDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -22,6 +22,36 @@ export class UserService {
     }
 
     throw new ForbiddenException('Credential not exist');
+  }
+
+  async resetPassword(userId: string, body: ResetPassDto) {
+    const { password } = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        password: true,
+      },
+    });
+
+    const isValid = await argon.verify(password, body.currentPassword);
+
+    if (isValid) {
+      await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          password: await argon.hash(body.newPassword),
+        },
+      });
+
+      return {
+        message: 'Password changed successfully',
+      };
+    }
+
+    return new ForbiddenException('Password incorrect');
   }
 
   async deleteUser(dto: UserDto) {

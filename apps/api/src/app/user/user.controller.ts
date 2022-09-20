@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Req,
   UseGuards,
@@ -10,7 +11,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
 import { Request } from 'express';
-import { UserDto } from './dto';
+import { ResetPassDto, UserDto } from './dto';
 import { UserService } from './user.service';
 
 @UseGuards(AuthGuard('jwt'))
@@ -21,6 +22,11 @@ export class UserController {
   @Get()
   getUser(@Req() req: Request) {
     return this.userService.getUser(req.user as UserDto);
+  }
+
+  @Patch('/password-reset')
+  resetPassword(@Req() req: Request, @Body() body: ResetPassDto) {
+    return this.userService.resetPassword((req.user as UserDto).userId, body);
   }
 
   @Delete('/delete')
