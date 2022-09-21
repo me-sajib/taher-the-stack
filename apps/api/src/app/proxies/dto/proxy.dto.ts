@@ -15,8 +15,8 @@ export class ProxyDto {
   @IsNumber()
   port: number;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   country: string;
 
   @IsOptional()
@@ -25,7 +25,6 @@ export class ProxyDto {
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   status: 'ACTIVE' | 'INACTIVE' | 'CHECKING';
 
   @IsOptional()
@@ -38,7 +37,6 @@ export class ProxyDto {
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   lastCheckAt: string;
 
   @IsUUID()
