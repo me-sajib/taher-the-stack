@@ -31,8 +31,10 @@ export const store = createSlice({
         state.status = 'failed';
       })
       .addCase(fetchProxyList.fulfilled, (state, { payload }) => {
-        state.list = payload;
-        state.status = 'success';
+        if (payload) {
+          state.list = payload;
+          state.status = 'success';
+        }
       })
       .addCase(createProxyList.fulfilled, (state, { payload }) => {
         state.list.push(payload);

@@ -20,7 +20,7 @@ export default function Profile() {
 
   useEffect(() => {
     asyncDispatch(fetchUserProfile());
-  }, [asyncDispatch, updatePassSwitch]);
+  }, [updatePassSwitch]);
 
   const togglePassStatus = () => setPasswordStatus((prev) => !prev);
 
@@ -35,15 +35,17 @@ export default function Profile() {
 
   return (
     <DashboardLayout>
-      <Page title={profile.username}>
-        <Container>
-          {updatePassSwitch ? (
-            <ChangePasswordForm>{ChangeUpdateSwitch}</ChangePasswordForm>
-          ) : (
-            <UserUpdateFrom>{ChangeUpdateSwitch}</UserUpdateFrom>
-          )}
-        </Container>
-      </Page>
+      {profile && (
+        <Page title={profile.username}>
+          <Container>
+            {updatePassSwitch ? (
+              <ChangePasswordForm>{ChangeUpdateSwitch}</ChangePasswordForm>
+            ) : (
+              <UserUpdateFrom>{ChangeUpdateSwitch}</UserUpdateFrom>
+            )}
+          </Container>
+        </Page>
+      )}
     </DashboardLayout>
   );
 }

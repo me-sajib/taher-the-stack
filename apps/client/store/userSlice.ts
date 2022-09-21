@@ -5,10 +5,12 @@ import { fetchUserProfile } from 'store/thunks';
 
 interface initialStateTypes {
   profile: User | null;
+  status: 'none' | 'loading' | 'failed' | 'success';
 }
 
 const initialState: initialStateTypes = {
   profile: null,
+  status: 'none',
 };
 
 export const store = createSlice({
@@ -16,12 +18,21 @@ export const store = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
-      state.profile = payload;
-    });
+    builder
+      .addCase(fetchUserProfile.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchUserProfile.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
+        state.profile = payload;
+        state.status = 'success';
+      });
   },
 });
 
 export const getProfile = (state: RootState) => state.user.profile;
+export const getProfileStatus = (state: RootState) => state.user.status;
 
 export default store.reducer;
