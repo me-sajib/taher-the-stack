@@ -24,38 +24,45 @@ export class CheckProxyService {
   }
 
   async checkProxies({ checkList }: BodyDto) {
+    checkList = await Promise.all(
+      checkList.map(async ({ listKey, ids = [] }) => {
+        if (ids.length === 0) {
+          ids.push(
+            ...(
+              await this.prisma.proxy.findMany({
+                where: {
+                  proxyListKey: listKey,
+                },
+                select: {
+                  id: true,
+                },
+              })
+            ).map(({ id }) => id)
+          );
+        }
+
+        await this.prisma.proxy.updateMany({
+          where: {
+            id: {
+              in: ids,
+            },
+          },
+          data: {
+            status: 'CHECKING',
+          },
+        });
+
+        return {
+          listKey,
+          ids,
+        };
+      })
+    );
+
     const response = [];
 
-    for (const list of checkList) {
-      const { listKey, ids = [] } = list;
-
+    for (const { listKey, ids } of checkList) {
       const responseStatusList = [];
-
-      if (ids.length === 0) {
-        ids.push(
-          ...(
-            await this.prisma.proxy.findMany({
-              where: {
-                proxyListKey: listKey,
-              },
-              select: {
-                id: true,
-              },
-            })
-          ).map(({ id }) => id)
-        );
-      }
-
-      await this.prisma.proxy.updateMany({
-        where: {
-          id: {
-            in: ids,
-          },
-        },
-        data: {
-          status: 'CHECKING',
-        },
-      });
 
       for (const id of ids) {
         responseStatusList.push(

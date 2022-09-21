@@ -82,25 +82,28 @@ export const store = createSlice({
       .addCase(recheckProxy.pending, (state, action) => {
         const checkPayload = action.meta.arg as CheckProxyPayload[];
         console.log('Recheck pending called', { checkPayload });
+
         const checkProxyIdSet = checkPayload.reduce((set, payload) => {
           payload.ids ??= state.collection[payload.listKey]?.map(
             (proxy) => proxy.id
           );
 
-          for (const id of payload.ids) {
-            set.add(id);
-          }
+          payload.ids?.forEach((id) => set.add(id));
 
           return set;
         }, new Set());
 
-        for (const listKey in state.collection) {
-          state.collection[listKey] = state.collection[listKey].map((proxy) => {
-            if (checkProxyIdSet.has(proxy.id)) {
-              proxy.status = 'CHECKING';
-            }
-            return proxy;
-          });
+        if (checkProxyIdSet.size) {
+          for (const listKey in state.collection) {
+            state.collection[listKey] = state.collection[listKey].map(
+              (proxy) => {
+                if (checkProxyIdSet.has(proxy.id)) {
+                  proxy.status = 'CHECKING';
+                }
+                return proxy;
+              }
+            );
+          }
         }
       })
       .addCase(recheckProxy.fulfilled, (state, action) => {
@@ -123,14 +126,16 @@ export const store = createSlice({
             >()
           );
 
-          state.collection[listKey] = state.collection[listKey].map((proxy) => {
-            if (idMap.has(proxy.id)) {
-              proxy.status = idMap.get(proxy.id).status;
-              proxy.lastCheckAt = idMap.get(proxy.id).lastCheckAt;
-            }
+          state.collection[listKey] &&= state.collection[listKey].map(
+            (proxy) => {
+              if (idMap.has(proxy.id)) {
+                proxy.status = idMap.get(proxy.id).status;
+                proxy.lastCheckAt = idMap.get(proxy.id).lastCheckAt;
+              }
 
-            return proxy;
-          });
+              return proxy;
+            }
+          );
         }
       });
   },

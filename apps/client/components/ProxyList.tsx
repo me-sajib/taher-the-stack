@@ -28,7 +28,6 @@ import {
   createProxyList,
   deleteProxyList,
   editProxyList,
-  fetchProxies,
   fetchProxyList,
 } from 'store/thunks';
 
@@ -110,7 +109,6 @@ export default function Index() {
 
   useEffect(() => {
     asyncDispatch(fetchProxyList());
-    asyncDispatch(fetchProxies({}));
   }, [asyncDispatch]);
 
   const handleProxyListModal = () =>
