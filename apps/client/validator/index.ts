@@ -1,5 +1,5 @@
-import { RegisterOptions } from 'react-hook-form';
 import { validateUsername } from 'utils';
+import { RegisterOptions } from 'react-hook-form';
 
 interface Validator {
   [key: string]: RegisterOptions;
@@ -10,12 +10,14 @@ const validator: Validator = {
     required: 'Full name is required',
     minLength: {
       value: 3,
-      message: 'Full name must be greater the two',
+      message: 'Full name must be greater the two characters',
     },
   },
   email: {
     required: 'Email is required',
-    pattern: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+    validate: (value) =>
+      /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.test(value) ||
+      'Email is invalid',
   },
   username: {
     required: 'Username is required',
