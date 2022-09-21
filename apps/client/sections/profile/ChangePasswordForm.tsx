@@ -52,7 +52,7 @@ export default function ChangePasswordForm({
     });
 
     if (data.status === 403) {
-      setError('currentPassword', {
+      return setError('currentPassword', {
         message: data.message,
       });
     }
