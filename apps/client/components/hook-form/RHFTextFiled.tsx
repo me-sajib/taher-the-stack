@@ -1,14 +1,15 @@
 // form
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
 // @mui
 import { TextField } from '@mui/material';
 
 interface RHFTextFieldTypes {
   name: string;
+  rules?: RegisterOptions;
   [key: string]: any;
 }
 
-const RHFTextField = ({ name, ...other }: RHFTextFieldTypes) => {
+const RHFTextField = ({ name, rules, ...other }: RHFTextFieldTypes) => {
   const { control } = useFormContext();
 
   return (
@@ -29,6 +30,7 @@ const RHFTextField = ({ name, ...other }: RHFTextFieldTypes) => {
           {...other}
         />
       )}
+      rules={rules}
     />
   );
 };

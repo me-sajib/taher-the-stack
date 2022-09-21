@@ -41,16 +41,25 @@ DELETE  {{url}}/auth/sign-out
 ### USER
 GET {{url}}/user
 
-### USER:Update
-PATCH  {{url}}/user
+### USER: Update
+PATCH {{url}}/user/update
 Content-Type: application/json
 
 {
   "fullname": "software sheba v2"
 }
 
+### USER: Reset password
+PATCH {{url}}/user/password-reset
+Content-Type: application/json
+
+{
+  "currentPassword": "sspassword-v2",
+  "newPassword": "sspassword"
+}
+
 ### USER:Delete
-DELETE {{url}}/user
+DELETE {{url}}/user/delete
 
 ### PROXY_LIST:Create
 POST {{url}}/proxy-list/new
