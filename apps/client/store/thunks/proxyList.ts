@@ -2,43 +2,77 @@ import { ProxyList } from '@prisma/client';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ProxyListModalData } from 'interfaces';
+import { isAuthorize } from 'utils';
 
 const PROXY_LIST_URL = '/api/proxy-list';
 
 export const fetchProxyList = createAsyncThunk(
   'proxyList/fetchProxyList',
   async () => {
-    const { data } = await axios.get(PROXY_LIST_URL);
+    try {
+      const { data } = await axios.get(PROXY_LIST_URL);
 
-    return data;
+      return data;
+    } catch (e) {
+      isAuthorize(e.response);
+    }
   }
 );
 
 export const createProxyList = createAsyncThunk(
   'proxyList/createProxyList',
   async (payload: ProxyListModalData) => {
-    const { data } = await axios.post(`${PROXY_LIST_URL}/new`, payload);
+    try {
+      const { data } = await axios.post(`${PROXY_LIST_URL}/new`, payload);
 
-    return data;
+      if (data.status && data.status !== 200) {
+        return {
+          error: {
+            status: data.status,
+            message: data.message,
+          },
+        };
+      }
+      return { data };
+    } catch (e) {
+      isAuthorize(e.response);
+    }
   }
 );
 
 export const deleteProxyList = createAsyncThunk(
   'proxyList/deleteProxyList',
   async (payload: { listKeys: string[] }) => {
-    await axios.delete(`${PROXY_LIST_URL}/delete`, {
-      data: payload,
-    });
+    try {
+      await axios.delete(`${PROXY_LIST_URL}/delete`, {
+        data: payload,
+      });
 
-    return payload;
+      return payload;
+    } catch (e) {
+      isAuthorize(e.response);
+    }
   }
 );
 
 export const editProxyList = createAsyncThunk(
   'proxyList/editProxyList',
   async (payload: ProxyList[]) => {
-    const { data } = await axios.patch(`${PROXY_LIST_URL}/update`, payload);
+    try {
+      const { data } = await axios.patch(`${PROXY_LIST_URL}/update`, payload);
 
-    return data;
+      console.log({ data });
+      if (data.status && data.status !== 200) {
+        return {
+          error: {
+            status: data.status,
+            message: data.message,
+          },
+        };
+      }
+      return { data };
+    } catch (e) {
+      isAuthorize(e.response);
+    }
   }
 );

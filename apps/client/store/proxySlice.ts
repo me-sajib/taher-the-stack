@@ -40,17 +40,19 @@ export const store = createSlice({
       .addCase(fetchProxies.fulfilled, (state, { payload }) => {
         console.log('Fetched proxies done');
 
-        state.collection = payload.reduce((acc: ProxyMap, cur: Proxy) => {
-          if (cur.proxyListKey in acc) {
-            acc[cur.proxyListKey].push(cur);
-          } else {
-            acc[cur.proxyListKey] = [cur];
-          }
+        if (payload) {
+          state.collection = payload.reduce((acc: ProxyMap, cur: Proxy) => {
+            if (cur.proxyListKey in acc) {
+              acc[cur.proxyListKey].push(cur);
+            } else {
+              acc[cur.proxyListKey] = [cur];
+            }
 
-          return acc;
-        }, {} as ProxyMap);
+            return acc;
+          }, {} as ProxyMap);
 
-        state.status = 'success';
+          state.status = 'success';
+        }
       })
       .addCase(createProxy.fulfilled, (state, { payload }) => {
         const { proxyListKey } = payload;

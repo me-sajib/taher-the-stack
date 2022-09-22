@@ -3,12 +3,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { CheckProxyPayload, ProxyModalData } from 'interfaces';
 import store from 'store';
+import { isAuthorize } from 'utils';
+
 const PROXY_URL = '/api/proxies';
 
 export const fetchProxies = createAsyncThunk(
   'proxies/fetchProxies',
   async (payload: { proxyListKey?: string }) => {
-    const token = localStorage.getItem('proxy-manager-token');
     const queryParams = new URLSearchParams(payload).toString();
 
     try {
@@ -16,16 +17,12 @@ export const fetchProxies = createAsyncThunk(
         `${PROXY_URL}${queryParams.padStart(
           queryParams.length && queryParams.length + 1,
           '?'
-        )}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        )}`
       );
 
       return data;
     } catch (e) {
+      isAuthorize(e.response);
       return [];
     }
   }
@@ -34,56 +31,72 @@ export const fetchProxies = createAsyncThunk(
 export const createProxy = createAsyncThunk(
   'proxies/createProxy',
   async (payload: ProxyModalData) => {
-    payload.port = Number(payload.port);
+    try {
+      payload.port = Number(payload.port);
 
-    const { data: proxy } = await axios.post(`${PROXY_URL}/new`, payload);
+      const { data: proxy } = await axios.post(`${PROXY_URL}/new`, payload);
 
-    console.log('PROXY CREATED:', proxy);
-    store.dispatch(
-      recheckProxy([
-        {
-          listKey: proxy.proxyListKey,
-          ids: [proxy.id],
-        },
-      ])
-    );
+      console.log('PROXY CREATED:', proxy);
+      store.dispatch(
+        recheckProxy([
+          {
+            listKey: proxy.proxyListKey,
+            ids: [proxy.id],
+          },
+        ])
+      );
 
-    return proxy;
+      return proxy;
+    } catch (e) {
+      isAuthorize(e.response);
+    }
   }
 );
 
 export const deleteProxy = createAsyncThunk(
   'proxies/deleteProxy',
   async (payload: { proxyListKey: string; proxyIds: number[] }) => {
-    await axios.delete(`${PROXY_URL}/delete`, {
-      data: payload,
-    });
+    try {
+      await axios.delete(`${PROXY_URL}/delete`, {
+        data: payload,
+      });
 
-    return payload;
+      return payload;
+    } catch (e) {
+      isAuthorize(e.response);
+    }
   }
 );
 
 export const editProxy = createAsyncThunk(
   'proxies/editProxy',
   async (payload: Proxy[]) => {
-    payload = payload.map((proxy) => {
-      proxy.port &&= Number(proxy.port);
+    try {
+      payload = payload.map((proxy) => {
+        proxy.port &&= Number(proxy.port);
 
-      return proxy;
-    });
+        return proxy;
+      });
 
-    const { data } = await axios.patch(`${PROXY_URL}/update`, payload);
+      const { data } = await axios.patch(`${PROXY_URL}/update`, payload);
 
-    return data;
+      return data;
+    } catch (e) {
+      isAuthorize(e.response);
+    }
   }
 );
 
 export const recheckProxy = createAsyncThunk(
   'proxies/recheckProxy',
   async (checkList: CheckProxyPayload[]) => {
-    console.log('Recheck proxy called');
-    const { data } = await axios.post(`${PROXY_URL}/check`, { checkList });
+    try {
+      console.log('Recheck proxy called');
+      const { data } = await axios.post(`${PROXY_URL}/check`, { checkList });
 
-    return data;
+      return data;
+    } catch (e) {
+      isAuthorize(e.response);
+    }
   }
 );

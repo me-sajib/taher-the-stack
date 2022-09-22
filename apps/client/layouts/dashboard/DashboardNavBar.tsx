@@ -1,10 +1,6 @@
 // material
 import { AppBar, Box, IconButton, Stack, Toolbar } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppThunkDispatch } from 'store';
-import { fetchUserProfile } from 'store/thunks';
 // components
 import Iconify from 'components/Iconify';
 //
@@ -34,34 +30,23 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-const DashboardNavbar = ({ onOpenSidebar }) => {
-  const dispatch = useDispatch<AppThunkDispatch>();
-  useEffect(() => {
-    dispatch(fetchUserProfile());
-  }, [dispatch]);
+const DashboardNavbar = ({ onOpenSidebar }) => (
+  <RootStyle>
+    <ToolbarStyle>
+      <IconButton
+        onClick={onOpenSidebar}
+        sx={{ mr: 1, color: 'text.primary', display: { lg: 'none' } }}
+      >
+        <Iconify icon="eva:menu-2-fill" />
+      </IconButton>
 
-  return (
-    <RootStyle>
-      <ToolbarStyle>
-        <IconButton
-          onClick={onOpenSidebar}
-          sx={{ mr: 1, color: 'text.primary', display: { lg: 'none' } }}
-        >
-          <Iconify icon="eva:menu-2-fill" />
-        </IconButton>
+      <Box sx={{ flexGrow: 1 }} />
 
-        <Box sx={{ flexGrow: 1 }} />
-
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={{ xs: 0.5, sm: 1.5 }}
-        >
-          <AccountPopover />
-        </Stack>
-      </ToolbarStyle>
-    </RootStyle>
-  );
-};
+      <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
+        <AccountPopover />
+      </Stack>
+    </ToolbarStyle>
+  </RootStyle>
+);
 
 export default DashboardNavbar;

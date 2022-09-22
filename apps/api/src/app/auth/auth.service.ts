@@ -7,9 +7,10 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Prisma, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import * as argon from 'argon2';
 import { Response } from 'express';
+import { isUniqueError } from 'utils';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { AuthSigninDto, AuthSignupDto } from './dto';
 
@@ -46,25 +47,13 @@ export class AuthService {
       const { token } = await this.signToken(payload);
       res.cookie('auth-cookie', token, { httpOnly: true });
 
-      return {
-        message: 'Successfully signed up',
-      };
+      return new HttpException('Signed up successfully', HttpStatus.ACCEPTED);
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2002') {
-          const uniqueProp: string = e.message
-            .match(/\(`(.+)`\)/g)
-            .at(0)
-            .replace(/[()`]/g, '');
-
-          // if username & email already registered
-          Logger.error('Credential already exist');
-          throw new HttpException(
-            `${uniqueProp} already registered`,
-            HttpStatus.BAD_REQUEST
-          );
-        }
+      const uniqueError = isUniqueError(e);
+      if (uniqueError) {
+        return uniqueError;
       }
+
       throw e;
     }
   }
@@ -98,9 +87,7 @@ export class AuthService {
       const { token } = await this.signToken(payload);
       res.cookie('auth-cookie', token, { httpOnly: true });
 
-      return {
-        message: 'Successfully signed in',
-      };
+      return new HttpException('Signed in successfully', HttpStatus.ACCEPTED);
     }
 
     Logger.error('Incorrect login Credential');
@@ -110,9 +97,7 @@ export class AuthService {
   async logout(res: Response) {
     res.clearCookie('auth-cookie');
 
-    return {
-      message: 'Sign out success',
-    };
+    return new HttpException('Signed out successfully', HttpStatus.OK);
   }
 
   async signToken(jwtPayload: JWTDto): Promise<{ token: string }> {

@@ -8,8 +8,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormProvider from 'components/hook-form/FormProvider';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import RHFTextField from './hook-form/RHFTextFiled';
+import { useSelector } from 'react-redux';
+import { getProxyListError } from 'store/proxyListSlice';
+import validator from 'validator';
 import RHFPasswordField from './hook-form/RHFPasswordField';
+import RHFTextField from './hook-form/RHFTextFiled';
 
 interface ProxyModalData {
   name: string;
@@ -33,6 +36,7 @@ export default function ProxyListModal({
   handleClose,
   onSubmit,
 }: ProxyListModalTypes) {
+  const proxyListError = useSelector(getProxyListError);
   const defaultFormState = formState ?? {
     name: '',
     username: '',
@@ -44,9 +48,19 @@ export default function ProxyListModal({
   });
   const {
     handleSubmit,
+    setError,
     formState: { isSubmitting },
   } = methods;
 
+  if (proxyListError.length) {
+    proxyListError.forEach((error) => {
+      const [propName] = error.message.split(/\s/);
+
+      setError(propName as keyof ProxyModalData, {
+        message: error.message,
+      });
+    });
+  }
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{actionType.trim()} proxy list</DialogTitle>
@@ -66,6 +80,7 @@ export default function ProxyListModal({
               type="text"
               fullWidth
               variant="standard"
+              rules={validator.name}
             />
             <RHFTextField
               margin="dense"
@@ -75,6 +90,7 @@ export default function ProxyListModal({
               type="text"
               fullWidth
               variant="standard"
+              rules={validator.username}
             />
             <RHFPasswordField
               margin="dense"
@@ -83,6 +99,7 @@ export default function ProxyListModal({
               label="password"
               fullWidth
               variant="standard"
+              rules={validator.password}
             />
           </Stack>
 

@@ -9,14 +9,16 @@ import { Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import RHFPasswordField from 'components/hook-form/RHFPasswordField';
+import { useRouter } from 'next/router';
+import validator from 'validator';
 
 interface SignUpFormTypes {
   fullname: string;
   username: string;
   email: string;
   password: string;
+  remember: boolean;
 }
 
 const SignUpForm = () => {
@@ -26,20 +28,36 @@ const SignUpForm = () => {
     username: '',
     email: '',
     password: '',
+    remember: false,
   };
 
   const methods = useForm({ defaultValues });
   const {
     handleSubmit,
+    setError,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (formData: SignUpFormTypes) => {
     try {
-      await axios.post('/api/auth/sign-up', formData);
-      router.push('/proxy-list');
+      const { data } = await axios.post('/api/auth/sign-up', formData);
+
+      if (data.status === 400) {
+        if (data.messages) {
+          return data.messages.forEach((message: string) =>
+            setError(message.split(/\s/).at(0) as keyof SignUpFormTypes, {
+              message,
+            })
+          );
+        }
+        return setError(data.message.split(/\s/).at(0), {
+          message: data.message,
+        });
+      }
+
+      data.status === 202 && router.push('/proxy-list');
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
       return null;
     }
   };
@@ -47,11 +65,26 @@ const SignUpForm = () => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <RHFTextField name="fullname" type="text" label="Full name" />
-        <RHFTextField type="email" name="email" label="Email" />
-        <RHFTextField name="username" type="text" label="username" />
+        <RHFTextField
+          name="fullname"
+          type="text"
+          label="Full name"
+          rules={validator.fullname}
+        />
+        <RHFTextField
+          type="email"
+          name="email"
+          label="Email"
+          rules={validator.email}
+        />
+        <RHFTextField
+          name="username"
+          type="text"
+          label="username"
+          rules={validator.username}
+        />
 
-        <RHFPasswordField />
+        <RHFPasswordField rules={validator.password} />
       </Stack>
 
       <Stack

@@ -28,16 +28,26 @@ const SignInForm = () => {
   const methods = useForm({ defaultValues });
   const {
     handleSubmit,
+    setError,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async ({ email, password }: SignInFormTypes) => {
-    await axios.post('/api/auth/sign-in', {
+    const { data: res } = await axios.post('/api/auth/sign-in', {
       email,
       password,
     });
 
-    router.push('/proxy-list');
+    if (res.status === 403) {
+      setError('email', {
+        message: res.message,
+      });
+      setError('password', {
+        message: res.message,
+      });
+    }
+
+    res.status === 202 && router.push('/proxy-list');
   };
 
   return (

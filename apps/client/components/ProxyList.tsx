@@ -21,7 +21,12 @@ import { ProxyList } from '@prisma/client';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
-import { getProxyList, getProxyListStatus } from 'store/proxyListSlice';
+import {
+  clearProxyListError,
+  getProxyList,
+  getProxyListError,
+  getProxyListStatus,
+} from 'store/proxyListSlice';
 
 // thunks
 import {
@@ -33,7 +38,7 @@ import {
 
 import useSelection from 'hooks/useSelection';
 import { recheckProxy } from 'store/thunks';
-import { getProfile } from 'store/userSlice';
+import { getUser } from 'store/userSlice';
 import {
   ListHead,
   ListToolbar,
@@ -91,6 +96,11 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+interface Error {
+  status: number;
+  message: string;
+}
+
 export default function Index() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
@@ -99,9 +109,19 @@ export default function Index() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const asyncDispatch = useDispatch<AppThunkDispatch>();
+  const syncDispatch = useDispatch();
   const proxyLists = useSelector(getProxyList);
   const status = useSelector(getProxyListStatus);
-  const user = useSelector(getProfile);
+  const user = useSelector(getUser);
+  const proxyListErrors = useSelector(getProxyListError);
+
+  useEffect(() => {
+    if (proxyListErrors.length) {
+      setProxyListModalStatus(true);
+    } else {
+      setProxyListModalStatus(false);
+    }
+  }, [proxyListErrors.length]);
 
   // custom hooks
   const { selects, clearSelection, handleClick, handleSelectAllClick } =
@@ -114,9 +134,9 @@ export default function Index() {
   const handleProxyListModal = () =>
     setProxyListModalStatus(!openProxyListModal);
 
-  const submitProxyListHandler = (data) => {
-    handleProxyListModal();
-    asyncDispatch(createProxyList({ ...data, userId: user.id }));
+  const submitProxyListHandler = async (data) => {
+    syncDispatch(clearProxyListError());
+    await asyncDispatch(createProxyList({ ...data, userId: user.id }));
   };
 
   const handleBulkDelete = () => {
