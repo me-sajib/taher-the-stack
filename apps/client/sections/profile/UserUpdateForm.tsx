@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 import { useSelector } from 'react-redux';
-import { getProfile } from 'store/userSlice';
+import { getUser } from 'store/userSlice';
 
 // form
 import FormProvider from 'components/hook-form/FormProvider';
@@ -27,7 +27,7 @@ export default function UserUpdateFrom({
 }: {
   children: JSX.Element;
 }) {
-  const profile: User = useSelector(getProfile);
+  const profile: User = useSelector(getUser);
 
   const userInfoDefaultValues: ProfileDataTypes = {
     fullname: profile.fullname,

@@ -25,7 +25,15 @@ export const createProxyList = createAsyncThunk(
     try {
       const { data } = await axios.post(`${PROXY_LIST_URL}/new`, payload);
 
-      return data;
+      if (data.status && data.status !== 200) {
+        return {
+          error: {
+            status: data.status,
+            message: data.message,
+          },
+        };
+      }
+      return { data };
     } catch (e) {
       isAuthorize(e.response);
     }
@@ -53,7 +61,16 @@ export const editProxyList = createAsyncThunk(
     try {
       const { data } = await axios.patch(`${PROXY_LIST_URL}/update`, payload);
 
-      return data;
+      console.log({ data });
+      if (data.status && data.status !== 200) {
+        return {
+          error: {
+            status: data.status,
+            message: data.message,
+          },
+        };
+      }
+      return { data };
     } catch (e) {
       isAuthorize(e.response);
     }

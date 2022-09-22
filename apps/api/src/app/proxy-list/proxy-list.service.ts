@@ -1,5 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ProxyList } from '@prisma/client';
+import { isUniqueError } from 'utils';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { ProxyListDto, ProxyListParamDto, ProxyListUpdateDto } from './dto';
 
@@ -8,17 +9,29 @@ export class ProxyListService {
   constructor(private prisma: PrismaClientService) {}
 
   async createProxyList(list: ProxyListDto, userId: string) {
-    const proxyList = await this.prisma.proxyList.create({
-      data: {
-        ...list,
-        userId,
-      },
-    });
+    try {
+      const proxyList = await this.prisma.proxyList.create({
+        data: {
+          ...list,
+          userId,
+        },
+      });
 
-    Logger.log(
-      `Proxy list created successfully.\n${JSON.stringify(proxyList, null, 2)}`
-    );
-    return proxyList;
+      Logger.log(
+        `Proxy list created successfully.\n${JSON.stringify(
+          proxyList,
+          null,
+          2
+        )}`
+      );
+      return proxyList;
+    } catch (e) {
+      const uniqueError = isUniqueError(e);
+
+      if (uniqueError) {
+        return uniqueError;
+      }
+    }
   }
 
   async getProxyList(param: ProxyListParamDto) {
@@ -80,10 +93,7 @@ export class ProxyListService {
         )
       : Logger.log(`DELETE: all proxy lists`);
 
-    return {
-      status: 200,
-      message: 'Deleted proxy list successfully',
-    };
+    return new HttpException('Deleted proxy list successfully', HttpStatus.OK);
   }
 
   async bulkUpdateProxyList(updatedProxyList: ProxyListUpdateDto[]) {
@@ -92,14 +102,22 @@ export class ProxyListService {
     for (const proxyList of updatedProxyList) {
       const { key, ...restUpdatedProxyList } = proxyList;
 
-      updatedList.push(
-        await this.prisma.proxyList.update({
-          where: {
-            key,
-          },
-          data: restUpdatedProxyList,
-        })
-      );
+      try {
+        updatedList.push(
+          await this.prisma.proxyList.update({
+            where: {
+              key,
+            },
+            data: restUpdatedProxyList,
+          })
+        );
+      } catch (e) {
+        const uniqueError = isUniqueError(e);
+
+        if (uniqueError) {
+          return uniqueError;
+        }
+      }
     }
 
     return updatedList;

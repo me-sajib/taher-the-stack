@@ -8,20 +8,30 @@ import {
   fetchProxyList,
 } from 'store/thunks';
 
+interface Error {
+  status: number;
+  message: string;
+}
 interface initialStateType {
   list: Array<ProxyList & { Proxies: Proxy[] }>;
   status: 'none' | 'loading' | 'success' | 'failed';
+  errors: Error[];
 }
 
 const initialState: initialStateType = {
   list: [],
   status: 'none',
+  errors: [],
 };
 
 export const store = createSlice({
   name: 'proxyList',
   initialState,
-  reducers: {},
+  reducers: {
+    clearProxyListError(state) {
+      state.errors = [];
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchProxyList.pending, (state) => {
@@ -37,7 +47,12 @@ export const store = createSlice({
         }
       })
       .addCase(createProxyList.fulfilled, (state, { payload }) => {
-        state.list.push(payload);
+        if (payload.data) {
+          state.errors = [];
+          state.list.push(payload.data);
+        } else {
+          state.errors.push(payload.error);
+        }
       })
       .addCase(deleteProxyList.fulfilled, (state, { payload }) => {
         const keysSet = new Set(payload.listKeys);
@@ -45,21 +60,29 @@ export const store = createSlice({
         state.list = state.list.filter((list) => !keysSet.has(list.key));
       })
       .addCase(editProxyList.fulfilled, (state, { payload }) => {
-        for (const updatedList of payload) {
-          const editedIndex = state.list.findIndex(
-            (list) => list.key === updatedList.key
-          );
+        if (payload.data) {
+          for (const updatedList of payload.data) {
+            const editedIndex = state.list.findIndex(
+              (list) => list.key === updatedList.key
+            );
 
-          state.list[editedIndex] = {
-            ...updatedList,
-          };
+            state.list[editedIndex] = {
+              ...updatedList,
+            };
+          }
+        } else {
+          state.errors.push(payload.error);
         }
       });
   },
 });
 
+export const { clearProxyListError } = store.actions;
+
 export const getProxyList = (state: RootState) => state.proxyList.list;
 
 export const getProxyListStatus = (state: RootState) => state.proxyList.status;
+
+export const getProxyListError = (state: RootState) => state.proxyList.errors;
 
 export default store.reducer;

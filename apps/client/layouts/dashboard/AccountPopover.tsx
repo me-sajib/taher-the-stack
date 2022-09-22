@@ -15,9 +15,7 @@ import MenuPopover from 'components/MenuPopover';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { getProfile } from 'store/userSlice';
-
-// redux
+import { getUser } from 'store/userSlice';
 
 const MENU_OPTIONS = [
   {
@@ -33,7 +31,7 @@ const MENU_OPTIONS = [
 ];
 
 const AccountPopover = () => {
-  const profile: User = useSelector(getProfile);
+  const profile: User = useSelector(getUser);
   const anchorRef = useRef(null);
   const [open, setOpen] = useState<HTMLButtonElement>(null);
   const router = useRouter();
@@ -61,7 +59,7 @@ const AccountPopover = () => {
           borderRadius: 1.5,
         }}
       >
-        {profile?.username}
+        {profile.username}
       </IconButton>
 
       <MenuPopover
@@ -79,10 +77,10 @@ const AccountPopover = () => {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {profile?.fullname}
+            {profile.fullname}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {profile?.email}
+            {profile.email}
           </Typography>
         </Box>
 

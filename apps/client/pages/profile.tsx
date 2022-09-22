@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import Page from 'components/Page';
 import DashboardLayout from 'layouts/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from 'store/userSlice';
+import { getUser } from 'store/userSlice';
 // React
 import { useEffect, useState } from 'react';
 import ChangePasswordForm from 'sections/profile/ChangePasswordForm';
@@ -14,7 +14,7 @@ import { AppThunkDispatch } from 'store';
 import { fetchUserProfile } from 'store/thunks';
 
 export default function Profile() {
-  const profile: User = useSelector(getProfile);
+  const profile: User = useSelector(getUser);
   const asyncDispatch = useDispatch<AppThunkDispatch>();
   const [updatePassSwitch, setPasswordStatus] = useState(false);
 

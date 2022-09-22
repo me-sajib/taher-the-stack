@@ -32,7 +32,7 @@ export const store = createSlice({
   },
 });
 
-export const getProfile = (state: RootState) => state.user.profile;
-export const getProfileStatus = (state: RootState) => state.user.status;
+export const getUser = (state: RootState) => state.user.profile;
+export const getUserStatus = (state: RootState) => state.user.status;
 
 export default store.reducer;
