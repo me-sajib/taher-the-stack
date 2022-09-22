@@ -5,8 +5,8 @@ import {
   Injectable,
   Logger,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import * as argon from 'argon2';
+import { isUniqueError } from 'utils';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { ResetPassDto, UpdateUser, UserDto } from './dto';
 
@@ -52,9 +52,7 @@ export class UserService {
         },
       });
 
-      return {
-        message: 'Password changed successfully',
-      };
+      return new HttpException('Password changed successfully', HttpStatus.OK);
     }
 
     return new ForbiddenException('Password incorrect');
@@ -69,9 +67,10 @@ export class UserService {
 
     Logger.log(`DELETE:/${dto.username}`);
 
-    return {
-      message: `${dto.username} deleted successfully`,
-    };
+    return new HttpException(
+      `${dto.username} deleted successfully`,
+      HttpStatus.OK
+    );
   }
 
   async updateUser(userId: string, updatedUser: UpdateUser) {
@@ -86,20 +85,10 @@ export class UserService {
       Logger.log(`UPDATE:/${updateUser.username}`);
       return updateUser;
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2002') {
-          const uniqueProp: string = e.message
-            .match(/\(`(.+)`\)/g)
-            .at(0)
-            .replace(/[()`]/g, '');
+      const uniqueError = isUniqueError(e);
 
-          // if username & email already registered
-          Logger.error('Credential already exist');
-          return new HttpException(
-            `${uniqueProp} already registered`,
-            HttpStatus.BAD_REQUEST
-          );
-        }
+      if (uniqueError) {
+        return uniqueError;
       }
     }
   }
