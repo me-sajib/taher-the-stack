@@ -123,6 +123,12 @@ export default function Index() {
     }
   }, [proxyListErrors.length]);
 
+  useEffect(() => {
+    return () => {
+      syncDispatch(clearProxyListError());
+    };
+  }, []);
+
   // custom hooks
   const { selects, clearSelection, handleClick, handleSelectAllClick } =
     useSelection<string>();
