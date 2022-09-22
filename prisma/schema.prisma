@@ -36,7 +36,7 @@ model Proxy {
   id           Int         @id @default(autoincrement())
   host         String
   port         Int
-  country      String
+  country      String?
   totalHits    Int         @default(0)
   createAt     DateTime    @default(now())
   updateAt     DateTime    @updatedAt

@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
-import { useSelector } from 'react-redux';
-import { getProfile } from 'store/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { cleanUserErrors, getProfile, getUserErrors } from 'store/userSlice';
 
 // form
 import FormProvider from 'components/hook-form/FormProvider';
@@ -12,8 +12,9 @@ import { CircularProgress, Stack } from '@mui/material';
 // form
 import { useForm } from 'react-hook-form';
 
-import axios from 'axios';
 import Iconify from 'components/Iconify';
+import { AppThunkDispatch } from 'store';
+import { editUser } from 'store/thunks';
 import validator from 'validator';
 
 interface ProfileDataTypes {
@@ -28,6 +29,9 @@ export default function UserUpdateFrom({
   children: JSX.Element;
 }) {
   const profile: User = useSelector(getProfile);
+  const userErrors = useSelector(getUserErrors);
+  const asyncDispatch = useDispatch<AppThunkDispatch>();
+  const syncDispatch = useDispatch();
 
   const userInfoDefaultValues: ProfileDataTypes = {
     fullname: profile.fullname,
@@ -44,7 +48,20 @@ export default function UserUpdateFrom({
     formState: { isSubmitting, isSubmitSuccessful },
   } = method;
 
+  if (userErrors.length) {
+    userErrors.forEach((error) => {
+      console.log({ userError: error });
+      const [propName] = error.message.split(/\s/);
+
+      setError(propName as keyof ProfileDataTypes, {
+        message: error.message,
+      });
+    });
+  }
+
   const submitHandler = async (formData: ProfileDataTypes) => {
+    syncDispatch(cleanUserErrors());
+
     const updatedData = {
       username: formData.username,
       fullname: formData.fullname,
@@ -61,27 +78,8 @@ export default function UserUpdateFrom({
       {}
     );
 
-    const { data } = await axios.patch('/api/user/update', filteredData);
-
-    switch (data.status) {
-      case 403: {
-        if (data.messages)
-          return data.messages.forEach((errorMessage) => {
-            const [propName] = errorMessage.split(/\s/);
-
-            setError(propName, {
-              message: errorMessage,
-            });
-          });
-      }
-      // eslint-disable-next-line no-fallthrough
-      case 400: {
-        setError(data.message.split(/\s/).at(0), {
-          message: data.message,
-        });
-      }
-    }
-    reset(data);
+    asyncDispatch(editUser(filteredData));
+    reset(filteredData);
   };
 
   return (
