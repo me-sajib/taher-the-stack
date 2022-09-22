@@ -55,10 +55,12 @@ export const store = createSlice({
   },
 });
 
+
+export const getUser = (state: RootState) => state.user.profile;
+export const getUserStatus = (state: RootState) => state.user.status;
+
 export const { cleanUserErrors } = store.actions;
 
-export const getProfile = (state: RootState) => state.user.profile;
 export const getUserErrors = (state: RootState) => state.user.errors;
-export const getProfileStatus = (state: RootState) => state.user.status;
 
 export default store.reducer;

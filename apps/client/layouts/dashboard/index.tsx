@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
 import { getProxyListStatus } from 'store/proxyListSlice';
 import { fetchUserProfile } from 'store/thunks';
-import { getProfile, getProfileStatus } from 'store/userSlice';
+import { getUser, getUserStatus } from 'store/userSlice';
 import DashboardNavbar from './DashboardNavBar';
 import DashboardSidebar from './DashboardSideBar';
 // ----------------------------------------------------------------------
@@ -38,9 +38,9 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout({ children }) {
   const [open, setOpen] = useState(false);
-  const profileStatus = useSelector(getProfileStatus);
+  const profileStatus = useSelector(getUserStatus);
   const proxyListStatus = useSelector(getProxyListStatus);
-  const profile = useSelector(getProfile);
+  const profile = useSelector(getUser);
   const asyncDispatch = useDispatch<AppThunkDispatch>();
 
   useEffect(() => {

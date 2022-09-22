@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import { useDispatch, useSelector } from 'react-redux';
-import { cleanUserErrors, getProfile, getUserErrors } from 'store/userSlice';
+import { cleanUserErrors, getUser, getUserErrors } from 'store/userSlice';
+
 
 // form
 import FormProvider from 'components/hook-form/FormProvider';
@@ -28,7 +29,7 @@ export default function UserUpdateFrom({
 }: {
   children: JSX.Element;
 }) {
-  const profile: User = useSelector(getProfile);
+  const profile: User = useSelector(getUser);
   const userErrors = useSelector(getUserErrors);
   const asyncDispatch = useDispatch<AppThunkDispatch>();
   const syncDispatch = useDispatch();

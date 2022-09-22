@@ -8,8 +8,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormProvider from 'components/hook-form/FormProvider';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import RHFTextField from './hook-form/RHFTextFiled';
+import validator from 'validator';
 import RHFPasswordField from './hook-form/RHFPasswordField';
+import RHFTextField from './hook-form/RHFTextFiled';
 
 interface ProxyModalData {
   host: string;
@@ -34,9 +35,9 @@ export default function ProxyModal({
   handleClose,
   onSubmit,
 }: ProxyModalTypes) {
-  const defaultFormState = formState ?? {
+  const defaultFormState: ProxyModalData = formState ?? {
     host: '',
-    port: '',
+    port: NaN,
     username: '',
     password: '',
     country: '',
@@ -69,6 +70,7 @@ export default function ProxyModal({
               type="text"
               fullWidth
               variant="standard"
+              rules={validator.host}
             />
             <RHFTextField
               required
@@ -79,6 +81,7 @@ export default function ProxyModal({
               type="number"
               fullWidth
               variant="standard"
+              rules={validator.port}
             />
             <RHFTextField
               margin="dense"

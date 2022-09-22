@@ -3,6 +3,7 @@ import { User } from '@prisma/client';
 import Page from 'components/Page';
 import DashboardLayout from 'layouts/dashboard';
 import { useSelector } from 'react-redux';
+import { getUser } from 'store/userSlice';
 import { getProfile } from 'store/userSlice';
 // React
 import { useState } from 'react';
