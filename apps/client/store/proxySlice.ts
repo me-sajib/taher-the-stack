@@ -1,6 +1,6 @@
-import { Proxy, ProxyStatus } from '@prisma/client';
+import { Proxy, ProxyList } from '@prisma/client';
 import { createSlice } from '@reduxjs/toolkit';
-import { CheckProxyPayload, CheckProxyResponse } from 'interfaces';
+import { CheckProxyResponse } from 'interfaces';
 import { RootState } from 'store';
 
 import {
@@ -11,17 +11,13 @@ import {
   recheckProxy,
 } from './thunks';
 
-interface ProxyMap {
-  [proxyListKey: string]: Proxy[];
-}
-
 interface initialStateType {
-  collection: ProxyMap;
+  proxyList: ProxyList & { Proxies: Proxy[] } | null
   status: 'none' | 'loading' | 'success' | 'failed';
 }
 
 const initialState: initialStateType = {
-  collection: {},
+  proxyList: null,
   status: 'none',
 };
 
@@ -41,109 +37,66 @@ export const store = createSlice({
         console.log('Fetched proxies done');
 
         if (payload) {
-          state.collection = payload.reduce((acc: ProxyMap, cur: Proxy) => {
-            if (cur.proxyListKey in acc) {
-              acc[cur.proxyListKey].push(cur);
-            } else {
-              acc[cur.proxyListKey] = [cur];
-            }
-
-            return acc;
-          }, {} as ProxyMap);
+          state.proxyList = payload
 
           state.status = 'success';
         }
       })
       .addCase(createProxy.fulfilled, (state, { payload }) => {
-        const { proxyListKey } = payload;
-
-        if (state.collection[proxyListKey]) {
-          state.collection[proxyListKey].push(payload);
-        } else {
-          state.collection[proxyListKey] = [payload];
-        }
+        state.proxyList.Proxies.push(payload)
       })
       .addCase(deleteProxy.fulfilled, (state, { payload }) => {
         const deleteIdSet = new Set(payload.proxyIds);
-        const proxies: Proxy[] = state.collection[payload.proxyListKey];
+        const proxies: Proxy[] = state.proxyList.Proxies;
 
-        state.collection[payload.proxyListKey] = proxies.filter(
+        state.proxyList.Proxies = proxies.filter(
           (proxy) => !deleteIdSet.has(proxy.id)
         );
       })
       .addCase(editProxy.fulfilled, (state, { payload }) => {
         payload.forEach((proxy: Proxy) => {
-          const proxies = state.collection[proxy.proxyListKey];
-          const updatedIndex = proxies.findIndex(
+          const updatedIndex = state.proxyList.Proxies.findIndex(
             (proxy) => proxy.id === proxy.id
           );
 
-          state.collection[proxy.proxyListKey][updatedIndex] = proxy;
+          state.proxyList.Proxies[updatedIndex] = proxy;
         });
       })
       .addCase(recheckProxy.pending, (state, action) => {
-        const checkPayload = action.meta.arg as CheckProxyPayload[];
-        console.log('Recheck pending called', { checkPayload });
+        const checkIdSet = new Set(action.meta.arg as number[]);
+        console.log('Recheck pending called', { checkIdSet });
 
-        const checkProxyIdSet = checkPayload.reduce((set, payload) => {
-          payload.ids ??= state.collection[payload.listKey]?.map(
-            (proxy) => proxy.id
-          );
-
-          payload.ids?.forEach((id) => set.add(id));
-
-          return set;
-        }, new Set());
-
-        if (checkProxyIdSet.size) {
-          for (const listKey in state.collection) {
-            state.collection[listKey] = state.collection[listKey].map(
-              (proxy) => {
-                if (checkProxyIdSet.has(proxy.id)) {
-                  proxy.status = 'CHECKING';
-                }
-                return proxy;
-              }
-            );
+        state.proxyList.Proxies = state.proxyList.Proxies.map(proxy => {
+          if (checkIdSet.has(proxy.id)) {
+            proxy.status = "CHECKING"
           }
-        }
+
+          return proxy
+        })
       })
       .addCase(recheckProxy.fulfilled, (state, action) => {
         const checkResponse = action.payload as CheckProxyResponse[];
         console.log('Recheck fulfilled called', { checkResponse });
 
-        for (const { listKey, responseStatusList } of checkResponse) {
-          const idMap = responseStatusList.reduce(
-            (acc, cur) =>
-              acc.set(cur.id, {
-                status: cur.status,
-                lastCheckAt: cur.lastCheckAt,
-              }),
-            new Map<
-              number,
-              {
-                status: ProxyStatus;
-                lastCheckAt: Date;
-              }
-            >()
-          );
+        const responseMap: Map<number, CheckProxyResponse> = checkResponse.reduce((map, res) => map.set(res.id, res), new Map())
 
-          state.collection[listKey] &&= state.collection[listKey].map(
-            (proxy) => {
-              if (idMap.has(proxy.id)) {
-                proxy.status = idMap.get(proxy.id).status;
-                proxy.lastCheckAt = idMap.get(proxy.id).lastCheckAt;
-              }
-
-              return proxy;
+        state.proxyList.Proxies = state.proxyList.Proxies.map(proxy => {
+          if (responseMap.has(proxy.id)) {
+            return {
+              ...proxy,
+              ...responseMap.get(proxy.id)
             }
-          );
-        }
+          }
+
+          return proxy
+        })
       });
   },
 });
 
-export const getProxies = (state: RootState) => state.proxies.collection;
+export const getList = (state: RootState) => state.proxies.proxyList;
+
+export const getProxies = (state: RootState) => state.proxies.proxyList?.Proxies;
 
 export const getProxyStatus = (state: RootState) => state.proxies.status;
 

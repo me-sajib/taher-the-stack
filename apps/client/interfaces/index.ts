@@ -16,18 +16,9 @@ export interface ProxyModalData {
   totalHits?: number;
 }
 
-export interface ProxyResponse {
+export interface CheckProxyResponse {
   id: number;
   lastCheckAt: Date;
   status: ProxyStatus;
 }
 
-export interface CheckProxyResponse {
-  listKey: string;
-  responseStatusList: ProxyResponse[];
-}
-
-export interface CheckProxyPayload {
-  listKey: string;
-  ids?: number[];
-}

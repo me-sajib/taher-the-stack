@@ -1,4 +1,4 @@
-import { Proxy, ProxyList } from '@prisma/client';
+import { ProxyList } from '@prisma/client';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 import {
@@ -12,8 +12,9 @@ interface Error {
   status: number;
   message: string;
 }
+
 interface initialStateType {
-  list: Array<ProxyList & { Proxies: Proxy[] }>;
+  list: Array<ProxyList>;
   status: 'none' | 'loading' | 'success' | 'failed';
   errors: Error[];
 }

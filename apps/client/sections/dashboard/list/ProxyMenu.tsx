@@ -14,7 +14,7 @@ import ProxyModal from 'components/ProxyModal';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
-import { getProxies } from 'store/proxySlice';
+import { getList, getProxies } from 'store/proxySlice';
 
 import { deleteProxy, editProxy, recheckProxy } from 'store/thunks';
 
@@ -28,10 +28,8 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProxyListModal, setProxyListStatus] = useState(false);
-  const router = useRouter();
-  const proxyListKey = router.query.id as string;
-  const proxiesMap = useSelector(getProxies);
-  const proxies: Proxy[] = proxiesMap[proxyListKey as string];
+  const proxyListKey = useSelector(getList).key
+  const proxies: Proxy[] = useSelector(getProxies);
   const proxy = proxies.find((proxy) => proxy.id === id);
   const { host, port, country, username, password } = proxy;
 
@@ -50,13 +48,9 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   };
 
   const recheckProxyHandler = () => {
+    console.log({ proxyId: proxy.id})
     dispatch(
-      recheckProxy([
-        {
-          listKey: proxy.proxyListKey,
-          ids: [proxy.id],
-        },
-      ])
+      recheckProxy([proxy.id])
     );
     setIsOpen(false);
   };

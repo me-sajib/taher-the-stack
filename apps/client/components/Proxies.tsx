@@ -32,7 +32,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import ProxyMenu from 'sections/dashboard/list/ProxyMenu';
 import { AppThunkDispatch } from 'store';
-import { getProxies, getProxyStatus } from 'store/proxySlice';
+import { getList, getProxies, getProxyStatus } from 'store/proxySlice';
 import {
   createProxy,
   deleteProxy,
@@ -99,33 +99,29 @@ export default function Index() {
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const router = useRouter();
   const asyncDispatch = useDispatch<AppThunkDispatch>();
-  const proxyMap = useSelector(getProxies);
+  const proxies = useSelector(getProxies) ?? []
   const proxiesStatus = useSelector(getProxyStatus);
-  const proxyListKey = router.query.id as string;
-  const proxies = proxyMap[proxyListKey] ?? [];
+  const proxyList = useSelector(getList)
+  const proxyListUsername = router.query.username as string;
 
   // custom hooks
   const { selects, clearSelection, handleSelectAllClick, handleClick } =
     useSelection<number>();
 
   useEffect(() => {
-    proxyListKey && asyncDispatch(fetchProxies({ proxyListKey }));
-  }, [asyncDispatch, proxyListKey]);
+    proxyListUsername && asyncDispatch(fetchProxies({ proxyListUsername }));
+  }, [asyncDispatch, proxyListUsername]);
 
   const handleProxyListModal = () =>
     setProxyListModalStatus(!openProxyListModal);
 
   const handleBulkDelete = () => {
-    asyncDispatch(deleteProxy({ proxyListKey, proxyIds: [...selects] }));
+    asyncDispatch(deleteProxy({ proxyListKey: proxyList.key, proxyIds: [...selects] }));
     clearSelection();
   };
 
   const handleBulkRecheck = () => {
-    const check = {
-      listKey: proxyListKey,
-      ids: [...selects],
-    };
-    asyncDispatch(recheckProxy([check]));
+    asyncDispatch(recheckProxy([...selects]));
 
     clearSelection();
   };
@@ -158,7 +154,7 @@ export default function Index() {
     asyncDispatch(
       createProxy({
         ...data,
-        proxyListKey,
+        proxyListKey: proxyList.key,
       })
     );
 
@@ -203,7 +199,7 @@ export default function Index() {
   switch (proxiesStatus) {
     case 'success':
       return (
-        <Page title={router.query.name as string}>
+        <Page title={proxyList.name}>
           <Container>
             <Stack
               direction="row"
@@ -212,7 +208,7 @@ export default function Index() {
               mb={5}
             >
               <Typography variant="h4" gutterBottom>
-                {router.query.name}
+                {proxyList.name}
               </Typography>
               <Button
                 variant="contained"

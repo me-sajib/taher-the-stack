@@ -172,7 +172,7 @@ export default function Index() {
   const handleBulkRecheck = () => {
     const recheckList = [...selects].map((id) => ({ listKey: id }));
 
-    asyncDispatch(recheckProxy(recheckList));
+    // asyncDispatch(recheckProxy(recheckList));
 
     clearSelection();
   };
@@ -305,7 +305,7 @@ export default function Index() {
                                 spacing={2}
                               >
                                 <Link
-                                  href={`/proxy-list/${id}/proxies?name=${proxyList.name}`}
+                                  href={`/proxy-list/${username}/proxies`}
                                 >
                                   <Typography
                                     variant="subtitle2"
