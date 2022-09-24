@@ -121,7 +121,14 @@ export default function Index() {
   };
 
   const handleBulkRecheck = () => {
-    asyncDispatch(recheckProxy([...selects]));
+    // if the proxy all ready in checking status, it will filtered it
+    const filteredSelectsByStatus = [...selects].filter(id => {
+      const proxy = proxies.find(proxy => proxy.id === id)
+
+      return proxy.status !== 'CHECKING'
+    })
+
+    asyncDispatch(recheckProxy(filteredSelectsByStatus));
 
     clearSelection();
   };
