@@ -61,7 +61,6 @@ export const editProxyList = createAsyncThunk(
     try {
       const { data } = await axios.patch(`${PROXY_LIST_URL}/update`, payload);
 
-      console.log({ data });
       if (data.status && data.status !== 200) {
         return {
           error: {
@@ -76,3 +75,15 @@ export const editProxyList = createAsyncThunk(
     }
   }
 );
+
+export const recheckProxyList = createAsyncThunk(
+  'proxyList/checkProxyList',
+  async (payload: { checkProxyListIds: string[] }) => {
+    try {
+      const { data } = await axios.patch(`${PROXY_LIST_URL}/check`, payload)
+      return data
+    } catch (e) {
+      isAuthorize(e.response)
+    }
+  }
+)

@@ -11,7 +11,6 @@ import {
 import { Proxy } from '@prisma/client';
 import Iconify from 'components/Iconify';
 import ProxyModal from 'components/ProxyModal';
-import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
 import { getList, getProxies } from 'store/proxySlice';
@@ -28,7 +27,7 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProxyListModal, setProxyListStatus] = useState(false);
-  const proxyListKey = useSelector(getList).key
+  const { key: proxyListKey } = useSelector(getList)
   const proxies: Proxy[] = useSelector(getProxies);
   const proxy = proxies.find((proxy) => proxy.id === id);
   const { host, port, country, username, password } = proxy;
@@ -48,7 +47,6 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   };
 
   const recheckProxyHandler = () => {
-    console.log({ proxyId: proxy.id})
     dispatch(
       recheckProxy([proxy.id])
     );
@@ -65,7 +63,7 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
         formState={{ host, port, country, username, password }}
         open={isOpenProxyListModal}
         actionType="Update"
-        onSubmit={editProxyHandler} // TODO: Add proxyList update action
+        onSubmit={editProxyHandler}
         handleClose={proxyListModalHandler}
       />
 
@@ -79,18 +77,22 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem
-          sx={{ color: 'text.secondary' }}
-          onClick={recheckProxyHandler}
-        >
-          <ListItemIcon>
-            <Iconify icon="akar-icons:arrow-clockwise" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Recheck"
-            primaryTypographyProps={{ variant: 'body2' }}
-          />
-        </MenuItem>
+        {
+          proxy.status !== 'CHECKING' && (
+            <MenuItem
+              sx={{ color: 'text.secondary' }}
+              onClick={recheckProxyHandler}
+            >
+              <ListItemIcon>
+                <Iconify icon="akar-icons:arrow-clockwise" width={24} height={24} />
+              </ListItemIcon>
+              <ListItemText
+                primary="Recheck"
+                primaryTypographyProps={{ variant: 'body2' }}
+              />
+            </MenuItem>
+          )
+        }
 
         <MenuItem sx={{ color: 'text.secondary' }} onClick={deleteProxyHandler}>
           <ListItemIcon>

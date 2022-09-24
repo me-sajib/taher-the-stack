@@ -34,10 +34,10 @@ import {
   deleteProxyList,
   editProxyList,
   fetchProxyList,
+  recheckProxyList,
 } from 'store/thunks';
 
 import useSelection from 'hooks/useSelection';
-import { recheckProxy } from 'store/thunks';
 import { getUser } from 'store/userSlice';
 import {
   ListHead,
@@ -96,11 +96,6 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-interface Error {
-  status: number;
-  message: string;
-}
-
 export default function Index() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
@@ -146,6 +141,7 @@ export default function Index() {
   };
 
   const handleBulkDelete = () => {
+
     asyncDispatch(deleteProxyList({ listKeys: [...selects] }));
     clearSelection();
   };
@@ -170,9 +166,7 @@ export default function Index() {
   };
 
   const handleBulkRecheck = () => {
-    const recheckList = [...selects].map((id) => ({ listKey: id }));
-
-    // asyncDispatch(recheckProxy(recheckList));
+    asyncDispatch(recheckProxyList({ checkProxyListIds: [...selects]}))
 
     clearSelection();
   };
