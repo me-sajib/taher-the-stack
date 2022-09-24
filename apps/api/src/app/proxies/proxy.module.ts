@@ -5,10 +5,10 @@ import { JwtStrategy } from '../auth/strategy';
 import { PrismaClientModule } from '../prisma-client/prisma-client.module';
 import { ProxyController } from './proxy.controller';
 import { ProxyService } from './proxy.service';
-import { CheckProxyModule } from './check/check-proxy.module';
+import { CheckModule } from './check/check.module';
 
 @Module({
-  imports: [JwtModule.register({}), ConfigModule, PrismaClientModule, CheckProxyModule],
+  imports: [JwtModule.register({}), ConfigModule, PrismaClientModule, CheckModule],
   controllers: [ProxyController],
   providers: [ProxyService, JwtStrategy],
 })

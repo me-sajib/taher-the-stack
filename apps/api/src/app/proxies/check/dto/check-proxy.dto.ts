@@ -1,13 +1,8 @@
-import { IsObject } from 'class-validator';
-
-interface CheckProxy {
-  listKey: string;
-  ids: number[];
-}
+import { IsNumber } from 'class-validator';
 
 export class BodyDto {
-  @IsObject({
+  @IsNumber({}, {
     each: true,
   })
-  checkList: CheckProxy[];
+  checkProxyIds: number[];
 }

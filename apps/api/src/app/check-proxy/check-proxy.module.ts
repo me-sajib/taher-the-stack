@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { PrismaClientModule } from '../../prisma-client/prisma-client.module';
-import { CheckProxyController } from './check-proxy.controller';
+import { PrismaClientModule } from '../prisma-client/prisma-client.module';
 import { CheckProxyService } from './check-proxy.service';
 
 @Module({
   imports: [PrismaClientModule],
-  controllers: [CheckProxyController],
   providers: [CheckProxyService],
-  exports: [],
+  exports: [CheckProxyService],
 })
 export class CheckProxyModule {}
