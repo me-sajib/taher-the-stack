@@ -32,7 +32,7 @@ Content-Type: application/json
 
 {
   "username": "ssadmin",
-  "password": "sspassword"
+  "password": "sspass1234"
 }
 
 ### AUTH:Sign out
@@ -80,7 +80,7 @@ GET  {{url}}/proxy-list?include_proxies=true
 
 ### PROXY_LIST: get with proxies
 # @name proxyList
-GET {{url}}/proxy-list/ssadmin3
+GET {{url}}/proxy-list/ssadmin
 
 @listKey = {{proxyList.response.body.$.key}}
 ### PROXY_LIST: UPDATE
@@ -101,6 +101,15 @@ Content-Type: application/json
 {
   "listKeys": ["{{listKey}}"]
 }
+
+### PROXY_LIST: check
+PATCH {{url}}/proxy-list/check
+Content-Type: application/json
+
+{
+  "checkProxyListIds": ["{{listKey}}"]
+}
+
 
 ### PROXY: get all proxies
 GET {{url}}/proxies?listKey={{listKey}}
@@ -140,3 +149,11 @@ Content-Type: application/json
     "ids": [17]
   }
 ]
+
+### PROXY: Check
+PATCH {{url}}/proxies/check
+Content-Type: application/json
+
+{
+  "checkProxyIds": [1]
+}
