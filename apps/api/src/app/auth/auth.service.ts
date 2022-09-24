@@ -70,7 +70,7 @@ export class AuthService {
     if (!user) {
       Logger.error('Incorrect login Credential');
 
-      throw forbiddenError;
+      return forbiddenError;
     }
 
     const isValidPass = await argon.verify(user.password, password);
