@@ -14,8 +14,12 @@ interface Error {
   message: string;
 }
 
+interface ExtendProxyList extends ProxyList {
+  totalProxy: number;
+}
+
 interface initialStateType {
-  list: Array<ProxyList>;
+  list: Array<ExtendProxyList>;
   status: 'none' | 'loading' | 'success' | 'failed';
   errors: Error[];
 }
@@ -56,8 +60,8 @@ export const store = createSlice({
           state.errors.push(payload.error);
         }
       })
-      .addCase(deleteProxyList.fulfilled, (state, { payload }) => {
-        const keysSet = new Set(payload.listKeys);
+      .addCase(deleteProxyList.fulfilled, (state, payload) => {
+        const keysSet = new Set(payload.meta.arg.listKeys);
 
         state.list = state.list.filter((list) => !keysSet.has(list.key));
       })
@@ -76,30 +80,36 @@ export const store = createSlice({
           state.errors.push(payload.error);
         }
       })
-      .addCase(recheckProxyList.pending, toggleProxyListCheckingHandler(true))
-      .addCase(
-        recheckProxyList.fulfilled,
-        toggleProxyListCheckingHandler(false)
-      );
+      .addCase(recheckProxyList.pending, (state, payload) => {
+        const { checkProxyListIds } = payload.meta.arg;
+
+        const keySet = new Set(checkProxyListIds);
+        console.log({ keySet });
+
+        state.list = state.list.map((proxyList) => {
+          if (keySet.has(proxyList.key)) {
+            proxyList.checking = true;
+          }
+
+          return proxyList;
+        });
+      })
+      .addCase(recheckProxyList.fulfilled, (state, payload) => {
+        const { checkProxyListIds } = payload.meta.arg;
+
+        const keySet = new Set(checkProxyListIds);
+        console.log({ keySet });
+
+        state.list = state.list.map((proxyList) => {
+          if (keySet.has(proxyList.key)) {
+            proxyList.checking = false;
+          }
+
+          return proxyList;
+        });
+      });
   },
 });
-
-const toggleProxyListCheckingHandler =
-  (isCheck: boolean) =>
-  (state, { payload }) => {
-    const { checkProxyListIds } = payload as {
-      checkProxyListIds: string[];
-    };
-    const keySet = new Set(checkProxyListIds);
-
-    state.list = state.list.map((proxyList) => {
-      if (keySet.has(proxyList.key)) {
-        proxyList.checking = isCheck;
-      }
-
-      return proxyList;
-    });
-  };
 
 export const { clearProxyListError } = store.actions;
 
