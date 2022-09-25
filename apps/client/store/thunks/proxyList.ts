@@ -10,9 +10,14 @@ export const fetchProxyList = createAsyncThunk(
   'proxyList/fetchProxyList',
   async () => {
     try {
-      const { data } = await axios.get(PROXY_LIST_URL);
+      const { data } = await axios.get(
+        `${PROXY_LIST_URL}?include_proxies=true`
+      );
 
-      return data;
+      return data.map(({ Proxies, ...rest }) => ({
+        ...rest,
+        totalProxy: Proxies.length,
+      }));
     } catch (e) {
       isAuthorize(e.response);
     }
@@ -61,7 +66,6 @@ export const editProxyList = createAsyncThunk(
     try {
       const { data } = await axios.patch(`${PROXY_LIST_URL}/update`, payload);
 
-      console.log({ data });
       if (data.status && data.status !== 200) {
         return {
           error: {
@@ -71,6 +75,18 @@ export const editProxyList = createAsyncThunk(
         };
       }
       return { data };
+    } catch (e) {
+      isAuthorize(e.response);
+    }
+  }
+);
+
+export const recheckProxyList = createAsyncThunk(
+  'proxyList/recheckProxyList',
+  async (payload: { checkProxyListIds: string[] }) => {
+    try {
+      const { data } = await axios.patch(`${PROXY_LIST_URL}/check`, payload);
+      return data;
     } catch (e) {
       isAuthorize(e.response);
     }

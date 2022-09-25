@@ -28,6 +28,7 @@ model ProxyList {
   createAt      DateTime @default(now())
   updateAt      DateTime @updatedAt
   userId        String
+  checking      Boolean  @default(false)
   author        User     @relation(fields: [userId], references: [id])
   Proxies       Proxy[]
 }

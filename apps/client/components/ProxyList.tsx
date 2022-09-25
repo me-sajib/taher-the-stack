@@ -17,7 +17,6 @@ import {
   Typography,
 } from '@mui/material';
 // components
-import { ProxyList } from '@prisma/client';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
@@ -34,10 +33,10 @@ import {
   deleteProxyList,
   editProxyList,
   fetchProxyList,
+  recheckProxyList,
 } from 'store/thunks';
 
 import useSelection from 'hooks/useSelection';
-import { recheckProxy } from 'store/thunks';
 import { getUser } from 'store/userSlice';
 import {
   ListHead,
@@ -50,6 +49,7 @@ import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
 import Page from './Page';
 import ProxyListModal from './ProxyListModal';
+import RotateIcon from './RotateIcon';
 import SearchNotFound from './SearchNotFound';
 
 // ----------------------------------------------------------------------
@@ -59,6 +59,7 @@ const TABLE_HEAD = [
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
   { id: 'rotatingIndex', label: 'Rotating index', align: 'center' },
+  { id: 'totalProxy', label: 'Total proxy', align: 'center' },
   {},
 ];
 
@@ -94,11 +95,6 @@ function applySortFilter(array, comparator, query) {
     );
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-interface Error {
-  status: number;
-  message: string;
 }
 
 export default function Index() {
@@ -146,7 +142,11 @@ export default function Index() {
   };
 
   const handleBulkDelete = () => {
-    asyncDispatch(deleteProxyList({ listKeys: [...selects] }));
+    asyncDispatch(
+      deleteProxyList({
+        listKeys: [...selects],
+      })
+    );
     clearSelection();
   };
 
@@ -170,9 +170,13 @@ export default function Index() {
   };
 
   const handleBulkRecheck = () => {
-    const recheckList = [...selects].map((id) => ({ listKey: id }));
+    const filteredProxyList = [...selects].filter((key) => {
+      const proxyList = proxyLists.find((list) => list.key === key);
 
-    asyncDispatch(recheckProxy(recheckList));
+      return proxyList.totalProxy !== 0 && !proxyList.checking;
+    });
+
+    asyncDispatch(recheckProxyList({ checkProxyListIds: filteredProxyList }));
 
     clearSelection();
   };
@@ -269,13 +273,15 @@ export default function Index() {
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
                       )
-                      .map((proxyList: ProxyList) => {
+                      .map((proxyList) => {
                         const {
                           key: id,
                           name,
                           username,
                           password,
                           rotatingIndex,
+                          checking,
+                          totalProxy,
                         } = proxyList;
                         const isItemSelected = selects.has(id);
 
@@ -302,11 +308,10 @@ export default function Index() {
                               <Stack
                                 direction="row"
                                 alignItems="center"
-                                spacing={2}
+                                spacing={1}
                               >
-                                <Link
-                                  href={`/proxy-list/${id}/proxies?name=${proxyList.name}`}
-                                >
+                                {checking && <RotateIcon />}
+                                <Link href={`/proxy-list/${username}/proxies`}>
                                   <Typography
                                     variant="subtitle2"
                                     noWrap
@@ -332,6 +337,7 @@ export default function Index() {
                             <TableCell align="center">
                               {rotatingIndex}
                             </TableCell>
+                            <TableCell align="center">{totalProxy}</TableCell>
 
                             <TableCell align="right">
                               <ProxyListMenu id={id} />

@@ -47,7 +47,6 @@ export default function DashboardLayout({ children }) {
     asyncDispatch(fetchUserProfile());
   }, [asyncDispatch]);
 
-  console.log({ profileStatus });
   if (profileStatus === 'loading' && !profile) {
     return <LinearProgress />;
   }
