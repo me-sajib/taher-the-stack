@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import RHFPasswordField from 'components/hook-form/RHFPasswordField';
 import { useRouter } from 'next/router';
+
 interface SignInFormTypes {
   email: string;
   password: string;
@@ -32,11 +33,8 @@ const SignInForm = () => {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async ({ email, password }: SignInFormTypes) => {
-    const { data: res } = await axios.post('/api/auth/sign-in', {
-      email,
-      password,
-    });
+  const onSubmit = async (formData: SignInFormTypes) => {
+    const { data: res } = await axios.post('/api/auth/sign-in', formData);
 
     if (res.status === 403) {
       setError('email', {
