@@ -17,7 +17,6 @@ import {
   Typography,
 } from '@mui/material';
 // components
-import { ProxyList } from '@prisma/client';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
@@ -50,6 +49,7 @@ import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
 import Page from './Page';
 import ProxyListModal from './ProxyListModal';
+import RotateIcon from './RotateIcon';
 import SearchNotFound from './SearchNotFound';
 
 // ----------------------------------------------------------------------
@@ -59,6 +59,7 @@ const TABLE_HEAD = [
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
   { id: 'rotatingIndex', label: 'Rotating index', align: 'center' },
+  { id: 'totalProxy', label: 'Total proxy', align: 'center' },
   {},
 ];
 
@@ -141,8 +142,11 @@ export default function Index() {
   };
 
   const handleBulkDelete = () => {
-
-    asyncDispatch(deleteProxyList({ listKeys: [...selects] }));
+    asyncDispatch(
+      deleteProxyList({
+        listKeys: [...selects],
+      })
+    );
     clearSelection();
   };
 
@@ -166,7 +170,13 @@ export default function Index() {
   };
 
   const handleBulkRecheck = () => {
-    asyncDispatch(recheckProxyList({ checkProxyListIds: [...selects]}))
+    const filteredProxyList = [...selects].filter((key) => {
+      const proxyList = proxyLists.find((list) => list.key === key);
+
+      return proxyList.totalProxy !== 0 && !proxyList.checking;
+    });
+
+    asyncDispatch(recheckProxyList({ checkProxyListIds: filteredProxyList }));
 
     clearSelection();
   };
@@ -263,13 +273,15 @@ export default function Index() {
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
                       )
-                      .map((proxyList: ProxyList) => {
+                      .map((proxyList) => {
                         const {
                           key: id,
                           name,
                           username,
                           password,
                           rotatingIndex,
+                          checking,
+                          totalProxy,
                         } = proxyList;
                         const isItemSelected = selects.has(id);
 
@@ -296,11 +308,10 @@ export default function Index() {
                               <Stack
                                 direction="row"
                                 alignItems="center"
-                                spacing={2}
+                                spacing={1}
                               >
-                                <Link
-                                  href={`/proxy-list/${username}/proxies`}
-                                >
+                                {checking && <RotateIcon />}
+                                <Link href={`/proxy-list/${username}/proxies`}>
                                   <Typography
                                     variant="subtitle2"
                                     noWrap
@@ -326,6 +337,7 @@ export default function Index() {
                             <TableCell align="center">
                               {rotatingIndex}
                             </TableCell>
+                            <TableCell align="center">{totalProxy}</TableCell>
 
                             <TableCell align="right">
                               <ProxyListMenu id={id} />

@@ -4,10 +4,10 @@ import { BodyDto } from './dto';
 
 @Controller('proxy-list/check')
 export class CheckController {
-    constructor (private checkPorxyService: CheckService) {}
+  constructor(private checkPorxyService: CheckService) {}
 
-    @Patch()
-    checkProxyList(@Body() body: BodyDto) {
-        return this.checkPorxyService.checkProxy(body)
-    }
+  @Patch()
+  checkProxyList(@Body() body: BodyDto) {
+    return this.checkPorxyService.checkProxyList(body);
+  }
 }
