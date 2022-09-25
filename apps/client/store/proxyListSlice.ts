@@ -6,6 +6,7 @@ import {
   deleteProxyList,
   editProxyList,
   fetchProxyList,
+  recheckProxyList,
 } from 'store/thunks';
 
 interface Error {
@@ -74,9 +75,31 @@ export const store = createSlice({
         } else {
           state.errors.push(payload.error);
         }
-      });
+      })
+      .addCase(recheckProxyList.pending, toggleProxyListCheckingHandler(true))
+      .addCase(
+        recheckProxyList.fulfilled,
+        toggleProxyListCheckingHandler(false)
+      );
   },
 });
+
+const toggleProxyListCheckingHandler =
+  (isCheck: boolean) =>
+  (state, { payload }) => {
+    const { checkProxyListIds } = payload as {
+      checkProxyListIds: string[];
+    };
+    const keySet = new Set(checkProxyListIds);
+
+    state.list = state.list.map((proxyList) => {
+      if (keySet.has(proxyList.key)) {
+        proxyList.checking = isCheck;
+      }
+
+      return proxyList;
+    });
+  };
 
 export const { clearProxyListError } = store.actions;
 

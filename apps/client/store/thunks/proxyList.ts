@@ -80,10 +80,10 @@ export const recheckProxyList = createAsyncThunk(
   'proxyList/checkProxyList',
   async (payload: { checkProxyListIds: string[] }) => {
     try {
-      const { data } = await axios.patch(`${PROXY_LIST_URL}/check`, payload)
-      return data
+      const { data } = await axios.patch(`${PROXY_LIST_URL}/check`, payload);
+      return data;
     } catch (e) {
-      isAuthorize(e.response)
+      isAuthorize(e.response);
     }
   }
-)
+);
