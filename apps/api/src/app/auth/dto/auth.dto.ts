@@ -1,8 +1,10 @@
 import { validateUsername } from 'utils';
 
 import {
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -33,7 +35,12 @@ export class SininWithUsernameDto {
   @IsString()
   @MinLength(3)
   password: string;
+
+  @IsOptional()
+  @IsBoolean()
+  remember: boolean;
 }
+
 export class SigninWithEmailDto {
   @IsNotEmpty()
   @IsEmail()
@@ -43,6 +50,10 @@ export class SigninWithEmailDto {
   @IsString()
   @MinLength(3)
   password: string;
+
+  @IsOptional()
+  @IsBoolean()
+  remember: boolean;
 }
 
 export type AuthSigninDto = SigninWithEmailDto & SininWithUsernameDto;
@@ -68,4 +79,8 @@ export class AuthSignupDto {
   @IsString()
   @MinLength(3)
   password: string;
+
+  @IsOptional()
+  @IsBoolean()
+  remember: boolean;
 }

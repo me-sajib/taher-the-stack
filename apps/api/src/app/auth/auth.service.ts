@@ -27,13 +27,15 @@ export class AuthService {
     private jwt: JwtService,
     private config: ConfigService
   ) {}
+  private DAY: number = 24 * 60 * 60 * 1e3;
 
   async register(dto: AuthSignupDto, res: Response) {
-    dto.password = await argon.hash(dto.password);
+    const { remember, ...regDto } = dto;
+    dto.password = await argon.hash(regDto.password);
 
     try {
       const user: User = await this.prisma.user.create({
-        data: dto,
+        data: regDto,
       });
 
       Logger.log(`${user.username} successfully registered`);
@@ -44,8 +46,7 @@ export class AuthService {
         email: user.email,
       };
 
-      const { token } = await this.signToken(payload);
-      res.cookie('auth-cookie', token, { httpOnly: true });
+      await this.signToken(payload, remember, res);
 
       return new HttpException('Signed up successfully', HttpStatus.ACCEPTED);
     } catch (e) {
@@ -59,7 +60,7 @@ export class AuthService {
   }
 
   async login(dto: AuthSigninDto, res: Response) {
-    const { email, username, password } = dto;
+    const { email, username, password, remember } = dto;
 
     const user: User = await this.prisma.user.findUnique({
       where: email ? { email } : { username }, // optional login with email or username
@@ -84,8 +85,7 @@ export class AuthService {
         email: user.email,
       };
 
-      const { token } = await this.signToken(payload);
-      res.cookie('auth-cookie', token, { httpOnly: true });
+      await this.signToken(payload, remember, res);
 
       return new HttpException('Signed in successfully', HttpStatus.ACCEPTED);
     }
@@ -100,7 +100,11 @@ export class AuthService {
     return new HttpException('Signed out successfully', HttpStatus.OK);
   }
 
-  async signToken(jwtPayload: JWTDto): Promise<{ token: string }> {
+  private async signToken(
+    jwtPayload: JWTDto,
+    isRemember: boolean,
+    res: Response
+  ) {
     const { userId, username, email } = jwtPayload;
     const payload = {
       sub: userId,
@@ -114,6 +118,15 @@ export class AuthService {
       secret,
     });
 
-    return { token };
+    res.cookie(
+      'auth-cookie',
+      token,
+      Object.assign(
+        { httpOnly: true, secure: true },
+        isRemember && {
+          expires: new Date(new Date().getTime() + 1 * this.DAY),
+        }
+      )
+    );
   }
 }
