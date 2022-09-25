@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { User } from '@prisma/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanUserErrors, getUser, getUserErrors } from 'store/userSlice';
@@ -17,6 +18,7 @@ import Iconify from 'components/Iconify';
 import { AppThunkDispatch } from 'store';
 import { editUser } from 'store/thunks';
 import validator from 'validator';
+import { useEffect } from 'react';
 
 interface ProfileDataTypes {
   fullname: string;
@@ -46,10 +48,10 @@ export default function UserUpdateFrom({
     handleSubmit,
     setError,
     reset,
-    formState: { isSubmitting, isSubmitSuccessful },
+    formState: { isSubmitting, isSubmitSuccessful, errors },
   } = method;
 
-  if (userErrors.length) {
+  useEffect(() => {
     userErrors.forEach((error) => {
       console.log({ userError: error });
       const [propName] = error.message.split(/\s/);
@@ -58,7 +60,7 @@ export default function UserUpdateFrom({
         message: error.message,
       });
     });
-  }
+  }, [userErrors.length])
 
   const submitHandler = async (formData: ProfileDataTypes) => {
     syncDispatch(cleanUserErrors());
@@ -115,7 +117,7 @@ export default function UserUpdateFrom({
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress color="inherit" size={16} />}
-        startIcon={isSubmitSuccessful && <Iconify icon="ic:round-done" />}
+        startIcon={isSubmitSuccessful && !Object.keys(errors).length && <Iconify icon="ic:round-done" />}
         sx={{ my: 5, mr: 3 }}
       >
         Update
