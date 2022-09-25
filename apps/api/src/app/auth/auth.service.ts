@@ -30,11 +30,12 @@ export class AuthService {
   private DAY: number = 24 * 60 * 60 * 1e3;
 
   async register(dto: AuthSignupDto, res: Response) {
-    dto.password = await argon.hash(dto.password);
+    const { remember, ...regDto } = dto;
+    dto.password = await argon.hash(regDto.password);
 
     try {
       const user: User = await this.prisma.user.create({
-        data: dto,
+        data: regDto,
       });
 
       Logger.log(`${user.username} successfully registered`);
@@ -45,7 +46,7 @@ export class AuthService {
         email: user.email,
       };
 
-      await this.signToken(payload, dto.remember, res);
+      await this.signToken(payload, remember, res);
 
       return new HttpException('Signed up successfully', HttpStatus.ACCEPTED);
     } catch (e) {
