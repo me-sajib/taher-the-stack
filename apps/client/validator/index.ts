@@ -1,11 +1,11 @@
-import { RegisterOptions } from 'react-hook-form';
+import { RegisterOptions, ValidationValueMessage } from 'react-hook-form';
 import { validateUsername } from 'utils';
 
-interface Validator {
+interface ValidatorPattern {
   [key: string]: RegisterOptions;
 }
 
-const validator: Validator = {
+const validator: ValidatorPattern = {
   fullname: {
     required: 'Full name is required',
     minLength: {
@@ -21,7 +21,7 @@ const validator: Validator = {
     required: 'Name is required',
     minLength: {
       value: 3,
-      message: 'Name must be greater the two characters',
+      message: 'Name must be greater than two characters',
     },
     maxLength: {
       value: 99,
@@ -69,5 +69,83 @@ const validator: Validator = {
       'Invalid proxy IP, required (IPv4 or IPv6)',
   },
 };
+
+export class Validator<T extends ObjectConstructor> {
+  constructor(private validateObject: T) {}
+
+  private required(key: string, value: string) {
+    return value.length === 0 && validator[key].required;
+  }
+
+  private minLength(key: string, curValue: string) {
+    const { value, message } = validator[key]
+      .minLength as ValidationValueMessage;
+    return curValue.length < value && message;
+  }
+
+  private maxLength(key: string, curValue: string) {
+    const { value, message } = validator[key]
+      .maxLength as ValidationValueMessage;
+    return curValue.length > value && message;
+  }
+
+  private validate(key: string, value: string) {
+    return (validator[key].validate as any)(value);
+  }
+
+  lunch() {
+    for (const name in this.validateObject) {
+      const options = validator[name];
+      const value = this.validateObject[name];
+
+      console.log({ options, value, name });
+
+      for (const key in options) {
+        switch (key) {
+          case 'required': {
+            const isMatch = this.required(name, value as string);
+
+            if (isMatch) {
+              return isMatch;
+            }
+
+            break;
+          }
+          case 'maxLength': {
+            const isMatch = this.maxLength(name, value as string);
+
+            if (isMatch) {
+              return isMatch;
+            }
+
+            break;
+          }
+          case 'minLength': {
+            const isMatch = this.minLength(name, value as string);
+
+            if (isMatch) {
+              return isMatch;
+            }
+
+            break;
+          }
+          case 'validate': {
+            const isMatch = this.validate(name, value as string);
+
+            if (typeof isMatch === 'string') {
+              return isMatch;
+            }
+
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    }
+
+    return true;
+  }
+}
 
 export default validator;

@@ -36,6 +36,7 @@ import {
   recheckProxyList,
 } from 'store/thunks';
 
+import { ProxyList } from '@prisma/client';
 import useSelection from 'hooks/useSelection';
 import { getUser } from 'store/userSlice';
 import {
@@ -211,6 +212,26 @@ export default function Index() {
     asyncDispatch(editProxyList(updatePayload));
   };
 
+  const usernameValidationHandler = (
+    changedMap: Map<number, ProxyList>,
+    setError: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    const usernameSet: Set<string> = new Set(
+      proxyLists.map((list) => list.username)
+    );
+
+    for (const [, { username }] of changedMap) {
+      if (usernameSet.has(username)) {
+        setError(`${username} is already exist`);
+        return false;
+      }
+
+      usernameSet.add(username);
+    }
+
+    return true;
+  };
+
   const isUserNotFound = filteredProxyList.length === 0;
 
   switch (status) {
@@ -252,6 +273,7 @@ export default function Index() {
                 bulkDeleteHandler={handleBulkDelete}
                 bulkRecheckHandler={handleBulkRecheck}
                 bulkEditHandler={handleBulkEdit}
+                extraValidation={usernameValidationHandler}
               />
 
               <TableContainer sx={{ minWidth: 800 }}>

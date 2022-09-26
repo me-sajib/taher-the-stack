@@ -1,23 +1,17 @@
 // material
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
   IconButton,
   InputAdornment,
   OutlinedInput,
-  TextField,
   Toolbar,
   Tooltip,
   Typography,
 } from '@mui/material';
 import { styled, Theme } from '@mui/material/styles';
-import { Stack } from '@mui/system';
+import BulkEditor from 'components/BulkEditor';
 // component
 import Iconify from 'components/Iconify';
-import React, { useEffect, useState } from 'react';
-import { getChange } from 'utils';
+import React, { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +54,10 @@ interface ListToolbarTypes {
   bulkDeleteHandler: () => void;
   bulkRecheckHandler: () => void;
   onFilterName: (e: React.ChangeEvent) => void;
+  extraValidation?: (
+    state: Map<number, any>,
+    setError: React.Dispatch<React.SetStateAction<string>>
+  ) => boolean;
 }
 
 export default function ListToolbar({
@@ -71,30 +69,17 @@ export default function ListToolbar({
   bulkEditHandler,
   bulkRecheckHandler,
   onFilterName,
+  extraValidation,
 }: ListToolbarTypes) {
-  const [modalText, setModalText] = useState(editStateData);
   const [isOpenEditModal, setModalStatus] = useState(false);
-
-  useEffect(() => {
-    setModalText(editStateData);
-  }, [editStateData]);
-
   const toggleModal = () => setModalStatus((prev) => !prev);
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setModalText(e.target.value);
-  };
-
-  const saveHandler = () => {
-    try {
-      const recentChange = JSON.parse(modalText);
-      const prevState = JSON.parse(editStateData);
-
-      bulkEditHandler(getChange(prevState, recentChange));
-      toggleModal();
-    } catch (e) {
-      return null;
-    }
+  const bulkEditorProps = {
+    bulkEditHandler,
+    editStateData,
+    isOpenEditModal,
+    toggleModal,
+    extraValidation,
   };
 
   return (
@@ -155,32 +140,7 @@ export default function ListToolbar({
         </Tooltip>} */
       }
 
-      <Dialog
-        open={isOpenEditModal}
-        onClose={toggleModal}
-        fullWidth
-        maxWidth="md"
-      >
-        <DialogTitle>Bulk Edit</DialogTitle>
-        <Stack spacing={3} sx={{ p: 3 }}>
-          <TextField
-            value={modalText}
-            autoFocus
-            size="medium"
-            label="JSON"
-            multiline
-            rows={20}
-            variant="outlined"
-            onChange={changeHandler}
-          />
-          <DialogActions>
-            <Button onClick={toggleModal}>Cancel</Button>
-            <Button variant="contained" onClick={saveHandler}>
-              Save
-            </Button>
-          </DialogActions>
-        </Stack>
-      </Dialog>
+      <BulkEditor {...bulkEditorProps} />
     </RootStyle>
   );
 }

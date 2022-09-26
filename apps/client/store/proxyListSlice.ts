@@ -73,6 +73,7 @@ export const store = createSlice({
             );
 
             state.list[editedIndex] = {
+              ...state.list[editedIndex],
               ...updatedList,
             };
           }
