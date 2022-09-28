@@ -1,12 +1,6 @@
 import { useRef, useState } from 'react';
 // material
-import {
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-} from '@mui/material';
+import { IconButton, Menu } from '@mui/material';
 // component
 import { Proxy } from '@prisma/client';
 import Iconify from 'components/Iconify';
@@ -15,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
 import { getList, getProxies } from 'store/proxySlice';
 
+import MenuItems from 'components/MenuItems';
+import { MenuItemType } from 'interfaces';
 import { deleteProxy, editProxy, recheckProxy } from 'store/thunks';
 
 // ----------------------------------------------------------------------
@@ -48,8 +44,26 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
 
   const recheckProxyHandler = () => {
     dispatch(recheckProxy([proxy.id]));
-    setIsOpen(false);
   };
+
+  const menuItems: MenuItemType[] = [
+    {
+      hide: proxy.status === 'CHECKING',
+      icon: 'akar-icons:arrow-clockwise',
+      text: 'Recheck',
+      clickAction: recheckProxyHandler,
+    },
+    {
+      icon: 'eva:trash-2-outline',
+      text: 'Delete',
+      clickAction: deleteProxyHandler,
+    },
+    {
+      icon: 'eva:edit-fill',
+      text: 'Edit',
+      clickAction: proxyListModalHandler,
+    },
+  ];
 
   return (
     <>
@@ -75,47 +89,7 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {proxy.status !== 'CHECKING' && (
-          <MenuItem
-            sx={{ color: 'text.secondary' }}
-            onClick={recheckProxyHandler}
-          >
-            <ListItemIcon>
-              <Iconify
-                icon="akar-icons:arrow-clockwise"
-                width={24}
-                height={24}
-              />
-            </ListItemIcon>
-            <ListItemText
-              primary="Recheck"
-              primaryTypographyProps={{ variant: 'body2' }}
-            />
-          </MenuItem>
-        )}
-
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={deleteProxyHandler}>
-          <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Delete"
-            primaryTypographyProps={{ variant: 'body2' }}
-          />
-        </MenuItem>
-
-        <MenuItem
-          sx={{ color: 'text.secondary' }}
-          onClick={proxyListModalHandler}
-        >
-          <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Edit"
-            primaryTypographyProps={{ variant: 'body2' }}
-          />
-        </MenuItem>
+        <MenuItems items={menuItems} />
       </Menu>
     </>
   );

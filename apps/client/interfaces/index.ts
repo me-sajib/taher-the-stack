@@ -21,3 +21,10 @@ export interface CheckProxyResponse {
   lastCheckAt: Date;
   status: ProxyStatus;
 }
+
+export interface MenuItemType {
+  hide?: boolean;
+  icon: string;
+  text: string;
+  clickAction: () => void;
+}
