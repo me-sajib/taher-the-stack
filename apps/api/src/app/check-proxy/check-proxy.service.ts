@@ -22,7 +22,7 @@ export class CheckProxyService {
   }
 
   async setStatus(status: ProxyStatus, id: number) {
-    const data = { status, lastCheckAt: new Date() }
+    const data = { status, lastCheckAt: new Date() };
 
     await this.prisma.proxy.update({
       where: {

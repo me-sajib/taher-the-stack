@@ -2,7 +2,7 @@ import { IsUUID } from 'class-validator';
 
 export class BodyDto {
   @IsUUID('all', {
-    each: true
+    each: true,
   })
   checkProxyListIds: string[];
 }

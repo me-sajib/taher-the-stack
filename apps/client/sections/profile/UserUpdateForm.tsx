@@ -3,7 +3,6 @@ import { User } from '@prisma/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanUserErrors, getUser, getUserErrors } from 'store/userSlice';
 
-
 // form
 import FormProvider from 'components/hook-form/FormProvider';
 import RHFTextField from 'components/hook-form/RHFTextFiled';
@@ -60,7 +59,7 @@ export default function UserUpdateFrom({
         message: error.message,
       });
     });
-  }, [userErrors.length])
+  }, [userErrors.length]);
 
   const submitHandler = async (formData: ProfileDataTypes) => {
     syncDispatch(cleanUserErrors());
@@ -117,7 +116,10 @@ export default function UserUpdateFrom({
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress color="inherit" size={16} />}
-        startIcon={isSubmitSuccessful && !Object.keys(errors).length && <Iconify icon="ic:round-done" />}
+        startIcon={
+          isSubmitSuccessful &&
+          !Object.keys(errors).length && <Iconify icon="ic:round-done" />
+        }
         sx={{ my: 5, mr: 3 }}
       >
         Update

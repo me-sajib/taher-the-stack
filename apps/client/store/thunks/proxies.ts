@@ -10,7 +10,6 @@ const PROXY_URL = '/api/proxies';
 export const fetchProxies = createAsyncThunk(
   'proxies/fetchProxies',
   async (payload: { proxyListUsername: string }) => {
-
     try {
       const { data } = await axios.get(
         `/api/proxy-list/${payload.proxyListUsername}`
@@ -33,9 +32,7 @@ export const createProxy = createAsyncThunk(
       const { data: proxy } = await axios.post(`${PROXY_URL}/new`, payload);
 
       console.log('PROXY CREATED:', proxy);
-      store.dispatch(
-        recheckProxy([proxy.id])
-      );
+      store.dispatch(recheckProxy([proxy.id]));
 
       return proxy;
     } catch (e) {
@@ -83,7 +80,9 @@ export const recheckProxy = createAsyncThunk(
   async (checkProxyIds: number[]) => {
     try {
       console.log('Recheck proxy called');
-      const { data } = await axios.patch(`${PROXY_URL}/check`, { checkProxyIds  });
+      const { data } = await axios.patch(`${PROXY_URL}/check`, {
+        checkProxyIds,
+      });
 
       return data;
     } catch (e) {

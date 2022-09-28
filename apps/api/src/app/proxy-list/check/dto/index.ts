@@ -1,1 +1,1 @@
-export * from './check-proxy-list.dto'
+export * from './check-proxy-list.dto';

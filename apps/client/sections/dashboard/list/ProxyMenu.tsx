@@ -27,7 +27,7 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProxyListModal, setProxyListStatus] = useState(false);
-  const { key: proxyListKey } = useSelector(getList)
+  const { key: proxyListKey } = useSelector(getList);
   const proxies: Proxy[] = useSelector(getProxies);
   const proxy = proxies.find((proxy) => proxy.id === id);
   const { host, port, country, username, password } = proxy;
@@ -47,9 +47,7 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
   };
 
   const recheckProxyHandler = () => {
-    dispatch(
-      recheckProxy([proxy.id])
-    );
+    dispatch(recheckProxy([proxy.id]));
     setIsOpen(false);
   };
 
@@ -77,22 +75,24 @@ export default function ProxyMenu({ id }: ListMenuTypes) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {
-          proxy.status !== 'CHECKING' && (
-            <MenuItem
-              sx={{ color: 'text.secondary' }}
-              onClick={recheckProxyHandler}
-            >
-              <ListItemIcon>
-                <Iconify icon="akar-icons:arrow-clockwise" width={24} height={24} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Recheck"
-                primaryTypographyProps={{ variant: 'body2' }}
+        {proxy.status !== 'CHECKING' && (
+          <MenuItem
+            sx={{ color: 'text.secondary' }}
+            onClick={recheckProxyHandler}
+          >
+            <ListItemIcon>
+              <Iconify
+                icon="akar-icons:arrow-clockwise"
+                width={24}
+                height={24}
               />
-            </MenuItem>
-          )
-        }
+            </ListItemIcon>
+            <ListItemText
+              primary="Recheck"
+              primaryTypographyProps={{ variant: 'body2' }}
+            />
+          </MenuItem>
+        )}
 
         <MenuItem sx={{ color: 'text.secondary' }} onClick={deleteProxyHandler}>
           <ListItemIcon>

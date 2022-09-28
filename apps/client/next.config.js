@@ -12,12 +12,12 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  rewrites: async () => ([
+  rewrites: async () => [
     {
-      source: "/api/:slug*",
+      source: '/api/:slug*',
       destination: `${process.env.API_URL}/api/:slug*`,
     },
-  ])
+  ],
 };
 
 module.exports = withNx(nextConfig);

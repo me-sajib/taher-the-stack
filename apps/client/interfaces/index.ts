@@ -21,4 +21,3 @@ export interface CheckProxyResponse {
   lastCheckAt: Date;
   status: ProxyStatus;
 }
-
