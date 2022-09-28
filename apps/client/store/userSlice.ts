@@ -55,7 +55,6 @@ export const store = createSlice({
   },
 });
 
-
 export const getUser = (state: RootState) => state.user.profile;
 export const getUserStatus = (state: RootState) => state.user.status;
 

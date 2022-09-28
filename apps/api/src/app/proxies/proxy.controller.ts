@@ -28,7 +28,7 @@ export class ProxyController {
       dto.proxyIds
     );
   }
-  
+
   @Post('/new')
   createProxy(@Body() dto: ProxyDto, @Req() req: Request) {
     return this.proxyService.createProxy((req.user as UserDto).userId, dto);

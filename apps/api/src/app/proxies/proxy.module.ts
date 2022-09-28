@@ -8,7 +8,12 @@ import { ProxyService } from './proxy.service';
 import { CheckModule } from './check/check.module';
 
 @Module({
-  imports: [JwtModule.register({}), ConfigModule, PrismaClientModule, CheckModule],
+  imports: [
+    JwtModule.register({}),
+    ConfigModule,
+    PrismaClientModule,
+    CheckModule,
+  ],
   controllers: [ProxyController],
   providers: [ProxyService, JwtStrategy],
 })

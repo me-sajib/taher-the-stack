@@ -99,9 +99,9 @@ export default function Index() {
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const router = useRouter();
   const asyncDispatch = useDispatch<AppThunkDispatch>();
-  const proxies = useSelector(getProxies) ?? []
+  const proxies = useSelector(getProxies) ?? [];
   const proxiesStatus = useSelector(getProxyStatus);
-  const proxyList = useSelector(getList)
+  const proxyList = useSelector(getList);
   const proxyListUsername = router.query.username as string;
 
   // custom hooks
@@ -116,17 +116,19 @@ export default function Index() {
     setProxyListModalStatus(!openProxyListModal);
 
   const handleBulkDelete = () => {
-    asyncDispatch(deleteProxy({ proxyListKey: proxyList.key, proxyIds: [...selects] }));
+    asyncDispatch(
+      deleteProxy({ proxyListKey: proxyList.key, proxyIds: [...selects] })
+    );
     clearSelection();
   };
 
   const handleBulkRecheck = () => {
     // if the proxy all ready in checking status, it will filtered it
-    const filteredSelectsByStatus = [...selects].filter(id => {
-      const proxy = proxies.find(proxy => proxy.id === id)
+    const filteredSelectsByStatus = [...selects].filter((id) => {
+      const proxy = proxies.find((proxy) => proxy.id === id);
 
-      return proxy.status !== 'CHECKING'
-    })
+      return proxy.status !== 'CHECKING';
+    });
 
     asyncDispatch(recheckProxy(filteredSelectsByStatus));
 

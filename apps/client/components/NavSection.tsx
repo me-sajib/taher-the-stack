@@ -131,15 +131,12 @@ export default function NavSection({ navConfig, ...other }) {
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
         {navConfig.map((item) => {
-          const isActiveMenu =  item.path.split('/').at(1) === router.pathname.split('/').at(1)
+          const isActiveMenu =
+            item.path.split('/').at(1) === router.pathname.split('/').at(1);
 
           return (
-            <NavItem
-              key={item.title}
-              item={item}
-              isActiveRoot={isActiveMenu}
-            />
-          ) 
+            <NavItem key={item.title} item={item} isActiveRoot={isActiveMenu} />
+          );
         })}
       </List>
     </Box>

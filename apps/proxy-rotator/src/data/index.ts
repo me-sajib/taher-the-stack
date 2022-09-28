@@ -1,8 +1,8 @@
-import { Proxy, ProxyList } from "@prisma/client";
+import { Proxy, ProxyList } from '@prisma/client';
 
 export default {
-    proxyList: null,
-    set(data: ProxyList & { Proxies: Proxy[]}) {
-        this.proxyList = data
-    }
-}
+  proxyList: null,
+  set(data: ProxyList & { Proxies: Proxy[] }) {
+    this.proxyList = data;
+  },
+};

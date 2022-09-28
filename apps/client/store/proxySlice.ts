@@ -12,7 +12,7 @@ import {
 } from './thunks';
 
 interface initialStateType {
-  proxyList: ProxyList & { Proxies: Proxy[] } | null
+  proxyList: (ProxyList & { Proxies: Proxy[] }) | null;
   status: 'none' | 'loading' | 'success' | 'failed';
 }
 
@@ -37,13 +37,13 @@ export const store = createSlice({
         console.log('Fetched proxies done');
 
         if (payload) {
-          state.proxyList = payload
+          state.proxyList = payload;
 
           state.status = 'success';
         }
       })
       .addCase(createProxy.fulfilled, (state, { payload }) => {
-        state.proxyList.Proxies.push(payload)
+        state.proxyList.Proxies.push(payload);
       })
       .addCase(deleteProxy.fulfilled, (state, { payload }) => {
         const deleteIdSet = new Set(payload.proxyIds);
@@ -66,37 +66,39 @@ export const store = createSlice({
         const checkIdSet = new Set(action.meta.arg as number[]);
         console.log('Recheck pending called', { checkIdSet });
 
-        state.proxyList.Proxies = state.proxyList.Proxies.map(proxy => {
+        state.proxyList.Proxies = state.proxyList.Proxies.map((proxy) => {
           if (checkIdSet.has(proxy.id)) {
-            proxy.status = "CHECKING"
+            proxy.status = 'CHECKING';
           }
 
-          return proxy
-        })
+          return proxy;
+        });
       })
       .addCase(recheckProxy.fulfilled, (state, action) => {
         const checkResponse = action.payload as CheckProxyResponse[];
         console.log('Recheck fulfilled called', { checkResponse });
 
-        const responseMap: Map<number, CheckProxyResponse> = checkResponse.reduce((map, res) => map.set(res.id, res), new Map())
+        const responseMap: Map<number, CheckProxyResponse> =
+          checkResponse.reduce((map, res) => map.set(res.id, res), new Map());
 
-        state.proxyList.Proxies = state.proxyList.Proxies.map(proxy => {
+        state.proxyList.Proxies = state.proxyList.Proxies.map((proxy) => {
           if (responseMap.has(proxy.id)) {
             return {
               ...proxy,
-              ...responseMap.get(proxy.id)
-            }
+              ...responseMap.get(proxy.id),
+            };
           }
 
-          return proxy
-        })
+          return proxy;
+        });
       });
   },
 });
 
 export const getList = (state: RootState) => state.proxies.proxyList;
 
-export const getProxies = (state: RootState) => state.proxies.proxyList?.Proxies;
+export const getProxies = (state: RootState) =>
+  state.proxies.proxyList?.Proxies;
 
 export const getProxyStatus = (state: RootState) => state.proxies.status;
 
