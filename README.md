@@ -8,28 +8,28 @@ A simple rotate proxy manager to manage proxies. this app generated with nx & it
 
 ## Usage
 
-> Run api app
+> setup the postgres DB by docker compose
 
 ```bash
-yarn nx serve api
+docker-compose up --build
 ```
 
-> Run proxy rotator
+by this command the postgressql Db will listen on `postgres:1234@localhost:5432/postgresDB`
+
+then for install all dependencies
 
 ```bash
-yarn nx serve proxy-rotator
+yarn install
 ```
 
-> Run client app
+after installation run the prisma migration
 
 ```bash
-yarn nx serve client
+yarn prisma migrate dev exp-proxy-manager
 ```
 
-> To run apps parallel via nx just type 🚀
+now run the all apps parallelly
 
 ```bash
-yarn nx run-many --target=serve --maxParallel=3
+yarn start
 ```
-
-To build all apps, just replace the target flags value as `--target=build`
