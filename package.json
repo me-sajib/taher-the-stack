@@ -8,6 +8,9 @@
     "format": "yarn prettier --write .",
     "test": "nx test"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
