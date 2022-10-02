@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormProvider from 'components/hook-form/FormProvider';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { getProxyListError } from 'store/proxyListSlice';
@@ -52,7 +53,7 @@ export default function ProxyListModal({
     formState: { isSubmitting },
   } = methods;
 
-  if (proxyListError.length) {
+  useEffect(() => {
     proxyListError.forEach((error) => {
       const [propName] = error.message.split(/\s/);
 
@@ -60,7 +61,8 @@ export default function ProxyListModal({
         message: error.message,
       });
     });
-  }
+  }, [proxyListError]);
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{actionType.trim()} proxy list</DialogTitle>

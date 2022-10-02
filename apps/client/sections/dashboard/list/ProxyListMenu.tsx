@@ -1,12 +1,6 @@
 import { useRef, useState } from 'react';
 // material
-import {
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-} from '@mui/material';
+import { IconButton, Menu } from '@mui/material';
 // component
 import Iconify from 'components/Iconify';
 import ProxyListModal from 'components/ProxyListModal';
@@ -14,7 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppThunkDispatch } from 'store';
 import { getProxyList } from 'store/proxyListSlice';
 
-import { deleteProxyList, editProxyList } from 'store/thunks';
+import MenuItems from 'components/MenuItems';
+import { MenuItemType } from 'interfaces';
+import { deleteProxyList, editProxyList, recheckProxyList } from 'store/thunks';
 
 // ----------------------------------------------------------------------
 
@@ -27,23 +23,46 @@ export default function ProxyListMenu({ id }: ListMenuTypes) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProxyListModal, setProxyListStatus] = useState(false);
   const proxyLists = useSelector(getProxyList);
-  const { name, username, password } = proxyLists.find(
+  const { key, name, username, password, checking } = proxyLists.find(
     (list) => list.key === id
   );
 
   const proxyListModalHandler = () => setProxyListStatus(!isOpenProxyListModal);
-  const dispatch = useDispatch<AppThunkDispatch>();
+  const asyncDispatch = useDispatch<AppThunkDispatch>();
+
+  const recheckProxyListHandler = () => {
+    asyncDispatch(recheckProxyList({ checkProxyListIds: [key] }));
+  };
 
   const deleteProxyListHandler = () => {
-    dispatch(deleteProxyList({ listKeys: [id] }));
+    asyncDispatch(deleteProxyList({ listKeys: [id] }));
     setIsOpen(false);
   };
 
   const editProxyListHandler = (data) => {
-    dispatch(editProxyList([{ ...data, key: id }]));
+    asyncDispatch(editProxyList([{ ...data, key: id }]));
     proxyListModalHandler();
     setIsOpen(false);
   };
+
+  const menuItems: MenuItemType[] = [
+    {
+      hide: checking,
+      icon: 'akar-icons:arrow-clockwise',
+      text: 'Recheck',
+      clickAction: recheckProxyListHandler,
+    },
+    {
+      icon: 'eva:trash-2-outline',
+      text: 'Delete',
+      clickAction: deleteProxyListHandler,
+    },
+    {
+      icon: 'eva:edit-fill',
+      text: 'Edit',
+      clickAction: proxyListModalHandler,
+    },
+  ];
 
   return (
     <>
@@ -55,7 +74,7 @@ export default function ProxyListMenu({ id }: ListMenuTypes) {
         formState={{ name, username, password }}
         open={isOpenProxyListModal}
         actionType="Update"
-        onSubmit={editProxyListHandler} // TODO: Add proxyList update action
+        onSubmit={editProxyListHandler}
         handleClose={proxyListModalHandler}
       />
 
@@ -69,31 +88,7 @@ export default function ProxyListMenu({ id }: ListMenuTypes) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem
-          sx={{ color: 'text.secondary' }}
-          onClick={deleteProxyListHandler}
-        >
-          <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Delete"
-            primaryTypographyProps={{ variant: 'body2' }}
-          />
-        </MenuItem>
-
-        <MenuItem
-          sx={{ color: 'text.secondary' }}
-          onClick={proxyListModalHandler}
-        >
-          <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Edit"
-            primaryTypographyProps={{ variant: 'body2' }}
-          />
-        </MenuItem>
+        <MenuItems items={menuItems} />
       </Menu>
     </>
   );
