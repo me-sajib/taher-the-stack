@@ -15,7 +15,9 @@ const nextConfig = {
   rewrites: async () => [
     {
       source: '/api/:slug*',
-      destination: `${process.env.API_URL}/api/:slug*`,
+      destination: `${
+        process.env.API_URL || `http://localhost:${process.env.API_PORT}`
+      }/api/:slug*`,
     },
   ],
 };
