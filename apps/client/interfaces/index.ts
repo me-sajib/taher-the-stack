@@ -28,3 +28,11 @@ export interface MenuItemType {
   text: string;
   clickAction: () => void;
 }
+
+export type SortType = 'asc' | 'desc';
+
+export interface HeadType<T> {
+  id: keyof T;
+  label: string;
+  align?: 'left' | 'center' | 'right';
+}
