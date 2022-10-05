@@ -15,63 +15,83 @@ interface SignUpUser {
 }
 
 async function seed() {
-  let totalUser: number = 5;
-  const users: SignUpUser[] = [];
+  const { USER_COUNT, PROXY_LIST_COUNT, FULLNAME, USERNAME, EMAIL, PASSWORD } =
+    process.env;
 
-  while (totalUser--) {
-    const [firstName, lastName] = faker.name.fullName().split(/\s/);
+  if (USER_COUNT) {
+    let totalUser: number = +USER_COUNT;
+    const users: SignUpUser[] = [];
 
-    const user = {
-      fullname: `${firstName} ${lastName}`,
-      email: faker.internet.email(firstName, lastName),
-      username: `${firstName}${faker.random.alphaNumeric(5)}`.toLowerCase(),
-      password: faker.internet.password(6),
-    };
+    while (totalUser--) {
+      const [firstName, lastName] = faker.name.fullName().split(/\s/);
 
-    // create user
-    const { id } = await client.user.create({
-      data: {
-        ...user,
-        password: await argon.hash(user.password),
-      },
-    });
-
-    users.push({
-      ...user,
-      id,
-    });
-  }
-
-  // create proxy list
-  for (const { id, username } of users) {
-    let totalProxyList: number = 3;
-
-    while (totalProxyList--) {
-      const proxyList = {
-        name: faker.word.noun(),
-        username: `${username}${faker.random.alphaNumeric(4)}`.toLowerCase(),
-        password: faker.internet.password(5),
+      const user = {
+        fullname: `${firstName} ${lastName}`,
+        email: faker.internet.email(firstName, lastName),
+        username: `${firstName}${faker.random.alphaNumeric(5)}`.toLowerCase(),
+        password: faker.internet.password(6),
       };
 
-      await client.proxyList.create({
+      // create user
+      const { id } = await client.user.create({
         data: {
-          userId: id as string,
-          ...proxyList,
+          ...user,
+          password: await argon.hash(user.password),
         },
       });
+
+      users.push({
+        ...user,
+        id,
+      });
     }
+
+    // create proxy list
+    if (PROXY_LIST_COUNT) {
+      for (const { id, username } of users) {
+        let totalProxyList: number = +PROXY_LIST_COUNT;
+
+        while (totalProxyList--) {
+          const proxyList = {
+            name: faker.word.noun(),
+            username: `${username}${faker.random.alphaNumeric(
+              4
+            )}`.toLowerCase(),
+            password: faker.internet.password(5),
+          };
+
+          await client.proxyList.create({
+            data: {
+              userId: id as string,
+              ...proxyList,
+            },
+          });
+        }
+      }
+    }
+
+    const usersFile = path.resolve(__dirname, 'users.json');
+    const prevUsers = JSON.parse((await readFile(usersFile, '[]')).toString());
+    fs.writeFile(
+      usersFile,
+      JSON.stringify(
+        prevUsers.concat(users.map(({ id, ...rest }) => rest)),
+        null,
+        2
+      )
+    );
   }
 
-  const usersFile = path.resolve(__dirname, 'users.json');
-  const prevUsers = JSON.parse((await readFile(usersFile, '[]')).toString());
-  fs.writeFile(
-    usersFile,
-    JSON.stringify(
-      prevUsers.concat(users.map(({ id, ...rest }) => rest)),
-      null,
-      2
-    )
-  );
+  if (FULLNAME && USERNAME && EMAIL && PASSWORD) {
+    client.user.create({
+      data: {
+        fullname: FULLNAME,
+        username: USERNAME,
+        email: EMAIL,
+        password: PASSWORD,
+      },
+    });
+  }
 
   await client.$disconnect();
 }
