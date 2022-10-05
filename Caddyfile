@@ -1,0 +1,11 @@
+proxy-manager.localhost {
+    reverse_proxy localhost:4200
+}
+
+api.localhost {
+    reverse_proxy localhost:3333
+}
+
+proxy-rotator {
+    reverse_proxy localhost:3001
+}

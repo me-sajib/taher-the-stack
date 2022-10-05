@@ -1,4 +1,8 @@
-import { RegisterOptions, ValidationValueMessage } from 'react-hook-form';
+import {
+  RegisterOptions,
+  ValidationRule,
+  ValidationValueMessage,
+} from 'react-hook-form';
 import { validateUsername } from 'utils';
 
 interface ValidatorPattern {
@@ -96,14 +100,12 @@ export class Validator<T extends ObjectConstructor> {
   lunch() {
     for (const name in this.validateObject) {
       const options = validator[name];
-      const value = this.validateObject[name];
-
-      console.log({ options, value, name });
+      const value: ValidationRule<any> = this.validateObject[name];
 
       for (const key in options) {
         switch (key) {
           case 'required': {
-            const isMatch = this.required(name, value as string);
+            const isMatch = this.required(name, value);
 
             if (isMatch) {
               return isMatch;
@@ -112,7 +114,7 @@ export class Validator<T extends ObjectConstructor> {
             break;
           }
           case 'maxLength': {
-            const isMatch = this.maxLength(name, value as string);
+            const isMatch = this.maxLength(name, value);
 
             if (isMatch) {
               return isMatch;
