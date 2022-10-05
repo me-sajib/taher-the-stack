@@ -1,4 +1,4 @@
-import { filter } from 'lodash';
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 
 // material
@@ -52,57 +52,23 @@ import Page from './Page';
 import ProxyListModal from './ProxyListModal';
 import RotateIcon from './RotateIcon';
 import SearchNotFound from './SearchNotFound';
+import { HeadType } from 'interfaces';
+import useSortFilter from 'hooks/useSortFilter';
 
 // ----------------------------------------------------------------------
+type UiProxyList = ProxyList & { totalProxy: number };
 
-const TABLE_HEAD = [
+const TABLE_HEAD: Array<HeadType<UiProxyList> | null> = [
   { id: 'name', label: 'Name' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
   { id: 'rotatingIndex', label: 'Rotating index', align: 'center' },
   { id: 'totalProxy', label: 'Total proxy', align: 'center' },
-  {},
+  null,
 ];
-
-// ----------------------------------------------------------------------
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(
-      array,
-      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
 
 export default function Index() {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
-  const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const asyncDispatch = useDispatch<AppThunkDispatch>();
@@ -129,6 +95,14 @@ export default function Index() {
   // custom hooks
   const { selects, clearSelection, handleClick, handleSelectAllClick } =
     useSelection<string>();
+  const {
+    items: filterSortProxyList,
+    query,
+    order,
+    orderBy,
+    handleRequestSort,
+    handleFilterBySearch,
+  } = useSortFilter<UiProxyList>(proxyLists, TABLE_HEAD);
 
   useEffect(() => {
     asyncDispatch(fetchProxyList());
@@ -151,12 +125,6 @@ export default function Index() {
     clearSelection();
   };
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -166,18 +134,14 @@ export default function Index() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
   const handleBulkRecheck = () => {
-    const filteredProxyList = [...selects].filter((key) => {
+    const filterSortProxyList = [...selects].filter((key) => {
       const proxyList = proxyLists.find((list) => list.key === key);
 
       return proxyList.totalProxy !== 0 && !proxyList.checking;
     });
 
-    asyncDispatch(recheckProxyList({ checkProxyListIds: filteredProxyList }));
+    asyncDispatch(recheckProxyList({ checkProxyListIds: filterSortProxyList }));
 
     clearSelection();
   };
@@ -185,13 +149,7 @@ export default function Index() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - proxyLists.length) : 0;
 
-  const filteredProxyList = applySortFilter(
-    proxyLists,
-    getComparator(order, orderBy),
-    filterName
-  );
-
-  const editList = filteredProxyList
+  const editList = filterSortProxyList
     .map((list) => ({
       name: list.name,
       username: list.username,
@@ -202,7 +160,7 @@ export default function Index() {
   const handleBulkEdit = (changedMap: Map<number, any>) => {
     const updatedIterator = changedMap.values();
     const updatePayload = [...changedMap.keys()].map((index) => {
-      const { key } = filteredProxyList.at(index + page * rowsPerPage);
+      const { key } = filterSortProxyList.at(index + page * rowsPerPage);
 
       return {
         key,
@@ -232,7 +190,7 @@ export default function Index() {
     return true;
   };
 
-  const isUserNotFound = filteredProxyList.length === 0;
+  const isUserNotFound = filterSortProxyList.length === 0;
 
   switch (status) {
     case 'success':
@@ -268,8 +226,8 @@ export default function Index() {
                 editStateData={JSON.stringify(editList, null, 2)}
                 placeholder={'Search proxy list...'}
                 numSelected={selects.size}
-                filterName={filterName}
-                onFilterName={handleFilterByName}
+                filterName={query}
+                onFilterName={handleFilterBySearch}
                 bulkDeleteHandler={handleBulkDelete}
                 bulkRecheckHandler={handleBulkRecheck}
                 bulkEditHandler={handleBulkEdit}
@@ -290,7 +248,7 @@ export default function Index() {
                     )}
                   />
                   <TableBody>
-                    {filteredProxyList
+                    {filterSortProxyList
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
@@ -378,7 +336,7 @@ export default function Index() {
                     <TableBody>
                       <TableRow>
                         <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <SearchNotFound searchQuery={filterName} />
+                          <SearchNotFound searchQuery={query} />
                         </TableCell>
                       </TableRow>
                     </TableBody>
