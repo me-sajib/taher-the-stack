@@ -8,6 +8,7 @@ import {
   TableRow,
   TableSortLabel,
 } from '@mui/material';
+import { HeadType } from 'interfaces';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +34,7 @@ ListHead.propTypes = {
   onSelectAllClick: PropTypes.func,
 };
 
-export default function ListHead({
+export default function ListHead<T>({
   order,
   orderBy,
   rowCount,
@@ -42,10 +43,6 @@ export default function ListHead({
   onRequestSort,
   onSelectAllClick,
 }) {
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
   return (
     <TableHead>
       <TableRow>
@@ -56,27 +53,33 @@ export default function ListHead({
             onChange={onSelectAllClick}
           />
         </TableCell>
-        {headLabel.map((headCell) => (
-          <TableCell
-            key={Math.random().toString(32)}
-            align={headCell.align || 'left'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              hideSortIcon
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+        {headLabel.map((headCell: HeadType<T>) =>
+          headCell ? (
+            <TableCell
+              key={Math.random().toString(32)}
+              align={headCell.align || 'left'}
+              sortDirection={orderBy === headCell.id ? order : false}
             >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box sx={{ ...visuallyHidden }}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
+              <TableSortLabel
+                hideSortIcon
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={onRequestSort(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box sx={{ ...visuallyHidden }}>
+                    {order === 'desc'
+                      ? 'sorted descending'
+                      : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          ) : (
+            headCell
+          )
+        )}
       </TableRow>
     </TableHead>
   );

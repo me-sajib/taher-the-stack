@@ -1,6 +1,5 @@
 import { formatDistanceToNow } from 'date-fns';
-import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // material
 import {
@@ -43,58 +42,23 @@ import {
 import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
+import { HeadType } from 'interfaces';
+import useSortFilter from 'hooks/useSortFilter';
 
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD = [
+const TABLE_HEAD: Array<HeadType<Proxy> | null> = [
   { id: 'host', label: 'Proxy address' },
   { id: 'port', label: 'Port' },
   { id: 'totalHits', label: 'Hits', align: 'center' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
   { id: 'status', label: 'Status', align: 'center' },
-  {},
+  null,
 ];
-
-// ----------------------------------------------------------------------
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(
-      array,
-      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
 
 export default function Index() {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
-  const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openProxyListModal, setProxyListModalStatus] = useState(false);
   const router = useRouter();
@@ -102,6 +66,15 @@ export default function Index() {
   const proxies = useSelector(getProxies) ?? [];
   const proxiesStatus = useSelector(getProxyStatus);
   const proxyList = useSelector(getList);
+  const {
+    items: sortFilterProxies,
+    orderBy,
+    order,
+    query,
+    handleRequestSort,
+    handleFilterBySearch,
+  } = useSortFilter<Proxy>(proxies, TABLE_HEAD);
+
   const proxyListUsername = router.query.username as string;
 
   // custom hooks
@@ -135,23 +108,15 @@ export default function Index() {
     clearSelection();
   };
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_event, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
   };
 
   const submitProxyHandler = (data) => {
@@ -173,13 +138,7 @@ export default function Index() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - proxies.length) : 0;
 
-  const filteredProxies = applySortFilter(
-    proxies,
-    getComparator(order, orderBy),
-    filterName
-  );
-
-  const editProxiesState = filteredProxies
+  const editProxiesState = sortFilterProxies
     .map((proxy: Proxy) => ({
       host: proxy.host,
       port: proxy.port,
@@ -192,7 +151,7 @@ export default function Index() {
   const handleBulkEdit = (changedMap) => {
     const updatedIterator = changedMap.values();
     const updatePayload = [...changedMap.keys()].map((index) => {
-      const { id } = filteredProxies.at(index + page * rowsPerPage);
+      const { id } = sortFilterProxies.at(index + page * rowsPerPage);
 
       return {
         id,
@@ -203,7 +162,7 @@ export default function Index() {
     asyncDispatch(editProxy(updatePayload));
   };
 
-  const isUserNotFound = filteredProxies.length === 0;
+  const isUserNotFound = sortFilterProxies.length === 0;
 
   switch (proxiesStatus) {
     case 'success':
@@ -239,10 +198,10 @@ export default function Index() {
                 editStateData={JSON.stringify(editProxiesState, null, 2)}
                 placeholder={'Search proxy...'}
                 numSelected={selects.size}
-                filterName={filterName}
+                filterName={query}
                 bulkDeleteHandler={handleBulkDelete}
                 bulkRecheckHandler={handleBulkRecheck}
-                onFilterName={handleFilterByName}
+                onFilterName={handleFilterBySearch}
                 bulkEditHandler={handleBulkEdit}
               />
 
@@ -260,7 +219,7 @@ export default function Index() {
                     )}
                   />
                   <TableBody>
-                    {filteredProxies
+                    {sortFilterProxies
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
@@ -376,7 +335,7 @@ export default function Index() {
                     <TableBody>
                       <TableRow>
                         <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <SearchNotFound searchQuery={filterName} />
+                          <SearchNotFound searchQuery={query} />
                         </TableCell>
                       </TableRow>
                     </TableBody>

@@ -11,7 +11,7 @@ import { styled, Theme } from '@mui/material/styles';
 import BulkEditor from 'components/BulkEditor';
 // component
 import Iconify from 'components/Iconify';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ interface ListToolbarTypes {
   bulkEditHandler: <T>(changedMap: Map<number, T>) => void;
   bulkDeleteHandler: () => void;
   bulkRecheckHandler: () => void;
-  onFilterName: (e: React.ChangeEvent) => void;
+  onFilterName: (query: string) => void;
   extraValidation?: (
     state: Map<number, any>,
     setError: React.Dispatch<React.SetStateAction<string>>
@@ -73,6 +73,13 @@ export default function ListToolbar({
 }: ListToolbarTypes) {
   const [isOpenEditModal, setModalStatus] = useState(false);
   const toggleModal = () => setModalStatus((prev) => !prev);
+  const [queryText, setQueryText] = useState<string>(filterName);
+
+  useEffect(() => onFilterName(queryText), [queryText]);
+
+  const queryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQueryText(e.target.value);
+  };
 
   const bulkEditorProps = {
     bulkEditHandler,
@@ -97,8 +104,8 @@ export default function ListToolbar({
         </Typography>
       ) : (
         <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
+          value={queryText}
+          onChange={queryChangeHandler}
           placeholder={placeholder}
           startAdornment={
             <InputAdornment position="start">
