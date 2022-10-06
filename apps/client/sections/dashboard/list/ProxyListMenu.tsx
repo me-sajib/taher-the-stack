@@ -39,10 +39,15 @@ export default function ProxyListMenu({ id }: ListMenuTypes) {
     setIsOpen(false);
   };
 
-  const editProxyListHandler = (data) => {
-    asyncDispatch(editProxyList([{ ...data, key: id }]));
-    proxyListModalHandler();
-    setIsOpen(false);
+  const editProxyListHandler = async (data) => {
+    const res = (await asyncDispatch(
+      editProxyList([{ ...data, key: id }])
+    )) as any;
+
+    if (!res.payload.error) {
+      proxyListModalHandler();
+      setIsOpen(false);
+    }
   };
 
   const menuItems: MenuItemType[] = [

@@ -92,7 +92,10 @@ export default function ProxyListModal({
               type="text"
               fullWidth
               variant="standard"
-              rules={validator.username}
+              rules={{
+                ...validator.username,
+                required: false,
+              }}
             />
             <RHFPasswordField
               margin="dense"
@@ -101,7 +104,10 @@ export default function ProxyListModal({
               label="password"
               fullWidth
               variant="standard"
-              rules={validator.password}
+              rules={{
+                ...validator.password,
+                required: false,
+              }}
             />
           </Stack>
 
