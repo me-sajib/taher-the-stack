@@ -15,7 +15,7 @@ interface SignUpUser {
 }
 
 async function seed() {
-  const { USER_COUNT, PROXY_LIST_COUNT, FULLNAME, USERNAME, EMAIL, PASSWORD } =
+  const { USER_COUNT, PROXY_LIST_COUNT, FULL_NAME, USERNAME, EMAIL, PASSWORD } =
     process.env;
 
   if (USER_COUNT) {
@@ -82,10 +82,10 @@ async function seed() {
     );
   }
 
-  if (FULLNAME && USERNAME && EMAIL && PASSWORD) {
+  if (FULL_NAME && USERNAME && EMAIL && PASSWORD) {
     client.user.create({
       data: {
-        fullname: FULLNAME,
+        fullname: FULL_NAME,
         username: USERNAME,
         email: EMAIL,
         password: PASSWORD,
