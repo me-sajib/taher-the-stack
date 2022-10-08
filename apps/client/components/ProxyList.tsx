@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+import { faker } from '@faker-js/faker';
+import { range } from 'lodash';
 
 // material
 import {
@@ -76,15 +78,6 @@ export default function Index() {
   const proxyLists = useSelector(getProxyList);
   const status = useSelector(getProxyListStatus);
   const user = useSelector(getUser);
-  const proxyListErrors = useSelector(getProxyListError);
-
-  useEffect(() => {
-    if (proxyListErrors.length) {
-      setProxyListModalStatus(true);
-    } else {
-      setProxyListModalStatus(false);
-    }
-  }, [proxyListErrors.length]);
 
   useEffect(() => {
     return () => {
@@ -108,12 +101,30 @@ export default function Index() {
     asyncDispatch(fetchProxyList());
   }, [asyncDispatch]);
 
-  const handleProxyListModal = () =>
-    setProxyListModalStatus(!openProxyListModal);
+  const toggleProxyListModal = () => setProxyListModalStatus((prev) => !prev);
 
   const submitProxyListHandler = async (data) => {
     syncDispatch(clearProxyListError());
-    await asyncDispatch(createProxyList({ ...data, userId: user.id }));
+
+    const [firstName, lastName] = user.fullname.split(/\s/);
+    data.username ||= `${faker.internet.userName(
+      firstName,
+      lastName
+    )}_${faker.random.alphaNumeric(5)}`;
+
+    data.password ||= faker.internet.password(
+      faker.datatype.number({
+        min: 5,
+        max: 10,
+      })
+    );
+    const res = (await asyncDispatch(
+      createProxyList({ ...data, userId: user.id })
+    )) as any;
+
+    if (!res.payload.error) {
+      toggleProxyListModal();
+    }
   };
 
   const handleBulkDelete = () => {
@@ -209,7 +220,7 @@ export default function Index() {
               <Button
                 variant="contained"
                 startIcon={<Iconify icon="eva:plus-fill" />}
-                onClick={handleProxyListModal}
+                onClick={toggleProxyListModal}
               >
                 New Proxy List
               </Button>
@@ -217,7 +228,7 @@ export default function Index() {
                 actionType="Add"
                 open={openProxyListModal}
                 onSubmit={submitProxyListHandler}
-                handleClose={handleProxyListModal}
+                handleClose={toggleProxyListModal}
               />
             </Stack>
 
