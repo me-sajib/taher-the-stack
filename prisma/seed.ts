@@ -88,7 +88,7 @@ async function seed() {
         fullname: FULL_NAME,
         username: USERNAME,
         email: EMAIL,
-        password: PASSWORD,
+        password: await argon.hash(PASSWORD),
       },
     });
   }
