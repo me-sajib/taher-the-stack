@@ -83,7 +83,7 @@ async function seed() {
   }
 
   if (FULL_NAME && USERNAME && EMAIL && PASSWORD) {
-    client.user.create({
+    await client.user.create({
       data: {
         fullname: FULL_NAME,
         username: USERNAME,
