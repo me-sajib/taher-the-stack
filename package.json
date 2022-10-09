@@ -14,7 +14,9 @@
     "export:client": "nx run client:export",
     "build:proxy-rotator": "nx build proxy-rotator",
     "format": "nx format:write .",
-    "run:caddy": "caddy run",
+    "caddy": "caddy run",
+    "seed": "prisma db seed",
+    "studio": "prisma studio",
     "test": "nx test"
   },
   "prisma": {
