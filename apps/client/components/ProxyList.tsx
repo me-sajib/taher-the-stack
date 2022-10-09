@@ -60,13 +60,12 @@ import useSortFilter from 'hooks/useSortFilter';
 // ----------------------------------------------------------------------
 type UiProxyList = ProxyList & { totalProxy: number };
 
-const TABLE_HEAD: Array<HeadType<UiProxyList> | null> = [
+const TABLE_HEAD: Array<HeadType<UiProxyList>> = [
   { id: 'name', label: 'Name' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
   { id: 'rotatingIndex', label: 'Rotating index', align: 'center' },
   { id: 'totalProxy', label: 'Total proxy', align: 'center' },
-  null,
 ];
 
 export default function Index() {

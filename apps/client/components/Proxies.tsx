@@ -47,14 +47,13 @@ import useSortFilter from 'hooks/useSortFilter';
 
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD: Array<HeadType<Proxy> | null> = [
+const TABLE_HEAD: Array<HeadType<Proxy>> = [
   { id: 'host', label: 'Proxy address' },
   { id: 'port', label: 'Port' },
   { id: 'totalHits', label: 'Hits', align: 'center' },
   { id: 'username', label: 'Username', align: 'center' },
   { id: 'password', label: 'Password', align: 'center' },
   { id: 'status', label: 'Status', align: 'center' },
-  null,
 ];
 
 export default function Index() {

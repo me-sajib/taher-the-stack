@@ -59,8 +59,6 @@ function applySortFilter<T>({
         ({ label }) => propName.trim().toLowerCase() === label.toLowerCase()
       )?.id;
       query = queryString.trim();
-
-      console.log({ orderBy, query });
     }
 
     return array.filter(
