@@ -46,3 +46,7 @@ Thumbs.db
 
 # seed
 users.json
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

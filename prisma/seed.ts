@@ -1,8 +1,6 @@
-import { prisma, PrismaClient, User } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import * as argon from 'argon2';
-import fs from 'node:fs/promises';
-import path from 'node:path';
 
 const client = new PrismaClient();
 
@@ -29,20 +27,15 @@ async function seed() {
         fullname: `${firstName} ${lastName}`,
         email: faker.internet.email(firstName, lastName),
         username: `${firstName}${faker.random.alphaNumeric(5)}`.toLowerCase(),
-        password: faker.internet.password(6),
+        password: 'Hello12345',
       };
 
       // create user
-      const { id } = await client.user.create({
+      await client.user.create({
         data: {
           ...user,
           password: await argon.hash(user.password),
         },
-      });
-
-      users.push({
-        ...user,
-        id,
       });
     }
 
@@ -69,17 +62,6 @@ async function seed() {
         }
       }
     }
-
-    const usersFile = path.resolve(__dirname, 'users.json');
-    const prevUsers = JSON.parse((await readFile(usersFile, '[]')).toString());
-    fs.writeFile(
-      usersFile,
-      JSON.stringify(
-        prevUsers.concat(users.map(({ id, ...rest }) => rest)),
-        null,
-        2
-      )
-    );
   }
 
   if (FULL_NAME && USERNAME && EMAIL && PASSWORD) {
@@ -97,12 +79,3 @@ async function seed() {
 }
 
 seed();
-
-async function readFile(path: string, writePlaceolder: string) {
-  try {
-    return await fs.readFile(path);
-  } catch {
-    await fs.writeFile(path, writePlaceolder);
-    return writePlaceolder;
-  }
-}

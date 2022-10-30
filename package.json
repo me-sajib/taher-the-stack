@@ -17,10 +17,25 @@
     "caddy": "caddy run",
     "seed": "prisma db seed",
     "studio": "prisma studio",
-    "test": "nx test"
+    "test": "nx test",
+    "prepare": "husky install"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "lint-staged": {
+    "./apps/api/src/**/**/*.ts": [
+      "prettier --write",
+      "eslint"
+    ],
+    "./apps/client/**/**/*.{ts,tsx}": [
+      "prettier --write",
+      "eslint"
+    ],
+    "./apps/proxy-rotator/src/**/*.ts": [
+      "prettier --write",
+      "eslint"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -106,6 +121,7 @@
     "eslint-plugin-jsx-a11y": "6.6.1",
     "eslint-plugin-react": "7.31.1",
     "eslint-plugin-react-hooks": "4.6.0",
+    "husky": "^8.0.1",
     "jest": "27.5.1",
     "jest-environment-jsdom": "28.1.1",
     "nx": "14.5.10",
