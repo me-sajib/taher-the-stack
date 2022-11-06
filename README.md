@@ -28,7 +28,7 @@ after installation run the prisma migration
 yarn prisma migrate dev exp-proxy-manager
 ```
 
-now run the all apps parallelly
+now run the all apps in parallel
 
 ```bash
 yarn start:all
@@ -40,7 +40,7 @@ at first register an account to use this app. then login to use.
 
 ### Sign in
 
-after signning in the app automatically redirect to `/proxy-list` path. the interface looks like this
+after signing in the app automatically redirect to `/proxy-list` path. the interface looks like this
 ![proxy-list page](./assets/proxy-list.png)
 
 ### create a proxy list
@@ -73,9 +73,10 @@ you can search based of any column name, this feature is very flexible to search
 
 also you can edit, delete & recheck individual proxy by clicking right menu. you can operate also bulk actions on each proxy & proxy list.
 
-# recheck proxy
+### recheck proxy
 
-lets see how you can check the statusd of each proxy
+lets see how you can check the status of each proxy
 ![recheck proxy](./assets/checking%20proxy.gif)
 
-also you can recheck multiple proxy list like foobar
+also you can recheck multiple proxy list like foo
+![bulk recheck](./assets/bulk-recheck.gif)
