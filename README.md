@@ -1,8 +1,6 @@
 <h1 align="center">Easy Proxy Manager</h1>
 <p align="center">Manage your proxies with ease</p>
 
-<br />
-
 <p align="center">
   <img src="https://img.shields.io/badge/stability-experimental-orange.svg" alt="stability">
   <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license">
