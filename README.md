@@ -1,10 +1,15 @@
 <h1 align="center">Easy Proxy Manager</h1>
-<p align="center">Manage your proxies with ease</p>
+<p align="center">Manage your proxies with pleasure.</p>
+
+<p align="center">
+  <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="built with love">
+  <img src="https://forthebadge.com/images/badges/made-with-javascript.svg" alt="made with javascript">
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/stability-experimental-orange.svg" alt="stability">
   <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license">
-  <img src="https://img.shields.io/badge/release-v1.0.0-blue.svg" alt="releate">
+  <img src="https://img.shields.io/badge/release-v1.0.0-blue.svg" alt="release">
 </p>
 
 A simple rotate proxy manager to manage proxies. this app is generated with nx & it's split into three sub apps:
@@ -12,6 +17,32 @@ A simple rotate proxy manager to manage proxies. this app is generated with nx &
 1. api - Mange proxies with REST api
 2. proxy-rotator - Rotate proxy server
 3. client - Frontend app for manage proxies in GUI
+
+## Credits
+
+This software uses the following open source packages:
+
+[TypeScript](https://www.typescriptlang.org/)
+[React](https://reactjs.org/)
+[Nx](https://nx.dev/)
+[NestJs](https://nestjs.com/)
+[Redux too kit](https://redux-toolkit.js.org/)
+
+
+## Key features
+
+1. User can create & login personal account
+2. Create multiple proxy lists with username & password
+3. Add proxies to different proxy lists
+4. Recheck individual & bulk proxies
+5. Recheck individual & bulk proxy list
+6. Edit & delete proxies & proxy list
+7. Bulk edit proxy & proxy list
+8. Search proxies & proxy list by table property
+9. Hit a URL with rotate proxy by using the username & password of the proxy list
+10. Proxy last recheck status
+11. Users can update their information
+
 
 ## Usage
 
@@ -43,30 +74,30 @@ yarn start:all
 
 ## How it works
 
-at first register an account to use this app. then login to use.
+At first register an account to use this app. then login to use.
 
 ### Sign in
 
-after signing in the app automatically redirect to `/proxy-list` path. the interface looks like this
+After signing in the app automatically redirect to `/proxy-list` path. the interface looks like this
 ![proxy-list page](./assets/proxy-list.png)
 
-### create a proxy list
+### Create a proxy list
 
-now you have to create a proxy list to store & manage multiple proxies individually. so press the new proxy list button & include your info to create a new proxy list. let's see with `foo` proxy list.
+Now you have to create a proxy list to store & manage multiple proxies individually. so press the new proxy list button & include your info to create a new proxy list. let's see with `foo` proxy list.
 
 ![foo](./assets/foo-proxy-list.png)
 
-### add proxies
+### Add proxies
 
-now just click on the `foo` proxy list & drop your own proxies. like this
+Now just click on the `foo` proxy list & drop your own proxies. like this
 ![add proxy](./assets/add-proxy.gif)
 
-let's include more proxies like this and use these proxies with rotated mode by `foo` username & password.
+Let's include more proxies like this and use these proxies with rotated mode by `foo` username & password.
 you can edit a specific proxy by clicking edit button as well.
 
-### rotate proxy
+### Rotate proxy
 
-get rotate proxy of `foo` proxy list with curl like this.
+Get rotate proxy of `foo` proxy list with curl like this.
 
 ```bash
 curl -x http://foobar:pass@host:port https://htppbin.org/ip
