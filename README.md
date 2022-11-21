@@ -1,10 +1,19 @@
-# Exp Proxy Manager
+<h1 align="center">Easy Proxy Manager</h1>
+<p align="center">Manage your proxies with ease</p>
 
-A simple rotate proxy manager to manage proxies. this app generated with nx & it's split into three portion:
+<br />
+
+<p align="center">
+  <img src="https://img.shields.io/badge/stability-experimental-orange.svg" alt="stability">
+  <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license">
+  <img src="https://img.shields.io/badge/release-v1.0.0-blue.svg" alt="releate">
+</p>
+
+A simple rotate proxy manager to manage proxies. this app is generated with nx & it's split into three sub apps:
 
 1. api - Mange proxies with REST api
 2. proxy-rotator - Rotate proxy server
-3. client - Frontend app for manage proxies as GUI
+3. client - Frontend app for manage proxies in GUI
 
 ## Usage
 
@@ -54,7 +63,8 @@ now you have to create a proxy list to store & manage multiple proxies individua
 now just click on the `foo` proxy list & drop your own proxies. like this
 ![add proxy](./assets/add-proxy.gif)
 
-let's include more proxies like this and use these proxies with rotated mode by `foo` username & password
+let's include more proxies like this and use these proxies with rotated mode by `foo` username & password.
+you can edit a specific proxy by clicking edit button as well.
 
 ### rotate proxy
 
