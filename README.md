@@ -16,17 +16,17 @@ A simple rotate proxy manager to manage proxies. this app is generated with nx &
 
 1. api - Mange proxies with REST api
 2. proxy-rotator - Rotate proxy server
-3. client - Frontend app for manage proxies in GUI
+3. client - Frontend app for managing proxies in GUI
 
 ## Credits
 
 This software uses the following open source packages:
 
-[TypeScript](https://www.typescriptlang.org/)
-[React](https://reactjs.org/)
-[Nx](https://nx.dev/)
-[NestJs](https://nestjs.com/)
-[Redux too kit](https://redux-toolkit.js.org/)
+1. [TypeScript](https://www.typescriptlang.org/)
+2. [React](https://reactjs.org/)
+3. [Nx](https://nx.dev/)
+4. [NestJs](https://nestjs.com/)
+5. [Redux too kit](https://redux-toolkit.js.org/)
 
 
 ## Key features
