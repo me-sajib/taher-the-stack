@@ -3,7 +3,7 @@
 
 <p align="center">
   <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="built with love">
-  <img src="https://forthebadge.com/images/badges/made-with-javascript.svg" alt="made with javascript">
+  <img src="https://forthebadge.com/images/badges/made-with-typescript.svg" alt="made with javascript">
 </p>
 
 <p align="center">
