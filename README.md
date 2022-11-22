@@ -60,7 +60,7 @@ Now run the all apps parallelly
 yarn start:all
 ```
 
-## Hot it works
+## How it works
 
 At first register an account to use this app. Then sign in to use.
 
