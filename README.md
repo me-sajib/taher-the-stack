@@ -60,7 +60,7 @@ Now run the all apps parallelly
 yarn start:all
 ```
 
-## How it works
+## Key features
 
 At first register an account to use this app. Then sign in to use.
 
@@ -74,7 +74,7 @@ After signing in the app its automatically redirect to `/proxy-list` path.
 
 Now you have to create a proxy list to store & manage multiple proxies individually. So press the new proxy list button & include your info to create a new proxy list. let's see with `foo` proxy list.
 
-![foo](./assets/foo-proxy-list.png)
+![foo](./assets/Create%20a%20proxy%20list.gif)
 
 **NOTE**: If you don't provide any username & password it will generate automatically based on your username.
 
@@ -114,6 +114,10 @@ Also you can recheck multiple proxy list like foo
 
 ![bulk recheck](./assets/bulk-recheck.gif)
 
+### The amount of proxy hits
+
+Through this prop, you can easily monitor the number of hits at each proxy.
+
 ## Credits
 
 This software uses the following open source packages:
@@ -123,3 +127,7 @@ This software uses the following open source packages:
 3. [Nx](https://nx.dev/)
 4. [NestJs](https://nestjs.com/)
 5. [Redux too kit](https://redux-toolkit.js.org/)
+lets see how you can check the status of each proxy, also you can recheck multiple proxy list like foo
+![recheck proxy](./assets/checking%20proxy.gif)
+
+
