@@ -60,7 +60,7 @@ Now run the all apps parallelly
 yarn start:all
 ```
 
-## Key features
+## Hot it works
 
 At first register an account to use this app. Then sign in to use.
 
@@ -127,7 +127,3 @@ This software uses the following open source packages:
 3. [Nx](https://nx.dev/)
 4. [NestJs](https://nestjs.com/)
 5. [Redux too kit](https://redux-toolkit.js.org/)
-lets see how you can check the status of each proxy, also you can recheck multiple proxy list like foo
-![recheck proxy](./assets/checking%20proxy.gif)
-
-
