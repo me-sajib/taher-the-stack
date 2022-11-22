@@ -34,9 +34,16 @@ now run the all apps in parallel
 yarn start:all
 ```
 
-## How it works
+## Key features
 
-at first register an account to use this app. then login to use.
+- you can manage your proxies in a different lists.
+- recheck any time to get updated statuses of proxies if it is active or not.
+- set username & password to each proxy list to access rotate proxy.
+- recheck all proxy lists with one click
+- you can delete all proxy & proxy lists with one click
+- also, it has a nice bulk edit option. you can edit your proxies & list in JSON format.
+- you can see the current rotating index & total proxy in list table.
+- search
 
 ### Sign in
 
@@ -45,9 +52,9 @@ after signing in the app automatically redirect to `/proxy-list` path. the inter
 
 ### create a proxy list
 
-now you have to create a proxy list to store & manage multiple proxies individually. so press the new proxy list button & include your info to create a new proxy list. let's see with `foo` proxy list.
+now you have to create a proxy list to store & manage multiple proxies individually. so press the new proxy list button & include your info to create a new proxy list. let's see with the `foo` list.
 
-![foo](./assets/foo-proxy-list.png)
+![foo](./assets/Create%20a%20proxy%20list.gif)
 
 ### add proxies
 
@@ -68,15 +75,16 @@ curl -x http://foobar:pass@host:port https://htppbin.org/ip
 
 ### search by column name
 
-you can search based of any column name, this feature is very flexible to search your specific proxy
+you can search based on any column name, this feature is very flexible to search your specific proxy
 ![search](./assets/advance%20search.gif)
 
-also you can edit, delete & recheck individual proxy by clicking right menu. you can operate also bulk actions on each proxy & proxy list.
+also, you can edit, delete, and re-check individual proxies by clicking the right menu. you can operate also bulk actions on each proxy & proxy list.
 
 ### recheck proxy
 
-lets see how you can check the status of each proxy
+lets see how you can check the status of each proxy, also you can recheck multiple proxy list like foo
 ![recheck proxy](./assets/checking%20proxy.gif)
 
-also you can recheck multiple proxy list like foo
-![bulk recheck](./assets/bulk-recheck.gif)
+### the amount of proxy hits
+
+through this prop you can easily check the number of hits in each proxy.
