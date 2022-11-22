@@ -1,71 +1,94 @@
-# Exp Proxy Manager
+<h1 align="center">Easy Proxy Manager</h1>
+<p align="center">Manage your proxies with pleasure</p>
 
-A simple rotate proxy manager to manage proxies. this app generated with nx & it's split into three portion:
+<p align="center">
+  <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="built with love">
+  <img src="https://forthebadge.com/images/badges/made-with-typescript.svg" alt="made with typescript">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/stability-experimental-orange.svg" alt="stability">
+  <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license">
+  <img src="https://img.shields.io/badge/release-v1.0.0-blue.svg" alt="release">
+</p>
+
+A simple manager to manage & get rotate proxies. This app is generated with nx & it's split into three sub-apps
 
 1. api - Mange proxies with REST api
 2. proxy-rotator - Rotate proxy server
-3. client - Frontend app for manage proxies as GUI
+3. client - Frontend app for managing proxies in GUI
+
+## Key features
+
+1. User can create & login personal account
+2. Create multiple proxy lists with username & password
+3. Add proxies to different proxy lists
+4. Recheck individual & bulk proxies
+5. Recheck individual & bulk proxy list
+6. Edit & delete proxies & proxy list
+7. Bulk edit proxy & proxy list
+8. Search proxies & proxy list by table property
+9. Hit a URL with rotate proxy by using the username & password of the proxy list
+10. Proxy last recheck status
+11. Users can update their information
 
 ## Usage
 
-> setup the postgres DB by docker compose
+Setup the postgres DB by docker compose
 
 ```bash
 docker-compose up --build
 ```
 
-by this command the postgressql Db will listen on `postgres:1234@localhost:5432/postgresDB`
+By this command, the PostgreSQL Db will listen on `postgres:1234@localhost:5432/postgresDB`
 
-then for install all dependencies
+Then to install all dependencies just run
 
 ```bash
 yarn install
 ```
 
-after installation run the prisma migration
+After installation run the prisma migration
 
 ```bash
 yarn prisma migrate dev exp-proxy-manager
 ```
 
-now run the all apps in parallel
+Now run the all apps parallelly
 
 ```bash
 yarn start:all
 ```
 
-## Key features
+## Hot it works
 
-- you can manage your proxies in a different lists.
-- recheck any time to get updated statuses of proxies if it is active or not.
-- set username & password to each proxy list to access rotate proxy.
-- recheck all proxy lists with one click
-- you can delete all proxy & proxy lists with one click
-- also, it has a nice bulk edit option. you can edit your proxies & list in JSON format.
-- you can see the current rotating index & total proxy in list table.
-- search
+At first register an account to use this app. Then sign in to use.
 
 ### Sign in
 
-after signing in the app automatically redirect to `/proxy-list` path. the interface looks like this
+After signing in the app its automatically redirect to `/proxy-list` path.
+
 ![proxy-list page](./assets/proxy-list.png)
 
-### create a proxy list
+### Create a proxy list
 
-now you have to create a proxy list to store & manage multiple proxies individually. so press the new proxy list button & include your info to create a new proxy list. let's see with the `foo` list.
+Now you have to create a proxy list to store & manage multiple proxies individually. So press the new proxy list button & include your info to create a new proxy list. let's see with `foo` proxy list.
 
 ![foo](./assets/Create%20a%20proxy%20list.gif)
 
-### add proxies
+**NOTE**: If you don't provide any username & password it will generate automatically based on your username.
 
-now just click on the `foo` proxy list & drop your own proxies. like this
+### Add proxies
+
+Now just click on the `foo` proxy list & drop your own proxies. Like this
+
 ![add proxy](./assets/add-proxy.gif)
 
-let's include more proxies like this and use these proxies with rotated mode by `foo` username & password
+Let's include more proxies like this and use these proxies with rotated mode by `foo` username & password. You can edit a specific proxy by clicking edit button as well.
 
-### rotate proxy
+### Rotate proxy
 
-get rotate proxy of `foo` proxy list with curl like this.
+Get rotate proxy of `foo` proxy list with curl like this.
 
 ```bash
 curl -x http://foobar:pass@host:port https://htppbin.org/ip
@@ -73,18 +96,34 @@ curl -x http://foobar:pass@host:port https://htppbin.org/ip
 
 ![rotate proxy](./assets/rotate%20proxy.gif)
 
-### search by column name
+### Search by column name
 
-you can search based on any column name, this feature is very flexible to search your specific proxy
+You can search based on any column name, this feature is very flexible to search your specific proxy
+
 ![search](./assets/advance%20search.gif)
 
-also, you can edit, delete, and re-check individual proxies by clicking the right menu. you can operate also bulk actions on each proxy & proxy list.
+Also you can edit, delete & recheck individual proxy by clicking right menu. You can operate bulk actions on each proxy & proxy list as well.
 
-### recheck proxy
+### Recheck proxy
 
-lets see how you can check the status of each proxy, also you can recheck multiple proxy list like foo
+Lets see how you can check the status of each proxy
+
 ![recheck proxy](./assets/checking%20proxy.gif)
 
-### the amount of proxy hits
+Also you can recheck multiple proxy list like foo
 
-through this prop you can easily check the number of hits in each proxy.
+![bulk recheck](./assets/bulk-recheck.gif)
+
+### The amount of proxy hits
+
+Through this prop, you can easily monitor the number of hits at each proxy.
+
+## Credits
+
+This software uses the following open source packages:
+
+1. [TypeScript](https://www.typescriptlang.org/)
+2. [React](https://reactjs.org/)
+3. [Nx](https://nx.dev/)
+4. [NestJs](https://nestjs.com/)
+5. [Redux too kit](https://redux-toolkit.js.org/)
