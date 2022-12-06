@@ -2,13 +2,13 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ProxyList } from '@prisma/client';
 import { isUniqueError } from 'utils';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
-import { ProxyListDto, ProxyListParamDto, ProxyListUpdateDto } from './dto';
+import { ProxyListBodyDto, ProxyListParamDto, ProxyListUpdateDto } from './dto';
 
 @Injectable()
 export class ProxyListService {
   constructor(private prisma: PrismaClientService) {}
 
-  async createProxyList(list: ProxyListDto, userId: string) {
+  async createProxyList(list: ProxyListBodyDto, userId: string) {
     try {
       const proxyList = await this.prisma.proxyList.create({
         data: {
