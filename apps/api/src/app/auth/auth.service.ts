@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   HttpException,
   HttpStatus,
@@ -9,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import * as argon from 'argon2';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { isUniqueError } from 'utils';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import { AuthSigninDto, AuthSignupDto } from './dto';
@@ -27,11 +28,16 @@ export class AuthService {
     private jwt: JwtService,
     private config: ConfigService
   ) {}
-  private DAY: number = 24 * 60 * 60 * 1e3;
+  private readonly DAY: number = 24 * 60 * 60 * 1e3;
+  private readonly AUTH_COOKIE_KEY = 'auth-cookie';
+
+  private isValidMail(mail: string) {
+    return /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.test(mail.trim());
+  }
 
   async register(dto: AuthSignupDto, res: Response) {
     const { remember, ...regDto } = dto;
-    dto.password = await argon.hash(regDto.password);
+    regDto.password = await argon.hash(regDto.password);
 
     try {
       const user: User = await this.prisma.user.create({
@@ -46,9 +52,12 @@ export class AuthService {
         email: user.email,
       };
 
-      await this.signToken(payload, remember, res);
+      const token = await this.signToken(payload, remember, res);
 
-      return new HttpException('Signed up successfully', HttpStatus.ACCEPTED);
+      return {
+        ...new HttpException('Signed up successfully', HttpStatus.ACCEPTED),
+        token,
+      };
     } catch (e) {
       const uniqueError = isUniqueError(e);
       if (uniqueError) {
@@ -60,10 +69,17 @@ export class AuthService {
   }
 
   async login(dto: AuthSigninDto, res: Response) {
-    const { email, username, password, remember } = dto;
+    const { identifier, password, remember } = dto;
+
+    const emailOrUsername = Object.assign(
+      {},
+      this.isValidMail(identifier)
+        ? { email: identifier }
+        : { username: identifier }
+    );
 
     const user: User = await this.prisma.user.findUnique({
-      where: email ? { email } : { username }, // optional login with email or username
+      where: emailOrUsername, // optional login with email or username
     });
 
     const forbiddenError = new ForbiddenException('Incorrect Credential');
@@ -85,19 +101,25 @@ export class AuthService {
         email: user.email,
       };
 
-      await this.signToken(payload, remember, res);
+      const token = await this.signToken(payload, remember, res);
 
-      return new HttpException('Signed in successfully', HttpStatus.ACCEPTED);
+      return {
+        ...new HttpException('Signed in successfully', HttpStatus.ACCEPTED),
+        token,
+      };
     }
 
     Logger.error('Incorrect login Credential');
     return forbiddenError;
   }
 
-  async logout(res: Response) {
-    res.clearCookie('auth-cookie');
+  async logout(req: Request, res: Response) {
+    if (this.AUTH_COOKIE_KEY in req.cookies) {
+      res.clearCookie(this.AUTH_COOKIE_KEY);
+      return new HttpException('Signed out successfully', HttpStatus.OK);
+    }
 
-    return new HttpException('Signed out successfully', HttpStatus.OK);
+    return new BadRequestException('User not logged in');
   }
 
   private async signToken(
@@ -119,7 +141,7 @@ export class AuthService {
     });
 
     res.cookie(
-      'auth-cookie',
+      this.AUTH_COOKIE_KEY,
       token,
       Object.assign(
         { httpOnly: true, secure: true },
@@ -128,5 +150,7 @@ export class AuthService {
         }
       )
     );
+
+    return `Bearer ${token}`;
   }
 }
