@@ -28,17 +28,10 @@ export class ProxyService {
     proxyIds?: number[]
   ) {
     const proxies = await this.prisma.proxy.findMany({
-      where: Object.assign(
-        {
-          proxyListKey,
-          userId,
-        },
-        proxyIds && {
-          id: {
-            in: proxyIds,
-          },
-        }
-      ),
+      where: {
+        proxyListKey,
+        userId,
+      },
     });
 
     proxyIds
@@ -51,7 +44,7 @@ export class ProxyService {
   async deleteBulkProxies(
     userId: string,
     proxyListKey: string,
-    proxyIds?: number[]
+    proxyIds?: string[]
   ) {
     await this.prisma.proxy.deleteMany({
       where: Object.assign(
@@ -61,7 +54,9 @@ export class ProxyService {
         },
         proxyIds && {
           id: {
-            in: proxyIds,
+            in: proxyIds
+              .map(Number)
+              .filter((number) => Number.isInteger(number)),
           },
         }
       ),

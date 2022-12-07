@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class ProxyListBodyDto {
   @IsNotEmpty()
@@ -40,18 +34,4 @@ export class ProxyListBodyDto {
     default: '',
   })
   password: string;
-}
-
-export class ProxyListBodyBulkDto {
-  @IsOptional()
-  @IsUUID('all', {
-    each: true,
-  })
-  @ApiProperty({
-    name: 'listKeys',
-    description: 'The list of proxy list key',
-    type: [String],
-    default: [],
-  })
-  listKeys: string[];
 }

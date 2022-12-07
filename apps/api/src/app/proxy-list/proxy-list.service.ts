@@ -4,8 +4,9 @@ import { isUniqueError } from 'utils';
 import { CheckProxyService } from '../check-proxy/check-proxy.service';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import {
-  CheckBodyDto,
+  CheckProxyListBody,
   ProxyListBodyDto,
+  ProxyListGetDtoQuery,
   ProxyListParamDto,
   ProxyListUpdateDto,
 } from './dto';
@@ -56,30 +57,15 @@ export class ProxyListService {
     return uniqueProxyList;
   }
 
-  async getBulkProxyLists(
-    userId: string,
-    listKeys?: string[],
-    includeProxies?: boolean
-  ) {
+  async getBulkProxyLists(userId: string, queryDto: ProxyListGetDtoQuery) {
     const proxyLists = await this.prisma.proxyList.findMany({
-      where: Object.assign(
-        { userId },
-        listKeys && {
-          key: {
-            in: listKeys,
-          },
-        }
-      ),
+      where: { userId },
       include: {
-        Proxies: includeProxies ?? false,
+        Proxies: queryDto.includeProxies ?? false,
       },
     });
 
-    listKeys
-      ? Logger.log(
-          `GET: all of proxyList keys:\n${JSON.stringify(proxyLists, null, 2)}`
-        )
-      : Logger.log(`GET: all proxyList`);
+    Logger.log(`GET: all proxyList`);
 
     return proxyLists;
   }
@@ -132,7 +118,7 @@ export class ProxyListService {
     return updatedList;
   }
 
-  async checkProxyList({ checkProxyListIds }: CheckBodyDto) {
+  async checkProxyList({ checkProxyListIds }: CheckProxyListBody) {
     // update all selected proxy list checking to true
     await this.prisma.proxyList.updateMany({
       where: {

@@ -72,6 +72,7 @@
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
+    "qs": "^6.11.0",
     "rand-token": "^1.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
