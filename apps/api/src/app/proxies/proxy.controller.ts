@@ -13,7 +13,12 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { UserDto } from '../user/dto';
-import { ProxyCreateDto, ProxyQueryDto, ProxyUpdateDto } from './dto';
+import {
+  CheckBodyDto,
+  ProxyCreateDto,
+  ProxyQueryDto,
+  ProxyUpdateDto,
+} from './dto';
 import { ProxyService } from './proxy.service';
 
 @UseGuards(AuthGuard('jwt'))
@@ -88,5 +93,20 @@ export class ProxyController {
       dto.proxyListKey,
       dto.proxyIds
     );
+  }
+
+  @Patch('check')
+  @ApiOperation({
+    tags: ['Proxy'],
+    summary: 'This endpoint can check the proxy status',
+    description:
+      'This endpoint will check passed list of proxy and return the proxy check status',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'This will return proxy map with status',
+  })
+  checkProxies(@Body() dto: CheckBodyDto) {
+    return this.proxyService.checkProxies(dto);
   }
 }

@@ -1,10 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { CheckProxyService } from '../check-proxy/check-proxy.service';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
-import { ProxyCreateDto, ProxyUpdateDto } from './dto';
+import { CheckBodyDto, ProxyCreateDto, ProxyUpdateDto } from './dto';
 
 @Injectable()
 export class ProxyService {
-  constructor(private prisma: PrismaClientService) {}
+  constructor(
+    private prisma: PrismaClientService,
+    private checkProxyService: CheckProxyService
+  ) {}
 
   async createProxy(userId: string, dto: ProxyCreateDto) {
     const proxy = await this.prisma.proxy.create({
@@ -91,6 +95,28 @@ export class ProxyService {
 
         return updated;
       })
+    );
+  }
+
+  async checkProxies({ checkProxyIds }: CheckBodyDto) {
+    await this.prisma.proxy.updateMany({
+      where: {
+        id: {
+          in: checkProxyIds,
+        },
+      },
+      data: {
+        status: 'CHECKING',
+      },
+    });
+
+    return Promise.all(
+      checkProxyIds.map(
+        async (id) =>
+          await this.checkProxyService.getProxyStatus(
+            await this.checkProxyService.getProxy(id)
+          )
+      )
     );
   }
 }
