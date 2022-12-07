@@ -15,6 +15,7 @@ import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { UserDto } from '../user/dto';
 import {
+  CheckBodyDto,
   ProxyListBodyBulkDto,
   ProxyListBodyDto,
   ProxyListParamDto,
@@ -139,5 +140,20 @@ export class ProxyListController {
       (req.user as UserDto).userId,
       dto.listKeys
     );
+  }
+
+  @Patch('check')
+  @ApiOperation({
+    tags: ['Proxy list'],
+    summary: 'This endpoint check the proxy list status',
+    description:
+      'This endpoint will check passed list of proxy list and return the proxy check status map with key',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'This will return proxy list map with updated status',
+  })
+  checkProxyList(@Body() body: CheckBodyDto) {
+    return this.proxyListService.checkProxyList(body);
   }
 }
