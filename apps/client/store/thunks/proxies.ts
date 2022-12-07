@@ -2,9 +2,9 @@ import { Proxy } from '@prisma/client';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ProxyModalData } from 'interfaces';
+import qs from 'qs';
 import store from 'store';
 import { isAuthorize } from 'utils';
-
 const PROXY_URL = '/api/proxies';
 
 export const fetchProxies = createAsyncThunk(
@@ -45,12 +45,15 @@ export const deleteProxy = createAsyncThunk(
   'proxies/deleteProxy',
   async (payload: { proxyListKey: string; proxyIds: number[] }) => {
     try {
-      await axios.delete(`${PROXY_URL}/delete`, {
-        data: payload,
-      });
+      await axios.delete(
+        `${PROXY_URL}/delete?proxyListKey=$${qs.stringify(payload, {
+          encode: false,
+        })}`
+      );
 
       return payload;
     } catch (e) {
+      console.log(e);
       isAuthorize(e.response);
     }
   }

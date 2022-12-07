@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID } from 'class-validator';
 
-export class CheckBodyDto {
+export class CheckProxyListBody {
   @IsUUID('all', {
     each: true,
   })

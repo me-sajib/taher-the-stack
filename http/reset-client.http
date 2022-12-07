@@ -76,7 +76,7 @@ Content-Type: application/json
 GET  {{url}}/proxy-list
 
 ### PROXY_LIST: get with proxies
-GET  {{url}}/proxy-list?include_proxies=true
+GET  {{url}}/proxy-list?includeProxies=true
 
 ### PROXY_LIST: get with proxies
 # @name proxyList
@@ -95,12 +95,8 @@ Content-Type: application/json
 ]
 
 ### PROXY_LIST: DELETE
-DELETE {{url}}/proxy-list/delete
+DELETE {{url}}/proxy-list/delete?listKeys={{listKey}}
 Content-Type: application/json
-
-{
-  "listKeys": ["{{listKey}}"]
-}
 
 ### PROXY_LIST: check
 PATCH {{url}}/proxy-list/check
@@ -140,15 +136,7 @@ Content-Type: application/json
 ]
 
 ### PROXY: Delete
-DELETE {{url}}/proxies/delete
-Content-Type: application/json
-
-[
-  {
-    "proxyListKey": "{{listKey}}",
-    "ids": [17]
-  }
-]
+DELETE {{url}}/proxies/delete?proxyListKey={{listKey}}&ids=
 
 ### PROXY: Check
 PATCH {{url}}/proxies/check

@@ -46,6 +46,7 @@ export const store = createSlice({
         state.proxyList.Proxies.push(payload);
       })
       .addCase(deleteProxy.fulfilled, (state, { payload }) => {
+        console.log({ payload });
         const deleteIdSet = new Set(payload.proxyIds);
         const proxies: Proxy[] = state.proxyList.Proxies;
 

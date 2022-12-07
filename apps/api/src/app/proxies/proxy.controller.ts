@@ -41,8 +41,7 @@ export class ProxyController {
   getBulkProxies(@Query() dto: ProxyQueryDto, @Req() req: Request) {
     return this.proxyService.getBulkProxies(
       (req.user as UserDto).userId,
-      dto.proxyListKey,
-      dto.proxyIds
+      dto.proxyListKey
     );
   }
 
@@ -87,7 +86,8 @@ export class ProxyController {
     status: 200,
     description: 'It shows a `Deleted proxy successfully` message',
   })
-  deleteBulkProxies(@Body() dto: ProxyQueryDto, @Req() req: Request) {
+  deleteBulkProxies(@Query() dto: ProxyQueryDto, @Req() req: Request) {
+    console.log({ dto });
     return this.proxyService.deleteBulkProxies(
       (req.user as UserDto).userId,
       dto.proxyListKey,

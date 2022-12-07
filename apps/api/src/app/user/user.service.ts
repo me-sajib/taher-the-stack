@@ -31,6 +31,7 @@ export class UserService {
   }
 
   async resetPassword(userId: string, body: ResetPassDto) {
+    Logger.log('Change password, User input ->', body);
     const { password } = await this.prisma.user.findUnique({
       where: {
         id: userId,
@@ -75,6 +76,7 @@ export class UserService {
 
   async updateUser(userId: string, updatedUser: UpdateUser) {
     try {
+      console.log({ updatedUser });
       const updateUser = await this.prisma.user.update({
         where: {
           id: userId,
