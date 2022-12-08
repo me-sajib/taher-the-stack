@@ -63,7 +63,7 @@ function applySortFilter<T>({
 
     return array.filter(
       (item: T) =>
-        String(item[orderBy] as string).indexOf(query.toLowerCase()) !== -1
+        String(item[orderBy] as unknown).indexOf(query.toLowerCase()) !== -1
     );
   }
 
