@@ -100,13 +100,13 @@ export class ProxyController {
     tags: ['Proxy'],
     summary: 'This endpoint can check the proxy status',
     description:
-      'This endpoint will check passed list of proxy and return the proxy check status',
+      "This endpoint will check passed list of proxy and return the proxy check status, if doesn't provide any proxy id it will fetch all proxies of user",
   })
   @ApiResponse({
     status: 200,
     description: 'This will return proxy map with status',
   })
-  checkProxies(@Body() dto: CheckBodyDto) {
-    return this.proxyService.checkProxies(dto);
+  checkProxies(@Body() dto: CheckBodyDto, @Req() req: Request) {
+    return this.proxyService.checkProxies(dto, (req.user as UserDto).userId);
   }
 }

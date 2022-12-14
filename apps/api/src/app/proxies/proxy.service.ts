@@ -22,21 +22,10 @@ export class ProxyService {
     return proxy;
   }
 
-  async getBulkProxies(
-    userId: string,
-    proxyListKey: string,
-    proxyIds?: number[]
-  ) {
+  async getBulkProxies(userId: string, proxyListKey: string) {
     const proxies = await this.prisma.proxy.findMany({
-      where: {
-        proxyListKey,
-        userId,
-      },
+      where: Object.assign({ userId }, proxyListKey && { proxyListKey }),
     });
-
-    proxyIds
-      ? Logger.log(`GET: all of proxies:\n${JSON.stringify(proxies)}`)
-      : Logger.log(`GET: all proxies`);
 
     return proxies;
   }
@@ -93,13 +82,27 @@ export class ProxyService {
     );
   }
 
-  async checkProxies({ checkProxyIds }: CheckBodyDto) {
-    await this.prisma.proxy.updateMany({
-      where: {
-        id: {
-          in: checkProxyIds,
+  async checkProxies({ checkProxyIds = [] }: CheckBodyDto, userId: string) {
+    // if user don't provide any proxy id
+    if (checkProxyIds.length === 0) {
+      const proxies = await this.prisma.proxy.findMany({
+        where: {
+          userId,
         },
-      },
+      });
+
+      checkProxyIds = proxies.map((proxy) => proxy.id);
+    }
+
+    await this.prisma.proxy.updateMany({
+      where: Object.assign(
+        { userId },
+        checkProxyIds && {
+          id: {
+            in: checkProxyIds,
+          },
+        }
+      ),
       data: {
         status: 'CHECKING',
       },
