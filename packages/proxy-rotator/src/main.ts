@@ -7,7 +7,7 @@ const events = ['request', 'connect'];
 
 events.forEach((event) => proxyServer.on(event, mainHandler(event)));
 
-const port = process.env.PROXY_PORT || 3001;
+const port = process.env.PROXY_PORT || 60000;
 
 proxyServer.listen(port, () => {
   console.log(`Proxy server is listening at http://localhost:${port}/`);

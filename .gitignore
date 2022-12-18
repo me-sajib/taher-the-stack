@@ -1,12 +1,15 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# See http://help.github.com/ignore-buildfiles/ for more about ignoring files.
 
 # compiled output
 dist
+build
 /tmp
 /out-tsc
 .plasmo
 .docusaurus
 .cache-loader
+.next
+
 
 # dependencies
 node_moduless
@@ -44,9 +47,6 @@ Thumbs.db
 
 # Environments
 .env
-
-# Next.js
-.next
 
 # seed
 users.json
