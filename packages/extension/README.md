@@ -23,13 +23,13 @@ proxy-manager-extension
 First create a `.env` file and include all require variables. and install dependencies through running:
 
 ```bash
-pnpm i
+yarn
 ```
 
 To serve the extension on dev mode run
 
 ```bash
-pnpm dev
+yarn dev
 ```
 
 It will build & create `chrome-mv3-dev` directory inside `build` directory and turn on the `watch` mode.
@@ -39,7 +39,7 @@ It will build & create `chrome-mv3-dev` directory inside `build` directory and t
 Follow earlier process till run `pnpm dev`, instead run
 
 ```bash
-pnpm build
+yarn build
 ```
 
 It will build & create `chrome-mv3-prod` directory inside `build` directory.
