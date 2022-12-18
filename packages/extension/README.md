@@ -29,17 +29,17 @@ yarn
 To serve the extension on dev mode run
 
 ```bash
-yarn dev
+yarn start:extension
 ```
 
 It will build & create `chrome-mv3-dev` directory inside `build` directory and turn on the `watch` mode.
 
 ## Run extension (prod mode)
 
-Follow earlier process till run `pnpm dev`, instead run
+Follow earlier process till run `yarn start:extension`, instead run
 
 ```bash
-yarn build
+yarn build:extension
 ```
 
 It will build & create `chrome-mv3-prod` directory inside `build` directory.
