@@ -1,0 +1,46 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "The dahsbord of proxy manager",
+  "keywords": [
+    "proxy",
+    "manager"
+  ],
+  "author": "Developer <fahimfaisal.soikot@gmail.com>",
+  "homepage": "https://github.com/SoftwareSheba/easy-proxy-manager#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftwareSheba/easy-proxy-manager.git"
+  },
+  "scripts": {
+    "start": "next dev",
+    "build": "next build"
+  },
+  "bugs": {
+    "url": "https://github.com/SoftwareSheba/easy-proxy-manager/issues"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@iconify/react": "^3.2.2",
+    "@mui/lab": "^5.0.0-alpha.98",
+    "@mui/material": "^5.10.4",
+    "@mui/styles": "^5.10.6",
+    "@reduxjs/toolkit": "^1.8.5",
+    "axios": "^0.27.2",
+    "copy-to-clipboard": "^3.3.2",
+    "date-fns": "^2.29.2",
+    "next": "12.2.5",
+    "next-redux-wrapper": "^7.0.5",
+    "qs": "^6.11.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.34.2",
+    "react-redux": "^8.0.2",
+    "simplebar-react": "^2.4.1"
+  }
+}
