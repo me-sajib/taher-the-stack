@@ -4,6 +4,7 @@
 dist
 /tmp
 /out-tsc
+.plasmo
 
 # dependencies
 node_moduless

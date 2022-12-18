@@ -4,6 +4,16 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "start:api": "lerna run start --scope=api",
+    "start:dashboard": "lerna run start --scope=dashboard",
+    "start:rotator": "lerna run start --scope=proxy-rotator",
+    "start:extension": "lerna run start --scope=proxy-manager-extension",
+    "build:api": "lerna run build --scope=api",
+    "build:dashboard": "lerna run build --scope=dashboard",
+    "build:rotator": "lerna run build --scope=proxy-rotator",
+    "build:extension": "lerna run build --scope=proxy-manager-extension"
+  },
   "devDependencies": {
     "lerna": "^6.1.0",
     "@faker-js/faker": "^7.5.0",
