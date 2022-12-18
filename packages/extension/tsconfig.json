@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx"
+  ],
+  "compilerOptions": {
+    "jsx": "react",
+    "paths": {
+      "~*": [
+        "./src/*"
+      ]
+    },
+    "baseUrl": "."
+  }
+}

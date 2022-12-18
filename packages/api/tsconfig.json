@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc/packages/api/src",
+    "module": "commonjs",
+    "types": [
+      "node"
+    ],
+    "emitDecoratorMetadata": true,
+    "target": "es2015"
+  },
+}

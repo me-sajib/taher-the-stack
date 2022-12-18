@@ -1,1 +1,57 @@
-node_modules/
+# See http://help.github.com/ignore-buildfiles/ for more about ignoring files.
+
+# compiled output
+dist
+build
+/tmp
+/out-tsc
+.plasmo
+.docusaurus
+.cache-loader
+.next
+
+
+# dependencies
+node_moduless
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.log
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Environments
+.env
+
+# seed
+users.json
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
+node_modules
