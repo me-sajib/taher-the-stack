@@ -1,6 +1,9 @@
 {
-  "name": "easy-proxy-manager",
+  "name": "root",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "lerna": "^6.1.0"
   }
