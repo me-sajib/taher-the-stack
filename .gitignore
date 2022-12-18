@@ -5,6 +5,8 @@ dist
 /tmp
 /out-tsc
 .plasmo
+.docusaurus
+.cache-loader
 
 # dependencies
 node_moduless

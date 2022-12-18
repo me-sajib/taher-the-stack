@@ -1,0 +1,29 @@
+{
+  "name": "proxy-rotator",
+  "version": "1.0.0",
+  "description": "A proxy rotator app",
+  "author": "Developer <fahimfaisal.soikot@gmail.com>",
+  "homepage": "https://github.com/SoftwareSheba/easy-proxy-manager#readme",
+  "license": "MIT",
+  "main": "lib/proxy-rotator.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftwareSheba/easy-proxy-manager.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/proxy-rotator.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/SoftwareSheba/easy-proxy-manager/issues"
+  }
+}
