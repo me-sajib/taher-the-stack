@@ -8,7 +8,7 @@ const SelectProxy = ({ proxy, activeProxyId, clickHandler }) => (
     </div>
     {activeProxyId === proxy.id ? (
       <Button
-        classes="border-red-600 text-red-600 ml-1.5"
+        variant="red"
         clickHandler={clickHandler(proxy.id)}
         text="disconnect"
       />

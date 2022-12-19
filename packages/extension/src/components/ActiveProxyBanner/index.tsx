@@ -27,14 +27,15 @@ const ActiveProxyBanner = ({
           <div>
             {proxy.fetched && (
               <Button
-                classes="border-green-600 text-green-600"
+                variant="green"
                 clickHandler={refreshHandler(proxy.id)}
                 disabled={isRefreshing}
                 text={isRefreshing ? "Refreshing..." : "Refresh"}
               />
             )}
             <Button
-              classes="border-red-600 text-red-600 ml-1.5"
+              classes="ml-1.5 hover:text-white"
+              variant="red"
               clickHandler={disconnectHandler(proxy.id)}
               text="disconnect"
             />

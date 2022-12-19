@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import shortid from "shortid"
 
 import { useStorage } from "@plasmohq/storage/hook"
@@ -88,11 +88,8 @@ const ProxySetRow = ({ setProxies }) => {
       </TableData>
       <TableData> </TableData>
       <TableData>
-        <Button
-          classes="border-blue-600 text-blue-600"
-          text="Add Proxy"
-          clickHandler={addProxy}
-        />
+        <Button text="Add Proxy" clickHandler={addProxy} />
+        <Button classes="ml-3" text="Save" clickHandler={null} />
       </TableData>
     </tr>
   )
@@ -179,17 +176,13 @@ function ManageProxies() {
         {storedState.user ? (
           <div className="flex justify-end items-center px-3">
             <Button
-              classes={`text-white mx-5 hover:text-black ${
-                isChecking
-                  ? "border-yellow-600 bg-yellow-600"
-                  : "border-green-600 bg-green-600"
-              }`}
+              variant="red"
               text={isChecking ? "Checking..." : "Check"}
               disabled={isChecking}
               clickHandler={checkHandler}
             />
             <Button
-              classes="border-red-600 text-red-600 mr-5"
+              variant="red"
               text={"Log out"}
               clickHandler={logoutHandler}
             />
@@ -198,11 +191,7 @@ function ManageProxies() {
             </h2>
           </div>
         ) : (
-          <Button
-            classes="border-blue-600 text-blue-600"
-            text={"Login"}
-            clickHandler={toggleOpen}
-          />
+          <Button text={"Login"} clickHandler={toggleOpen} />
         )}
       </div>
 
@@ -294,13 +283,13 @@ function ManageProxies() {
                       )
                     })}
                     <TableData>
-                      <Badge positionDisable={true} variant={proxy.status} />
+                      <Badge variant={proxy.status} />
                     </TableData>
                     <TableData>
                       {proxy.fetched || (
                         <Button
-                          classes="border-red-600 text-red-600"
                           text="Delete"
+                          variant="red"
                           clickHandler={deleteProxy(proxy.id)}
                         />
                       )}
@@ -311,14 +300,6 @@ function ManageProxies() {
             </tbody>
           </table>
         </div>
-      </div>
-
-      <div className="py-3 text-center">
-        <Button
-          classes="text-bold border-green-600 text-green-600 text-2xl"
-          text="Save changes"
-          clickHandler={saveChanges}
-        />
       </div>
     </main>
   )

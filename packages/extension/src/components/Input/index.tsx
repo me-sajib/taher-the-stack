@@ -4,7 +4,6 @@ const Input = ({
   name,
   placeholder,
   liftValue,
-  id = "",
   type = "text",
   defaultValue = "",
   classes = "",
@@ -35,23 +34,8 @@ const Input = ({
         type={type}
         name={name}
         className={`
-          form-control
-          px-2
-          py-1
-          value-sm
-          font-normal
-          value-gray-700
-          bg-white bg-clip-padding
-          border border-solid border-gray-300
-          rounded
-          transition
-          ease-in-out
-          m-0
-          inline-block
-          focus:value-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-          ${classes}
-        `}
-        id={id || "exampleFormControlInput4"}
+          "form-control w-full block rounded border-gray-200 px-1.5 py-1 focus:outline-none font-normal text-gray-700 bg-white border border-solid transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 ${classes}
+        `.trim()}
         placeholder={placeholder}
         value={value}
         onChange={changeHandler}

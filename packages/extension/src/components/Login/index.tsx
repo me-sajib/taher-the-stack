@@ -62,15 +62,15 @@ const Login = ({ isOpen, closeHandler, setOpenLogin }) => {
       closeHandler={closeHandler}
       title="Login"
       actionElement={<LoginButton loginHandler={loginHandler} />}>
-      <div className="flex justify-center py-8">
-        <form>
+      <div className="flex justify-center p5-8">
+        <form className="w-full mx-8">
           <div className="mb-6">
             <Input
               name="identifier"
               liftValue={changeHandler}
               id="exampleFormControlInput2"
               placeholder="Username or email"
-              classes="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              classes="px-4 py-2 text-xl"
             />
           </div>
 
@@ -81,7 +81,7 @@ const Login = ({ isOpen, closeHandler, setOpenLogin }) => {
               liftValue={changeHandler}
               id="exampleFormControlInput2"
               placeholder="Password"
-              classes="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              classes="px-4 py-2 text-xl"
             />
           </div>
 

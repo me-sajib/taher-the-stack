@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
 #root {
-  width: 360px;
+  width: 360px; 
+  color: #593de6;
 }
 
 @tailwind base;
