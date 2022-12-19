@@ -4,30 +4,37 @@ import { CssBaseline } from '@mui/material';
 import {
   createTheme,
   StyledEngineProvider,
-  ThemeProvider as MUIThemeProvider,
+  ThemeProvider as MUIThemeProvider
 } from '@mui/material/styles';
 //
 import componentsOverride from './overrides';
 import palette from './palette';
-import shadows, { customShadows } from './shadows';
+import shadows, {
+  customShadows
+} from './shadows';
 import typography from './typography';
 
 // ----------------------------------------------------------------------
 
-export default function ThemeProvider({ children }) {
+export default function ThemeProvider({
+  children
+}) {
   const themeOptions: any = useMemo(
     () => ({
       palette,
       shape: { borderRadius: 8 },
       typography,
       shadows,
-      customShadows,
+      customShadows
     }),
     []
   );
 
-  const theme = createTheme(themeOptions);
-  theme.components = componentsOverride(theme);
+  const theme = createTheme(
+    themeOptions
+  );
+  theme.components =
+    componentsOverride(theme);
 
   return (
     <StyledEngineProvider injectFirst>

@@ -1,4 +1,6 @@
-export const getChange = <T extends Array<T>>(
+export const getChange = <
+  T extends Array<T>
+>(
   prev: T,
   recent: T
 ): Map<number, T> => {
@@ -8,11 +10,17 @@ export const getChange = <T extends Array<T>>(
     return map;
   }
 
-  return prev.reduce((map, prevItem, index) => {
-    if (JSON.stringify(prevItem) !== JSON.stringify(recent[index])) {
-      map.set(index, recent[index]);
-    }
+  return prev.reduce(
+    (map, prevItem, index) => {
+      if (
+        JSON.stringify(prevItem) !==
+        JSON.stringify(recent[index])
+      ) {
+        map.set(index, recent[index]);
+      }
 
-    return map;
-  }, map);
+      return map;
+    },
+    map
+  );
 };

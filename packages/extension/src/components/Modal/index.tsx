@@ -1,5 +1,3 @@
-import React from "react"
-
 const Modal = ({ isOpen, title, children, actionElement, closeHandler }) => {
   return (
     <div

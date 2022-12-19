@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsEmail,
@@ -7,9 +7,9 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  ValidateBy,
-} from "class-validator";
-import { usernameValidator } from "../../custom-validators";
+  ValidateBy
+} from 'class-validator';
+import { usernameValidator } from '../../custom-validators';
 
 export class AuthSignupDto {
   @IsNotEmpty()
@@ -17,10 +17,11 @@ export class AuthSignupDto {
   @MinLength(3)
   @MaxLength(50)
   @ApiProperty({
-    name: "fullname",
-    description: "The full name of an user",
-    default: "",
-    type: String,
+    name: 'fullname',
+    description:
+      'The full name of an user',
+    default: '',
+    type: String
   })
   fullname: string;
 
@@ -29,20 +30,21 @@ export class AuthSignupDto {
   @MinLength(3)
   @ValidateBy(...usernameValidator)
   @ApiProperty({
-    name: "username",
-    description: "The username of an user",
-    default: "",
-    type: String,
+    name: 'username',
+    description:
+      'The username of an user',
+    default: '',
+    type: String
   })
   username: string;
 
   @IsNotEmpty()
   @IsEmail()
   @ApiProperty({
-    name: "email",
-    description: "The email of an user",
-    default: "",
-    type: String,
+    name: 'email',
+    description: 'The email of an user',
+    default: '',
+    type: String
   })
   email: string;
 
@@ -50,21 +52,23 @@ export class AuthSignupDto {
   @IsString()
   @MinLength(3)
   @ApiProperty({
-    name: "password",
-    description: "The password of an user",
-    default: "",
-    type: String,
+    name: 'password',
+    description:
+      'The password of an user',
+    default: '',
+    type: String
   })
   password: string;
 
   @IsOptional()
   @IsBoolean()
   @ApiProperty({
-    name: "remember",
-    description: "The remember status for next time login",
+    name: 'remember',
+    description:
+      'The remember status for next time login',
     required: false,
     default: false,
-    type: Boolean,
+    type: Boolean
   })
   remember: boolean;
 }

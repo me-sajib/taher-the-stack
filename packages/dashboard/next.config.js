@@ -6,10 +6,11 @@ const nextConfig = {
     {
       source: '/api/:slug*',
       destination: `${
-        process.env.API_URL || `http://localhost:${process.env.API_PORT}`
-      }/api/:slug*`,
-    },
-  ],
+        process.env.API_URL ||
+        `http://localhost:${process.env.API_PORT}`
+      }/api/:slug*`
+    }
+  ]
 };
 
-module.exports = nextConfig
+module.exports = nextConfig;

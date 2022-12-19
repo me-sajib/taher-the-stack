@@ -5,9 +5,13 @@ import {
   List,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
+  ListItemText
 } from '@mui/material';
-import { alpha, styled, useTheme } from '@mui/material/styles';
+import {
+  alpha,
+  styled,
+  useTheme
+} from '@mui/material/styles';
 //
 import { useRouter } from 'next/router';
 import Iconify from './Iconify';
@@ -18,35 +22,54 @@ interface ListItemButtonType {
   [key: string]: any;
 }
 
-const button = ({ children, ...props }: ListItemButtonType) => (
-  <ListItemButton disableGutters {...props}>
+const button = ({
+  children,
+  ...props
+}: ListItemButtonType) => (
+  <ListItemButton
+    disableGutters
+    {...props}
+  >
     {children}
   </ListItemButton>
 );
 
-const ListItemStyle = styled(button)(({ theme }) => ({
-  ...theme.typography.body2,
-  height: 48,
-  position: 'relative',
-  textTransform: 'capitalize',
-  color: theme.palette.text.secondary,
-  borderRadius: theme.shape.borderRadius,
-}));
+const ListItemStyle = styled(button)(
+  ({ theme }) => ({
+    ...theme.typography.body2,
+    height: 48,
+    position: 'relative',
+    textTransform: 'capitalize',
+    color: theme.palette.text.secondary,
+    borderRadius:
+      theme.shape.borderRadius
+  })
+);
 
-const ListItemIconStyle = styled(ListItemIcon)({
+const ListItemIconStyle = styled(
+  ListItemIcon
+)({
   width: 22,
   height: 22,
   color: 'inherit',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'center'
 });
 
 // ----------------------------------------------------------------------
 
-function NavItem({ item, isActiveRoot }) {
+function NavItem({
+  item,
+  isActiveRoot
+}) {
   const theme = useTheme();
-  const { title, icon, info, children } = item;
+  const {
+    title,
+    icon,
+    info,
+    children
+  } = item;
   const router = useRouter();
 
   const activeRootStyle = {
@@ -54,8 +77,9 @@ function NavItem({ item, isActiveRoot }) {
     fontWeight: 'fontWeightMedium',
     bgcolor: alpha(
       theme.palette.primary.main,
-      theme.palette.action.selectedOpacity
-    ),
+      theme.palette.action
+        .selectedOpacity
+    )
   };
 
   if (children) {
@@ -63,11 +87,17 @@ function NavItem({ item, isActiveRoot }) {
       <>
         <ListItemStyle
           sx={{
-            ...(isActiveRoot && activeRootStyle),
+            ...(isActiveRoot &&
+              activeRootStyle)
           }}
         >
-          <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
-          <ListItemText disableTypography primary={title} />
+          <ListItemIconStyle>
+            {icon && icon}
+          </ListItemIconStyle>
+          <ListItemText
+            disableTypography
+            primary={title}
+          />
           {info && info}
           <Iconify
             icon={
@@ -75,17 +105,31 @@ function NavItem({ item, isActiveRoot }) {
                 ? 'eva:arrow-ios-downward-fill'
                 : 'eva:arrow-ios-forward-fill'
             }
-            sx={{ width: 16, height: 16, ml: 1 }}
+            sx={{
+              width: 16,
+              height: 16,
+              ml: 1
+            }}
           />
         </ListItemStyle>
 
-        <Collapse timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+        <Collapse
+          timeout="auto"
+          unmountOnExit
+        >
+          <List
+            component="div"
+            disablePadding
+          >
             {children.map((item) => {
-              const { title, path } = item;
+              const { title, path } =
+                item;
 
               return (
-                <ListItemStyle key={title} to={path}>
+                <ListItemStyle
+                  key={title}
+                  to={path}
+                >
                   <ListItemIconStyle>
                     <Box
                       component="span"
@@ -93,14 +137,21 @@ function NavItem({ item, isActiveRoot }) {
                         width: 4,
                         height: 4,
                         display: 'flex',
-                        borderRadius: '50%',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        bgcolor: 'text.disabled',
+                        borderRadius:
+                          '50%',
+                        alignItems:
+                          'center',
+                        justifyContent:
+                          'center',
+                        bgcolor:
+                          'text.disabled'
                       }}
                     />
                   </ListItemIconStyle>
-                  <ListItemText disableTypography primary={title} />
+                  <ListItemText
+                    disableTypography
+                    primary={title}
+                  />
                 </ListItemStyle>
               );
             })}
@@ -112,30 +163,55 @@ function NavItem({ item, isActiveRoot }) {
 
   return (
     <ListItemStyle
-      onClick={() => router.push(item.path)}
+      onClick={() =>
+        router.push(item.path)
+      }
       sx={{
-        ...(isActiveRoot && activeRootStyle),
+        ...(isActiveRoot &&
+          activeRootStyle)
       }}
     >
-      <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
-      <ListItemText disableTypography primary={title} />
+      <ListItemIconStyle>
+        {icon && icon}
+      </ListItemIconStyle>
+      <ListItemText
+        disableTypography
+        primary={title}
+      />
       {info && info}
     </ListItemStyle>
   );
 }
 
-export default function NavSection({ navConfig, ...other }) {
+export default function NavSection({
+  navConfig,
+  ...other
+}) {
   const router = useRouter();
 
   return (
     <Box {...other}>
-      <List disablePadding sx={{ p: 1 }}>
+      <List
+        disablePadding
+        sx={{ p: 1 }}
+      >
         {navConfig.map((item) => {
           const isActiveMenu =
-            item.path.split('/').at(1) === router.pathname.split('/').at(1);
+            item.path
+              .split('/')
+              .at(1) ===
+            router.pathname
+              .split('/')
+              .at(1);
 
           return (
-            <NavItem key={item.title} item={item} isActiveRoot={isActiveMenu} />
+            <NavItem
+              key={item.title}
+              item={item}
+              isActiveRoot={
+                isActiveMenu
+              }
+            />
           );
         })}
       </List>

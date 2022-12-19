@@ -1,5 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  MinLength
+} from 'class-validator';
 
 export class ProxyListBodyDto {
   @IsNotEmpty()
@@ -7,9 +11,10 @@ export class ProxyListBodyDto {
   @MinLength(3)
   @ApiProperty({
     name: 'name',
-    description: 'The name of the proxy list',
+    description:
+      'The name of the proxy list',
     type: String,
-    default: '',
+    default: ''
   })
   name: string;
 
@@ -18,9 +23,10 @@ export class ProxyListBodyDto {
   @MinLength(3)
   @ApiProperty({
     name: 'username',
-    description: 'The username of the proxy list',
+    description:
+      'The username of the proxy list',
     type: String,
-    default: '',
+    default: ''
   })
   username: string;
 
@@ -29,9 +35,10 @@ export class ProxyListBodyDto {
   @MinLength(3)
   @ApiProperty({
     name: 'password',
-    description: 'The password of the proxy list',
+    description:
+      'The password of the proxy list',
     type: String,
-    default: '',
+    default: ''
   })
   password: string;
 }

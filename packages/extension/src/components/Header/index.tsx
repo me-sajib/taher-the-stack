@@ -1,5 +1,3 @@
-import React from "react"
-
 const Header = ({ heading, closeHandler }) => {
   return (
     <div className="flex justify-between items-center py-3 mb-2">

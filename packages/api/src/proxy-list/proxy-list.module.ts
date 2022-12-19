@@ -12,9 +12,12 @@ import { ProxyListService } from './proxy-list.service';
     PrismaClientModule,
     JwtModule.register({}),
     ConfigModule,
-    CheckProxyModule,
+    CheckProxyModule
   ],
   controllers: [ProxyListController],
-  providers: [ProxyListService, JwtStrategy],
+  providers: [
+    ProxyListService,
+    JwtStrategy
+  ]
 })
 export class ProxyListModule {}

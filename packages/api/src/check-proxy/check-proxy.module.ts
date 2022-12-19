@@ -5,6 +5,6 @@ import { CheckProxyService } from './check-proxy.service';
 @Module({
   imports: [PrismaClientModule],
   providers: [CheckProxyService],
-  exports: [CheckProxyService],
+  exports: [CheckProxyService]
 })
 export class CheckProxyModule {}

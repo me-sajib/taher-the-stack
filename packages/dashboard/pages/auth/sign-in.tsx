@@ -11,14 +11,22 @@ export default function SingInPage() {
       redirect={{
         path: 'sign-up',
         title: "Don't have an account?",
-        placeholder: 'Sign up',
+        placeholder: 'Sign up'
       }}
     >
-      <Typography variant="h4" gutterBottom>
+      <Typography
+        variant="h4"
+        gutterBottom
+      >
         Sign in
       </Typography>
 
-      <Typography sx={{ color: 'text.secondary', mb: 5 }}>
+      <Typography
+        sx={{
+          color: 'text.secondary',
+          mb: 5
+        }}
+      >
         Enter your details below.
       </Typography>
 

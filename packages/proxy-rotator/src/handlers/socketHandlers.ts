@@ -1,4 +1,7 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import {
+  IncomingMessage,
+  ServerResponse
+} from 'http';
 import pickProxy from '../helpers/pickProxy';
 
 const socketHandler = async (
@@ -6,16 +9,30 @@ const socketHandler = async (
   socketRequest: ServerResponse,
   retries = 0
 ) => {
-  console.log('socketHandler Request %s %s', request.method, request.url);
-  const proxy = await pickProxy(request, true);
-  const { MAX_RETRIES, RETRY_DELAY } = process.env;
+  console.log(
+    'socketHandler Request %s %s',
+    request.method,
+    request.url
+  );
+  const proxy = await pickProxy(
+    request,
+    true
+  );
+  const { MAX_RETRIES, RETRY_DELAY } =
+    process.env;
 
   proxy
     .on('error', (err) => {
       console.log(`[error] ${err}`);
-      if (++retries < Number(MAX_RETRIES)) {
+      if (
+        ++retries < Number(MAX_RETRIES)
+      ) {
         setTimeout(() => {
-          socketHandler(request, socketRequest, retries);
+          socketHandler(
+            request,
+            socketRequest,
+            retries
+          );
         }, Number(RETRY_DELAY));
       } else {
         socketRequest.end();
@@ -29,7 +46,10 @@ const socketHandler = async (
       // tunneling to host
       socket
         .on('data', (chunk) => {
-          socketRequest.write(chunk, 'binary');
+          socketRequest.write(
+            chunk,
+            'binary'
+          );
         })
         .on('end', () => {
           socketRequest.end();

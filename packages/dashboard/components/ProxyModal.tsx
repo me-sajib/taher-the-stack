@@ -7,7 +7,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormProvider from 'components/hook-form/FormProvider';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  SubmitHandler,
+  useForm
+} from 'react-hook-form';
 import validator from 'validator';
 import RHFPasswordField from './hook-form/RHFPasswordField';
 import RHFTextField from './hook-form/RHFTextFiled';
@@ -33,33 +36,53 @@ export default function ProxyModal({
   actionType,
   formState,
   handleClose,
-  onSubmit,
+  onSubmit
 }: ProxyModalTypes) {
-  const defaultFormState: ProxyModalData = formState ?? {
-    host: '',
-    port: NaN,
-    username: '',
-    password: '',
-    country: '',
-  };
+  const defaultFormState: ProxyModalData =
+    formState ?? {
+      host: '',
+      port: NaN,
+      username: '',
+      password: '',
+      country: ''
+    };
 
   const methods = useForm({
-    defaultValues: defaultFormState,
+    defaultValues: defaultFormState
   });
   const {
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting }
   } = methods;
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-      <DialogTitle>{actionType.trim()} proxy</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="xs"
+    >
+      <DialogTitle>
+        {actionType.trim()} proxy
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Input all valid fields for {actionType.trim().toLowerCase()} proxy
+          Input all valid fields for{' '}
+          {actionType
+            .trim()
+            .toLowerCase()}{' '}
+          proxy
         </DialogContentText>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={3} sx={{ my: 3 }}>
+        <FormProvider
+          methods={methods}
+          onSubmit={handleSubmit(
+            onSubmit
+          )}
+        >
+          <Stack
+            spacing={3}
+            sx={{ my: 3 }}
+          >
             <RHFTextField
               autoFocus
               required
@@ -113,7 +136,11 @@ export default function ProxyModal({
           </Stack>
 
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
             <LoadingButton
               type="submit"
               variant="contained"

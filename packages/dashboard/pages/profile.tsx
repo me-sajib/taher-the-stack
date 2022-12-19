@@ -9,19 +9,30 @@ import { useState } from 'react';
 import ChangePasswordForm from 'sections/profile/ChangePasswordForm';
 import UserUpdateFrom from 'sections/profile/UserUpdateForm';
 // redux
-import { FormControlLabel, Switch } from '@mui/material';
+import {
+  FormControlLabel,
+  Switch
+} from '@mui/material';
 
 export default function Profile() {
-  const profile: User = useSelector(getUser);
-  const [updatePassSwitch, setPasswordStatus] = useState(false);
+  const profile: User =
+    useSelector(getUser);
+  const [
+    updatePassSwitch,
+    setPasswordStatus
+  ] = useState(false);
 
-  const togglePassStatus = () => setPasswordStatus((prev) => !prev);
+  const togglePassStatus = () =>
+    setPasswordStatus((prev) => !prev);
 
   const ChangeUpdateSwitch = (
     <FormControlLabel
       label="Change password"
       control={
-        <Switch checked={updatePassSwitch} onChange={togglePassStatus} />
+        <Switch
+          checked={updatePassSwitch}
+          onChange={togglePassStatus}
+        />
       }
     />
   );
@@ -32,9 +43,13 @@ export default function Profile() {
         <Page title={profile.username}>
           <Container>
             {updatePassSwitch ? (
-              <ChangePasswordForm>{ChangeUpdateSwitch}</ChangePasswordForm>
+              <ChangePasswordForm>
+                {ChangeUpdateSwitch}
+              </ChangePasswordForm>
             ) : (
-              <UserUpdateFrom>{ChangeUpdateSwitch}</UserUpdateFrom>
+              <UserUpdateFrom>
+                {ChangeUpdateSwitch}
+              </UserUpdateFrom>
             )}
           </Container>
         </Page>

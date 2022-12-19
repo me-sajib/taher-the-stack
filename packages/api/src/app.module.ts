@@ -13,9 +13,9 @@ import { UserModule } from './user/user.module';
     AuthModule,
     UserModule,
     ProxyListModule,
-    ProxyModule,
+    ProxyModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

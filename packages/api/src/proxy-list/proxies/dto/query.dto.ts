@@ -5,20 +5,22 @@ export class ProxyQueryDto {
   @IsOptional()
   @ApiProperty({
     name: 'proxyListKey',
-    description: 'Get proxies by the list key',
+    description:
+      'Get proxies by the list key',
     required: false,
     type: String,
-    default: '',
+    default: ''
   })
   proxyListKey: string;
 
   @IsOptional()
   @ApiProperty({
     name: 'proxyIds',
-    description: 'The list of proxy id you would like to pick',
+    description:
+      'The list of proxy id you would like to pick',
     required: false,
     type: [String],
-    default: [],
+    default: []
   })
   proxyIds: string[];
 }

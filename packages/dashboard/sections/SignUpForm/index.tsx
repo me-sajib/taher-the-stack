@@ -23,39 +23,61 @@ interface SignUpFormTypes {
 
 const SignUpForm = () => {
   const router = useRouter();
-  const defaultValues: SignUpFormTypes = {
-    fullname: '',
-    username: '',
-    email: '',
-    password: '',
-    remember: false,
-  };
+  const defaultValues: SignUpFormTypes =
+    {
+      fullname: '',
+      username: '',
+      email: '',
+      password: '',
+      remember: false
+    };
 
-  const methods = useForm({ defaultValues });
+  const methods = useForm({
+    defaultValues
+  });
   const {
     handleSubmit,
     setError,
-    formState: { isSubmitting },
+    formState: { isSubmitting }
   } = methods;
 
-  const onSubmit = async (formData: SignUpFormTypes) => {
+  const onSubmit = async (
+    formData: SignUpFormTypes
+  ) => {
     try {
-      const { data } = await axios.post('/api/auth/sign-up', formData);
+      const { data } = await axios.post(
+        '/api/auth/sign-up',
+        formData
+      );
 
       if (data.status === 400) {
         if (data.messages) {
-          return data.messages.forEach((message: string) =>
-            setError(message.split(/\s/).at(0) as keyof SignUpFormTypes, {
-              message,
-            })
+          return data.messages.forEach(
+            (message: string) =>
+              setError(
+                message
+                  .split(/\s/)
+                  .at(
+                    0
+                  ) as keyof SignUpFormTypes,
+                {
+                  message
+                }
+              )
           );
         }
-        return setError(data.message.split(/\s/).at(0), {
-          message: data.message,
-        });
+        return setError(
+          data.message
+            .split(/\s/)
+            .at(0),
+          {
+            message: data.message
+          }
+        );
       }
 
-      data.status === 202 && router.push('/proxy-list');
+      data.status === 202 &&
+        router.push('/proxy-list');
     } catch (e) {
       console.log(e);
       return null;
@@ -63,7 +85,10 @@ const SignUpForm = () => {
   };
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider
+      methods={methods}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Stack spacing={3}>
         <RHFTextField
           name="fullname"
@@ -84,7 +109,9 @@ const SignUpForm = () => {
           rules={validator.username}
         />
 
-        <RHFPasswordField rules={validator.password} />
+        <RHFPasswordField
+          rules={validator.password}
+        />
       </Stack>
 
       <Stack
@@ -93,7 +120,10 @@ const SignUpForm = () => {
         justifyContent="space-between"
         sx={{ my: 2 }}
       >
-        <RHFCheckbox name="remember" label="Remember me" />
+        <RHFCheckbox
+          name="remember"
+          label="Remember me"
+        />
       </Stack>
 
       <LoadingButton

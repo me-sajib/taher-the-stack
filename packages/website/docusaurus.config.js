@@ -4,12 +4,14 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
-const siteTitle = 'Proxy Manager Extension'
+const siteTitle =
+  'Proxy Manager Extension';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: siteTitle,
-  tagline: 'Manage your proxies through extension',
+  tagline:
+    'Manage your proxies through extension',
   url: 'http://proxymanagerextension.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -19,14 +21,15 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'SoftwareSheba', // Usually your GitHub org/user name.
-  projectName: 'proxy-manager-extension', // Usually your repo name.
+  projectName:
+    'proxy-manager-extension', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en']
   },
 
   presets: [
@@ -35,17 +38,21 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve(
+            './sidebars.js'
+          ),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/'
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-        },
-      }),
-    ],
+          customCss: require.resolve(
+            './src/css/custom.css'
+          )
+        }
+      })
+    ]
   ],
 
   themeConfig:
@@ -53,8 +60,8 @@ const config = {
     ({
       docs: {
         sidebar: {
-          hideable: true,
-        },
+          hideable: true
+        }
       },
       navbar: {
         title: siteTitle,
@@ -67,7 +74,7 @@ const config = {
             type: 'doc',
             docId: 'introduction',
             position: 'left',
-            label: 'Docs',
+            label: 'Docs'
           },
           {
             href: 'https://github.com/SoftwareSheba/proxy-manager-extension',
@@ -75,23 +82,23 @@ const config = {
             title: 'View on GitHub',
             position: 'right',
             className: 'icon'
-          },
-        ],
+          }
+        ]
       },
       footer: {
         style: 'dark',
         links: [],
-        copyright: `Copyright © ${new Date().getFullYear()} SoftwareSheba`,
+        copyright: `Copyright © ${new Date().getFullYear()} SoftwareSheba`
       },
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,
-        respectPrefersColorScheme: true,
+        respectPrefersColorScheme: true
       },
       prism: {
         theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
-      },
+        darkTheme: darkCodeTheme
+      }
       // algolia: {
       //   appId: '5JC94MPMLY',
       //   apiKey: '267679200b833c2ca1255ab276731869', // search only (public) API key
@@ -100,7 +107,7 @@ const config = {
       //     facetFilters: ['version:VERSION'],
       //   },
       // },
-    }),
+    })
 };
 
 module.exports = config;

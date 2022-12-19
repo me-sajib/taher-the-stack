@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsUUID } from 'class-validator';
+import {
+  IsOptional,
+  IsUUID
+} from 'class-validator';
 
 export class ProxyListGetDtoQuery {
   @IsOptional()
@@ -8,7 +11,7 @@ export class ProxyListGetDtoQuery {
     type: Boolean,
     required: false,
     description:
-      'If you would like to take proxies as well then change the value to `true`',
+      'If you would like to take proxies as well then change the value to `true`'
   })
   includeProxies?: boolean;
 }
@@ -16,13 +19,14 @@ export class ProxyListGetDtoQuery {
 export class ProxyListBulkQueryDto {
   @IsOptional()
   @IsUUID('all', {
-    each: true,
+    each: true
   })
   @ApiProperty({
     name: 'listKeys',
     required: false,
-    description: 'The list of proxy list key',
-    type: [String],
+    description:
+      'The list of proxy list key',
+    type: [String]
   })
   listKeys: string[];
 }

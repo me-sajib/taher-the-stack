@@ -1,6 +1,7 @@
 {
   "name": "software-sheba",
   "private": true,
+  "sourceType": "module",
   "workspaces": [
     "packages/*"
   ],
@@ -16,10 +17,35 @@
     "build:rotator": "lerna run build --scope=proxy-rotator",
     "build:extension": "lerna run build --scope=proxy-manager-extension",
     "build:website": "lerna run build --scope=website",
-    "seed": "prisma db seed"
+    "start:pm2": "pm2 start ecosystem.config.js",
+    "seed": "prisma db seed",
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "prisma": {
     "seed": "jiti prisma/seed.ts"
+  },
+  "lint-staged": {
+    "./packages/api/src/**/**/*.ts": [
+      "prettier --write packages/api/",
+      "eslint ."
+    ],
+    "./packages/dashboard/**/**/*.{ts,tsx}": [
+      "prettier --write packages/dashboard/",
+      "eslint packages/dashboard/"
+    ],
+    "./packages/proxy-rotator/src/**/*.ts": [
+      "prettier --write packages/proxy-rotator/",
+      "eslint packages/proxy-rotator/"
+    ],
+    "./packages/extension/src/**/*.{ts,tsx}": [
+      "prettier --write packages/extension/",
+      "eslint packages/extension/"
+    ],
+    "./packages/website/**/*.{js,jsx}": [
+      "prettier --write packages/website/",
+      "eslint packages/website/"
+    ]
   },
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
@@ -35,7 +61,7 @@
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-import": "2.26.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.2",
     "jest-environment-jsdom": "28.1.1",
     "jiti": "^1.16.0",
     "lerna": "^6.1.0",

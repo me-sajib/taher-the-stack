@@ -1,5 +1,8 @@
 import { formatDistanceToNow } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState
+} from 'react';
 
 // material
 import {
@@ -15,10 +18,13 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
 // components
-import { ListHead, ListToolbar } from '../sections/dashboard/list';
+import {
+  ListHead,
+  ListToolbar
+} from '../sections/dashboard/list';
 import Iconify from './Iconify';
 import Label from './Label';
 import Page from './Page';
@@ -28,16 +34,23 @@ import SearchNotFound from './SearchNotFound';
 import { Proxy } from '@prisma/client';
 import useSelection from 'hooks/useSelection';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 import ProxyMenu from 'sections/dashboard/list/ProxyMenu';
 import { AppThunkDispatch } from 'store';
-import { getList, getProxies, getProxyStatus } from 'store/proxySlice';
+import {
+  getList,
+  getProxies,
+  getProxyStatus
+} from 'store/proxySlice';
 import {
   createProxy,
   deleteProxy,
   editProxy,
   fetchProxies,
-  recheckProxy,
+  recheckProxy
 } from 'store/thunks';
 import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
@@ -47,79 +60,148 @@ import useSortFilter from 'hooks/useSortFilter';
 
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD: Array<HeadType<Proxy>> = [
-  { id: 'host', label: 'Proxy address' },
+const TABLE_HEAD: Array<
+  HeadType<Proxy>
+> = [
+  {
+    id: 'host',
+    label: 'Proxy address'
+  },
   { id: 'port', label: 'Port' },
-  { id: 'totalHits', label: 'Hits', align: 'center' },
-  { id: 'username', label: 'Username', align: 'center' },
-  { id: 'password', label: 'Password', align: 'center' },
-  { id: 'status', label: 'Status', align: 'center' },
+  {
+    id: 'totalHits',
+    label: 'Hits',
+    align: 'center'
+  },
+  {
+    id: 'username',
+    label: 'Username',
+    align: 'center'
+  },
+  {
+    id: 'password',
+    label: 'Password',
+    align: 'center'
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    align: 'center'
+  }
 ];
 
 export default function Index() {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [openProxyListModal, setProxyListModalStatus] = useState(false);
+  const [rowsPerPage, setRowsPerPage] =
+    useState(5);
+  const [
+    openProxyListModal,
+    setProxyListModalStatus
+  ] = useState(false);
   const router = useRouter();
-  const asyncDispatch = useDispatch<AppThunkDispatch>();
-  const proxies = useSelector(getProxies) ?? [];
-  const proxiesStatus = useSelector(getProxyStatus);
-  const proxyList = useSelector(getList);
+  const asyncDispatch =
+    useDispatch<AppThunkDispatch>();
+  const proxies =
+    useSelector(getProxies) ?? [];
+  const proxiesStatus = useSelector(
+    getProxyStatus
+  );
+  const proxyList =
+    useSelector(getList);
   const {
     items: sortFilterProxies,
     orderBy,
     order,
     query,
     handleRequestSort,
-    handleFilterBySearch,
-  } = useSortFilter<Proxy>(proxies, TABLE_HEAD);
+    handleFilterBySearch
+  } = useSortFilter<Proxy>(
+    proxies,
+    TABLE_HEAD
+  );
 
-  const proxyListUsername = router.query.username as string;
+  const proxyListUsername = router.query
+    .username as string;
 
   // custom hooks
-  const { selects, clearSelection, handleSelectAllClick, handleClick } =
-    useSelection<number>();
+  const {
+    selects,
+    clearSelection,
+    handleSelectAllClick,
+    handleClick
+  } = useSelection<number>();
 
   useEffect(() => {
-    proxyListUsername && asyncDispatch(fetchProxies({ proxyListUsername }));
-  }, [asyncDispatch, proxyListUsername]);
+    proxyListUsername &&
+      asyncDispatch(
+        fetchProxies({
+          proxyListUsername
+        })
+      );
+  }, [
+    asyncDispatch,
+    proxyListUsername
+  ]);
 
   const handleProxyListModal = () =>
-    setProxyListModalStatus(!openProxyListModal);
+    setProxyListModalStatus(
+      !openProxyListModal
+    );
 
   const handleBulkDelete = () => {
     asyncDispatch(
-      deleteProxy({ proxyListKey: proxyList.key, proxyIds: [...selects] })
+      deleteProxy({
+        proxyListKey: proxyList.key,
+        proxyIds: [...selects]
+      })
     );
     clearSelection();
   };
 
   const handleBulkRecheck = () => {
     // if the proxy all ready in checking status, it will filtered it
-    const filteredSelectsByStatus = [...selects].filter((id) => {
-      const proxy = proxies.find((proxy) => proxy.id === id);
+    const filteredSelectsByStatus = [
+      ...selects
+    ].filter((id) => {
+      const proxy = proxies.find(
+        (proxy) => proxy.id === id
+      );
 
-      return proxy.status !== 'CHECKING';
+      return (
+        proxy.status !== 'CHECKING'
+      );
     });
 
-    asyncDispatch(recheckProxy(filteredSelectsByStatus));
+    asyncDispatch(
+      recheckProxy(
+        filteredSelectsByStatus
+      )
+    );
 
     clearSelection();
   };
 
-  const handleChangePage = (_event, newPage: number) => {
+  const handleChangePage = (
+    _event,
+    newPage: number
+  ) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(
+      parseInt(event.target.value, 10)
+    );
     setPage(0);
   };
 
   const submitProxyHandler = (data) => {
-    if (+Boolean(data.username) ^ +Boolean(data.password)) {
+    if (
+      +Boolean(data.username) ^
+      +Boolean(data.password)
+    ) {
       delete data.username;
       delete data.password;
     }
@@ -127,7 +209,7 @@ export default function Index() {
     asyncDispatch(
       createProxy({
         ...data,
-        proxyListKey: proxyList.key,
+        proxyListKey: proxyList.key
       })
     );
 
@@ -135,33 +217,54 @@ export default function Index() {
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - proxies.length) : 0;
+    page > 0
+      ? Math.max(
+          0,
+          (1 + page) * rowsPerPage -
+            proxies.length
+        )
+      : 0;
 
-  const editProxiesState = sortFilterProxies
-    .map((proxy: Proxy) => ({
-      host: proxy.host,
-      port: proxy.port,
-      username: proxy.username,
-      password: proxy.password,
-      country: proxy.country,
-    }))
-    .slice(page * rowsPerPage, rowsPerPage + page * rowsPerPage);
+  const editProxiesState =
+    sortFilterProxies
+      .map((proxy: Proxy) => ({
+        host: proxy.host,
+        port: proxy.port,
+        username: proxy.username,
+        password: proxy.password,
+        country: proxy.country
+      }))
+      .slice(
+        page * rowsPerPage,
+        rowsPerPage + page * rowsPerPage
+      );
 
-  const handleBulkEdit = (changedMap) => {
-    const updatedIterator = changedMap.values();
-    const updatePayload = [...changedMap.keys()].map((index) => {
-      const { id } = sortFilterProxies.at(index + page * rowsPerPage);
+  const handleBulkEdit = (
+    changedMap
+  ) => {
+    const updatedIterator =
+      changedMap.values();
+    const updatePayload = [
+      ...changedMap.keys()
+    ].map((index) => {
+      const { id } =
+        sortFilterProxies.at(
+          index + page * rowsPerPage
+        );
 
       return {
         id,
-        ...updatedIterator.next().value,
+        ...updatedIterator.next().value
       };
     });
 
-    asyncDispatch(editProxy(updatePayload));
+    asyncDispatch(
+      editProxy(updatePayload)
+    );
   };
 
-  const isUserNotFound = sortFilterProxies.length === 0;
+  const isUserNotFound =
+    sortFilterProxies.length === 0;
 
   switch (proxiesStatus) {
     case 'success':
@@ -174,158 +277,279 @@ export default function Index() {
               justifyContent="space-between"
               mb={5}
             >
-              <Typography variant="h4" gutterBottom>
+              <Typography
+                variant="h4"
+                gutterBottom
+              >
                 {proxyList.name}
               </Typography>
               <Button
                 variant="contained"
-                startIcon={<Iconify icon="eva:plus-fill" />}
-                onClick={handleProxyListModal}
+                startIcon={
+                  <Iconify icon="eva:plus-fill" />
+                }
+                onClick={
+                  handleProxyListModal
+                }
               >
                 New Proxy
               </Button>
               <ProxyModal
                 actionType="Add"
-                open={openProxyListModal}
-                onSubmit={submitProxyHandler}
-                handleClose={handleProxyListModal}
+                open={
+                  openProxyListModal
+                }
+                onSubmit={
+                  submitProxyHandler
+                }
+                handleClose={
+                  handleProxyListModal
+                }
               />
             </Stack>
 
             <Card>
               <ListToolbar
-                editStateData={JSON.stringify(editProxiesState, null, 2)}
-                placeholder={'Search proxy...'}
-                numSelected={selects.size}
+                editStateData={JSON.stringify(
+                  editProxiesState,
+                  null,
+                  2
+                )}
+                placeholder={
+                  'Search proxy...'
+                }
+                numSelected={
+                  selects.size
+                }
                 filterName={query}
-                bulkDeleteHandler={handleBulkDelete}
-                bulkRecheckHandler={handleBulkRecheck}
-                onFilterName={handleFilterBySearch}
-                bulkEditHandler={handleBulkEdit}
+                bulkDeleteHandler={
+                  handleBulkDelete
+                }
+                bulkRecheckHandler={
+                  handleBulkRecheck
+                }
+                onFilterName={
+                  handleFilterBySearch
+                }
+                bulkEditHandler={
+                  handleBulkEdit
+                }
               />
 
-              <TableContainer sx={{ minWidth: 800 }}>
+              <TableContainer
+                sx={{ minWidth: 800 }}
+              >
                 <Table>
                   <ListHead
                     order={order}
                     orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    rowCount={proxies.length}
-                    numSelected={selects.size}
-                    onRequestSort={handleRequestSort}
+                    headLabel={
+                      TABLE_HEAD
+                    }
+                    rowCount={
+                      proxies.length
+                    }
+                    numSelected={
+                      selects.size
+                    }
+                    onRequestSort={
+                      handleRequestSort
+                    }
                     onSelectAllClick={handleSelectAllClick(
-                      proxies.map((proxy) => proxy.id)
+                      proxies.map(
+                        (proxy) =>
+                          proxy.id
+                      )
                     )}
                   />
                   <TableBody>
                     {sortFilterProxies
                       .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
+                        page *
+                          rowsPerPage,
+                        page *
+                          rowsPerPage +
+                          rowsPerPage
                       )
-                      .map((proxy: Proxy) => {
-                        const {
-                          id,
-                          host,
-                          port,
-                          status,
-                          totalHits,
-                          username,
-                          password,
-                          lastCheckAt,
-                        } = proxy;
-                        const isItemSelected = selects.has(id);
+                      .map(
+                        (
+                          proxy: Proxy
+                        ) => {
+                          const {
+                            id,
+                            host,
+                            port,
+                            status,
+                            totalHits,
+                            username,
+                            password,
+                            lastCheckAt
+                          } = proxy;
+                          const isItemSelected =
+                            selects.has(
+                              id
+                            );
 
-                        return (
-                          <TableRow
-                            hover
-                            key={Math.random().toString(32)}
-                            tabIndex={-1}
-                            role="checkbox"
-                            selected={isItemSelected}
-                            aria-checked={isItemSelected}
-                          >
-                            <TableCell padding="checkbox">
-                              <Checkbox
-                                checked={isItemSelected}
-                                onChange={handleClick(id)}
-                              />
-                            </TableCell>
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              padding="none"
+                          return (
+                            <TableRow
+                              hover
+                              key={Math.random().toString(
+                                32
+                              )}
+                              tabIndex={
+                                -1
+                              }
+                              role="checkbox"
+                              selected={
+                                isItemSelected
+                              }
+                              aria-checked={
+                                isItemSelected
+                              }
                             >
-                              <Stack
-                                direction="row"
-                                alignItems="center"
-                                spacing={2}
+                              <TableCell padding="checkbox">
+                                <Checkbox
+                                  checked={
+                                    isItemSelected
+                                  }
+                                  onChange={handleClick(
+                                    id
+                                  )}
+                                />
+                              </TableCell>
+                              <TableCell
+                                component="th"
+                                scope="row"
+                                padding="none"
                               >
-                                <Typography variant="subtitle2" noWrap>
-                                  <CopyToolTip text={host}>{host}</CopyToolTip>
-                                </Typography>
-                              </Stack>
-                            </TableCell>
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={
+                                    2
+                                  }
+                                >
+                                  <Typography
+                                    variant="subtitle2"
+                                    noWrap
+                                  >
+                                    <CopyToolTip
+                                      text={
+                                        host
+                                      }
+                                    >
+                                      {
+                                        host
+                                      }
+                                    </CopyToolTip>
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
 
-                            <TableCell align="left">
-                              <CopyToolTip text={String(port)}>
-                                {String(port)}
-                              </CopyToolTip>
-                            </TableCell>
-
-                            <TableCell align="center">{totalHits}</TableCell>
-
-                            <TableCell align="center">
-                              {username ? (
-                                <CopyToolTip text={username}>
-                                  {username}
+                              <TableCell align="left">
+                                <CopyToolTip
+                                  text={String(
+                                    port
+                                  )}
+                                >
+                                  {String(
+                                    port
+                                  )}
                                 </CopyToolTip>
-                              ) : (
-                                '-'
-                              )}
-                            </TableCell>
+                              </TableCell>
 
-                            <TableCell align="center">
-                              {password ? (
-                                <CopyToolTip text={password}>
-                                  <Musk>{password}</Musk>
-                                </CopyToolTip>
-                              ) : (
-                                '-'
-                              )}
-                            </TableCell>
+                              <TableCell align="center">
+                                {
+                                  totalHits
+                                }
+                              </TableCell>
 
-                            <TableCell align="center">
-                              <Tooltip
-                                title={`Checked ${formatDistanceToNow(
-                                  new Date(lastCheckAt)
-                                )}`}
-                                arrow
-                              >
-                                <span>
-                                  <Label
-                                    variant="ghost"
-                                    color={
-                                      (status === 'INACTIVE' && 'error') ||
-                                      (status === 'CHECKING' && 'warning') ||
-                                      'success'
+                              <TableCell align="center">
+                                {username ? (
+                                  <CopyToolTip
+                                    text={
+                                      username
                                     }
                                   >
-                                    {status}
-                                  </Label>
-                                </span>
-                              </Tooltip>
-                            </TableCell>
+                                    {
+                                      username
+                                    }
+                                  </CopyToolTip>
+                                ) : (
+                                  '-'
+                                )}
+                              </TableCell>
 
-                            <TableCell align="right">
-                              <ProxyMenu id={id} />
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
+                              <TableCell align="center">
+                                {password ? (
+                                  <CopyToolTip
+                                    text={
+                                      password
+                                    }
+                                  >
+                                    <Musk>
+                                      {
+                                        password
+                                      }
+                                    </Musk>
+                                  </CopyToolTip>
+                                ) : (
+                                  '-'
+                                )}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                <Tooltip
+                                  title={`Checked ${formatDistanceToNow(
+                                    new Date(
+                                      lastCheckAt
+                                    )
+                                  )}`}
+                                  arrow
+                                >
+                                  <span>
+                                    <Label
+                                      variant="ghost"
+                                      color={
+                                        (status ===
+                                          'INACTIVE' &&
+                                          'error') ||
+                                        (status ===
+                                          'CHECKING' &&
+                                          'warning') ||
+                                        'success'
+                                      }
+                                    >
+                                      {
+                                        status
+                                      }
+                                    </Label>
+                                  </span>
+                                </Tooltip>
+                              </TableCell>
+
+                              <TableCell align="right">
+                                <ProxyMenu
+                                  id={
+                                    id
+                                  }
+                                />
+                              </TableCell>
+                            </TableRow>
+                          );
+                        }
+                      )}
                     {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
+                      <TableRow
+                        style={{
+                          height:
+                            53 *
+                            emptyRows
+                        }}
+                      >
+                        <TableCell
+                          colSpan={6}
+                        />
                       </TableRow>
                     )}
                   </TableBody>
@@ -333,8 +557,16 @@ export default function Index() {
                   {isUserNotFound && (
                     <TableBody>
                       <TableRow>
-                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <SearchNotFound searchQuery={query} />
+                        <TableCell
+                          align="center"
+                          colSpan={6}
+                          sx={{ py: 3 }}
+                        >
+                          <SearchNotFound
+                            searchQuery={
+                              query
+                            }
+                          />
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -343,13 +575,21 @@ export default function Index() {
               </TableContainer>
 
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[
+                  5, 10, 25
+                ]}
                 component="div"
                 count={proxies.length}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={
+                  rowsPerPage
+                }
                 page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                onPageChange={
+                  handleChangePage
+                }
+                onRowsPerPageChange={
+                  handleChangeRowsPerPage
+                }
               />
             </Card>
           </Container>

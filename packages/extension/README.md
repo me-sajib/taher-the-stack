@@ -1,13 +1,6 @@
-<h1 align="center">
-proxy-manager-extension
-</h1>
+# `@easy-proxy-manager/extension`
 
-<p align="center">Mange your proxies through extension</p>
-
-<p align="center">
-  <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="built with love">
-  <img src="https://forthebadge.com/images/badges/made-with-typescript.svg" alt="made with typescript">
-</p>
+The **easy-proxy-manager** extension is a user-friendly tool that helps you manage your proxy collection with ease. With just a few clicks, you can add new proxies to your collection and connect to them instantly. You can check the status of your proxies at any time and refresh active fetched proxies as needed as well. This extension is compatible with any proxy provider, so you can use it with confidence no matter where you get your proxies. Plus, you can easily fetch your proxies from the **easy-proxy-manager** by logging in with your account details. Overall, the **easy-proxy-manager** extension is a convenient and reliable way to manage your proxy collection and stay connected to the internet securely.
 
 ## Key features
 
@@ -20,11 +13,7 @@ proxy-manager-extension
 
 ## Run extension (dev mode)
 
-First create a `.env` file and include all require variables. and install dependencies through running:
-
-```bash
-yarn
-```
+First ensure that the `.env` file holding `API_URL` & `DASHBOARD_URL` variables.
 
 To serve the extension on dev mode run
 
