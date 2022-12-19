@@ -1,6 +1,6 @@
-# Dashboard
+# `@easy-proxy-manager/dashboard`
 
-This app is frontend part of exp-proxy-manager. for run this app just type
+This app is frontend part of easy-proxy-manager. for run this app just type
 
 ```bash
 yarn start:dashboard

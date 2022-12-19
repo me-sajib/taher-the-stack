@@ -1,0 +1,147 @@
+@hostname = localhost
+@port = 3333
+@host = {{hostname}}:{{port}}
+@url =  http://{{host}}/api
+
+### Root ednpoint
+GET {{url}}
+
+### AUTH:Sign up
+POST {{url}}/auth/sign-up
+Content-Type: application/json
+
+{
+  "fullname": "software sheba",
+  "username": "ssadmin",
+  "email": "ssadmin@gmail.com",
+  "password": "sspassword"
+}
+
+### AUTH:Sign in by gmail
+POST {{url}}/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "ssadmin@gmail.com",
+  "password": "sspassword"
+}
+
+### AUTH:Sign in by username
+POST {{url}}/auth/sign-in
+Content-Type: application/json
+
+{
+  "username": "ssadmin",
+  "password": "sspass1234"
+}
+
+### AUTH:Sign out
+DELETE  {{url}}/auth/sign-out
+
+### USER
+GET {{url}}/user
+
+### USER: Update
+PATCH {{url}}/user/update
+Content-Type: application/json
+
+{
+  "fullname": "software sheba v2"
+}
+
+### USER: Reset password
+PATCH {{url}}/user/password-reset
+Content-Type: application/json
+
+{
+  "currentPassword": "sspassword-v2",
+  "newPassword": "sspassword"
+}
+
+### USER:Delete
+DELETE {{url}}/user/delete
+
+### PROXY_LIST:Create
+POST {{url}}/proxy-list/new
+Content-Type: application/json
+
+{
+  "name": "Web share proxy list",
+  "username": "ssadmin",
+  "password": "sspass123"
+}
+
+### PROXY_LIST: get without proxies
+
+GET  {{url}}/proxy-list
+
+### PROXY_LIST: get with proxies
+GET  {{url}}/proxy-list?includeProxies=true
+
+### PROXY_LIST: get with proxies
+# @name proxyList
+GET {{url}}/proxy-list/ssadmin
+
+@listKey = {{proxyList.response.body.$.key}}
+### PROXY_LIST: UPDATE
+PATCH {{url}}/proxy-list/update
+Content-Type: application/json
+
+[
+  {
+    "key": "{{listKey}}",
+    "name": "Web share proxy list 3 (UPDATED)"
+  }
+]
+
+### PROXY_LIST: DELETE
+DELETE {{url}}/proxy-list/delete?listKeys={{listKey}}
+Content-Type: application/json
+
+### PROXY_LIST: check
+PATCH {{url}}/proxy-list/check
+Content-Type: application/json
+
+{
+  "checkProxyListIds": ["{{listKey}}"]
+}
+
+
+### PROXY: get all proxies
+GET {{url}}/proxies?listKey={{listKey}}
+
+### PROXY: Create proxy
+# @name proxy
+POST {{url}}/proxies/new
+Content-Type: application/json
+
+{
+  "host": "103.117.192.174",
+  "port": 80,
+  "country": "unknown",
+  "proxyListKey": "{{listKey}}"
+}
+###
+@proxyId = {{proxy.response.body.$.id}}
+
+### PROXY: update
+PATCH {{url}}/proxies/update
+Content-Type: application/json
+
+[
+  {
+    "totalHits": 1,
+    "id": 17,
+  }
+]
+
+### PROXY: Delete
+DELETE {{url}}/proxies/delete?proxyListKey={{listKey}}&ids=
+
+### PROXY: Check
+PATCH {{url}}/proxies/check
+Content-Type: application/json
+
+{
+  "checkProxyIds": [1]
+}
