@@ -1,5 +1,3 @@
-import React from "react"
-
 import { capitalize } from "~lib"
 
 const Badge = ({ variant = "active", positionDisable = false }) => {

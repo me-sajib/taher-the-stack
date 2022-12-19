@@ -1,5 +1,3 @@
-import React from "react"
-
 import Button from "~components/Button"
 
 const SelectProxy = ({ proxy, activeProxyId, clickHandler }) => (

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { User } from '@prisma/client';
 import {
   useDispatch,
@@ -24,10 +23,10 @@ import {
 import { useForm } from 'react-hook-form';
 
 import Iconify from 'components/Iconify';
+import { useEffect } from 'react';
 import { AppThunkDispatch } from 'store';
 import { editUser } from 'store/thunks';
 import validator from 'validator';
-import { useEffect } from 'react';
 
 interface ProfileDataTypes {
   fullname: string;

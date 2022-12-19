@@ -9,8 +9,7 @@ const useSelection = <
     );
 
   const handleClick =
-    (item: SelectionType) =>
-    (_event: React.ChangeEvent) => {
+    (item: SelectionType) => () => {
       const newSelects = new Set(
         selects
       );

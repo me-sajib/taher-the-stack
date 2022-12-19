@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
@@ -32,7 +32,7 @@ const Login = ({ isOpen, closeHandler, setOpenLogin }) => {
     }))
   }
 
-  const loginHandler = async (e) => {
+  const loginHandler = async () => {
     const res = await fetch(`${process.env.API_URL}/auth/sign-in`, {
       method: "POST",
       body: JSON.stringify(loginInfo),

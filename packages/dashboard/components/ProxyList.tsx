@@ -1,10 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import { faker } from '@faker-js/faker';
 import {
   useEffect,
   useState
 } from 'react';
-import { faker } from '@faker-js/faker';
-import { range } from 'lodash';
 
 // material
 import {
@@ -31,7 +29,6 @@ import { AppThunkDispatch } from 'store';
 import {
   clearProxyListError,
   getProxyList,
-  getProxyListError,
   getProxyListStatus
 } from 'store/proxyListSlice';
 
@@ -46,6 +43,8 @@ import {
 
 import { ProxyList } from '@prisma/client';
 import useSelection from 'hooks/useSelection';
+import useSortFilter from 'hooks/useSortFilter';
+import { HeadType } from 'interfaces';
 import { getUser } from 'store/userSlice';
 import {
   ListHead,
@@ -60,8 +59,6 @@ import Page from './Page';
 import ProxyListModal from './ProxyListModal';
 import RotateIcon from './RotateIcon';
 import SearchNotFound from './SearchNotFound';
-import { HeadType } from 'interfaces';
-import useSortFilter from 'hooks/useSortFilter';
 
 // ----------------------------------------------------------------------
 type UiProxyList = ProxyList & {
