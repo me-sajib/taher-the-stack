@@ -4,16 +4,17 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  MinLength,
+  MinLength
 } from 'class-validator';
 
 export class AuthSigninDto {
   @IsNotEmpty()
   @ApiProperty({
     name: 'identifier',
-    description: 'The identifier of an user it would be email or username',
+    description:
+      'The identifier of an user it would be email or username',
     default: '',
-    type: String,
+    type: String
   })
   identifier: string;
 
@@ -22,9 +23,10 @@ export class AuthSigninDto {
   @MinLength(3)
   @ApiProperty({
     name: 'password',
-    description: 'The password of an user',
+    description:
+      'The password of an user',
     default: '',
-    type: String,
+    type: String
   })
   password: string;
 
@@ -32,10 +34,11 @@ export class AuthSigninDto {
   @IsBoolean()
   @ApiProperty({
     name: 'remember',
-    description: 'The remember status for next time login',
+    description:
+      'The remember status for next time login',
     required: false,
     default: false,
-    type: Boolean,
+    type: Boolean
   })
   remember: boolean;
 }

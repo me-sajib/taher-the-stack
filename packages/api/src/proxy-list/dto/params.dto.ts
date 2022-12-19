@@ -1,5 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  MinLength
+} from 'class-validator';
 
 export class ProxyListParamDto {
   @IsNotEmpty()
@@ -7,9 +11,10 @@ export class ProxyListParamDto {
   @MinLength(3)
   @ApiProperty({
     name: 'username',
-    description: 'The username of the proxy list',
+    description:
+      'The username of the proxy list',
     type: String,
-    default: '',
+    default: ''
   })
   username: string;
 }

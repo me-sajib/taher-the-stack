@@ -1,4 +1,7 @@
-import { useRef, useState } from 'react';
+import {
+  useRef,
+  useState
+} from 'react';
 // @mui
 import {
   Box,
@@ -6,7 +9,7 @@ import {
   IconButton,
   MenuItem,
   Stack,
-  Typography,
+  Typography
 } from '@mui/material';
 // components
 import { User } from '@prisma/client';
@@ -21,22 +24,26 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
-    linkTo: '/proxy-list',
+    linkTo: '/proxy-list'
   },
   {
     label: 'Profile',
     icon: 'eva:person-fill',
-    linkTo: '/profile',
-  },
+    linkTo: '/profile'
+  }
 ];
 
 const AccountPopover = () => {
-  const profile: User = useSelector(getUser);
+  const profile: User =
+    useSelector(getUser);
   const anchorRef = useRef(null);
-  const [open, setOpen] = useState<HTMLButtonElement>(null);
+  const [open, setOpen] =
+    useState<HTMLButtonElement>(null);
   const router = useRouter();
 
-  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOpen = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     setOpen(event.currentTarget);
   };
 
@@ -45,7 +52,9 @@ const AccountPopover = () => {
   };
 
   const logoutHandler = async () => {
-    await axios.delete('/api/auth/sign-out');
+    await axios.delete(
+      '/api/auth/sign-out'
+    );
     router.push('/auth/sign-in');
   };
 
@@ -56,7 +65,7 @@ const AccountPopover = () => {
         onClick={handleOpen}
         sx={{
           p: 2,
-          borderRadius: 1.5,
+          borderRadius: 1.5
         }}
       >
         {profile.username}
@@ -71,38 +80,61 @@ const AccountPopover = () => {
           mt: 1.5,
           ml: 0.75,
           '& .MuiMenuItem-root': {
-            typography: 'body2',
-          },
+            typography: 'body2'
+          }
         }}
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle2" noWrap>
+          <Typography
+            variant="subtitle2"
+            noWrap
+          >
             {profile.fullname}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary'
+            }}
+            noWrap
+          >
             {profile.email}
           </Typography>
         </Box>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider
+          sx={{ borderStyle: 'dashed' }}
+        />
 
         <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
-            <Link key={Math.random().toString(32)} href={option.linkTo}>
-              <MenuItem
-                key={option.label}
-                component={null}
-                onClick={handleClose}
+          {MENU_OPTIONS.map(
+            (option) => (
+              <Link
+                key={Math.random().toString(
+                  32
+                )}
+                href={option.linkTo}
               >
-                {option.label}
-              </MenuItem>
-            </Link>
-          ))}
+                <MenuItem
+                  key={option.label}
+                  component={null}
+                  onClick={handleClose}
+                >
+                  {option.label}
+                </MenuItem>
+              </Link>
+            )
+          )}
         </Stack>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider
+          sx={{ borderStyle: 'dashed' }}
+        />
 
-        <MenuItem onClick={logoutHandler} sx={{ m: 1 }}>
+        <MenuItem
+          onClick={logoutHandler}
+          sx={{ m: 1 }}
+        >
           Logout
         </MenuItem>
       </MenuPopover>

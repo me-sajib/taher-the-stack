@@ -5,40 +5,65 @@ import {
   OutlinedInput,
   Toolbar,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
-import { styled, Theme } from '@mui/material/styles';
+import {
+  styled,
+  Theme
+} from '@mui/material/styles';
 import BulkEditor from 'components/BulkEditor';
 // component
 import Iconify from 'components/Iconify';
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState
+} from 'react';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled(Toolbar)(({ theme }) => ({
-  height: 96,
-  display: 'flex',
-  justifyContent: 'space-between',
-  padding: theme.spacing(0, 1, 0, 3),
-}));
+const RootStyle = styled(Toolbar)(
+  ({ theme }) => ({
+    height: 96,
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: theme.spacing(0, 1, 0, 3)
+  })
+);
 
 interface CustomTheme extends Theme {
   customShadows: any;
 }
 
-const SearchStyle = styled(OutlinedInput)(
-  ({ theme }: { theme: CustomTheme }) => ({
+const SearchStyle = styled(
+  OutlinedInput
+)(
+  ({
+    theme
+  }: {
+    theme: CustomTheme;
+  }) => ({
     width: 240,
-    transition: theme.transitions.create(['box-shadow', 'width'], {
-      easing: theme.transitions.easing.easeInOut,
-      duration: theme.transitions.duration.shorter,
-    }),
+    transition:
+      theme.transitions.create(
+        ['box-shadow', 'width'],
+        {
+          easing:
+            theme.transitions.easing
+              .easeInOut,
+          duration:
+            theme.transitions.duration
+              .shorter
+        }
+      ),
 
-    '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
+    '&.Mui-focused': {
+      width: 320,
+      boxShadow: theme.customShadows.z8
+    },
     '& fieldset': {
       borderWidth: `1px !important`,
-      borderColor: `${theme.palette.grey[500_32]} !important`,
-    },
+      borderColor: `${theme.palette.grey[500_32]} !important`
+    }
   })
 );
 
@@ -50,13 +75,17 @@ interface ListToolbarTypes {
   numSelected: number;
   filterName: string;
   editStateData: string;
-  bulkEditHandler: <T>(changedMap: Map<number, T>) => void;
+  bulkEditHandler: <T>(
+    changedMap: Map<number, T>
+  ) => void;
   bulkDeleteHandler: () => void;
   bulkRecheckHandler: () => void;
   onFilterName: (query: string) => void;
   extraValidation?: (
     state: Map<number, any>,
-    setError: React.Dispatch<React.SetStateAction<string>>
+    setError: React.Dispatch<
+      React.SetStateAction<string>
+    >
   ) => boolean;
 }
 
@@ -69,15 +98,25 @@ export default function ListToolbar({
   bulkEditHandler,
   bulkRecheckHandler,
   onFilterName,
-  extraValidation,
+  extraValidation
 }: ListToolbarTypes) {
-  const [isOpenEditModal, setModalStatus] = useState(false);
-  const toggleModal = () => setModalStatus((prev) => !prev);
-  const [queryText, setQueryText] = useState<string>(filterName);
+  const [
+    isOpenEditModal,
+    setModalStatus
+  ] = useState(false);
+  const toggleModal = () =>
+    setModalStatus((prev) => !prev);
+  const [queryText, setQueryText] =
+    useState<string>(filterName);
 
-  useEffect(() => onFilterName(queryText), [queryText]);
+  useEffect(
+    () => onFilterName(queryText),
+    [queryText]
+  );
 
-  const queryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const queryChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setQueryText(e.target.value);
   };
 
@@ -86,7 +125,7 @@ export default function ListToolbar({
     editStateData,
     isOpenEditModal,
     toggleModal,
-    extraValidation,
+    extraValidation
   };
 
   return (
@@ -94,12 +133,15 @@ export default function ListToolbar({
       sx={{
         ...(numSelected > 0 && {
           color: 'primary.main',
-          bgcolor: 'primary.lighter',
-        }),
+          bgcolor: 'primary.lighter'
+        })
       }}
     >
       {numSelected > 0 ? (
-        <Typography component="div" variant="subtitle1">
+        <Typography
+          component="div"
+          variant="subtitle1"
+        >
           {numSelected} selected
         </Typography>
       ) : (
@@ -111,7 +153,12 @@ export default function ListToolbar({
             <InputAdornment position="start">
               <Iconify
                 icon="eva:search-fill"
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                sx={{
+                  color:
+                    'text.disabled',
+                  width: 20,
+                  height: 20
+                }}
               />
             </InputAdornment>
           }
@@ -121,19 +168,32 @@ export default function ListToolbar({
       {
         numSelected > 0 ? (
           <span>
-            <Tooltip title="Delete" onClick={bulkDeleteHandler}>
+            <Tooltip
+              title="Delete"
+              onClick={
+                bulkDeleteHandler
+              }
+            >
               <IconButton>
                 <Iconify icon="eva:trash-2-fill" />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Recheck" onClick={bulkRecheckHandler}>
+            <Tooltip
+              title="Recheck"
+              onClick={
+                bulkRecheckHandler
+              }
+            >
               <IconButton>
                 <Iconify icon="fluent:arrow-clockwise-16-filled" />
               </IconButton>
             </Tooltip>
           </span>
         ) : (
-          <Tooltip title="Edit" onClick={toggleModal}>
+          <Tooltip
+            title="Edit"
+            onClick={toggleModal}
+          >
             <IconButton>
               <Iconify icon="akar-icons:edit" />
             </IconButton>
@@ -147,7 +207,9 @@ export default function ListToolbar({
         </Tooltip>} */
       }
 
-      <BulkEditor {...bulkEditorProps} />
+      <BulkEditor
+        {...bulkEditorProps}
+      />
     </RootStyle>
   );
 }

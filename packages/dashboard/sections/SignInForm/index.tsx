@@ -4,7 +4,10 @@ import RHFCheckbox from 'components/hook-form/RHFCheckBox';
 import RHFTextField from 'components/hook-form/RHFTextFiled';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Link, Stack } from '@mui/material';
+import {
+  Link,
+  Stack
+} from '@mui/material';
 // form
 import { useForm } from 'react-hook-form';
 
@@ -20,38 +23,54 @@ interface SignInFormTypes {
 
 const SignInForm = () => {
   const router = useRouter();
-  const defaultValues: SignInFormTypes = {
-    identifier: '',
-    password: '',
-    remember: true,
-  };
+  const defaultValues: SignInFormTypes =
+    {
+      identifier: '',
+      password: '',
+      remember: true
+    };
 
-  const methods = useForm({ defaultValues });
+  const methods = useForm({
+    defaultValues
+  });
   const {
     handleSubmit,
     setError,
-    formState: { isSubmitting },
+    formState: { isSubmitting }
   } = methods;
 
-  const onSubmit = async (formData: SignInFormTypes) => {
-    const { data: res } = await axios.post('/api/auth/sign-in', formData);
+  const onSubmit = async (
+    formData: SignInFormTypes
+  ) => {
+    const { data: res } =
+      await axios.post(
+        '/api/auth/sign-in',
+        formData
+      );
 
     if (res.status === 403) {
       setError('identifier', {
-        message: res.message,
+        message: res.message
       });
       setError('password', {
-        message: res.message,
+        message: res.message
       });
     }
 
-    res.status === 202 && router.push('/proxy-list');
+    res.status === 202 &&
+      router.push('/proxy-list');
   };
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider
+      methods={methods}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Stack spacing={3}>
-        <RHFTextField name="identifier" label="Email or username" />
+        <RHFTextField
+          name="identifier"
+          label="Email or username"
+        />
 
         <RHFPasswordField />
       </Stack>
@@ -62,8 +81,14 @@ const SignInForm = () => {
         justifyContent="space-between"
         sx={{ my: 2 }}
       >
-        <RHFCheckbox name="remember" label="Remember me" />
-        <Link variant="subtitle2" underline="hover">
+        <RHFCheckbox
+          name="remember"
+          label="Remember me"
+        />
+        <Link
+          variant="subtitle2"
+          underline="hover"
+        >
           Forgot password?
         </Link>
       </Stack>

@@ -1,9 +1,18 @@
 // form
-import { Controller, useFormContext } from 'react-hook-form';
+import {
+  Controller,
+  useFormContext
+} from 'react-hook-form';
 // @mui
-import { Checkbox, FormControlLabel } from '@mui/material';
+import {
+  Checkbox,
+  FormControlLabel
+} from '@mui/material';
 
-const HFCheckbox = ({ name, ...other }) => {
+const HFCheckbox = ({
+  name,
+  ...other
+}) => {
   const { control } = useFormContext();
 
   return (
@@ -14,7 +23,12 @@ const HFCheckbox = ({ name, ...other }) => {
         <Controller
           name={name}
           control={control}
-          render={({ field }) => <Checkbox {...field} checked={field.value} />}
+          render={({ field }) => (
+            <Checkbox
+              {...field}
+              checked={field.value}
+            />
+          )}
         />
       }
       {...other}

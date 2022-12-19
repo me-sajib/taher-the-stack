@@ -1,6 +1,9 @@
 import { Box } from '@mui/material';
 import Head from 'next/head';
-import { forwardRef, RefObject } from 'react';
+import {
+  forwardRef,
+  RefObject
+} from 'react';
 
 interface PageTypes {
   children: JSX.Element;

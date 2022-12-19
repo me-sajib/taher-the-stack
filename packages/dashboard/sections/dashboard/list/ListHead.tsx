@@ -6,7 +6,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TableSortLabel,
+  TableSortLabel
 } from '@mui/material';
 import { HeadType } from 'interfaces';
 
@@ -21,17 +21,20 @@ const visuallyHidden = {
   overflow: 'hidden',
   position: 'absolute',
   whiteSpace: 'nowrap',
-  clip: 'rect(0 0 0 0)',
+  clip: 'rect(0 0 0 0)'
 };
 
 ListHead.propTypes = {
-  order: PropTypes.oneOf(['asc', 'desc']),
+  order: PropTypes.oneOf([
+    'asc',
+    'desc'
+  ]),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
   headLabel: PropTypes.array,
   numSelected: PropTypes.number,
   onRequestSort: PropTypes.func,
-  onSelectAllClick: PropTypes.func,
+  onSelectAllClick: PropTypes.func
 };
 
 export default function ListHead<T>({
@@ -41,44 +44,76 @@ export default function ListHead<T>({
   headLabel,
   numSelected,
   onRequestSort,
-  onSelectAllClick,
+  onSelectAllClick
 }) {
   return (
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
+            indeterminate={
+              numSelected > 0 &&
+              numSelected < rowCount
+            }
+            checked={
+              rowCount > 0 &&
+              numSelected === rowCount
+            }
             onChange={onSelectAllClick}
           />
         </TableCell>
-        {headLabel.map((headCell: HeadType<T>) =>
-          headCell ? (
-            <TableCell
-              key={Math.random().toString(32)}
-              align={headCell.align || 'left'}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                hideSortIcon
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={onRequestSort(headCell.id)}
+        {headLabel.map(
+          (headCell: HeadType<T>) =>
+            headCell ? (
+              <TableCell
+                key={Math.random().toString(
+                  32
+                )}
+                align={
+                  headCell.align ||
+                  'left'
+                }
+                sortDirection={
+                  orderBy ===
+                  headCell.id
+                    ? order
+                    : false
+                }
               >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box sx={{ ...visuallyHidden }}>
-                    {order === 'desc'
-                      ? 'sorted descending'
-                      : 'sorted ascending'}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ) : (
-            headCell
-          )
+                <TableSortLabel
+                  hideSortIcon
+                  active={
+                    orderBy ===
+                    headCell.id
+                  }
+                  direction={
+                    orderBy ===
+                    headCell.id
+                      ? order
+                      : 'asc'
+                  }
+                  onClick={onRequestSort(
+                    headCell.id
+                  )}
+                >
+                  {headCell.label}
+                  {orderBy ===
+                  headCell.id ? (
+                    <Box
+                      sx={{
+                        ...visuallyHidden
+                      }}
+                    >
+                      {order === 'desc'
+                        ? 'sorted descending'
+                        : 'sorted ascending'}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+            ) : (
+              headCell
+            )
         )}
       </TableRow>
     </TableHead>

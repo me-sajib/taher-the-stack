@@ -7,8 +7,12 @@ interface CopyToolTip {
   children: string | JSX.Element;
 }
 
-export default function CopyToolTip({ text, children }: CopyToolTip) {
-  const [isCopied, setCopy] = useState(false);
+export default function CopyToolTip({
+  text,
+  children
+}: CopyToolTip) {
+  const [isCopied, setCopy] =
+    useState(false);
 
   const copyToClipboardHandler = () => {
     copy(text);
@@ -18,10 +22,17 @@ export default function CopyToolTip({ text, children }: CopyToolTip) {
   return (
     <Tooltip
       style={{ cursor: 'pointer' }}
-      title={isCopied ? 'copied' : 'copy'}
+      title={
+        isCopied ? 'copied' : 'copy'
+      }
       arrow
       onClick={copyToClipboardHandler}
-      onMouseLeave={() => setTimeout(() => setCopy(false), 1e3)}
+      onMouseLeave={() =>
+        setTimeout(
+          () => setCopy(false),
+          1e3
+        )
+      }
     >
       <span>{children}</span>
     </Tooltip>

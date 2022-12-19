@@ -1,5 +1,9 @@
 # Add files here to ignore them from prettier formatting
 
 .next
-/dist
-/coverage
+.docusaurus
+.plasmo
+build
+node_modules
+dist
+coverage

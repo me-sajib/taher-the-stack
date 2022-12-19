@@ -1,4 +1,8 @@
-import { Grid, Skeleton, Stack } from '@mui/material';
+import {
+  Grid,
+  Skeleton,
+  Stack
+} from '@mui/material';
 
 const LoadingListFallback = () => (
   <Grid
@@ -11,12 +15,18 @@ const LoadingListFallback = () => (
       <Skeleton
         animation="wave"
         variant="rounded"
-        sx={{ width: '65vw', height: '8vh' }}
+        sx={{
+          width: '65vw',
+          height: '8vh'
+        }}
       />
       <Skeleton
         animation="wave"
         variant="rounded"
-        sx={{ width: '65vw', height: '60vh' }}
+        sx={{
+          width: '65vw',
+          height: '60vh'
+        }}
       />
     </Stack>
   </Grid>

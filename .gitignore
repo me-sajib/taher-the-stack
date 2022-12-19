@@ -12,7 +12,7 @@ build
 
 
 # dependencies
-node_moduless
+node_modules
 
 # IDEs and editors
 /.idea
@@ -47,11 +47,10 @@ Thumbs.db
 
 # Environments
 .env
-
-# seed
-users.json
 .env*
 .flaskenv*
 !.env.project
 !.env.vault
-node_modules
+
+# seed
+migrations

@@ -20,12 +20,8 @@
   ],
   "overrides": [
     {
-      "plugins": [
-        "@typescript-eslint"
-      ],
-      "files": [
-        "*.ts"
-      ],
+      "plugins": ["@typescript-eslint"],
+      "files": ["*.ts"],
       "rules": {
         "@typescript-eslint/array-type": "error",
         "@typescript-eslint/ban-ts-comment": 0,

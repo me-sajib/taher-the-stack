@@ -7,9 +7,15 @@ interface FormProviderTypes {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
 }
 
-const FormProvider = ({ children, onSubmit, methods }: FormProviderTypes) => (
+const FormProvider = ({
+  children,
+  onSubmit,
+  methods
+}: FormProviderTypes) => (
   <Form {...methods}>
-    <form onSubmit={onSubmit}>{children}</form>
+    <form onSubmit={onSubmit}>
+      {children}
+    </form>
   </Form>
 );
 

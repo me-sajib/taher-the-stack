@@ -2,9 +2,7 @@
 module.exports = {
   mode: "jit",
   darkMode: "class",
-  content: ["./**/*.{ts,tsx}", './node_modules/tw-elements/dist/js/**/*.js'],
+  content: ["./**/*.{ts,tsx}", "./node_modules/tw-elements/dist/js/**/*.js"],
   variants: { extend: { typography: ["dark"] } },
-  plugins: [
-    require('tw-elements/dist/plugin')
-  ]
+  plugins: [require("tw-elements/dist/plugin")]
 }

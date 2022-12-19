@@ -1,6 +1,13 @@
-import { HeadType, SortType } from 'interfaces';
+import {
+  HeadType,
+  SortType
+} from 'interfaces';
 
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T): number {
+function descendingComparator<T>(
+  a: T,
+  b: T,
+  orderBy: keyof T
+): number {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -12,10 +19,23 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T): number {
   return 0;
 }
 
-function getComparator<T>(order: SortType, orderBy: keyof T) {
+function getComparator<T>(
+  order: SortType,
+  orderBy: keyof T
+) {
   return order === 'desc'
-    ? (a: T, b: T) => descendingComparator<T>(a, b, orderBy)
-    : (a: T, b: T) => -descendingComparator<T>(a, b, orderBy);
+    ? (a: T, b: T) =>
+        descendingComparator<T>(
+          a,
+          b,
+          orderBy
+        )
+    : (a: T, b: T) =>
+        -descendingComparator<T>(
+          a,
+          b,
+          orderBy
+        );
 }
 
 interface FilerParams<T> {
@@ -31,16 +51,24 @@ function applySortFilter<T>({
   order,
   orderBy,
   query,
-  tableHead,
+  tableHead
 }: FilerParams<T>) {
-  const stabilizedThis: Array<[T, number]> = array.map((el, index) => [
+  const stabilizedThis: Array<
+    [T, number]
+  > = array.map((el, index) => [
     el,
-    index,
+    index
   ]);
 
-  const comparator = getComparator(order, orderBy);
+  const comparator = getComparator(
+    order,
+    orderBy
+  );
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
+    const order = comparator(
+      a[0],
+      b[0]
+    );
 
     if (order !== 0) {
       return order;
@@ -53,21 +81,32 @@ function applySortFilter<T>({
     const splitQuery = query.split(':');
 
     if (splitQuery.length == 2) {
-      const [propName, queryString] = splitQuery;
+      const [propName, queryString] =
+        splitQuery;
 
       orderBy = tableHead.find(
-        ({ label }) => propName.trim().toLowerCase() === label.toLowerCase()
+        ({ label }) =>
+          propName
+            .trim()
+            .toLowerCase() ===
+          label.toLowerCase()
       )?.id;
       query = queryString.trim();
     }
 
     return array.filter(
       (item: T) =>
-        String(item[orderBy] as unknown).indexOf(query.toLowerCase()) !== -1
+        String(
+          item[orderBy] as unknown
+        ).indexOf(
+          query.toLowerCase()
+        ) !== -1
     );
   }
 
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis.map(
+    (el) => el[0]
+  );
 }
 
 export default applySortFilter;

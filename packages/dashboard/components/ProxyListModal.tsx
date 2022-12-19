@@ -8,7 +8,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormProvider from 'components/hook-form/FormProvider';
 import { useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  SubmitHandler,
+  useForm
+} from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { getProxyListError } from 'store/proxyListSlice';
 import validator from 'validator';
@@ -35,44 +38,67 @@ export default function ProxyListModal({
   actionType,
   formState,
   handleClose,
-  onSubmit,
+  onSubmit
 }: ProxyListModalTypes) {
-  const proxyListError = useSelector(getProxyListError);
-  const defaultFormState = formState ?? {
-    name: '',
-    username: '',
-    password: '',
-  };
+  const proxyListError = useSelector(
+    getProxyListError
+  );
+  const defaultFormState =
+    formState ?? {
+      name: '',
+      username: '',
+      password: ''
+    };
 
   const methods = useForm({
-    defaultValues: defaultFormState,
+    defaultValues: defaultFormState
   });
   const {
     handleSubmit,
     setError,
-    formState: { isSubmitting },
+    formState: { isSubmitting }
   } = methods;
 
   useEffect(() => {
     proxyListError.forEach((error) => {
-      const [propName] = error.message.split(/\s/);
+      const [propName] =
+        error.message.split(/\s/);
 
-      setError(propName as keyof ProxyModalData, {
-        message: error.message,
-      });
+      setError(
+        propName as keyof ProxyModalData,
+        {
+          message: error.message
+        }
+      );
     });
   }, [proxyListError]);
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>{actionType.trim()} proxy list</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+    >
+      <DialogTitle>
+        {actionType.trim()} proxy list
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Input all valid fields for {actionType.trim().toLowerCase()} proxy
-          list
+          Input all valid fields for{' '}
+          {actionType
+            .trim()
+            .toLowerCase()}{' '}
+          proxy list
         </DialogContentText>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={3} sx={{ my: 3 }}>
+        <FormProvider
+          methods={methods}
+          onSubmit={handleSubmit(
+            onSubmit
+          )}
+        >
+          <Stack
+            spacing={3}
+            sx={{ my: 3 }}
+          >
             <RHFTextField
               autoFocus
               margin="dense"
@@ -94,7 +120,7 @@ export default function ProxyListModal({
               variant="standard"
               rules={{
                 ...validator.username,
-                required: false,
+                required: false
               }}
             />
             <RHFPasswordField
@@ -106,13 +132,17 @@ export default function ProxyListModal({
               variant="standard"
               rules={{
                 ...validator.password,
-                required: false,
+                required: false
               }}
             />
           </Stack>
 
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
             <LoadingButton
               type="submit"
               variant="contained"

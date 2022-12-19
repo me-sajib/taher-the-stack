@@ -4,9 +4,12 @@ import {
   DialogActions,
   DialogTitle,
   Stack,
-  TextField,
+  TextField
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState
+} from 'react';
 import { getChange } from 'utils';
 import { Validator } from 'validator';
 
@@ -14,10 +17,14 @@ interface BulkEditorTypes {
   editStateData: string;
   isOpenEditModal: boolean;
   toggleModal: () => void;
-  bulkEditHandler: (changedMap: Map<number, any>) => void;
+  bulkEditHandler: (
+    changedMap: Map<number, any>
+  ) => void;
   extraValidation?: (
     changedMap: Map<number, any>,
-    setError: React.Dispatch<React.SetStateAction<string>>
+    setError: React.Dispatch<
+      React.SetStateAction<string>
+    >
   ) => boolean;
 }
 
@@ -26,40 +33,63 @@ export default function BulkEditor({
   isOpenEditModal,
   toggleModal,
   bulkEditHandler,
-  extraValidation,
+  extraValidation
 }: BulkEditorTypes) {
-  const [modalText, setModalText] = useState(editStateData);
-  const [bulkError, setBulkError] = useState('');
+  const [modalText, setModalText] =
+    useState(editStateData);
+  const [bulkError, setBulkError] =
+    useState('');
 
   useEffect(() => {
     setModalText(editStateData);
   }, [editStateData]);
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setModalText(e.target.value);
   };
 
-  const validateBulkData = (changedMap: Map<number, any>) => {
+  const validateBulkData = (
+    changedMap: Map<number, any>
+  ) => {
     for (const obj of changedMap.values()) {
-      const validator = new Validator(obj);
-      const isValidMessage = validator.lunch();
+      const validator = new Validator(
+        obj
+      );
+      const isValidMessage =
+        validator.lunch();
 
       if (isValidMessage !== true) {
-        setBulkError(isValidMessage as string);
+        setBulkError(
+          isValidMessage as string
+        );
         return false;
       }
     }
 
-    return extraValidation ? extraValidation(changedMap, setBulkError) : true;
+    return extraValidation
+      ? extraValidation(
+          changedMap,
+          setBulkError
+        )
+      : true;
   };
 
   const saveHandler = () => {
     try {
-      const recentChange = JSON.parse(modalText);
-      const prevState = JSON.parse(editStateData);
-      const changedMap = getChange(prevState, recentChange);
+      const recentChange =
+        JSON.parse(modalText);
+      const prevState = JSON.parse(
+        editStateData
+      );
+      const changedMap = getChange(
+        prevState,
+        recentChange
+      );
 
-      const isValid = validateBulkData(changedMap);
+      const isValid =
+        validateBulkData(changedMap);
 
       if (isValid) {
         bulkEditHandler(changedMap);
@@ -77,7 +107,9 @@ export default function BulkEditor({
       fullWidth
       maxWidth="md"
     >
-      <DialogTitle>Bulk Edit</DialogTitle>
+      <DialogTitle>
+        Bulk Edit
+      </DialogTitle>
       <Stack spacing={3} sx={{ p: 3 }}>
         <TextField
           value={modalText}
@@ -92,8 +124,13 @@ export default function BulkEditor({
           onChange={changeHandler}
         />
         <DialogActions>
-          <Button onClick={toggleModal}>Cancel</Button>
-          <Button variant="contained" onClick={saveHandler}>
+          <Button onClick={toggleModal}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={saveHandler}
+          >
             Save
           </Button>
         </DialogActions>

@@ -6,7 +6,7 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  ValidateBy,
+  ValidateBy
 } from 'class-validator';
 import { usernameValidator } from '../../custom-validators';
 
@@ -24,7 +24,8 @@ export class UpdateUser {
     type: String,
     default: '',
     required: false,
-    description: 'The valid `email` of an user that you would like to update',
+    description:
+      'The valid `email` of an user that you would like to update'
   })
   email?: string;
 
@@ -39,7 +40,7 @@ export class UpdateUser {
     default: '',
     required: false,
     description:
-      'The valid `username` of an user that you would like to update',
+      'The valid `username` of an user that you would like to update'
   })
   username?: string;
 
@@ -53,7 +54,8 @@ export class UpdateUser {
     type: String,
     default: '',
     required: false,
-    description: 'The `fullname` of an user that you would like to update',
+    description:
+      'The `fullname` of an user that you would like to update'
   })
   fullname?: string;
 }
@@ -64,7 +66,7 @@ export class ResetPassDto {
     type: String,
     default: '',
     description:
-      'The `currentPassword` of an user that you would like to update',
+      'The `currentPassword` of an user that you would like to update'
   })
   @IsString()
   currentPassword: string;
@@ -73,7 +75,8 @@ export class ResetPassDto {
     name: 'newPassword',
     type: String,
     default: '',
-    description: 'The `newPassword` of an user which will be the new password',
+    description:
+      'The `newPassword` of an user which will be the new password'
   })
   @IsString()
   newPassword: string;

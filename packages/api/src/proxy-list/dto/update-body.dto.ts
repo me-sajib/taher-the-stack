@@ -4,16 +4,17 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-  MinLength,
+  MinLength
 } from 'class-validator';
 
 export class ProxyListUpdateDto {
   @IsUUID()
   @ApiProperty({
     name: 'key',
-    description: 'The key of the proxy list you would like to update',
+    description:
+      'The key of the proxy list you would like to update',
     type: String,
-    default: '',
+    default: ''
   })
   key: string;
 
@@ -23,10 +24,11 @@ export class ProxyListUpdateDto {
   @MinLength(3)
   @ApiProperty({
     name: 'name',
-    description: 'The name of the proxy list',
+    description:
+      'The name of the proxy list',
     required: false,
     type: String,
-    default: '',
+    default: ''
   })
   name: string;
 
@@ -36,10 +38,11 @@ export class ProxyListUpdateDto {
   @MinLength(3)
   @ApiProperty({
     name: 'username',
-    description: 'The username of the proxy list',
+    description:
+      'The username of the proxy list',
     required: false,
     type: String,
-    default: '',
+    default: ''
   })
   username: string;
 
@@ -49,10 +52,11 @@ export class ProxyListUpdateDto {
   @MinLength(3)
   @ApiProperty({
     name: 'password',
-    description: 'The password of the proxy list',
+    description:
+      'The password of the proxy list',
     required: false,
     type: String,
-    default: '',
+    default: ''
   })
   password: string;
 }

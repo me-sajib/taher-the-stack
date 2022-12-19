@@ -10,16 +10,26 @@ export default function SignUpPage() {
       sideTitle="Manage proxies more effectively with zero hassle"
       redirect={{
         path: 'sign-in',
-        title: 'Already have an account?',
-        placeholder: 'Sign in',
+        title:
+          'Already have an account?',
+        placeholder: 'Sign in'
       }}
     >
-      <Typography variant="h4" gutterBottom>
+      <Typography
+        variant="h4"
+        gutterBottom
+      >
         Get started absolutely free.
       </Typography>
 
-      <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-        Free forever. No credit card needed.
+      <Typography
+        sx={{
+          color: 'text.secondary',
+          mb: 5
+        }}
+      >
+        Free forever. No credit card
+        needed.
       </Typography>
 
       <SignUpForm />
