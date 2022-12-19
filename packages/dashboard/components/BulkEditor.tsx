@@ -10,7 +10,7 @@ import React, {
   useEffect,
   useState
 } from 'react';
-import { getChange } from 'utils';
+import { getChange } from '../../utils/src';
 import { Validator } from 'validator';
 
 interface BulkEditorTypes {
