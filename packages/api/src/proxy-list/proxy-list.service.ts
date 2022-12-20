@@ -5,7 +5,7 @@ import {
   Logger
 } from '@nestjs/common';
 import { ProxyList } from '@prisma/client';
-import { isUniqueError } from '@proxy-manager/utils';
+import { isUniqueError } from '../lib';
 import { CheckProxyService } from '../check-proxy/check-proxy.service';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import {
