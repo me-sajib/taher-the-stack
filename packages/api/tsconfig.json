@@ -4,9 +4,7 @@
     "outDir": "./dist",
     "rootDir": "src",
     "module": "commonjs",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "emitDecoratorMetadata": true,
     "target": "es2015"
   }

@@ -34,7 +34,7 @@ const ActiveProxyBanner = ({
               />
             )}
             <Button
-              classes="ml-1.5 hover:text-white"
+              classes="ml-1.5"
               variant="red"
               clickHandler={disconnectHandler(proxy.id)}
               text="disconnect"

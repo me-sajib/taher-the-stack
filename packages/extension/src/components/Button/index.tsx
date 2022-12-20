@@ -4,21 +4,24 @@ const Button = ({
   text,
   clickHandler,
   classes = "",
-  icon = "",
+  icon = null,
   variant = "blue",
   ...props
 }) => {
   const variants = {
-    blue: "border-blue-600 bg-blue-600 active:text-blue-500",
-    red: "border-red-600 bg-red-600 active:text-red-500",
-    green: "border-green-600 bg-green-600 active:text-green-500"
+    blue: "text-blue-600 hover:text-blue-900 hover:border-blue-900 ring-blue-100",
+    red: "text-red-600 hover:text-red-900 hover:border-red-900 ring-red-100",
+    green:
+      "text-green-600 hover:text-green-900 hover:border-green-900 ring-green-100"
   }
   return (
     <button
       type="button"
       onClick={clickHandler}
       className={twMerge(
-        `px-2 py-1 inline-block rounded border text-sm font-medium text-white hover:text-black hover:bg-transparent focus:outline-none focus:ring ${variants[variant]} ${classes}`.trim()
+        `px-2 py-1 inline-block rounded border text-sm font-medium text-black hover:bg-transparent focus:outline-none focus:ring ${
+          variants[variant] ?? ""
+        } ${classes}`.trim()
       )}
       {...props}>
       {icon}

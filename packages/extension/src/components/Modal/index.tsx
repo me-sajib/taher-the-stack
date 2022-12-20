@@ -1,3 +1,5 @@
+import Button from "~components/Button"
+
 const Modal = ({ isOpen, title, children, actionElement, closeHandler }) => {
   return (
     <div onClick={closeHandler} className="w-full">
@@ -13,18 +15,8 @@ const Modal = ({ isOpen, title, children, actionElement, closeHandler }) => {
         <div className="py-4">{children}</div>
 
         <div className="flex items-center justify-end text-xs">
-          <button
-            type="button"
-            onClick={actionElement}
-            className="rounded bg-green-50 px-4 py-2 font-medium text-blue-600">
-            Sign in
-          </button>
-          <button
-            type="button"
-            onClick={closeHandler}
-            className="ml-2 rounded bg-gray-50 px-4 py-2 font-medium text-gray-600">
-            Close
-          </button>
+          <Button text="Login" classes="mr-3" clickHandler={actionElement} />
+          <Button variant="" text="Close" clickHandler={closeHandler} />
         </div>
       </div>
     </div>
