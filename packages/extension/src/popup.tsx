@@ -8,14 +8,14 @@ import ActiveProxyBanner from "~components/ActiveProxyBanner"
 import Header from "~components/Header"
 import SelectProxy from "~components/SelectProxy"
 import { PopupActionKind } from "~enum"
-import type { InitialState, Proxy } from "~interfaces"
-import { checkProxies, getProxies } from "~lib"
+import type { InitialState } from "~interfaces"
+import { checkProxyList, getProxyList } from "~lib"
 import { initialState, popupReducer } from "~reducers"
 
 import "./style.css"
 
 function IndexPopup() {
-  const [storedState, , { setStoreValue }] = useStorage<InitialState>(
+  const [storedState] = useStorage<InitialState>(
     process.env.STORE_NAME,
     initialState
   )
@@ -29,8 +29,8 @@ function IndexPopup() {
   // fetch all proxies from manager
   useEffect(() => {
     storedState.user !== null &&
-      getProxies()
-        .then((proxies: Proxy[]) => {
+      getProxyList()
+        .then((proxies) => {
           console.log({ proxies })
           dispatch({
             type: PopupActionKind.FETCH,
@@ -80,19 +80,9 @@ function IndexPopup() {
 
   const refreshHandler = (id) => async () => {
     setRefreshStatus(true)
-    const {
-      [id]: { status }
-    } = await checkProxies([+id])
-    const cloneStored = structuredClone(storedState)
-    cloneStored.active.status = status
-    cloneStored.proxies = cloneStored.proxies.map((proxy) => {
-      if (proxy.id === id) {
-        proxy.status = status
-      }
-      return proxy
-    })
+    await checkProxyList([id])
+
     setRefreshStatus(false)
-    setStoreValue(cloneStored)
   }
 
   const closePopupHandler = () => window.close()

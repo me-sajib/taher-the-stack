@@ -1,6 +1,7 @@
 import type { Proxy } from "~interfaces"
 
 export const setProxy = (proxy: Proxy) => {
+  console.log({ proxy })
   const config: chrome.proxy.ProxyConfig = {
     mode: "fixed_servers",
     rules: {
