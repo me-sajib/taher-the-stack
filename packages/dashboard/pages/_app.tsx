@@ -1,6 +1,6 @@
-import { BaseOptionChartStyle } from 'components/chart/BaseChartStyle';
 import { AppProps } from 'next/app';
-import { wrapper } from 'store';
+import { BaseOptionChartStyle } from 'packages/dashboard/components/chart/BaseChartStyle';
+import { wrapper } from 'packages/dashboard/store';
 import ThemeProvider from '../theme/';
 import './styles.css';
 

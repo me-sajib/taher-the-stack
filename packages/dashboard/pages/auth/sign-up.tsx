@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
-import Auth from 'layouts/auth/Auth';
-import React from 'react';
-import SignUpForm from 'sections/SignUpForm';
+import Auth from 'packages/dashboard/layouts/auth/Auth';
+import SignUpForm from 'packages/dashboard/sections/SignUpForm';
 
 export default function SignUpPage() {
   return (

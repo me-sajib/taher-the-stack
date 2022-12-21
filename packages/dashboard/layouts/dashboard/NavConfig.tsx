@@ -1,4 +1,4 @@
-import Iconify from 'components/Iconify';
+import Iconify from 'packages/dashboard/components/Iconify';
 
 // ----------------------------------------------------------------------
 

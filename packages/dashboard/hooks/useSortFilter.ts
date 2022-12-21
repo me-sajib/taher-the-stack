@@ -1,9 +1,9 @@
 import {
   HeadType,
   SortType
-} from 'interfaces';
+} from 'packages/dashboard/interfaces';
 import { useState } from 'react';
-import applySortFilter from 'utils/applySortFilter';
+import { applySortFilter } from 'packages/dashboard/utils';
 
 const useSortFilter = <T>(
   items: T[],

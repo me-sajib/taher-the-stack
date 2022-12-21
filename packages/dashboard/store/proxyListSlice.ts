@@ -1,13 +1,13 @@
 import { ProxyList } from '@prisma/client';
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from 'store';
+import { RootState } from 'packages/dashboard/store';
 import {
   createProxyList,
   deleteProxyList,
   editProxyList,
   fetchProxyList,
   recheckProxyList
-} from 'store/thunks';
+} from 'packages/dashboard/store/thunks';
 
 interface Error {
   status: number;

@@ -24,7 +24,7 @@ import {
 import {
   ListHead,
   ListToolbar
-} from '../sections/dashboard/list';
+} from 'packages/dashboard/sections/dashboard/list';
 import Iconify from './Iconify';
 import Label from './Label';
 import Page from './Page';
@@ -32,31 +32,31 @@ import ProxyModal from './ProxyModal';
 import SearchNotFound from './SearchNotFound';
 // store
 import { Proxy } from '@prisma/client';
-import useSelection from 'hooks/useSelection';
 import { useRouter } from 'next/router';
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
-import ProxyMenu from 'sections/dashboard/list/ProxyMenu';
-import { AppThunkDispatch } from 'store';
+import useSelection from 'packages/dashboard/hooks/useSelection';
+import useSortFilter from 'packages/dashboard/hooks/useSortFilter';
+import { HeadType } from 'packages/dashboard/interfaces';
+import ProxyMenu from 'packages/dashboard/sections/dashboard/list/ProxyMenu';
+import { AppThunkDispatch } from 'packages/dashboard/store';
 import {
   getList,
   getProxies,
   getProxyStatus
-} from 'store/proxySlice';
+} from 'packages/dashboard/store/proxySlice';
 import {
   createProxy,
   deleteProxy,
   editProxy,
   fetchProxies,
   recheckProxy
-} from 'store/thunks';
+} from 'packages/dashboard/store/thunks';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
-import { HeadType } from 'interfaces';
-import useSortFilter from 'hooks/useSortFilter';
 
 // ----------------------------------------------------------------------
 

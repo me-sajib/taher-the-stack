@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { isAuthorize } from 'utils';
+import { isAuthorize } from 'packages/dashboard/utils';
 
 export const fetchUserProfile =
   createAsyncThunk(

@@ -7,10 +7,10 @@ import {
 import { styled } from '@mui/material/styles';
 
 // hooks
-import useResponsive from 'hooks/useResponsive';
+import useResponsive from 'packages/dashboard/hooks/useResponsive';
 // components
-import NavSection from 'components/NavSection';
-import Scrollbar from 'components/ScrollBar';
+import NavSection from 'packages/dashboard/components/NavSection';
+import Scrollbar from 'packages/dashboard/components/ScrollBar';
 
 // store
 import navConfig from './NavConfig';

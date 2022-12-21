@@ -6,15 +6,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import FormProvider from 'components/hook-form/FormProvider';
+import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
+import { getProxyListError } from 'packages/dashboard/store/proxyListSlice';
+import validator from 'packages/dashboard/validator';
 import { useEffect } from 'react';
 import {
   SubmitHandler,
   useForm
 } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { getProxyListError } from 'store/proxyListSlice';
-import validator from 'validator';
 import RHFPasswordField from './hook-form/RHFPasswordField';
 import RHFTextField from './hook-form/RHFTextFiled';
 

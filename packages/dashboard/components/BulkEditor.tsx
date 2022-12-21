@@ -6,12 +6,12 @@ import {
   Stack,
   TextField
 } from '@mui/material';
+import { getChange } from 'packages/dashboard/utils';
 import React, {
   useEffect,
   useState
 } from 'react';
-import { getChange } from '../../utils/src';
-import { Validator } from 'validator';
+import { Validator } from 'packages/dashboard/validator';
 
 interface BulkEditorTypes {
   editStateData: string;

@@ -1,7 +1,7 @@
 import {
   HeadType,
   SortType
-} from 'interfaces';
+} from 'packages/dashboard/interfaces';
 
 function descendingComparator<T>(
   a: T,
@@ -46,7 +46,7 @@ interface FilerParams<T> {
   tableHead: HeadType<T>[];
 }
 
-function applySortFilter<T>({
+export function applySortFilter<T>({
   array,
   order,
   orderBy,
@@ -108,5 +108,3 @@ function applySortFilter<T>({
     (el) => el[0]
   );
 }
-
-export default applySortFilter;

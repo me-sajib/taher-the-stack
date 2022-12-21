@@ -11,7 +11,7 @@ import {
   styled
 } from '@mui/material/styles';
 // components
-import Iconify from 'components/Iconify';
+import Iconify from 'packages/dashboard/components/Iconify';
 //
 import AccountPopover from './AccountPopover';
 

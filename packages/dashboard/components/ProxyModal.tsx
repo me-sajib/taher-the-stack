@@ -6,12 +6,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import FormProvider from 'components/hook-form/FormProvider';
+import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
+import validator from 'packages/dashboard/validator';
 import {
   SubmitHandler,
   useForm
 } from 'react-hook-form';
-import validator from 'validator';
 import RHFPasswordField from './hook-form/RHFPasswordField';
 import RHFTextField from './hook-form/RHFTextFiled';
 

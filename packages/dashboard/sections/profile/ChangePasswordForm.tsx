@@ -1,6 +1,6 @@
 // form
-import FormProvider from 'components/hook-form/FormProvider';
-import RHFPasswordField from 'components/hook-form/RHFPasswordField';
+import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
+import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
 
 // @mui
 import { LoadingButton } from '@mui/lab';
@@ -12,8 +12,8 @@ import {
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
-import Iconify from 'components/Iconify';
-import validator from 'validator';
+import Iconify from 'packages/dashboard/components/Iconify';
+import validator from 'packages/dashboard/validator';
 
 interface ChangePasswordTypes {
   currentPassword: string;

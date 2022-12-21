@@ -11,9 +11,9 @@ import {
   styled,
   Theme
 } from '@mui/material/styles';
-import BulkEditor from 'components/BulkEditor';
+import BulkEditor from 'packages/dashboard/components/BulkEditor';
 // component
-import Iconify from 'components/Iconify';
+import Iconify from 'packages/dashboard/components/Iconify';
 import React, {
   useEffect,
   useState
