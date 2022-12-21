@@ -1,4 +1,4 @@
 export * from "./capitalize"
-export * from "./checkProxies"
-export * from "./getProxies"
+export * from "./checkProxyList"
+export * from "./getProxyList"
 export * from "./proxy"

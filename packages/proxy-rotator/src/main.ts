@@ -12,8 +12,7 @@ events.forEach((event) =>
   )
 );
 
-const port =
-  process.env.PROXY_PORT || 60000;
+const port = process.env.PORT || 60000;
 
 proxyServer.listen(port, () => {
   console.log(

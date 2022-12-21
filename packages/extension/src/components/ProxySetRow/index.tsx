@@ -69,7 +69,6 @@ const ProxySetRow = ({ setProxies, saveChanges }) => {
           <Input {...proxy} liftValue={changeProxyHandler} />
         </TableData>
       ))}
-      <TableData> </TableData>
       <TableData>
         <Button text="Add Proxy" clickHandler={addProxy} />
         <Button

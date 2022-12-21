@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge"
+
 import { capitalize } from "~lib"
 
 const variants = {
@@ -57,15 +59,17 @@ const variants = {
   }
 }
 
-const Badge = ({ variant = "active", noText = false }) => {
+const Badge = ({ variant = "active", label = "", classes = "" }) => {
   const selectedVariant = variants[variant.toLowerCase()] ?? "active"
   return (
     <span
-      className={`inline-flex items-center justify-center rounded-full px-2.5 py-0.5 ${selectedVariant.class}`}>
+      className={twMerge(
+        `inline-flex items-center justify-center rounded-full px-2.5 py-0.5 ${selectedVariant.class} ${classes}`
+      )}>
       {selectedVariant.icon}
-      {!noText && (
-        <p className="whitespace-nowrap text-sm">{capitalize(variant)}</p>
-      )}
+      <p className="whitespace-nowrap text-sm">
+        {capitalize(label || variant)}
+      </p>
     </span>
   )
 }

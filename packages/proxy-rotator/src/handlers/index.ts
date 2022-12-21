@@ -17,6 +17,7 @@ const mainHandler =
 
     if (!isValidLogin) {
       res.statusCode = 401;
+
       return res.end(
         JSON.stringify(
           {
