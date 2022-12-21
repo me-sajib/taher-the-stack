@@ -1,9 +1,9 @@
+import { validateUsername } from '../../utils/src';
 import {
   RegisterOptions,
   ValidationRule,
   ValidationValueMessage
 } from 'react-hook-form';
-import { validateUsername } from 'utils';
 
 interface ValidatorPattern {
   [key: string]: RegisterOptions;

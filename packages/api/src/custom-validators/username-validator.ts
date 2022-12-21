@@ -1,8 +1,9 @@
+import { validateUsername } from '@proxy-manager/utils';
+
 import {
   ValidateByOptions,
   ValidationOptions
 } from 'class-validator';
-// import { validateUsername } from 'utils';
 
 export const usernameValidator: [
   ValidateByOptions,
@@ -11,7 +12,7 @@ export const usernameValidator: [
   {
     name: 'username',
     validator: {
-      validate: () => null // TODO: have to change as validateUsername pass
+      validate: validateUsername
     }
   },
   {

@@ -9,12 +9,12 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
+import { isUniqueError } from '@proxy-manager/utils';
 import * as argon from 'argon2';
 import {
   Request,
   Response
 } from 'express';
-// import { isUniqueError } from 'utils';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import {
   AuthSigninDto,
@@ -85,10 +85,11 @@ export class AuthService {
         token
       };
     } catch (e) {
-      // const uniqueError = isUniqueError(e);
-      // if (uniqueError) {
-      //   return uniqueError;
-      // }
+      const uniqueError =
+        isUniqueError(e);
+      if (uniqueError) {
+        return uniqueError;
+      }
 
       throw e;
     }

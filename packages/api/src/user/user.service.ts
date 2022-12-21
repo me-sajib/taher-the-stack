@@ -5,8 +5,8 @@ import {
   Injectable,
   Logger
 } from '@nestjs/common';
+import { isUniqueError } from '@proxy-manager/utils';
 import * as argon from 'argon2';
-// import { isUniqueError } from 'utils';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import {
   ResetPassDto,
@@ -127,11 +127,12 @@ export class UserService {
       );
       return updateUser;
     } catch (e) {
-      // const uniqueError = isUniqueError(e);
+      const uniqueError =
+        isUniqueError(e);
 
-      // if (uniqueError) {
-      //   return uniqueError;
-      // }
+      if (uniqueError) {
+        return uniqueError;
+      }
       return e;
     }
   }

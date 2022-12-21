@@ -5,7 +5,7 @@ import {
   Logger
 } from '@nestjs/common';
 import { ProxyList } from '@prisma/client';
-// import { isUniqueError } from 'utils';
+import { isUniqueError } from '@proxy-manager/utils';
 import { CheckProxyService } from '../check-proxy/check-proxy.service';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import {
@@ -47,11 +47,12 @@ export class ProxyListService {
       );
       return proxyList;
     } catch (e) {
-      // const uniqueError = isUniqueError(e);
+      const uniqueError =
+        isUniqueError(e);
 
-      // if (uniqueError) {
-      //   return uniqueError;
-      // }
+      if (uniqueError) {
+        return uniqueError;
+      }
 
       return e;
     }
@@ -152,11 +153,12 @@ export class ProxyListService {
           )
         );
       } catch (e) {
-        // const uniqueError = isUniqueError(e);
+        const uniqueError =
+          isUniqueError(e);
 
-        // if (uniqueError) {
-        //   return uniqueError;
-        // }
+        if (uniqueError) {
+          return uniqueError;
+        }
 
         return e;
       }
