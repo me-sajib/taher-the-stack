@@ -7,10 +7,10 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // hooks
-import useResponsive from 'hooks/useResponsive';
+import useResponsive from 'packages/dashboard/hooks/useResponsive';
 // components
-import Page from 'components/Page';
 import { useRouter } from 'next/router';
+import Page from 'packages/dashboard/components/Page';
 // sections
 
 // ----------------------------------------------------------------------

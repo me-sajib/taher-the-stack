@@ -7,8 +7,8 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // components
-import Page from 'components/Page';
 import { useRouter } from 'next/router';
+import Page from 'packages/dashboard/components/Page';
 
 // ----------------------------------------------------------------------
 

@@ -14,11 +14,11 @@ import {
 // components
 import { User } from '@prisma/client';
 import axios from 'axios';
-import MenuPopover from 'components/MenuPopover';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import MenuPopover from 'packages/dashboard/components/MenuPopover';
+import { getUser } from 'packages/dashboard/store/userSlice';
 import { useSelector } from 'react-redux';
-import { getUser } from 'store/userSlice';
 
 const MENU_OPTIONS = [
   {

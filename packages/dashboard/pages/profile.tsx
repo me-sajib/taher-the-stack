@@ -1,13 +1,13 @@
 import { Container } from '@mui/system';
 import { User } from '@prisma/client';
-import Page from 'components/Page';
-import DashboardLayout from 'layouts/dashboard';
+import Page from 'packages/dashboard/components/Page';
+import DashboardLayout from 'packages/dashboard/layouts/dashboard';
+import { getUser } from 'packages/dashboard/store/userSlice';
 import { useSelector } from 'react-redux';
-import { getUser } from 'store/userSlice';
 // React
+import ChangePasswordForm from 'packages/dashboard/sections/profile/ChangePasswordForm';
+import UserUpdateFrom from 'packages/dashboard/sections/profile/UserUpdateForm';
 import { useState } from 'react';
-import ChangePasswordForm from 'sections/profile/ChangePasswordForm';
-import UserUpdateFrom from 'sections/profile/UserUpdateForm';
 // redux
 import {
   FormControlLabel,

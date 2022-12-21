@@ -1,9 +1,9 @@
 import { ProxyList } from '@prisma/client';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { ProxyListModalData } from 'interfaces';
+import { ProxyListModalData } from 'packages/dashboard/interfaces';
+import { isAuthorize } from 'packages/dashboard/utils';
 import qs from 'qs';
-import { isAuthorize } from 'utils';
 
 const PROXY_LIST_URL =
   '/api/proxy-list';

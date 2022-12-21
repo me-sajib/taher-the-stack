@@ -1,10 +1,10 @@
 import { User } from '@prisma/client';
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from 'store';
+import { RootState } from 'packages/dashboard/store';
 import {
   editUser,
   fetchUserProfile
-} from 'store/thunks';
+} from 'packages/dashboard/store/thunks';
 
 interface Error {
   status: number;

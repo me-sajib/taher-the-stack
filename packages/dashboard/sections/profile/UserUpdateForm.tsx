@@ -1,17 +1,17 @@
 import { User } from '@prisma/client';
 import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
-import {
   cleanUserErrors,
   getUser,
   getUserErrors
-} from 'store/userSlice';
+} from 'packages/dashboard/store/userSlice';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 
 // form
-import FormProvider from 'components/hook-form/FormProvider';
-import RHFTextField from 'components/hook-form/RHFTextFiled';
+import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
+import RHFTextField from 'packages/dashboard/components/hook-form/RHFTextFiled';
 
 // @mui
 import { LoadingButton } from '@mui/lab';
@@ -22,11 +22,11 @@ import {
 // form
 import { useForm } from 'react-hook-form';
 
-import Iconify from 'components/Iconify';
+import Iconify from 'packages/dashboard/components/Iconify';
+import { AppThunkDispatch } from 'packages/dashboard/store';
+import { editUser } from 'packages/dashboard/store/thunks';
+import validator from 'packages/dashboard/validator';
 import { useEffect } from 'react';
-import { AppThunkDispatch } from 'store';
-import { editUser } from 'store/thunks';
-import validator from 'validator';
 
 interface ProfileDataTypes {
   fullname: string;

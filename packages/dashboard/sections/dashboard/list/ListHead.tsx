@@ -8,7 +8,7 @@ import {
   TableRow,
   TableSortLabel
 } from '@mui/material';
-import { HeadType } from 'interfaces';
+import { HeadType } from 'packages/dashboard/interfaces';
 
 // ----------------------------------------------------------------------
 

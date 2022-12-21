@@ -9,25 +9,25 @@ import {
 } from '@mui/material';
 // component
 import { Proxy } from '@prisma/client';
-import Iconify from 'components/Iconify';
-import ProxyModal from 'components/ProxyModal';
+import Iconify from 'packages/dashboard/components/Iconify';
+import ProxyModal from 'packages/dashboard/components/ProxyModal';
+import { AppThunkDispatch } from 'packages/dashboard/store';
+import {
+  getList,
+  getProxies
+} from 'packages/dashboard/store/proxySlice';
 import {
   useDispatch,
   useSelector
 } from 'react-redux';
-import { AppThunkDispatch } from 'store';
-import {
-  getList,
-  getProxies
-} from 'store/proxySlice';
 
-import MenuItems from 'components/MenuItems';
-import { MenuItemType } from 'interfaces';
+import MenuItems from 'packages/dashboard/components/MenuItems';
+import { MenuItemType } from 'packages/dashboard/interfaces';
 import {
   deleteProxy,
   editProxy,
   recheckProxy
-} from 'store/thunks';
+} from 'packages/dashboard/store/thunks';
 
 // ----------------------------------------------------------------------
 

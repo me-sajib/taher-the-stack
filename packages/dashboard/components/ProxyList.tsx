@@ -21,16 +21,16 @@ import {
 } from '@mui/material';
 // components
 import Link from 'next/link';
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
-import { AppThunkDispatch } from 'store';
+import { AppThunkDispatch } from 'packages/dashboard/store';
 import {
   clearProxyListError,
   getProxyList,
   getProxyListStatus
-} from 'store/proxyListSlice';
+} from 'packages/dashboard/store/proxyListSlice';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 
 // thunks
 import {
@@ -39,18 +39,18 @@ import {
   editProxyList,
   fetchProxyList,
   recheckProxyList
-} from 'store/thunks';
+} from 'packages/dashboard/store/thunks';
 
 import { ProxyList } from '@prisma/client';
-import useSelection from 'hooks/useSelection';
-import useSortFilter from 'hooks/useSortFilter';
-import { HeadType } from 'interfaces';
-import { getUser } from 'store/userSlice';
+import useSelection from 'packages/dashboard/hooks/useSelection';
+import useSortFilter from 'packages/dashboard/hooks/useSortFilter';
+import { HeadType } from 'packages/dashboard/interfaces';
+import { getUser } from 'packages/dashboard/store/userSlice';
 import {
   ListHead,
   ListToolbar,
   ProxyListMenu
-} from '../sections/dashboard/list';
+} from 'packages/dashboard/sections/dashboard/list';
 import CopyToolTip from './CopyToolTip';
 import Iconify from './Iconify';
 import LoadingListFallback from './LoadingListFallback';

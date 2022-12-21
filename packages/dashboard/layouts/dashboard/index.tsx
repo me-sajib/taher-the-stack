@@ -6,17 +6,17 @@ import {
 import { styled } from '@mui/material/styles';
 //
 import { LinearProgress } from '@mui/material';
+import { AppThunkDispatch } from 'packages/dashboard/store';
+import { getProxyListStatus } from 'packages/dashboard/store/proxyListSlice';
+import { fetchUserProfile } from 'packages/dashboard/store/thunks';
+import {
+  getUser,
+  getUserStatus
+} from 'packages/dashboard/store/userSlice';
 import {
   useDispatch,
   useSelector
 } from 'react-redux';
-import { AppThunkDispatch } from 'store';
-import { getProxyListStatus } from 'store/proxyListSlice';
-import { fetchUserProfile } from 'store/thunks';
-import {
-  getUser,
-  getUserStatus
-} from 'store/userSlice';
 import DashboardNavbar from './DashboardNavBar';
 import DashboardSidebar from './DashboardSideBar';
 // ----------------------------------------------------------------------

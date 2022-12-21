@@ -1,7 +1,7 @@
 // form
-import FormProvider from 'components/hook-form/FormProvider';
-import RHFCheckbox from 'components/hook-form/RHFCheckBox';
-import RHFTextField from 'components/hook-form/RHFTextFiled';
+import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
+import RHFCheckbox from 'packages/dashboard/components/hook-form/RHFCheckBox';
+import RHFTextField from 'packages/dashboard/components/hook-form/RHFTextFiled';
 // @mui
 import { LoadingButton } from '@mui/lab';
 import {
@@ -12,7 +12,7 @@ import {
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
-import RHFPasswordField from 'components/hook-form/RHFPasswordField';
+import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
 import { useRouter } from 'next/router';
 
 interface SignInFormTypes {

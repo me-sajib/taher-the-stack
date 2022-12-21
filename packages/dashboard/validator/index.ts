@@ -1,4 +1,4 @@
-import { validateUsername } from '../../utils/src';
+import { validateUsername } from 'packages/dashboard/utils';
 import {
   RegisterOptions,
   ValidationRule,

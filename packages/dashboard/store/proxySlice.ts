@@ -3,8 +3,8 @@ import {
   ProxyList
 } from '@prisma/client';
 import { createSlice } from '@reduxjs/toolkit';
-import { CheckProxyResponse } from 'interfaces';
-import { RootState } from 'store';
+import { CheckProxyResponse } from 'packages/dashboard/interfaces';
+import { RootState } from 'packages/dashboard/store';
 
 import {
   createProxy,

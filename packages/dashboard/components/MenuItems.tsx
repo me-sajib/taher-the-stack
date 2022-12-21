@@ -3,7 +3,7 @@ import {
   ListItemText,
   MenuItem
 } from '@mui/material';
-import { MenuItemType } from 'interfaces';
+import { MenuItemType } from 'packages/dashboard/interfaces';
 import Iconify from './Iconify';
 
 interface MenuItemsTypes {

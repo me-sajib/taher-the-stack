@@ -8,22 +8,22 @@ import {
   Menu
 } from '@mui/material';
 // component
-import Iconify from 'components/Iconify';
-import ProxyListModal from 'components/ProxyListModal';
+import Iconify from 'packages/dashboard/components/Iconify';
+import ProxyListModal from 'packages/dashboard/components/ProxyListModal';
+import { AppThunkDispatch } from 'packages/dashboard/store';
+import { getProxyList } from 'packages/dashboard/store/proxyListSlice';
 import {
   useDispatch,
   useSelector
 } from 'react-redux';
-import { AppThunkDispatch } from 'store';
-import { getProxyList } from 'store/proxyListSlice';
 
-import MenuItems from 'components/MenuItems';
-import { MenuItemType } from 'interfaces';
+import MenuItems from 'packages/dashboard/components/MenuItems';
+import { MenuItemType } from 'packages/dashboard/interfaces';
 import {
   deleteProxyList,
   editProxyList,
   recheckProxyList
-} from 'store/thunks';
+} from 'packages/dashboard/store/thunks';
 
 // ----------------------------------------------------------------------
 
