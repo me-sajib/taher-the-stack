@@ -5,7 +5,8 @@ import {
   Injectable,
   Logger
 } from '@nestjs/common';
-import { isUniqueError } from '@proxy-manager/utils';
+import { isUniqueError } from '../lib';
+
 import * as argon from 'argon2';
 import { PrismaClientService } from '../prisma-client/prisma-client.service';
 import {

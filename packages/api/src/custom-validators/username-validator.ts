@@ -1,5 +1,3 @@
-import { validateUsername } from '@proxy-manager/utils';
-
 import {
   ValidateByOptions,
   ValidationOptions
@@ -12,7 +10,15 @@ export const usernameValidator: [
   {
     name: 'username',
     validator: {
-      validate: validateUsername
+      validate: ([
+        //  TODO: This function should be import from root utils
+        first,
+        ...rest
+      ]: string): boolean =>
+        !/\d|[A-Z]/.test(first) &&
+        rest.every((letter) =>
+          /[a-z]|\d/.test(letter)
+        )
     }
   },
   {

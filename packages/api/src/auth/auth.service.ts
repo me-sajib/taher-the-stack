@@ -9,7 +9,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { isUniqueError } from '@proxy-manager/utils';
+import { isUniqueError } from '../lib';
 import * as argon from 'argon2';
 import {
   Request,

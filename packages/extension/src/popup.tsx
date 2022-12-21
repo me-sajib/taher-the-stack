@@ -99,7 +99,7 @@ function IndexPopup() {
 
   return (
     <main>
-      <section className="bg-slate-800 p-3">
+      <section className="bg-slate-900 p-3">
         <Header
           heading={"Proxy manager extension"}
           closeHandler={closePopupHandler}

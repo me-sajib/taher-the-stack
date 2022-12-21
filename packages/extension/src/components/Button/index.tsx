@@ -1,31 +1,28 @@
+import { twMerge } from "tailwind-merge"
+
 const Button = ({
   text,
   clickHandler,
-  classes = "border-slate-900 text-slate-900",
-  icon = "",
+  classes = "",
+  icon = null,
+  variant = "blue",
   ...props
 }) => {
+  const variants = {
+    blue: "text-blue-600 hover:text-blue-900 hover:border-blue-900 ring-blue-100",
+    red: "text-red-600 hover:text-red-900 hover:border-red-900 ring-red-100",
+    green:
+      "text-green-600 hover:text-green-900 hover:border-green-900 ring-green-100"
+  }
   return (
     <button
       type="button"
       onClick={clickHandler}
-      className={`
-      inline-block
-      px-2
-      py-1
-      border
-      font-medium
-      text-xs
-      text-bold
-      leading-tight
-      capitalize rounded hover:bg-black
-      hover:bg-opacity-5
-      focus:outline-none
-      focus:ring-0
-      transition
-      duration-150 
-      ase-in-out
-      ${classes}`.trim()}
+      className={twMerge(
+        `px-2 py-1 inline-block rounded border text-sm font-medium text-black hover:bg-transparent focus:outline-none focus:ring ${
+          variants[variant] ?? ""
+        } ${classes}`.trim()
+      )}
       {...props}>
       {icon}
       {text}
