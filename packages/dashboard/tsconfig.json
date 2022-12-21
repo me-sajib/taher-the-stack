@@ -5,9 +5,7 @@
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "next-env.d.ts",
-    "layouts/dashboard/NavConfig.tsX",
-    "theme/index.tss"
+    "next-env.d.ts"
   ],
   "exclude": [
     "node_modules",
