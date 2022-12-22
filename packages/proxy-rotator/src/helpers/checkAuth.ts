@@ -17,13 +17,6 @@ const checkAuth = async (
       .toString()
       .split(':');
 
-  console.count(
-    JSON.stringify({
-      username,
-      password
-    })
-  );
-
   try {
     data.set(
       await getProxyList(
