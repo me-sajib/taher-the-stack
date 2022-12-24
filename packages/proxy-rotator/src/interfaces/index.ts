@@ -4,10 +4,7 @@ export interface RotateProxy {
   auth: string;
 }
 
-export interface Options {
-  port: number;
-  hostname: string;
-  method: string;
-  path: string;
-  headers: unknown;
+export interface ProxyRes {
+  isAuth: boolean;
+  upstreamUrl: string;
 }

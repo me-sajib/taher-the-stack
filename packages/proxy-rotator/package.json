@@ -22,6 +22,7 @@
     "url": "https://github.com/SoftwareSheba/easy-proxy-manager/issues"
   },
   "dependencies": {
-    "@prisma/client": "^4.7.1"
+    "@prisma/client": "^4.7.1",
+    "proxy-chain": "^2.2.0"
   }
 }
