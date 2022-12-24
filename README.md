@@ -15,7 +15,7 @@ Introducing Easy proxy manager - the ultimate proxy management tool! With user-f
 4. [extension](/packages/extension/) - Proxy manager extension to manage proxies
 5. [website](/packages/website/) - Easy proxy manager official site
 
-## Key featuresw
+## Key features
 
 ### User Account Management:
 
