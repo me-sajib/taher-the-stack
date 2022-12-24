@@ -31,6 +31,7 @@
     "@mui/material": "^5.10.4",
     "@mui/styles": "^5.10.6",
     "@reduxjs/toolkit": "^1.8.5",
+    "@tailwindcss/forms": "^0.5.3",
     "axios": "^0.27.2",
     "copy-to-clipboard": "^3.3.2",
     "date-fns": "^2.29.2",
