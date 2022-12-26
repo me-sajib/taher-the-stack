@@ -1,6 +1,5 @@
 import Link from 'next/link';
 // components
-import { NavMenus } from 'packages/dashboard/components';
 import AccountPopover from './AccountPopover';
 
 const DashboardNavbar = () => (
@@ -12,8 +11,6 @@ const DashboardNavbar = () => (
         </span>
       </Link>
     </div>
-
-    {/* Center nav menus */}
 
     {/* nav end Profile details*/}
     <div className="navbar-end">
