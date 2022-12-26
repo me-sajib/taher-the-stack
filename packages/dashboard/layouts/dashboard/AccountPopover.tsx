@@ -1,22 +1,7 @@
-import {
-  useRef,
-  useState
-} from 'react';
-// @mui
-import {
-  Box,
-  Divider,
-  IconButton,
-  MenuItem,
-  Stack,
-  Typography
-} from '@mui/material';
-// components
 import { User } from '@prisma/client';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import MenuPopover from 'packages/dashboard/components/MenuPopover';
 import { getUser } from 'packages/dashboard/store/userSlice';
 import { useSelector } from 'react-redux';
 
@@ -36,20 +21,7 @@ const MENU_OPTIONS = [
 const AccountPopover = () => {
   const profile: User =
     useSelector(getUser);
-  const anchorRef = useRef(null);
-  const [open, setOpen] =
-    useState<HTMLButtonElement>(null);
   const router = useRouter();
-
-  const handleOpen = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    setOpen(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setOpen(null);
-  };
 
   const logoutHandler = async () => {
     await axios.delete(
@@ -59,86 +31,66 @@ const AccountPopover = () => {
   };
 
   return (
-    <>
-      <IconButton
-        ref={anchorRef}
-        onClick={handleOpen}
-        sx={{
-          p: 2,
-          borderRadius: 1.5
-        }}
-      >
-        {profile.username}
-      </IconButton>
-
-      <MenuPopover
-        isOpen={Boolean(open)}
-        anchorEl={open}
-        onClose={handleClose}
-        sx={{
-          p: 0,
-          mt: 1.5,
-          ml: 0.75,
-          '& .MuiMenuItem-root': {
-            typography: 'body2'
-          }
-        }}
-      >
-        <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography
-            variant="subtitle2"
-            noWrap
-          >
-            {profile.fullname}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              color: 'text.secondary'
-            }}
-            noWrap
-          >
-            {profile.email}
-          </Typography>
-        </Box>
-
-        <Divider
-          sx={{ borderStyle: 'dashed' }}
-        />
-
-        <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map(
-            (option) => (
-              <Link
-                key={Math.random().toString(
-                  32
-                )}
-                href={option.linkTo}
-              >
-                <MenuItem
-                  key={option.label}
-                  component={null}
-                  onClick={handleClose}
-                >
-                  {option.label}
-                </MenuItem>
-              </Link>
-            )
-          )}
-        </Stack>
-
-        <Divider
-          sx={{ borderStyle: 'dashed' }}
-        />
-
-        <MenuItem
-          onClick={logoutHandler}
-          sx={{ m: 1 }}
+    <div className="dropdown-container">
+      <div className="dropdown">
+        <label
+          className="btn flex bg-transparent text-semibold text-2xl border-none text-blue-600"
+          tabIndex={0}
         >
-          Logout
-        </MenuItem>
-      </MenuPopover>
-    </>
+          <span>
+            {profile.username}
+          </span>
+          <svg
+            className="ml-2 -mr-1 h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        </label>
+        <div className="dropdown-menu bg-gray-100 text-black">
+          <div className="dropdown-item">
+            <p className="text-sm leading-5 text-content1">
+              {profile.fullname}
+            </p>
+            <p className="truncate text-sm leading-5 text-content2">
+              <strong>
+                {profile.email}
+              </strong>
+            </p>
+          </div>
+          <div>
+            {MENU_OPTIONS.map(
+              (option) => (
+                <Link
+                  key={Math.random().toString(
+                    32
+                  )}
+                  href={option.linkTo}
+                >
+                  <span className="dropdown-item flex w-full justify-between text-left text-sm leading-5 text-content2 hover:bg-gray-200">
+                    {option.label}
+                  </span>
+                </Link>
+              )
+            )}
+          </div>
+          <a>
+            <span
+              className="dropdown-item flex w-full justify-between text-left text-sm leading-5 text-content2"
+              role="menuitem"
+              onClick={logoutHandler}
+            >
+              Log out
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
   );
 };
 
