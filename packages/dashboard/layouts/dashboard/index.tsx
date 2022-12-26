@@ -78,26 +78,23 @@ export default function DashboardLayout({
     profileStatus === 'loading';
 
   return (
-    <RootStyle>
+    <div className="min-h-screen">
       {isFetching && <LinearProgress />}
       {profile && (
         <>
-          <DashboardNavbar
-            onOpenSidebar={() =>
-              setOpen(true)
-            }
-          />
+          <DashboardNavbar />
           <DashboardSidebar
             isOpenSidebar={open}
             onCloseSidebar={() =>
               setOpen(false)
             }
           />
+
           <MainStyle>
             {children}
           </MainStyle>
         </>
       )}
-    </RootStyle>
+    </div>
   );
 }
