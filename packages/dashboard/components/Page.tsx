@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import Head from 'next/head';
 import {
   forwardRef,
@@ -19,7 +18,7 @@ const Page = (
       <title>{`${title} | Proxy Manager`}</title>
     </Head>
 
-    <Box ref={ref}>{children}</Box>
+    <div ref={ref}>{children}</div>
   </>
 );
 

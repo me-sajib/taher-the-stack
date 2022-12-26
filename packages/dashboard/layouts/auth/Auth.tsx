@@ -1,75 +1,7 @@
 // @mui
-import {
-  Card,
-  Container,
-  Link,
-  Typography
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-// hooks
-import useResponsive from 'packages/dashboard/hooks/useResponsive';
 // components
 import { useRouter } from 'next/router';
 import Page from 'packages/dashboard/components/Page';
-// sections
-
-// ----------------------------------------------------------------------
-
-const RootStyle = styled('div')(
-  ({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-      display: 'flex'
-    }
-  })
-);
-
-const HeaderStyle = styled('header')(
-  ({ theme }) => ({
-    top: 0,
-    zIndex: 9,
-    lineHeight: 0,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    position: 'absolute',
-    padding: theme.spacing(3),
-    justifyContent: 'space-between',
-    [theme.breakpoints.up('md')]: {
-      alignItems: 'flex-start',
-      padding: theme.spacing(7, 5, 0, 7)
-    }
-  })
-);
-
-const SectionStyle = styled(Card)(
-  ({ theme }) => ({
-    width: '100%',
-    maxWidth: 464,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    margin: theme.spacing(2, 0, 2, 2)
-  })
-);
-
-const ContentStyle = styled('div')(
-  ({ theme }) => ({
-    maxWidth: 480,
-    margin: 'auto',
-    minHeight: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    padding: theme.spacing(12, 0)
-  })
-);
-
-const LinkStyle = styled('span')(
-  () => ({
-    cursor: 'pointer'
-  })
-);
-
 // ----------------------------------------------------------------------
 
 interface AuthPropTypes {
@@ -80,98 +12,60 @@ interface AuthPropTypes {
     placeholder: string;
   };
   sideTitle: string;
-  children: JSX.Element[];
+  form: {
+    title: string;
+    subTitle: string;
+  };
+  children: JSX.Element[] | JSX.Element;
 }
 
 export default function Index({
   title,
   redirect,
+  form,
   sideTitle,
   children
 }: AuthPropTypes) {
   const router = useRouter();
-  const smUp = useResponsive(
-    'up',
-    'sm'
-  );
-  const mdUp = useResponsive(
-    'up',
-    'md'
-  );
-
   const redirectHandler = () => {
     router.push(redirect.path);
   };
 
   return (
     <Page title={title}>
-      <RootStyle>
-        <HeaderStyle>
-          {smUp && (
-            <Typography
-              variant="body2"
-              sx={{ mt: { md: -2 } }}
-            >
-              {redirect.title} {''}
-              <LinkStyle>
-                <Link
-                  variant="subtitle2"
-                  onClick={
-                    redirectHandler
-                  }
-                >
-                  {redirect.placeholder}
-                </Link>
-              </LinkStyle>
-            </Typography>
-          )}
-        </HeaderStyle>
+      <div className="flex flex-col md:flex-row h-screen bg-gray-200">
+        <header className="flex bg-gray-100 md:basis-1/2 items-center w-full p-4">
+          <h1 className="text-3xl text-blue-600 font-semibold ">
+            {sideTitle}
+          </h1>
+        </header>
 
-        {mdUp && (
-          <SectionStyle>
-            <Typography
-              variant="h3"
-              sx={{
-                px: 5,
-                mt: 10,
-                mb: 5
-              }}
-            >
-              {sideTitle}
-            </Typography>
-          </SectionStyle>
-        )}
-
-        <Container>
-          <ContentStyle>
+        <div className="w-full flex justify-center items-center">
+          <div className="flex flex-col justify-center md:w-1/2 w-2/3">
+            <div className="my-4">
+              <h4 className="text-2xl text-black font-semibold">
+                {form.title}
+              </h4>
+              <span>
+                {form.subTitle}
+              </span>
+            </div>
             {children}
 
-            {!smUp && (
-              <Typography
-                variant="body2"
-                sx={{
-                  mt: 3,
-                  textAlign: 'center'
-                }}
+            <p className="text-center mt-4">
+              {redirect.title} {''}
+              <span
+                className="text-blue-600 font-bold underline cursor-pointer"
+                onClick={
+                  redirectHandler
+                }
               >
-                {redirect.title} {''}
-                <LinkStyle>
-                  <Link
-                    variant="subtitle2"
-                    onClick={
-                      redirectHandler
-                    }
-                  >
-                    {
-                      redirect.placeholder
-                    }
-                  </Link>
-                </LinkStyle>
-              </Typography>
-            )}
-          </ContentStyle>
-        </Container>
-      </RootStyle>
+                {redirect.placeholder}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
     </Page>
   );
 }

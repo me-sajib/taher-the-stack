@@ -12,7 +12,7 @@ import {
   SubmitHandler,
   useForm
 } from 'react-hook-form';
-import RHFPasswordField from './hook-form/RHFPasswordField';
+// import RHFPasswordField from './hook-form/RHFPasswordField';
 import RHFTextField from './hook-form/RHFTextFiled';
 
 interface ProxyModalData {
@@ -116,14 +116,15 @@ export default function ProxyModal({
               variant="standard"
             />
 
-            <RHFPasswordField
+            {/* <RHFPasswordField
               margin="dense"
               id="password"
               name="password"
               label="Password"
               fullWidth
               variant="standard"
-            />
+            /> */}
+            {/* TODO: Change the password component */}
             <RHFTextField
               margin="dense"
               id="country"

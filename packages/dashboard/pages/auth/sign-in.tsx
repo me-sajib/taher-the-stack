@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import Auth from 'packages/dashboard/layouts/auth/Auth';
 import SignInForm from 'packages/dashboard/sections/SignInForm';
 
@@ -12,23 +11,12 @@ export default function SingInPage() {
         title: "Don't have an account?",
         placeholder: 'Sign up'
       }}
+      form={{
+        title: 'Sign in',
+        subTitle:
+          'Enter your credentials below.'
+      }}
     >
-      <Typography
-        variant="h4"
-        gutterBottom
-      >
-        Sign in
-      </Typography>
-
-      <Typography
-        sx={{
-          color: 'text.secondary',
-          mb: 5
-        }}
-      >
-        Enter your details below.
-      </Typography>
-
       <SignInForm />
     </Auth>
   );

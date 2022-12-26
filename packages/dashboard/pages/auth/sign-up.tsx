@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import Auth from 'packages/dashboard/layouts/auth/Auth';
 import SignUpForm from 'packages/dashboard/sections/SignUpForm';
 
@@ -13,24 +12,13 @@ export default function SignUpPage() {
           'Already have an account?',
         placeholder: 'Sign in'
       }}
+      form={{
+        title:
+          'Get started absolutely free.',
+        subTitle:
+          'Free forever. No credit card needed.'
+      }}
     >
-      <Typography
-        variant="h4"
-        gutterBottom
-      >
-        Get started absolutely free.
-      </Typography>
-
-      <Typography
-        sx={{
-          color: 'text.secondary',
-          mb: 5
-        }}
-      >
-        Free forever. No credit card
-        needed.
-      </Typography>
-
       <SignUpForm />
     </Auth>
   );

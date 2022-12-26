@@ -15,7 +15,7 @@ import {
   useForm
 } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import RHFPasswordField from './hook-form/RHFPasswordField';
+// import RHFPasswordField from './hook-form/RHFPasswordField';
 import RHFTextField from './hook-form/RHFTextFiled';
 
 interface ProxyModalData {
@@ -123,7 +123,7 @@ export default function ProxyListModal({
                 required: false
               }}
             />
-            <RHFPasswordField
+            {/* <RHFPasswordField
               margin="dense"
               id="password"
               name="password"
@@ -134,7 +134,8 @@ export default function ProxyListModal({
                 ...validator.password,
                 required: false
               }}
-            />
+            /> */}
+            {/* TODO: Change the password component */}
           </Stack>
 
           <DialogActions>

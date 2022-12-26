@@ -3,14 +3,12 @@ import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
 import RHFCheckbox from 'packages/dashboard/components/hook-form/RHFCheckBox';
 import RHFTextField from 'packages/dashboard/components/hook-form/RHFTextFiled';
 // @mui
-import { LoadingButton } from '@mui/lab';
-import { Stack } from '@mui/material';
 // form
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
+import { Button } from 'packages/dashboard/components';
 import validator from 'packages/dashboard/validator';
 
 interface SignUpFormTypes {
@@ -89,51 +87,44 @@ const SignUpForm = () => {
       methods={methods}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Stack spacing={3}>
+      <div className="mb-4">
         <RHFTextField
           name="fullname"
           type="text"
-          label="Full name"
+          placeholder="Full name"
           rules={validator.fullname}
         />
         <RHFTextField
           type="email"
           name="email"
-          label="Email"
+          placeholder="Email"
           rules={validator.email}
         />
         <RHFTextField
           name="username"
           type="text"
-          label="username"
+          placeholder="username"
           rules={validator.username}
         />
-
-        <RHFPasswordField
+        <RHFTextField
+          name="password"
+          type="password"
+          placeholder="Password"
           rules={validator.password}
         />
-      </Stack>
-
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ my: 2 }}
-      >
         <RHFCheckbox
           name="remember"
           label="Remember me"
         />
-      </Stack>
+      </div>
 
-      <LoadingButton
-        size="large"
+      <Button
         type="submit"
-        variant="contained"
-        loading={isSubmitting}
-      >
-        Sign up
-      </LoadingButton>
+        text="Sign in"
+        conditionClasses={{
+          'btn-loading': isSubmitting
+        }}
+      />
     </FormProvider>
   );
 };
