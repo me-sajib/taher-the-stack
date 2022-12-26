@@ -5,8 +5,7 @@ import {
   useFormContext
 } from 'react-hook-form';
 // @mui
-import { TextField } from '@mui/material';
-
+import clsx from 'clsx';
 interface RHFTextFieldTypes {
   name: string;
   rules?: RegisterOptions;
@@ -28,20 +27,26 @@ const RHFTextField = ({
         field,
         fieldState: { error }
       }) => (
-        <TextField
-          {...field}
-          fullWidth
-          value={
-            typeof field.value ===
-              'number' &&
-            field.value === 0
-              ? ''
-              : field.value
-          }
-          error={!!error}
-          helperText={error?.message}
-          {...other}
-        />
+        <div className="mb-4">
+          <input
+            className={clsx(
+              'input-block input text-black',
+              {
+                'input-ghost-primary':
+                  !error,
+                'input-ghost-error':
+                  error
+              }
+            )}
+            {...field}
+            {...other}
+          />
+          {error?.message && (
+            <span className="font-bold text-sm text-red-500 mt-1 ml-1 inline-block">
+              {error.message}
+            </span>
+          )}
+        </div>
       )}
       rules={rules}
     />

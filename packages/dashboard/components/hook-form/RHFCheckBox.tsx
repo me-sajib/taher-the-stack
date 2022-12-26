@@ -4,34 +4,28 @@ import {
   useFormContext
 } from 'react-hook-form';
 // @mui
-import {
-  Checkbox,
-  FormControlLabel
-} from '@mui/material';
 
 const HFCheckbox = ({
   name,
-  ...other
+  label
 }) => {
   const { control } = useFormContext();
 
   return (
-    <FormControlLabel
-      label={name}
-      id={name}
-      control={
-        <Controller
-          name={name}
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              {...field}
-              checked={field.value}
-            />
-          )}
-        />
-      }
-      {...other}
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <>
+          <input
+            type="checkbox"
+            className="checkbox checkbox-bordered-primary mr-1 bg-transparent"
+            checked={field.value}
+            {...field}
+          />
+          <span>{label}</span>
+        </>
+      )}
     />
   );
 };

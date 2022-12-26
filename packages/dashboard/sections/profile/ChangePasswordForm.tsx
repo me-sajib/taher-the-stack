@@ -1,6 +1,6 @@
 // form
 import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
-import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
+// import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
 
 // @mui
 import { LoadingButton } from '@mui/lab';
@@ -13,7 +13,6 @@ import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
 import Iconify from 'packages/dashboard/components/Iconify';
-import validator from 'packages/dashboard/validator';
 
 interface ChangePasswordTypes {
   currentPassword: string;
@@ -101,7 +100,7 @@ export default function ChangePasswordForm({
         spacing={2}
         direction="row"
       >
-        <RHFPasswordField
+        {/* <RHFPasswordField
           name="currentPassword"
           label="Current password"
           variant="filled"
@@ -121,7 +120,8 @@ export default function ChangePasswordForm({
           label="Re-enter password"
           variant="filled"
           rules={validator.password}
-        />
+        /> */}
+        {/* TODO: Change the password component */}
       </Stack>
 
       <LoadingButton
