@@ -1,22 +1,9 @@
 import { User } from '@prisma/client';
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { NavMenus } from 'packages/dashboard/components';
 import { getUser } from 'packages/dashboard/store/userSlice';
 import { useSelector } from 'react-redux';
-
-const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: 'eva:home-fill',
-    linkTo: '/proxy-list'
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-    linkTo: '/profile'
-  }
-];
 
 const AccountPopover = () => {
   const profile: User =
@@ -34,7 +21,7 @@ const AccountPopover = () => {
     <div className="dropdown-container">
       <div className="dropdown">
         <label
-          className="btn flex bg-transparent text-semibold text-2xl border-none text-blue-600"
+          className="btn flex bg-transparent text-lg border-none text-black"
           tabIndex={0}
         >
           <span>
@@ -52,6 +39,7 @@ const AccountPopover = () => {
             ></path>
           </svg>
         </label>
+
         <div className="dropdown-menu bg-gray-100 text-black">
           <div className="dropdown-item">
             <p className="text-sm leading-5 text-content1">
@@ -63,31 +51,18 @@ const AccountPopover = () => {
               </strong>
             </p>
           </div>
-          <div>
-            {MENU_OPTIONS.map(
-              (option) => (
-                <Link
-                  key={Math.random().toString(
-                    32
-                  )}
-                  href={option.linkTo}
-                >
-                  <span className="dropdown-item flex w-full justify-between text-left text-sm leading-5 text-content2 hover:bg-gray-200">
-                    {option.label}
-                  </span>
-                </Link>
-              )
-            )}
+
+          <div className="md:hidden">
+            <NavMenus classes="dropdown-item flex w-full justify-between text-left text-sm leading-5 text-content2 hover:bg-blue-100" />
           </div>
-          <a>
-            <span
-              className="dropdown-item flex w-full justify-between text-left text-sm leading-5 text-content2"
-              role="menuitem"
-              onClick={logoutHandler}
-            >
-              Log out
-            </span>
-          </a>
+
+          <span
+            className="dropdown-item flex w-full justify-between text-left text-sm leading-5 text-content2 font-semibold text-red-500"
+            role="menuitem"
+            onClick={logoutHandler}
+          >
+            Log out
+          </span>
         </div>
       </div>
     </div>

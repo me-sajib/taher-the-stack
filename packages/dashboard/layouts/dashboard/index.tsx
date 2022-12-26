@@ -6,6 +6,7 @@ import {
 import { styled } from '@mui/material/styles';
 //
 import { LinearProgress } from '@mui/material';
+import { NavMenus } from 'packages/dashboard/components';
 import { AppThunkDispatch } from 'packages/dashboard/store';
 import { getProxyListStatus } from 'packages/dashboard/store/proxyListSlice';
 import { fetchUserProfile } from 'packages/dashboard/store/thunks';
@@ -18,17 +19,10 @@ import {
   useSelector
 } from 'react-redux';
 import DashboardNavbar from './DashboardNavBar';
-import DashboardSidebar from './DashboardSideBar';
 // ----------------------------------------------------------------------
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
-
-const RootStyle = styled('div')({
-  display: 'flex',
-  minHeight: '100%',
-  overflow: 'hidden'
-});
 
 const MainStyle = styled('div')(
   ({ theme }) => ({
@@ -45,19 +39,13 @@ const MainStyle = styled('div')(
   })
 );
 
-// ----------------------------------------------------------------------
-
 export default function DashboardLayout({
   children
 }) {
-  const [open, setOpen] =
-    useState(false);
   const profileStatus = useSelector(
     getUserStatus
   );
-  const proxyListStatus = useSelector(
-    getProxyListStatus
-  );
+
   const profile = useSelector(getUser);
   const asyncDispatch =
     useDispatch<AppThunkDispatch>();
@@ -73,28 +61,20 @@ export default function DashboardLayout({
     return <LinearProgress />;
   }
 
-  const isFetching =
-    proxyListStatus === 'loading' ||
-    profileStatus === 'loading';
-
   return (
-    <div className="min-h-screen">
-      {isFetching && <LinearProgress />}
-      {profile && (
-        <>
-          <DashboardNavbar />
-          <DashboardSidebar
-            isOpenSidebar={open}
-            onCloseSidebar={() =>
-              setOpen(false)
-            }
-          />
-
-          <MainStyle>
-            {children}
-          </MainStyle>
-        </>
-      )}
-    </div>
+    profile && (
+      <>
+        <DashboardNavbar />
+        <div className="flex w-full">
+          {/* Sidebar */}
+          <div className="bg-gray-100 min-w-[20%] h-screen hidden md:block">
+            <div className="pt-20">
+              <NavMenus classes="block p-3 py-3 rounded hover:bg-blue-100" />
+            </div>
+          </div>
+          {children}
+        </div>
+      </>
+    )
   );
 }
