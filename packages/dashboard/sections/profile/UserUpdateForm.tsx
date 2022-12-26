@@ -14,15 +14,11 @@ import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
 import RHFTextField from 'packages/dashboard/components/hook-form/RHFTextFiled';
 
 // @mui
-import { LoadingButton } from '@mui/lab';
-import {
-  CircularProgress,
-  Stack
-} from '@mui/material';
+import { Button } from '../../components';
 // form
 import { useForm } from 'react-hook-form';
 
-import Iconify from 'packages/dashboard/components/Iconify';
+import clsx from 'clsx';
 import { AppThunkDispatch } from 'packages/dashboard/store';
 import { editUser } from 'packages/dashboard/store/thunks';
 import validator from 'packages/dashboard/validator';
@@ -34,11 +30,7 @@ interface ProfileDataTypes {
   email: string;
 }
 
-export default function UserUpdateFrom({
-  children
-}: {
-  children: JSX.Element;
-}) {
+export default function UserUpdateFrom() {
   const profile: User =
     useSelector(getUser);
   const userErrors = useSelector(
@@ -63,11 +55,7 @@ export default function UserUpdateFrom({
     handleSubmit,
     setError,
     reset,
-    formState: {
-      isSubmitting,
-      isSubmitSuccessful,
-      errors
-    }
+    formState: { isSubmitting }
   } = method;
 
   useEffect(() => {
@@ -118,56 +106,34 @@ export default function UserUpdateFrom({
         submitHandler
       )}
     >
-      <Stack
-        spacing={3}
-        direction="row"
-      >
+      <div className="flex gap-3">
         <RHFTextField
-          variant="filled"
           name="fullname"
           type="text"
-          label="Full name"
+          placeholder="Full name"
           rules={validator.fullname}
         />
         <RHFTextField
-          variant="filled"
           type="email"
           name="email"
-          label="Email"
+          placeholder="Email"
           rules={validator.email}
         />
         <RHFTextField
-          variant="filled"
           name="username"
           type="text"
-          label="username"
+          placeholder="username"
           rules={validator.username}
         />
-      </Stack>
+      </div>
 
-      <LoadingButton
-        size="medium"
+      <Button
         type="submit"
-        variant="contained"
-        loading={isSubmitting}
-        loadingIndicator={
-          <CircularProgress
-            color="inherit"
-            size={16}
-          />
-        }
-        startIcon={
-          isSubmitSuccessful &&
-          !Object.keys(errors)
-            .length && (
-            <Iconify icon="ic:round-done" />
-          )
-        }
-        sx={{ my: 5, mr: 3 }}
-      >
-        Update
-      </LoadingButton>
-      {children}
+        text="Update"
+        classes={clsx('mt-3', {
+          'btn-loading': isSubmitting
+        })}
+      />
     </FormProvider>
   );
 }

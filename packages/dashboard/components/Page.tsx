@@ -1,25 +1,21 @@
 import Head from 'next/head';
-import {
-  forwardRef,
-  RefObject
-} from 'react';
 
 interface PageTypes {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
   title: string;
 }
 
-const Page = (
-  { children, title }: PageTypes,
-  ref: RefObject<HTMLDivElement>
-) => (
+const Page = ({
+  children,
+  title
+}: PageTypes) => (
   <>
     <Head>
       <title>{`${title} | Proxy Manager`}</title>
     </Head>
 
-    <div ref={ref}>{children}</div>
+    {children}
   </>
 );
 
-export default forwardRef(Page);
+export default Page;

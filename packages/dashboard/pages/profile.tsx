@@ -1,4 +1,3 @@
-import { Container } from '@mui/system';
 import { User } from '@prisma/client';
 import Page from 'packages/dashboard/components/Page';
 import DashboardLayout from 'packages/dashboard/layouts/dashboard';
@@ -8,11 +7,8 @@ import { useSelector } from 'react-redux';
 import ChangePasswordForm from 'packages/dashboard/sections/profile/ChangePasswordForm';
 import UserUpdateFrom from 'packages/dashboard/sections/profile/UserUpdateForm';
 import { useState } from 'react';
+import { Container } from '../components';
 // redux
-import {
-  FormControlLabel,
-  Switch
-} from '@mui/material';
 
 export default function Profile() {
   const profile: User =
@@ -26,14 +22,11 @@ export default function Profile() {
     setPasswordStatus((prev) => !prev);
 
   const ChangeUpdateSwitch = (
-    <FormControlLabel
-      label="Change password"
-      control={
-        <Switch
-          checked={updatePassSwitch}
-          onChange={togglePassStatus}
-        />
-      }
+    <input
+      type="checkbox"
+      className="switch bg-transparent"
+      checked={updatePassSwitch}
+      onClick={togglePassStatus}
     />
   );
 
@@ -42,15 +35,15 @@ export default function Profile() {
       {profile && (
         <Page title={profile.username}>
           <Container>
-            {updatePassSwitch ? (
-              <ChangePasswordForm>
-                {ChangeUpdateSwitch}
-              </ChangePasswordForm>
-            ) : (
-              <UserUpdateFrom>
-                {ChangeUpdateSwitch}
-              </UserUpdateFrom>
-            )}
+            <h2 className="text-black text-2xl pb-2 font-semibold border-b-2 mb-4">
+              Update Profile Info
+            </h2>
+            <UserUpdateFrom />
+
+            <h2 className="text-black text-2xl mt-10 pb-2 font-semibold border-b-2 mb-4">
+              Change Password
+            </h2>
+            <ChangePasswordForm />
           </Container>
         </Page>
       )}

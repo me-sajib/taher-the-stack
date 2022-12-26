@@ -9,7 +9,6 @@ import {
   Button,
   Card,
   Checkbox,
-  Container,
   Stack,
   Table,
   TableBody,
@@ -45,12 +44,13 @@ import { ProxyList } from '@prisma/client';
 import useSelection from 'packages/dashboard/hooks/useSelection';
 import useSortFilter from 'packages/dashboard/hooks/useSortFilter';
 import { HeadType } from 'packages/dashboard/interfaces';
-import { getUser } from 'packages/dashboard/store/userSlice';
 import {
   ListHead,
   ListToolbar,
   ProxyListMenu
 } from 'packages/dashboard/sections/dashboard/list';
+import { getUser } from 'packages/dashboard/store/userSlice';
+import { Container } from '.';
 import CopyToolTip from './CopyToolTip';
 import Iconify from './Iconify';
 import LoadingListFallback from './LoadingListFallback';
