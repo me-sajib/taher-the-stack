@@ -1,18 +1,14 @@
 // form
 import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
 // import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
-
-// @mui
-import { LoadingButton } from '@mui/lab';
-import {
-  CircularProgress,
-  Stack
-} from '@mui/material';
 // form
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
-import Iconify from 'packages/dashboard/components/Iconify';
+import clsx from 'clsx';
+import { Button } from 'packages/dashboard/components';
+import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
+import validator from 'packages/dashboard/validator';
 
 interface ChangePasswordTypes {
   currentPassword: string;
@@ -20,11 +16,7 @@ interface ChangePasswordTypes {
   reenterPassword: string;
 }
 
-export default function ChangePasswordForm({
-  children
-}: {
-  children: JSX.Element;
-}) {
+export default function ChangePasswordForm() {
   const changePassDefaultValue: ChangePasswordTypes =
     {
       currentPassword: '',
@@ -41,10 +33,7 @@ export default function ChangePasswordForm({
     handleSubmit,
     setError,
     reset,
-    formState: {
-      isSubmitting,
-      isSubmitSuccessful
-    }
+    formState: { isSubmitting }
   } = method;
 
   const submitHandler = async (
@@ -96,55 +85,31 @@ export default function ChangePasswordForm({
         submitHandler
       )}
     >
-      <Stack
-        spacing={2}
-        direction="row"
-      >
-        {/* <RHFPasswordField
+      <div className="flex gap-3">
+        <RHFPasswordField
           name="currentPassword"
-          label="Current password"
-          variant="filled"
-          rules={{
-            required:
-              "Current password can't be empty"
-          }}
+          placeholder="Current password"
+          rules={validator.password}
         />
         <RHFPasswordField
           name="newPassword"
-          label="New password"
-          variant="filled"
+          placeholder="New password"
           rules={validator.password}
         />
         <RHFPasswordField
           name="reenterPassword"
-          label="Re-enter password"
-          variant="filled"
+          placeholder="Confirm password"
           rules={validator.password}
-        /> */}
-        {/* TODO: Change the password component */}
-      </Stack>
+        />
+      </div>
 
-      <LoadingButton
-        size="medium"
+      <Button
         type="submit"
-        variant="contained"
-        loading={isSubmitting}
-        startIcon={
-          isSubmitSuccessful && (
-            <Iconify icon="ic:round-done" />
-          )
-        }
-        loadingIndicator={
-          <CircularProgress
-            color="inherit"
-            size={16}
-          />
-        }
-        sx={{ my: 5, mr: 3 }}
-      >
-        Change
-      </LoadingButton>
-      {children}
+        text="Change"
+        classes={clsx('mt-3', {
+          'btn-loading': isSubmitting
+        })}
+      />
     </FormProvider>
   );
 }

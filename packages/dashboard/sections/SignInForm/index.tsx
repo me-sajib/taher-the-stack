@@ -1,7 +1,6 @@
 // form
 
 // @mui
-import { Stack } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
@@ -9,6 +8,7 @@ import RHFCheckbox from 'packages/dashboard/components/hook-form/RHFCheckBox';
 import RHFTextField from 'packages/dashboard/components/hook-form/RHFTextFiled';
 // form
 import { Button } from 'packages/dashboard/components';
+import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
 import { useForm } from 'react-hook-form';
 interface SignInFormTypes {
   identifier: string;
@@ -63,12 +63,13 @@ const SignInForm = () => {
     >
       <div className="mb-4">
         <RHFTextField
+          classes="mb-3"
           name="identifier"
           placeholder="Email or username"
         />
-        <RHFTextField
+        <RHFPasswordField
+          classes="mb-3"
           name="password"
-          type="password"
           placeholder="Password"
         />
         <RHFCheckbox

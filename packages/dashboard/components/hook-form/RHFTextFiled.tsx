@@ -15,6 +15,8 @@ interface RHFTextFieldTypes {
 const RHFTextField = ({
   name,
   rules,
+  classes = '',
+  children,
   ...other
 }: RHFTextFieldTypes) => {
   const { control } = useFormContext();
@@ -27,20 +29,25 @@ const RHFTextField = ({
         field,
         fieldState: { error }
       }) => (
-        <div className="mb-4">
-          <input
-            className={clsx(
-              'input-block input text-black',
-              {
-                'input-ghost-primary':
-                  !error,
-                'input-ghost-error':
-                  error
-              }
-            )}
-            {...field}
-            {...other}
-          />
+        <div>
+          <div
+            className={clsx(classes)}
+          >
+            <input
+              className={clsx(
+                'input-block input text-black',
+                {
+                  'input-ghost-primary':
+                    !error,
+                  'input-ghost-error':
+                    error
+                }
+              )}
+              {...field}
+              {...other}
+            />
+            {children}
+          </div>
           {error?.message && (
             <span className="font-bold text-sm text-red-500 mt-1 ml-1 inline-block">
               {error.message}

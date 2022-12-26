@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Button } from 'packages/dashboard/components';
+import RHFPasswordField from 'packages/dashboard/components/hook-form/RHFPasswordField';
 import validator from 'packages/dashboard/validator';
 
 interface SignUpFormTypes {
@@ -92,24 +93,27 @@ const SignUpForm = () => {
           name="fullname"
           type="text"
           placeholder="Full name"
+          classes="mb-3"
           rules={validator.fullname}
         />
         <RHFTextField
           type="email"
           name="email"
           placeholder="Email"
+          classes="mb-3"
           rules={validator.email}
         />
         <RHFTextField
           name="username"
           type="text"
           placeholder="username"
+          classes="mb-3"
           rules={validator.username}
         />
-        <RHFTextField
+        <RHFPasswordField
           name="password"
-          type="password"
           placeholder="Password"
+          classes="mb-3"
           rules={validator.password}
         />
         <RHFCheckbox

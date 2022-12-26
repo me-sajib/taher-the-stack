@@ -47,6 +47,7 @@ export default function DashboardLayout({
               <NavMenus classes="block p-3 py-3 rounded hover:bg-blue-100" />
             </div>
           </div>
+
           {children}
         </div>
       </>
