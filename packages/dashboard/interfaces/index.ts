@@ -26,7 +26,8 @@ export interface MenuItemType {
   hide?: boolean;
   icon: string;
   text: string;
-  clickAction: () => void;
+  clickAction?: () => void;
+  htmlFor?: string;
 }
 
 export type SortType = 'asc' | 'desc';

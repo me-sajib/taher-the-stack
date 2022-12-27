@@ -1,18 +1,11 @@
-import { LoadingButton } from '@mui/lab';
-import { Stack } from '@mui/material';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
-import validator from 'packages/dashboard/validator';
 import {
   SubmitHandler,
   useForm
 } from 'react-hook-form';
-// import RHFPasswordField from './hook-form/RHFPasswordField';
+import { Button, Modal } from '.';
+import validator from '../validator';
+import FormProvider from './hook-form/FormProvider';
+import RHFPasswordField from './hook-form/RHFPasswordField';
 import RHFTextField from './hook-form/RHFTextFiled';
 
 interface ProxyModalData {
@@ -24,18 +17,16 @@ interface ProxyModalData {
 }
 
 interface ProxyModalTypes {
-  open: boolean;
   actionType: 'Add' | 'Update';
+  modalId: string;
   formState?: ProxyModalData;
   onSubmit: SubmitHandler<ProxyModalData>;
-  handleClose: () => void;
 }
 
 export default function ProxyModal({
-  open,
   actionType,
   formState,
-  handleClose,
+  modalId,
   onSubmit
 }: ProxyModalTypes) {
   const defaultFormState: ProxyModalData =
@@ -56,102 +47,70 @@ export default function ProxyModal({
   } = methods;
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      fullWidth
-      maxWidth="xs"
+    <Modal
+      title={`${actionType.trim()} proxy`}
+      description={`Input all valid fields for ${actionType
+        .trim()
+        .toLowerCase()} proxy`}
+      modalId={modalId}
     >
-      <DialogTitle>
-        {actionType.trim()} proxy
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Input all valid fields for{' '}
-          {actionType
-            .trim()
-            .toLowerCase()}{' '}
-          proxy
-        </DialogContentText>
+      {() => (
         <FormProvider
           methods={methods}
           onSubmit={handleSubmit(
             onSubmit
           )}
         >
-          <Stack
-            spacing={3}
-            sx={{ my: 3 }}
-          >
+          <div className="flex flex-col gap-3 py-5">
             <RHFTextField
-              autoFocus
               required
-              margin="dense"
               id="host"
               name="host"
-              label="Host address"
+              placeholder="Host address"
               type="text"
-              fullWidth
-              variant="standard"
               rules={validator.host}
             />
+
             <RHFTextField
               required
-              margin="dense"
               id="port"
               name="port"
-              label="Port"
+              placeholder="Port"
               type="number"
-              fullWidth
-              variant="standard"
               rules={validator.port}
             />
             <RHFTextField
-              margin="dense"
               id="username"
               name="username"
-              label="Username"
+              placeholder="Username"
               type="text"
-              fullWidth
-              variant="standard"
             />
 
-            {/* <RHFPasswordField
-              margin="dense"
+            <RHFPasswordField
               id="password"
               name="password"
-              label="Password"
-              fullWidth
-              variant="standard"
-            /> */}
-            {/* TODO: Change the password component */}
+              placeholder="Password"
+            />
+
             <RHFTextField
-              margin="dense"
               id="country"
               name="country"
-              label="Country"
+              placeholder="Country"
               type="text"
-              fullWidth
-              variant="standard"
             />
-          </Stack>
 
-          <DialogActions>
             <Button
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-            <LoadingButton
               type="submit"
-              variant="contained"
-              loading={isSubmitting}
-            >
-              {actionType}
-            </LoadingButton>
-          </DialogActions>
+              text={actionType}
+              classes="mt-2"
+              conditionClasses={{
+                'btn-loading':
+                  isSubmitting
+              }}
+            />
+          </div>
         </FormProvider>
-      </DialogContent>
-    </Dialog>
+      )}
+    </Modal>
   );
 }

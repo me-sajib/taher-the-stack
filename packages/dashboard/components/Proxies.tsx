@@ -6,7 +6,6 @@ import React, {
 import { Badge, Container } from '.';
 // material
 import {
-  Button,
   Card,
   Checkbox,
   Stack,
@@ -54,8 +53,6 @@ import { getIcon } from '../utils';
 import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
-
-// ----------------------------------------------------------------------
 
 const TABLE_HEAD: Array<
   HeadType<Proxy>
@@ -280,27 +277,24 @@ export default function Index() {
               >
                 {proxyList.name}
               </Typography>
-              <Button
-                variant="contained"
-                startIcon={getIcon(
-                  'eva:plus-fill'
-                )}
-                onClick={
-                  handleProxyListModal
-                }
+              <label
+                className="btn btn-outline-primary px-1.5"
+                htmlFor="AddProxy"
               >
-                New Proxy
-              </Button>
+                <i>
+                  {getIcon(
+                    'material-symbols:add'
+                  )}
+                </i>
+                <span className="font-semibold">
+                  Proxy
+                </span>
+              </label>
               <ProxyModal
+                modalId="AddProxy"
                 actionType="Add"
-                open={
-                  openProxyListModal
-                }
                 onSubmit={
                   submitProxyHandler
-                }
-                handleClose={
-                  handleProxyListModal
                 }
               />
             </Stack>
