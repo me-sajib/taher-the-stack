@@ -1,3 +1,4 @@
+export * from './Badge';
 export * from './Button';
-export * from './NavMenus';
 export * from './Container';
+export * from './NavMenus';

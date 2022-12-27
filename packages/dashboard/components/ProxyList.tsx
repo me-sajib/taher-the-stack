@@ -51,8 +51,8 @@ import {
 } from 'packages/dashboard/sections/dashboard/list';
 import { getUser } from 'packages/dashboard/store/userSlice';
 import { Container } from '.';
+import { getIcon } from '../utils';
 import CopyToolTip from './CopyToolTip';
-import Iconify from './Iconify';
 import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
 import Page from './Page';
@@ -321,9 +321,9 @@ export default function Index() {
               </Typography>
               <Button
                 variant="contained"
-                startIcon={
-                  <Iconify icon="eva:plus-fill" />
-                }
+                startIcon={getIcon(
+                  'eva:plus-fill'
+                )}
                 onClick={
                   toggleProxyListModal
                 }

@@ -13,7 +13,7 @@ import {
 } from '@mui/material/styles';
 import BulkEditor from 'packages/dashboard/components/BulkEditor';
 // component
-import Iconify from 'packages/dashboard/components/Iconify';
+import { getIcon } from 'packages/dashboard/utils';
 import React, {
   useEffect,
   useState
@@ -151,15 +151,9 @@ export default function ListToolbar({
           placeholder={placeholder}
           startAdornment={
             <InputAdornment position="start">
-              <Iconify
-                icon="eva:search-fill"
-                sx={{
-                  color:
-                    'text.disabled',
-                  width: 20,
-                  height: 20
-                }}
-              />
+              {getIcon(
+                'eva:search-fill'
+              )}
             </InputAdornment>
           }
         />
@@ -175,7 +169,9 @@ export default function ListToolbar({
               }
             >
               <IconButton>
-                <Iconify icon="eva:trash-2-fill" />
+                {getIcon(
+                  'eva:trash-2-fill'
+                )}
               </IconButton>
             </Tooltip>
             <Tooltip
@@ -185,7 +181,9 @@ export default function ListToolbar({
               }
             >
               <IconButton>
-                <Iconify icon="fluent:arrow-clockwise-16-filled" />
+                {getIcon(
+                  'fluent:arrow-clockwise-16-filled'
+                )}
               </IconButton>
             </Tooltip>
           </span>
@@ -195,7 +193,9 @@ export default function ListToolbar({
             onClick={toggleModal}
           >
             <IconButton>
-              <Iconify icon="akar-icons:edit" />
+              {getIcon(
+                'akar-icons:edit'
+              )}
             </IconButton>
           </Tooltip>
         )

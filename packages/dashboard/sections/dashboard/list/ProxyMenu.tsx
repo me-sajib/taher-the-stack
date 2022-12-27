@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 // component
 import { Proxy } from '@prisma/client';
-import Iconify from 'packages/dashboard/components/Iconify';
 import ProxyModal from 'packages/dashboard/components/ProxyModal';
 import { AppThunkDispatch } from 'packages/dashboard/store';
 import {
@@ -28,6 +27,7 @@ import {
   editProxy,
   recheckProxy
 } from 'packages/dashboard/store/thunks';
+import { getIcon } from 'packages/dashboard/utils';
 
 // ----------------------------------------------------------------------
 
@@ -114,11 +114,9 @@ export default function ProxyMenu({
         ref={ref}
         onClick={() => setIsOpen(true)}
       >
-        <Iconify
-          icon="eva:more-vertical-fill"
-          width={20}
-          height={20}
-        />
+        {getIcon(
+          'eva:more-vertical-fill'
+        )}
       </IconButton>
 
       <ProxyModal

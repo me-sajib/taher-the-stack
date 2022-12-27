@@ -4,7 +4,7 @@ import {
   MenuItem
 } from '@mui/material';
 import { MenuItemType } from 'packages/dashboard/interfaces';
-import Iconify from './Iconify';
+import { getIcon } from 'packages/dashboard/utils';
 
 interface MenuItemsTypes {
   items: MenuItemType[];
@@ -26,11 +26,7 @@ const MenuItems = ({
           onClick={item.clickAction}
         >
           <ListItemIcon>
-            <Iconify
-              icon={item.icon}
-              width={24}
-              height={24}
-            />
+            {getIcon(item.icon)}
           </ListItemIcon>
           <ListItemText
             primary={item.text}

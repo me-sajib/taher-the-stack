@@ -3,7 +3,6 @@ import {
   Controller,
   useFormContext
 } from 'react-hook-form';
-// @mui
 
 const HFCheckbox = ({
   name,
