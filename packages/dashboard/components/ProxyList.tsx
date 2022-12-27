@@ -6,7 +6,6 @@ import {
 
 // material
 import {
-  Button,
   Card,
   Checkbox,
   Stack,
@@ -95,10 +94,6 @@ export default function Index() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] =
     useState(5);
-  const [
-    openProxyListModal,
-    setProxyListModalStatus
-  ] = useState(false);
   const asyncDispatch =
     useDispatch<AppThunkDispatch>();
   const syncDispatch = useDispatch();
@@ -141,11 +136,6 @@ export default function Index() {
     asyncDispatch(fetchProxyList());
   }, [asyncDispatch]);
 
-  const toggleProxyListModal = () =>
-    setProxyListModalStatus(
-      (prev) => !prev
-    );
-
   const submitProxyListHandler = async (
     data
   ) => {
@@ -165,16 +155,13 @@ export default function Index() {
           max: 10
         })
       );
-    const res = (await asyncDispatch(
+
+    await asyncDispatch(
       createProxyList({
         ...data,
         userId: user.id
       })
-    )) as any;
-
-    if (!res.payload.error) {
-      toggleProxyListModal();
-    }
+    );
   };
 
   const handleBulkDelete = () => {
@@ -319,27 +306,24 @@ export default function Index() {
               >
                 Proxy List
               </Typography>
-              <Button
-                variant="contained"
-                startIcon={getIcon(
-                  'eva:plus-fill'
-                )}
-                onClick={
-                  toggleProxyListModal
-                }
+              <label
+                className="btn btn-outline-primary px-1.5"
+                htmlFor="AddProxyList"
               >
-                New Proxy List
-              </Button>
+                <i>
+                  {getIcon(
+                    'material-symbols:add'
+                  )}
+                </i>
+                <span className="font-semibold">
+                  Proxy List
+                </span>
+              </label>
               <ProxyListModal
+                modalId="AddProxyList"
                 actionType="Add"
-                open={
-                  openProxyListModal
-                }
                 onSubmit={
                   submitProxyListHandler
-                }
-                handleClose={
-                  toggleProxyListModal
                 }
               />
             </Stack>

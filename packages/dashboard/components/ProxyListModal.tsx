@@ -1,22 +1,19 @@
-import { LoadingButton } from '@mui/lab';
-import { Stack } from '@mui/material';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
+import {
+  Button,
+  Modal
+} from 'packages/dashboard/components';
 import { getProxyListError } from 'packages/dashboard/store/proxyListSlice';
-import validator from 'packages/dashboard/validator';
 import { useEffect } from 'react';
 import {
   SubmitHandler,
   useForm
 } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-// import RHFPasswordField from './hook-form/RHFPasswordField';
+import validator from '../validator';
+import FormProvider from './hook-form/FormProvider';
+import RHFPasswordField from './hook-form/RHFPasswordField';
 import RHFTextField from './hook-form/RHFTextFiled';
+// import RHFPasswordField from './hook-form/RHFPasswordField';
 
 interface ProxyModalData {
   name: string;
@@ -26,18 +23,16 @@ interface ProxyModalData {
 }
 
 interface ProxyListModalTypes {
-  open: boolean;
   actionType: 'Add' | 'Update';
+  modalId: string;
   formState?: ProxyModalData;
   onSubmit: SubmitHandler<ProxyModalData>;
-  handleClose: () => void;
 }
 
 export default function ProxyListModal({
-  open,
   actionType,
   formState,
-  handleClose,
+  modalId,
   onSubmit
 }: ProxyListModalTypes) {
   const proxyListError = useSelector(
@@ -74,86 +69,64 @@ export default function ProxyListModal({
   }, [proxyListError]);
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
+    <Modal
+      title={`${actionType.trim()} proxy list`}
+      description={`Input all valid fields for ${actionType
+        .trim()
+        .toLowerCase()} proxy list`}
+      modalId={modalId}
     >
-      <DialogTitle>
-        {actionType.trim()} proxy list
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Input all valid fields for{' '}
-          {actionType
-            .trim()
-            .toLowerCase()}{' '}
-          proxy list
-        </DialogContentText>
-        <FormProvider
-          methods={methods}
-          onSubmit={handleSubmit(
-            onSubmit
-          )}
-        >
-          <Stack
-            spacing={3}
-            sx={{ my: 3 }}
-          >
-            <RHFTextField
-              autoFocus
-              margin="dense"
-              id="name"
-              name="name"
-              label="List name"
-              type="text"
-              fullWidth
-              variant="standard"
-              rules={validator.name}
-            />
-            <RHFTextField
-              margin="dense"
-              id="username"
-              name="username"
-              label="username"
-              type="text"
-              fullWidth
-              variant="standard"
-              rules={{
-                ...validator.username,
-                required: false
-              }}
-            />
-            {/* <RHFPasswordField
-              margin="dense"
-              id="password"
-              name="password"
-              label="password"
-              fullWidth
-              variant="standard"
-              rules={{
-                ...validator.password,
-                required: false
-              }}
-            /> */}
-            {/* TODO: Change the password component */}
-          </Stack>
+      {() => {
+        // TODO: After successful submission the modal should automatically close. process -> create another component which will take ref isSuccessfulSubmission status & handle it through useEffect
 
-          <DialogActions>
-            <Button
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-            >
-              {actionType}
-            </LoadingButton>
-          </DialogActions>
-        </FormProvider>
-      </DialogContent>
-    </Dialog>
+        return (
+          <FormProvider
+            methods={methods}
+            onSubmit={handleSubmit(
+              onSubmit
+            )}
+          >
+            <div className="flex flex-col gap-3 py-5">
+              <RHFTextField
+                id="name"
+                name="name"
+                placeholder="List name"
+                type="text"
+                rules={validator.name}
+              />
+              <RHFTextField
+                id="username"
+                name="username"
+                placeholder="username"
+                type="text"
+                rules={{
+                  ...validator.username,
+                  required: false
+                }}
+              />
+              <RHFPasswordField
+                id="password"
+                name="password"
+                placeholder="password"
+                rules={{
+                  ...validator.password,
+                  required: false
+                }}
+              />
+
+              <Button
+                type="submit"
+                text={actionType}
+                classes="mt-2"
+                conditionClasses={{
+                  'btn-loading':
+                    isSubmitting
+                }}
+              />
+            </div>
+          </FormProvider>
+        );
+      }}
+    </Modal>
   );
 }

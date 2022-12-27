@@ -1,13 +1,3 @@
-import {
-  useRef,
-  useState
-} from 'react';
-// material
-import {
-  IconButton,
-  Menu
-} from '@mui/material';
-// component
 import { Proxy } from '@prisma/client';
 import ProxyModal from 'packages/dashboard/components/ProxyModal';
 import { AppThunkDispatch } from 'packages/dashboard/store';
@@ -29,8 +19,6 @@ import {
 } from 'packages/dashboard/store/thunks';
 import { getIcon } from 'packages/dashboard/utils';
 
-// ----------------------------------------------------------------------
-
 interface ListMenuTypes {
   id: number;
 }
@@ -38,13 +26,6 @@ interface ListMenuTypes {
 export default function ProxyMenu({
   id
 }: ListMenuTypes) {
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] =
-    useState(false);
-  const [
-    isOpenProxyListModal,
-    setProxyListStatus
-  ] = useState(false);
   const { key: proxyListKey } =
     useSelector(getList);
   const proxies: Proxy[] =
@@ -60,10 +41,6 @@ export default function ProxyMenu({
     password
   } = proxy;
 
-  const proxyListModalHandler = () =>
-    setProxyListStatus(
-      !isOpenProxyListModal
-    );
   const dispatch =
     useDispatch<AppThunkDispatch>();
 
@@ -74,15 +51,12 @@ export default function ProxyMenu({
         proxyIds: [id]
       })
     );
-    setIsOpen(false);
   };
 
   const editProxyHandler = (data) => {
     dispatch(
       editProxy([{ ...data, id }])
     );
-    proxyListModalHandler();
-    setIsOpen(false);
   };
 
   const recheckProxyHandler = () => {
@@ -104,22 +78,14 @@ export default function ProxyMenu({
     {
       icon: 'eva:edit-fill',
       text: 'Edit',
-      clickAction: proxyListModalHandler
+      htmlFor: 'EditProxy'
     }
   ];
 
   return (
     <>
-      <IconButton
-        ref={ref}
-        onClick={() => setIsOpen(true)}
-      >
-        {getIcon(
-          'eva:more-vertical-fill'
-        )}
-      </IconButton>
-
       <ProxyModal
+        modalId="EditProxy"
         formState={{
           host,
           port,
@@ -127,35 +93,26 @@ export default function ProxyMenu({
           username,
           password
         }}
-        open={isOpenProxyListModal}
         actionType="Update"
         onSubmit={editProxyHandler}
-        handleClose={
-          proxyListModalHandler
-        }
       />
 
-      <Menu
-        open={isOpen}
-        anchorEl={ref.current}
-        onClose={() => setIsOpen(false)}
-        PaperProps={{
-          sx: {
-            width: 200,
-            maxWidth: '100%'
-          }
-        }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-      >
-        <MenuItems items={menuItems} />
-      </Menu>
+      <div className="dropdown">
+        <label
+          className="rounded hover:bg-gray-200 cursor-pointer"
+          tabIndex={0}
+        >
+          {getIcon(
+            'eva:more-vertical-fill'
+          )}
+        </label>
+
+        <div className="dropdown-menu dropdown-menu-left bg-gray-100">
+          <MenuItems
+            items={menuItems}
+          />
+        </div>
+      </div>
     </>
   );
 }

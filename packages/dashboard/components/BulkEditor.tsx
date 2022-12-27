@@ -1,22 +1,17 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  Stack,
-  TextField
-} from '@mui/material';
+import clsx from 'clsx';
 import { getChange } from 'packages/dashboard/utils';
+import { Validator } from 'packages/dashboard/validator';
 import React, {
   useEffect,
   useState
 } from 'react';
-import { Validator } from 'packages/dashboard/validator';
+import { Button } from './Button';
+import { Modal } from './Modal';
 
 interface BulkEditorTypes {
+  modalId: string;
+  title: string;
   editStateData: string;
-  isOpenEditModal: boolean;
-  toggleModal: () => void;
   bulkEditHandler: (
     changedMap: Map<number, any>
   ) => void;
@@ -30,8 +25,8 @@ interface BulkEditorTypes {
 
 export default function BulkEditor({
   editStateData,
-  isOpenEditModal,
-  toggleModal,
+  title,
+  modalId,
   bulkEditHandler,
   extraValidation
 }: BulkEditorTypes) {
@@ -45,7 +40,7 @@ export default function BulkEditor({
   }, [editStateData]);
 
   const changeHandler = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setModalText(e.target.value);
   };
@@ -94,47 +89,44 @@ export default function BulkEditor({
       if (isValid) {
         bulkEditHandler(changedMap);
         setBulkError('');
-        toggleModal();
       }
     } catch (e) {
       return null;
     }
   };
+
   return (
-    <Dialog
-      open={isOpenEditModal}
-      onClose={toggleModal}
-      fullWidth
-      maxWidth="md"
+    <Modal
+      title={title}
+      modalId={modalId}
     >
-      <DialogTitle>
-        Bulk Edit
-      </DialogTitle>
-      <Stack spacing={3} sx={{ p: 3 }}>
-        <TextField
-          value={modalText}
-          autoFocus
-          size="medium"
-          label="JSON"
-          multiline
-          rows={20}
-          variant="outlined"
-          error={Boolean(bulkError)}
-          helperText={bulkError}
-          onChange={changeHandler}
-        />
-        <DialogActions>
-          <Button onClick={toggleModal}>
-            Cancel
-          </Button>
+      {() => (
+        <div className="flex flex-col gap-3 py-5">
+          <textarea
+            className={clsx(
+              'textarea h-64 max-w-full resize-none bg-transparent text-black',
+              {
+                'textarea-primary':
+                  !bulkError,
+                'textarea-error':
+                  bulkError
+              }
+            )}
+            placeholder="JSON"
+            value={modalText}
+            onChange={changeHandler}
+          />
+          {bulkError && (
+            <span className="mt-1 text-red-500">
+              {bulkError}
+            </span>
+          )}
           <Button
-            variant="contained"
-            onClick={saveHandler}
-          >
-            Save
-          </Button>
-        </DialogActions>
-      </Stack>
-    </Dialog>
+            text="Update"
+            clickHandler={saveHandler}
+          />
+        </div>
+      )}
+    </Modal>
   );
 }

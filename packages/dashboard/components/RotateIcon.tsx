@@ -24,7 +24,7 @@ export const useStyles = makeStyles(
 
 export default function RotateIcon() {
   // TODO: This animation should be handle with tailwind
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return getIcon(
     'emojione-v1:clockwise-left-right-arrows'

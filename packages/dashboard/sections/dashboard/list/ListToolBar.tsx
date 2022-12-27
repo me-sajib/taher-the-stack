@@ -1,10 +1,8 @@
 // material
 import {
-  IconButton,
   InputAdornment,
   OutlinedInput,
   Toolbar,
-  Tooltip,
   Typography
 } from '@mui/material';
 import {
@@ -18,8 +16,6 @@ import React, {
   useEffect,
   useState
 } from 'react';
-
-// ----------------------------------------------------------------------
 
 const RootStyle = styled(Toolbar)(
   ({ theme }) => ({
@@ -67,9 +63,6 @@ const SearchStyle = styled(
   })
 );
 
-// ----------------------------------------------------------------------
-// akar-icons:edit
-
 interface ListToolbarTypes {
   placeholder: string;
   numSelected: number;
@@ -100,12 +93,6 @@ export default function ListToolbar({
   onFilterName,
   extraValidation
 }: ListToolbarTypes) {
-  const [
-    isOpenEditModal,
-    setModalStatus
-  ] = useState(false);
-  const toggleModal = () =>
-    setModalStatus((prev) => !prev);
   const [queryText, setQueryText] =
     useState<string>(filterName);
 
@@ -121,10 +108,10 @@ export default function ListToolbar({
   };
 
   const bulkEditorProps = {
+    title: 'Bulk Change',
+    modalId: 'BulkEdit',
     bulkEditHandler,
     editStateData,
-    isOpenEditModal,
-    toggleModal,
     extraValidation
   };
 
@@ -161,43 +148,45 @@ export default function ListToolbar({
 
       {
         numSelected > 0 ? (
-          <span>
-            <Tooltip
-              title="Delete"
+          <div className="flex gap-3 items-center">
+            <span
+              className="tooltip tooltip-bottom cursor-pointer"
+              data-tooltip="Delete"
               onClick={
                 bulkDeleteHandler
               }
             >
-              <IconButton>
-                {getIcon(
-                  'eva:trash-2-fill'
-                )}
-              </IconButton>
-            </Tooltip>
-            <Tooltip
-              title="Recheck"
+              {getIcon(
+                'eva:trash-2-fill'
+              )}
+            </span>
+            <span
+              className="tooltip tooltip-bottom cursor-pointer"
+              data-tooltip="Recheck"
               onClick={
                 bulkRecheckHandler
               }
             >
-              <IconButton>
-                {getIcon(
-                  'fluent:arrow-clockwise-16-filled'
-                )}
-              </IconButton>
-            </Tooltip>
-          </span>
+              {getIcon(
+                'fluent:arrow-clockwise-16-filled'
+              )}
+            </span>
+          </div>
         ) : (
-          <Tooltip
-            title="Edit"
-            onClick={toggleModal}
+          <span
+            className="tooltip tooltip-bottom cursor-pointer"
+            data-tooltip="Edit"
           >
-            <IconButton>
+            <label
+              htmlFor={
+                bulkEditorProps.modalId
+              }
+            >
               {getIcon(
                 'akar-icons:edit'
               )}
-            </IconButton>
-          </Tooltip>
+            </label>
+          </span>
         )
         // TODO: ADD filter feature
         /*           {<Tooltip title="Filter list">
