@@ -12,10 +12,8 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TablePagination,
-  TableRow,
-  Typography
+  TableRow
 } from '@mui/material';
 // components
 import {
@@ -27,6 +25,7 @@ import ProxyModal from './ProxyModal';
 import SearchNotFound from './SearchNotFound';
 // store
 import { Proxy } from '@prisma/client';
+import { nanoid } from 'nanoid';
 import { useRouter } from 'next/router';
 import useSelection from 'packages/dashboard/hooks/useSelection';
 import useSortFilter from 'packages/dashboard/hooks/useSortFilter';
@@ -271,12 +270,10 @@ export default function Index() {
               justifyContent="space-between"
               mb={5}
             >
-              <Typography
-                variant="h4"
-                gutterBottom
-              >
+              <h3 className="text-2xl text-black font-semibold">
                 {proxyList.name}
-              </Typography>
+              </h3>
+
               <label
                 className="btn btn-outline-primary px-1.5"
                 htmlFor="AddProxy"
@@ -327,227 +324,224 @@ export default function Index() {
                 }
               />
 
-              <TableContainer
-                sx={{ minWidth: 800 }}
-              >
-                <Table>
-                  <ListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={
-                      TABLE_HEAD
-                    }
-                    rowCount={
-                      proxies.length
-                    }
-                    numSelected={
-                      selects.size
-                    }
-                    onRequestSort={
-                      handleRequestSort
-                    }
-                    onSelectAllClick={handleSelectAllClick(
-                      proxies.map(
-                        (proxy) =>
-                          proxy.id
-                      )
-                    )}
-                  />
-                  <TableBody>
-                    {sortFilterProxies
-                      .slice(
-                        page *
-                          rowsPerPage,
-                        page *
-                          rowsPerPage +
-                          rowsPerPage
-                      )
-                      .map(
-                        (
-                          proxy: Proxy
-                        ) => {
-                          const {
-                            id,
-                            host,
-                            port,
-                            status,
-                            totalHits,
-                            username,
-                            password,
-                            lastCheckAt
-                          } = proxy;
-                          const isItemSelected =
-                            selects.has(
-                              id
-                            );
+              <Table>
+                <ListHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={
+                    proxies.length
+                  }
+                  numSelected={
+                    selects.size
+                  }
+                  onRequestSort={
+                    handleRequestSort
+                  }
+                  onSelectAllClick={handleSelectAllClick(
+                    proxies.map(
+                      (proxy) =>
+                        proxy.id
+                    )
+                  )}
+                />
+                <TableBody>
+                  {sortFilterProxies
+                    .slice(
+                      page *
+                        rowsPerPage,
+                      page *
+                        rowsPerPage +
+                        rowsPerPage
+                    )
+                    .map(
+                      (
+                        proxy: Proxy
+                      ) => {
+                        const {
+                          id,
+                          host,
+                          port,
+                          status,
+                          totalHits,
+                          username,
+                          password,
+                          lastCheckAt
+                        } = proxy;
+                        const isItemSelected =
+                          selects.has(
+                            id
+                          );
 
-                          return (
-                            <TableRow
-                              hover
-                              key={Math.random().toString(
-                                32
-                              )}
-                              tabIndex={
-                                -1
-                              }
-                              role="checkbox"
-                              selected={
-                                isItemSelected
-                              }
-                              aria-checked={
-                                isItemSelected
-                              }
-                            >
-                              <TableCell padding="checkbox">
-                                <Checkbox
-                                  checked={
-                                    isItemSelected
-                                  }
-                                  onChange={handleClick(
-                                    id
-                                  )}
-                                />
-                              </TableCell>
-                              <TableCell
-                                component="th"
-                                scope="row"
-                                padding="none"
-                              >
-                                <Stack
-                                  direction="row"
-                                  alignItems="center"
-                                  spacing={
-                                    2
-                                  }
-                                >
-                                  <Typography variant="subtitle2">
-                                    <CopyToolTip
-                                      text={
-                                        host
-                                      }
-                                    >
-                                      {
-                                        host
-                                      }
-                                    </CopyToolTip>
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-
-                              <TableCell align="left">
-                                <CopyToolTip
-                                  text={String(
-                                    port
-                                  )}
-                                >
-                                  {String(
-                                    port
-                                  )}
-                                </CopyToolTip>
-                              </TableCell>
-
-                              <TableCell align="center">
-                                {
-                                  totalHits
+                        return (
+                          <TableRow
+                            hover
+                            key={nanoid()}
+                            tabIndex={
+                              -1
+                            }
+                            role="checkbox"
+                            selected={
+                              isItemSelected
+                            }
+                            aria-checked={
+                              isItemSelected
+                            }
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={
+                                  isItemSelected
                                 }
-                              </TableCell>
-
-                              <TableCell align="center">
-                                {username ? (
+                                onChange={handleClick(
+                                  id
+                                )}
+                              />
+                            </TableCell>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              padding="none"
+                            >
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                spacing={
+                                  2
+                                }
+                              >
+                                <span className="font-semibold">
                                   <CopyToolTip
                                     text={
-                                      username
+                                      host
                                     }
                                   >
                                     {
-                                      username
+                                      host
                                     }
                                   </CopyToolTip>
-                                ) : (
-                                  '-'
-                                )}
-                              </TableCell>
+                                </span>
+                              </Stack>
+                            </TableCell>
 
-                              <TableCell align="center">
-                                {password ? (
-                                  <CopyToolTip
-                                    text={
+                            <TableCell align="left">
+                              <CopyToolTip
+                                text={String(
+                                  port
+                                )}
+                              >
+                                {String(
+                                  port
+                                )}
+                              </CopyToolTip>
+                            </TableCell>
+
+                            <TableCell align="center">
+                              {
+                                totalHits
+                              }
+                            </TableCell>
+
+                            <TableCell align="center">
+                              {username ? (
+                                <CopyToolTip
+                                  text={
+                                    username
+                                  }
+                                >
+                                  {
+                                    username
+                                  }
+                                </CopyToolTip>
+                              ) : (
+                                '-'
+                              )}
+                            </TableCell>
+
+                            <TableCell align="center">
+                              {password ? (
+                                <CopyToolTip
+                                  text={
+                                    password
+                                  }
+                                >
+                                  <Musk>
+                                    {
                                       password
                                     }
-                                  >
-                                    <Musk>
-                                      {
-                                        password
-                                      }
-                                    </Musk>
-                                  </CopyToolTip>
-                                ) : (
-                                  '-'
-                                )}
-                              </TableCell>
+                                  </Musk>
+                                </CopyToolTip>
+                              ) : (
+                                '-'
+                              )}
+                            </TableCell>
 
-                              <TableCell align="center">
-                                <span
-                                  className="tooltip tooltip-bottom tooltip-primary cursor-pointer"
-                                  data-tooltip={`Checked ${formatDistanceToNow(
-                                    new Date(
-                                      lastCheckAt
-                                    )
-                                  )}`}
-                                >
-                                  <Badge
-                                    variant={
-                                      status
-                                    }
-                                  />
-                                </span>
-                              </TableCell>
-
-                              <TableCell align="right">
-                                <ProxyMenu
-                                  id={
-                                    id
+                            <TableCell align="center">
+                              <span
+                                className="tooltip tooltip-bottom cursor-pointer"
+                                data-tooltip={`Checked ${formatDistanceToNow(
+                                  new Date(
+                                    lastCheckAt
+                                  )
+                                )}`}
+                              >
+                                <Badge
+                                  variant={
+                                    status
                                   }
                                 />
-                              </TableCell>
-                            </TableRow>
-                          );
-                        }
-                      )}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height:
-                            53 *
-                            emptyRows
-                        }}
-                      >
-                        <TableCell
-                          colSpan={6}
-                        />
-                      </TableRow>
-                    )}
-                  </TableBody>
+                              </span>
+                            </TableCell>
 
-                  {isUserNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          align="center"
-                          colSpan={6}
-                          sx={{ py: 3 }}
-                        >
+                            <TableCell align="right">
+                              <ProxyMenu
+                                id={id}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    )}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height:
+                          53 * emptyRows
+                      }}
+                    >
+                      <TableCell
+                        colSpan={6}
+                      />
+                    </TableRow>
+                  )}
+                </TableBody>
+
+                {isUserNotFound && (
+                  <TableBody>
+                    <TableRow>
+                      <TableCell
+                        align="center"
+                        colSpan={6}
+                        sx={{ py: 3 }}
+                      >
+                        {query ? (
                           <SearchNotFound
                             searchQuery={
                               query
                             }
                           />
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
-                </Table>
-              </TableContainer>
+                        ) : (
+                          <p className="font-semibold text-black text-center">
+                            No proxy
+                            found. add
+                            new proxy
+                          </p>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                )}
+              </Table>
 
               <TablePagination
                 rowsPerPageOptions={[

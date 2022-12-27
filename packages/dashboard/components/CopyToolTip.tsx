@@ -20,7 +20,7 @@ export default function CopyToolTip({
 
   return (
     <span
-      className="tooltip tooltip-bottom tooltip-primary cursor-pointer"
+      className="tooltip tooltip-bottom cursor-pointer"
       data-tooltip={
         isCopied ? 'copied' : 'copy'
       }

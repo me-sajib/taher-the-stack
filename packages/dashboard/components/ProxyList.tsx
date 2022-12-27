@@ -12,10 +12,8 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TablePagination,
-  TableRow,
-  Typography
+  TableRow
 } from '@mui/material';
 // components
 import Link from 'next/link';
@@ -300,12 +298,9 @@ export default function Index() {
               justifyContent="space-between"
               mb={5}
             >
-              <Typography
-                variant="h4"
-                gutterBottom
-              >
+              <h3 className="text-2xl text-black font-semibold">
                 Proxy List
-              </Typography>
+              </h3>
               <label
                 className="btn btn-outline-primary px-1.5"
                 htmlFor="AddProxyList"
@@ -316,7 +311,7 @@ export default function Index() {
                   )}
                 </i>
                 <span className="font-semibold">
-                  Proxy List
+                  New Proxy List
                 </span>
               </label>
               <ProxyListModal
@@ -359,197 +354,189 @@ export default function Index() {
                 }
               />
 
-              <TableContainer
-                sx={{ minWidth: 800 }}
-              >
-                <Table>
-                  <ListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={
-                      TABLE_HEAD
-                    }
-                    rowCount={
-                      proxyLists.length
-                    }
-                    numSelected={
-                      selects.size
-                    }
-                    onRequestSort={
-                      handleRequestSort
-                    }
-                    onSelectAllClick={handleSelectAllClick(
-                      proxyLists.map(
-                        (list) =>
-                          list.key
-                      )
-                    )}
-                  />
-                  <TableBody>
-                    {filterSortProxyList
-                      .slice(
-                        page *
-                          rowsPerPage,
-                        page *
-                          rowsPerPage +
-                          rowsPerPage
-                      )
-                      .map(
-                        (proxyList) => {
-                          const {
-                            key: id,
-                            name,
-                            username,
-                            password,
-                            rotatingIndex,
-                            checking,
-                            totalProxy
-                          } = proxyList;
-                          const isItemSelected =
-                            selects.has(
-                              id
-                            );
+              <Table>
+                <ListHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={
+                    proxyLists.length
+                  }
+                  numSelected={
+                    selects.size
+                  }
+                  onRequestSort={
+                    handleRequestSort
+                  }
+                  onSelectAllClick={handleSelectAllClick(
+                    proxyLists.map(
+                      (list) => list.key
+                    )
+                  )}
+                />
+                <TableBody>
+                  {filterSortProxyList
+                    .slice(
+                      page *
+                        rowsPerPage,
+                      page *
+                        rowsPerPage +
+                        rowsPerPage
+                    )
+                    .map(
+                      (proxyList) => {
+                        const {
+                          key: id,
+                          name,
+                          username,
+                          password,
+                          rotatingIndex,
+                          checking,
+                          totalProxy
+                        } = proxyList;
+                        const isItemSelected =
+                          selects.has(
+                            id
+                          );
 
-                          return (
-                            <TableRow
-                              hover
-                              key={id}
-                              tabIndex={
-                                -1
-                              }
-                              role="checkbox"
-                              selected={
-                                isItemSelected
-                              }
-                              aria-checked={
-                                isItemSelected
-                              }
+                        return (
+                          <TableRow
+                            hover
+                            key={id}
+                            tabIndex={
+                              -1
+                            }
+                            role="checkbox"
+                            selected={
+                              isItemSelected
+                            }
+                            aria-checked={
+                              isItemSelected
+                            }
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={
+                                  isItemSelected
+                                }
+                                onChange={handleClick(
+                                  id
+                                )}
+                              />
+                            </TableCell>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              padding="none"
                             >
-                              <TableCell padding="checkbox">
-                                <Checkbox
-                                  checked={
-                                    isItemSelected
-                                  }
-                                  onChange={handleClick(
-                                    id
-                                  )}
-                                />
-                              </TableCell>
-                              <TableCell
-                                component="th"
-                                scope="row"
-                                padding="none"
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                spacing={
+                                  1
+                                }
                               >
-                                <Stack
-                                  direction="row"
-                                  alignItems="center"
-                                  spacing={
-                                    1
-                                  }
+                                {checking && (
+                                  <RotateIcon />
+                                )}
+                                <Link
+                                  href={`/proxy-list/${username}/proxies`}
                                 >
-                                  {checking && (
-                                    <RotateIcon />
-                                  )}
-                                  <Link
-                                    href={`/proxy-list/${username}/proxies`}
-                                  >
-                                    <Typography
-                                      variant="subtitle2"
-                                      noWrap
-                                      sx={{
-                                        cursor:
-                                          'pointer'
-                                      }}
-                                    >
-                                      {
-                                        name
-                                      }
-                                    </Typography>
-                                  </Link>
-                                </Stack>
-                              </TableCell>
-                              <TableCell align="center">
-                                <CopyToolTip
-                                  text={
-                                    username
-                                  }
-                                >
-                                  {
-                                    username
-                                  }
-                                </CopyToolTip>
-                              </TableCell>
+                                  <span className="font-semibold cursor-pointer">
+                                    {
+                                      name
+                                    }
+                                  </span>
+                                </Link>
+                              </Stack>
+                            </TableCell>
+                            <TableCell align="center">
+                              <CopyToolTip
+                                text={
+                                  username
+                                }
+                              >
+                                {
+                                  username
+                                }
+                              </CopyToolTip>
+                            </TableCell>
 
-                              <TableCell align="center">
-                                <CopyToolTip
-                                  text={
+                            <TableCell align="center">
+                              <CopyToolTip
+                                text={
+                                  password
+                                }
+                              >
+                                <Musk>
+                                  {
                                     password
                                   }
-                                >
-                                  <Musk>
-                                    {
-                                      password
-                                    }
-                                  </Musk>
-                                </CopyToolTip>
-                              </TableCell>
+                                </Musk>
+                              </CopyToolTip>
+                            </TableCell>
 
-                              <TableCell align="center">
-                                {
-                                  rotatingIndex
-                                }
-                              </TableCell>
-                              <TableCell align="center">
-                                {
-                                  totalProxy
-                                }
-                              </TableCell>
+                            <TableCell align="center">
+                              {
+                                rotatingIndex
+                              }
+                            </TableCell>
+                            <TableCell align="center">
+                              {
+                                totalProxy
+                              }
+                            </TableCell>
 
-                              <TableCell align="right">
-                                <ProxyListMenu
-                                  id={
-                                    id
-                                  }
-                                />
-                              </TableCell>
-                            </TableRow>
-                          );
-                        }
-                      )}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height:
-                            53 *
-                            emptyRows
-                        }}
-                      >
-                        <TableCell
-                          colSpan={6}
-                        />
-                      </TableRow>
+                            <TableCell align="right">
+                              <ProxyListMenu
+                                id={id}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
                     )}
-                  </TableBody>
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height:
+                          53 * emptyRows
+                      }}
+                    >
+                      <TableCell
+                        colSpan={6}
+                      />
+                    </TableRow>
+                  )}
+                </TableBody>
 
-                  {isUserNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          align="center"
-                          colSpan={6}
-                          sx={{ py: 3 }}
-                        >
+                {isUserNotFound && (
+                  <TableBody>
+                    <TableRow>
+                      <TableCell
+                        align="center"
+                        colSpan={6}
+                        sx={{ py: 3 }}
+                      >
+                        {query ? (
                           <SearchNotFound
                             searchQuery={
                               query
                             }
                           />
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
-                </Table>
-              </TableContainer>
+                        ) : (
+                          <p className="font-semibold text-black text-center">
+                            Empty proxy
+                            list. add
+                            new proxy
+                            list
+                          </p>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                )}
+              </Table>
 
               <TablePagination
                 rowsPerPageOptions={[

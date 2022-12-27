@@ -8,9 +8,8 @@ import {
   TableRow,
   TableSortLabel
 } from '@mui/material';
+import { nanoid } from 'nanoid';
 import { HeadType } from 'packages/dashboard/interfaces';
-
-// ----------------------------------------------------------------------
 
 const visuallyHidden = {
   border: 0,
@@ -47,7 +46,7 @@ export default function ListHead<T>({
   onSelectAllClick
 }) {
   return (
-    <TableHead>
+    <TableHead className="bg-gray-50">
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
@@ -66,9 +65,7 @@ export default function ListHead<T>({
           (headCell: HeadType<T>) =>
             headCell ? (
               <TableCell
-                key={Math.random().toString(
-                  32
-                )}
+                key={nanoid()}
                 align={
                   headCell.align ||
                   'left'
@@ -115,6 +112,7 @@ export default function ListHead<T>({
               headCell
             )
         )}
+        <TableCell />
       </TableRow>
     </TableHead>
   );

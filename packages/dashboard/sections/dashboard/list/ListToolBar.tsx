@@ -123,6 +123,7 @@ export default function ListToolbar({
           bgcolor: 'primary.lighter'
         })
       }}
+      className="bg-gray-50"
     >
       {numSelected > 0 ? (
         <Typography

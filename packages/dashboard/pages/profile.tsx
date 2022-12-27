@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import ChangePasswordForm from 'packages/dashboard/sections/profile/ChangePasswordForm';
 import UserUpdateFrom from 'packages/dashboard/sections/profile/UserUpdateForm';
 import { Container } from '../components';
-// redux
 
 export default function Profile() {
   const profile: User =
