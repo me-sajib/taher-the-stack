@@ -76,12 +76,8 @@ export default function ProxyListModal({
         .toLowerCase()} proxy list`}
       modalId={modalId}
     >
-      {(ref) => {
-        // useEffect(() => {
-        //   if (isSubmitSuccessful) {
-        //     ref.current.click();
-        //   }
-        // }, [isSubmitSuccessful]);
+      {() => {
+        // TODO: After successful submission the modal should automatically close. process -> create another component which will take ref isSuccessfulSubmission status & handle it through useEffect
 
         return (
           <FormProvider

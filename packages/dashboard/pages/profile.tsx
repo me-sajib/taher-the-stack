@@ -6,29 +6,12 @@ import { useSelector } from 'react-redux';
 // React
 import ChangePasswordForm from 'packages/dashboard/sections/profile/ChangePasswordForm';
 import UserUpdateFrom from 'packages/dashboard/sections/profile/UserUpdateForm';
-import { useState } from 'react';
 import { Container } from '../components';
 // redux
 
 export default function Profile() {
   const profile: User =
     useSelector(getUser);
-  const [
-    updatePassSwitch,
-    setPasswordStatus
-  ] = useState(false);
-
-  const togglePassStatus = () =>
-    setPasswordStatus((prev) => !prev);
-
-  const ChangeUpdateSwitch = (
-    <input
-      type="checkbox"
-      className="switch bg-transparent"
-      checked={updatePassSwitch}
-      onClick={togglePassStatus}
-    />
-  );
 
   return (
     <DashboardLayout>
