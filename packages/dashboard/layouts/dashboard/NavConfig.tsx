@@ -1,14 +1,4 @@
-import Iconify from 'packages/dashboard/components/Iconify';
-
-// ----------------------------------------------------------------------
-
-const getIcon = (name: string) => (
-  <Iconify
-    icon={name}
-    width={22}
-    height={22}
-  />
-);
+import { getIcon } from 'packages/dashboard/utils';
 
 const navConfig = [
   {

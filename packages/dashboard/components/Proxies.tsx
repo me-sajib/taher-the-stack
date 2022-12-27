@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useState
 } from 'react';
-import { Container } from '.';
+import { Badge, Container } from '.';
 // material
 import {
   Button,
@@ -16,7 +16,6 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
-  Tooltip,
   Typography
 } from '@mui/material';
 // components
@@ -24,8 +23,6 @@ import {
   ListHead,
   ListToolbar
 } from 'packages/dashboard/sections/dashboard/list';
-import Iconify from './Iconify';
-import Label from './Label';
 import Page from './Page';
 import ProxyModal from './ProxyModal';
 import SearchNotFound from './SearchNotFound';
@@ -53,6 +50,7 @@ import {
   useDispatch,
   useSelector
 } from 'react-redux';
+import { getIcon } from '../utils';
 import CopyToolTip from './CopyToolTip';
 import LoadingListFallback from './LoadingListFallback';
 import Musk from './Musk';
@@ -284,9 +282,9 @@ export default function Index() {
               </Typography>
               <Button
                 variant="contained"
-                startIcon={
-                  <Iconify icon="eva:plus-fill" />
-                }
+                startIcon={getIcon(
+                  'eva:plus-fill'
+                )}
                 onClick={
                   handleProxyListModal
                 }
@@ -428,10 +426,7 @@ export default function Index() {
                                     2
                                   }
                                 >
-                                  <Typography
-                                    variant="subtitle2"
-                                    noWrap
-                                  >
+                                  <Typography variant="subtitle2">
                                     <CopyToolTip
                                       text={
                                         host
@@ -498,33 +493,20 @@ export default function Index() {
                               </TableCell>
 
                               <TableCell align="center">
-                                <Tooltip
-                                  title={`Checked ${formatDistanceToNow(
+                                <span
+                                  className="tooltip tooltip-bottom tooltip-primary cursor-pointer"
+                                  data-tooltip={`Checked ${formatDistanceToNow(
                                     new Date(
                                       lastCheckAt
                                     )
                                   )}`}
-                                  arrow
                                 >
-                                  <span>
-                                    <Label
-                                      variant="ghost"
-                                      color={
-                                        (status ===
-                                          'INACTIVE' &&
-                                          'error') ||
-                                        (status ===
-                                          'CHECKING' &&
-                                          'warning') ||
-                                        'success'
-                                      }
-                                    >
-                                      {
-                                        status
-                                      }
-                                    </Label>
-                                  </span>
-                                </Tooltip>
+                                  <Badge
+                                    variant={
+                                      status
+                                    }
+                                  />
+                                </span>
                               </TableCell>
 
                               <TableCell align="right">

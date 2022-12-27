@@ -8,7 +8,6 @@ import {
   Menu
 } from '@mui/material';
 // component
-import Iconify from 'packages/dashboard/components/Iconify';
 import ProxyListModal from 'packages/dashboard/components/ProxyListModal';
 import { AppThunkDispatch } from 'packages/dashboard/store';
 import { getProxyList } from 'packages/dashboard/store/proxyListSlice';
@@ -24,6 +23,7 @@ import {
   editProxyList,
   recheckProxyList
 } from 'packages/dashboard/store/thunks';
+import { getIcon } from 'packages/dashboard/utils';
 
 // ----------------------------------------------------------------------
 
@@ -121,11 +121,9 @@ export default function ProxyListMenu({
         ref={ref}
         onClick={() => setIsOpen(true)}
       >
-        <Iconify
-          icon="eva:more-vertical-fill"
-          width={20}
-          height={20}
-        />
+        {getIcon(
+          'eva:more-vertical-fill'
+        )}
       </IconButton>
 
       <ProxyListModal

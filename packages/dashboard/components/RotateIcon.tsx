@@ -2,8 +2,7 @@ import {
   createStyles,
   makeStyles
 } from '@mui/styles';
-
-import Iconify from './Iconify';
+import { getIcon } from '../utils';
 
 export const useStyles = makeStyles(
   () =>
@@ -24,12 +23,10 @@ export const useStyles = makeStyles(
 ) as any;
 
 export default function RotateIcon() {
+  // TODO: This animation should be handle with tailwind
   const classes = useStyles();
 
-  return (
-    <Iconify
-      icon="emojione-v1:clockwise-left-right-arrows"
-      className={classes.rotateIcon}
-    />
+  return getIcon(
+    'emojione-v1:clockwise-left-right-arrows'
   );
 }

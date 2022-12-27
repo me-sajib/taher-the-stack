@@ -1,5 +1,6 @@
 export * from './applySortFilter';
 export * from './isAuthorize';
+export * from './getIcon';
 
 export const validateUsername = ([
   first,

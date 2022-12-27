@@ -1,4 +1,3 @@
-import { Tooltip } from '@mui/material';
 import copy from 'copy-to-clipboard';
 import { useState } from 'react';
 
@@ -20,21 +19,17 @@ export default function CopyToolTip({
   };
 
   return (
-    <Tooltip
-      style={{ cursor: 'pointer' }}
-      title={
+    <span
+      className="tooltip tooltip-bottom tooltip-primary cursor-pointer"
+      data-tooltip={
         isCopied ? 'copied' : 'copy'
       }
-      arrow
       onClick={copyToClipboardHandler}
       onMouseLeave={() =>
-        setTimeout(
-          () => setCopy(false),
-          1e3
-        )
+        setCopy(false)
       }
     >
       <span>{children}</span>
-    </Tooltip>
+    </span>
   );
 }
