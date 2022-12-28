@@ -1,48 +1,23 @@
 import 'dotenv/config';
-import { Server } from 'proxy-chain';
-import { createCustomError } from './helpers';
-import { getRotateProxyUrl } from './helpers/getRotateProxyUrl';
+import * as http from 'http';
+import mainHandler from './handlers';
 
-const proxyServer = new Server({
-  port: +process.env.PORT || 60000,
-  verbose: true,
-  prepareRequestFunction: async ({
-    username,
-    password,
-    isHttp
-  }) => {
-    const { isAuth, upstreamUrl } =
-      await getRotateProxyUrl(
-        username,
-        password,
-        isHttp
-      );
+const proxyServer = http.createServer();
+const events = ['request', 'connect'];
 
-    if (!isAuth) {
-      throw createCustomError(
-        'Invalid Credentials',
-        400
-      );
-    }
-
-    return {
-      upstreamProxyUrl: upstreamUrl
-    };
-  }
-});
-
-proxyServer.listen(() =>
-  console.log(
-    `Proxy server is listening on ${proxyServer.port}`
+events.forEach((event) =>
+  proxyServer.on(
+    event,
+    mainHandler(event)
   )
 );
 
-proxyServer.on(
-  'requestFailed',
-  ({ request, error }) => {
-    console.error(
-      `Request ${request.url} failed`,
-      error
-    );
-  }
-);
+const port = process.env.PORT || 60000;
+
+proxyServer.listen(port, () => {
+  console.log(
+    `Proxy server is listening at http://localhost:${port}/`
+  );
+});
+
+proxyServer.on('error', console.error);
