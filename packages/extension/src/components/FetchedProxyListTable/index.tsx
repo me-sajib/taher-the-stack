@@ -1,5 +1,5 @@
+import { nanoid } from "nanoid"
 import { useEffect, useState } from "react"
-import shortid from "shortid"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
@@ -55,9 +55,9 @@ const FetchedProxyListTable = () => {
         const isChecking = checkingSet.has(list.id)
 
         return (
-          <tr key={shortid.generate()}>
+          <tr key={nanoid()}>
             {data.map((item) => {
-              return <TableData key={shortid.generate()}>{item}</TableData>
+              return <TableData key={nanoid()}>{item}</TableData>
             })}
             <TableData>
               <Button

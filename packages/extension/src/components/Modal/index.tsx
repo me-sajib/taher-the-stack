@@ -16,7 +16,7 @@ const Modal = ({ isOpen, title, children, actionElement, closeHandler }) => {
 
         <div className="flex items-center justify-end text-xs">
           <Button text="Login" classes="mr-3" clickHandler={actionElement} />
-          <Button variant="" text="Close" clickHandler={closeHandler} />
+          <Button variant="red" text="Close" clickHandler={closeHandler} />
         </div>
       </div>
     </div>

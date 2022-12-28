@@ -66,7 +66,7 @@ function ManageProxies() {
         </div>
       </header>
 
-      <div className="px-12 py-8">
+      <div className="px-12 py-8 min-h-screen">
         <Login
           isOpen={isOpenLogin}
           closeHandler={toggleOpen}
@@ -76,6 +76,7 @@ function ManageProxies() {
         <LocalProxyTable />
         {storedState.user && <FetchedProxyListTable />}
       </div>
+
       <footer aria-label="Site Footer" className="bg-gray-50">
         <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
           <p className="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right">

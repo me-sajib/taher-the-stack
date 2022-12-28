@@ -1,5 +1,5 @@
+import { nanoid } from "nanoid"
 import { useEffect, useState } from "react"
-import shortid from "shortid"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
@@ -9,7 +9,7 @@ import Popup from "~components/Popup"
 import ProxySetRow from "~components/ProxySetRow"
 import Table from "~components/Table"
 import TableData from "~components/TableData"
-import { Proxy } from "~interfaces"
+import type { Proxy } from "~interfaces"
 import { initialState } from "~reducers"
 
 const LocalProxyTable = () => {
@@ -122,10 +122,10 @@ const LocalProxyTable = () => {
           ]
 
           return (
-            <tr key={shortid.generate()}>
+            <tr key={nanoid()}>
               {data.map((item) => {
                 return (
-                  <TableData key={shortid.generate()}>
+                  <TableData key={nanoid()}>
                     <Input {...item} />
                   </TableData>
                 )

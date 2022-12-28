@@ -1,5 +1,5 @@
 {
-  "name": "proxy-manager-extension",
+  "name": "extension",
   "displayName": "Proxy manager extension",
   "version": "1.0.0",
   "description": "Mange your proxies through extension ",
@@ -11,12 +11,11 @@
   },
   "dependencies": {
     "@plasmohq/storage": "^0.13.0",
+    "nanoid": "^4.0.0",
     "plasmo": "0.59.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "shortid": "^2.2.16",
-    "tailwind-merge": "^1.8.0",
-    "tw-elements": "1.0.0-alpha13"
+    "tailwind-merge": "^1.8.0"
   },
   "devDependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "3.6.0",
