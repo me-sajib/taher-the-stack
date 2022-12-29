@@ -2,8 +2,6 @@ import { useEffect, useReducer, useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
-import "tw-elements"
-
 import ActiveProxyBanner from "~components/ActiveProxyBanner"
 import Header from "~components/Header"
 import SelectProxy from "~components/SelectProxy"
@@ -118,7 +116,7 @@ function IndexPopup() {
         <button
           type="button"
           onClick={redirectToManageProxies}
-          className="w-full inline-block px-6 py-2 mt-3 border-2 border-blue-900 text-blue-900 font-medium text-xs leading-normal uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out text-bold">
+          className="w-full inline-block px-6 py-2 mt-3 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-normal uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out text-bold">
           Add new
         </button>
       </section>

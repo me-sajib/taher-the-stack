@@ -56,13 +56,13 @@ const AccountPopover = () => {
             <NavMenus classes="dropdown-item flex w-full justify-between text-left text-sm leading-5 text-content2 hover:bg-blue-100" />
           </div>
 
-          <span
-            className="dropdown-item flex w-full justify-between text-left text-sm leading-5 text-content2 font-semibold text-red-500"
-            role="menuitem"
+          <button
+            type="button"
+            className="dropdown-item flex w-full justify-between text-left text-sm font-semibold text-red-500"
             onClick={logoutHandler}
           >
             Log out
-          </span>
+          </button>
         </div>
       </div>
     </div>

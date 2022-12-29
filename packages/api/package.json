@@ -14,7 +14,7 @@
     "url": "git+https://github.com/SoftwareSheba/easy-proxy-manager.git"
   },
   "scripts": {
-    "start": "nest start --debug",
+    "start": "nest start --debug --watch",
     "build": "nest build"
   },
   "bugs": {

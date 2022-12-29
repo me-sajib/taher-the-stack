@@ -1,5 +1,5 @@
+import { nanoid } from "nanoid"
 import { useState } from "react"
-import shortid from "shortid"
 
 import Button from "~components/Button"
 import Input from "~components/Input"
@@ -17,7 +17,7 @@ const ProxySetRow = ({ setProxies, saveChanges }) => {
 
   const addProxy = () => {
     const submitProxy = {
-      id: shortid.generate(),
+      id: nanoid(),
       name: proxy.name,
       host: proxy.host,
       port: +proxy.port,
@@ -65,7 +65,7 @@ const ProxySetRow = ({ setProxies, saveChanges }) => {
   return (
     <tr>
       {proxyInputs.map((proxy) => (
-        <TableData key={shortid.generate()}>
+        <TableData key={nanoid()}>
           <Input {...proxy} liftValue={changeProxyHandler} />
         </TableData>
       ))}

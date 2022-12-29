@@ -1,14 +1,14 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "plasmo/templates/tsconfig.base",
   "exclude": [
     "node_modules"
   ],
   "include": [
+    ".plasmo/**/*",
     "./**/*.ts",
     "./**/*.tsx"
   ],
   "compilerOptions": {
-    "jsx": "react-jsx",
     "paths": {
       "~*": [
         "./src/*"

@@ -11,7 +11,7 @@ module.exports = {
           300: "#a4a9fd",
           400: "#8280f9",
           500: "#6e61f3",
-          600: "#593de6",
+          600: "#0072f5",
           700: "#5236cc",
           800: "#432fa4",
           900: "#392d82"
@@ -25,5 +25,6 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require('autoprefixer'),
+    // require("rippleui")
   ]
 }

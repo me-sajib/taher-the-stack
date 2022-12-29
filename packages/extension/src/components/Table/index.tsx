@@ -1,4 +1,4 @@
-import shortid from "shortid"
+import { nanoid } from "nanoid"
 
 const Table = ({ headings, heading = "", children }) => {
   return (
@@ -13,7 +13,7 @@ const Table = ({ headings, heading = "", children }) => {
             <tr>
               {headings.map((heading) => (
                 <th
-                  key={shortid.generate()}
+                  key={nanoid()}
                   className="border-b font-medium p-4 text-slate-800 text-center bg-gray-50">
                   {heading}
                 </th>
