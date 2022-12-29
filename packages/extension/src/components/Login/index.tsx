@@ -23,7 +23,6 @@ const Login = ({ isOpen, closeHandler, setOpenLogin }) => {
   }
 
   const loginHandler = async () => {
-    console.log({ url: process.env.API_URL })
     const res = await fetch(`${process.env.API_URL}/auth/sign-in`, {
       method: "POST",
       body: JSON.stringify(loginInfo),

@@ -17,7 +17,7 @@ async function bootstrap() {
       cors: {
         origin:
           process.env.DASHBOARD_URL ||
-          'http://localhost:3000',
+          '*',
         credentials: true
       }
     }

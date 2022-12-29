@@ -66,7 +66,7 @@ export const deleteProxy =
     }) => {
       try {
         await axios.delete(
-          `${PROXY_URL}/delete?proxyListKey=$${qs.stringify(
+          `${PROXY_URL}/delete?${qs.stringify(
             payload,
             {
               encode: false
