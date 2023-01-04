@@ -38,21 +38,21 @@
       "prettier --write packages/dashboard/",
       "eslint packages/dashboard/"
     ],
-    "./packages/roxy-manager-proxy-manager-extension/src/**/*.{ts,tsx}": [
-      "prettier --write packages/proxy-manager-proxy-manager-extension/",
-      "eslint packages/proxy-manager-proxy-manager-extension/"
+    "./packages/proxy-manager-extension/src/**/*.{ts,tsx}": [
+      "prettier --write packages/proxy-manager-extension/",
+      "eslint packages/proxy-manager-extension/"
     ],
     "./packages/proxy-rotator/src/**/*.ts": [
       "prettier --write packages/proxy-rotator/",
       "eslint packages/proxy-rotator/"
     ],
-    "./packages/scraper-api/**/**/*.{ts,tsx}": [
+    "./packages/scraper-api/**/*.{ts,tsx}": [
       "prettier --write packages/dashboard/",
       "eslint packages/scraper-api/"
     ],
-    "./packages/web-scraper-proxy-manager-extension/**/*.{js,jsx,ts,tsx}": [
-      "prettier --write packages/web-scraper-proxy-manager-extension/",
-      "eslint packages/web-scraper-proxy-manager-extension/"
+    "./packages/web-scraper-extension/src/**/*.{ts,tsx}": [
+      "prettier --write packages/web-scraper-extension/",
+      "eslint packages/web-scraper-extension/"
     ],
     "./packages/website/**/*.{js,jsx}": [
       "prettier --write packages/website/",
