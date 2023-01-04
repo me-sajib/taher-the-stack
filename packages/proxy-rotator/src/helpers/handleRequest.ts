@@ -24,7 +24,7 @@ export class ManageHandler {
     private res: ServerResponse
   ) {}
 
-  *retries(cb) {
+  *retry(cb) {
     while (this.MAX_RETRIES--) {
       yield setTimeout(
         () => cb(),
@@ -41,7 +41,7 @@ export class ManageHandler {
       this.req.method,
       this.req.url
     );
-    const retryRequest = this.retries(
+    const retryRequest = this.retry(
       this.handleRequest
     );
 
@@ -112,8 +112,9 @@ export class ManageHandler {
     );
     const socketEvents =
       this.EVENTS.slice(0, -1);
-    const retryConnection =
-      this.retries(this.handleSocket);
+    const retryConnection = this.retry(
+      this.handleSocket
+    );
 
     this.clientReq
       .on('error', (err) => {
