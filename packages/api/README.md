@@ -1,4 +1,4 @@
-# `@easy-proxy-manager/api`
+# `@software-sheba/api`
 
 This is the api of easy-proxy-manager. It's built with nestJ
 
@@ -15,7 +15,7 @@ User can sign in with validate username or email & password. Each can handle **C
 > Run for listen the server
 
 ```bash
-yarn start:api
+yarn dev:api
 ```
 
 > Run for build production

@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: rgb(74, 118, 236);
+  --secondary-color: rgba(
+    105,
+    211,
+    146,
+    0.9
+  );
+  --divider-color: rgb(203, 213, 223);
+  --fade-text-color: rgba(
+    74,
+    85,
+    104,
+    0.7
+  );
+
+  --input-box-color: rgba(
+    248,
+    250,
+    252,
+    0.952
+  );
+  --border-color: rgb(237, 242, 247);
+  --danger: rgb(215, 72, 51);
+}
+
+input {
+  border: none;
+}
+
+button:focus,
+input:focus {
+  outline: none;
+}

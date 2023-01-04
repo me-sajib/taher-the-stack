@@ -1,12 +1,11 @@
 {
-  "name": "dashboard",
+  "name": "@software-sheba/dashboard",
   "version": "1.0.0",
-  "description": "The dahsbord of proxy manager",
+  "description": "The dashboard of proxy manager",
   "keywords": [
     "proxy",
     "manager"
   ],
-  "author": "Developer <fahimfaisal.soikot@gmail.com>",
   "homepage": "https://github.com/SoftwareSheba/easy-proxy-manager#readme",
   "license": "MIT",
   "publishConfig": {
@@ -17,8 +16,9 @@
     "url": "git+https://github.com/SoftwareSheba/easy-proxy-manager.git"
   },
   "scripts": {
-    "start": "next dev",
-    "build": "next build"
+    "dev": "next dev",
+    "build": "next build",
+    "format": "prettier --write \"src/**/*.ts\""
   },
   "bugs": {
     "url": "https://github.com/SoftwareSheba/easy-proxy-manager/issues"

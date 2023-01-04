@@ -1,1 +1,1 @@
-# `@easy-proxy-manager/website`
+# `@software-sheba/website`

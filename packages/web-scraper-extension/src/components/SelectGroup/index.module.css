@@ -1,0 +1,52 @@
+.container {
+  position: relative;
+  width: 250px;
+  outline: none;
+}
+
+.labelContainer {
+  display: flex;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px
+    20px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.expandButton {
+  padding: 10px;
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  transition: transform 250ms ease;
+}
+
+.rotateButton {
+  transform: rotate(180deg);
+}
+
+.label {
+  padding: 15px 10px;
+  display: inline-block;
+  cursor: pointer;
+  caret-color: transparent;
+  font-family: inherit;
+
+  width: 100%;
+}
+
+.optionContainer {
+  list-style: none;
+  border-radius: 0px 0px 5px 5px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px
+    12px;
+  width: 100%;
+  background-color: white;
+
+  position: absolute;
+  z-index: 99;
+}

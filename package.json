@@ -6,18 +6,22 @@
     "packages/*"
   ],
   "scripts": {
-    "start:all": "lerna run start --concurrency=5",
-    "start:api": "lerna run start --scope=api",
-    "start:dashboard": "lerna run start --scope=dashboard",
-    "start:rotator": "lerna run dev --scope=proxy-rotator",
-    "start:extension": "lerna run start --scope=extension",
-    "start:website": "lerna run start --scope=website",
-    "build:api": "lerna run build --scope=api",
-    "build:dashboard": "lerna run build --scope=dashboard",
-    "build:rotator": "lerna run build --scope=proxy-rotator",
-    "build:extension": "lerna run build --scope=extension",
-    "build:website": "lerna run build --scope=website",
-    "start:pm2": "pm2 start ecosystem.config.js",
+    "dev": "lerna run dev",
+    "dev:api": "yarn lerna run dev --scope=@software-sheba/api",
+    "dev:dashboard": "yarn lerna run dev --scope=@software-sheba/dashboard",
+    "dev:proxy-manager-extension": "yarn lerna run dev --scope=@software-sheba/proxy-manager-extension",
+    "dev:proxy-rotator": "yarn lerna run dev --scope=@software-sheba/proxy-rotator",
+    "dev:scraper-api": "yarn lerna run dev --scope=@software-sheba/scraper-api",
+    "dev:web-scraper-extension": "yarn lerna run dev --scope=@software-sheba/web-scraper-extension",
+    "dev:website": "yarn lerna run start --scope=@software-sheba/website",
+    "build": "lerna run build",
+    "build:api": "yarn lerna run build --scope=@software-sheba/api",
+    "build:dashboard": "yarn lerna run build--scope=@software-sheba/dashboard",
+    "build:proxy-manager-extension": "yarn lerna run build --scope=@software-sheba/proxy-manager-extension",
+    "build:proxy-rotator": "yarn lerna run build --scope=@software-sheba/proxy-rotator",
+    "build:scraper-api": "yarn lerna run build--scope=@software-sheba/scraper-api",
+    "build:web-scraper-extension": "yarn lerna run build--scope=@software-sheba/web-scraper-extension",
+    "build:website": "yarn lerna run build --scope=@software-sheba/website",
     "seed": "prisma db seed",
     "format": "prettier --write .",
     "prepare": "husky install"
@@ -34,13 +38,21 @@
       "prettier --write packages/dashboard/",
       "eslint packages/dashboard/"
     ],
+    "./packages/roxy-manager-proxy-manager-extension/src/**/*.{ts,tsx}": [
+      "prettier --write packages/proxy-manager-proxy-manager-extension/",
+      "eslint packages/proxy-manager-proxy-manager-extension/"
+    ],
     "./packages/proxy-rotator/src/**/*.ts": [
       "prettier --write packages/proxy-rotator/",
       "eslint packages/proxy-rotator/"
     ],
-    "./packages/extension/src/**/*.{ts,tsx}": [
-      "prettier --write packages/extension/",
-      "eslint packages/extension/"
+    "./packages/scraper-api/**/**/*.{ts,tsx}": [
+      "prettier --write packages/dashboard/",
+      "eslint packages/scraper-api/"
+    ],
+    "./packages/web-scraper-proxy-manager-extension/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write packages/web-scraper-proxy-manager-extension/",
+      "eslint packages/web-scraper-proxy-manager-extension/"
     ],
     "./packages/website/**/*.{js,jsx}": [
       "prettier --write packages/website/",
@@ -58,7 +70,6 @@
     "@typescript-eslint/parser": "^5.29.0",
     "autoprefixer": "^10.4.13",
     "babel-jest": "28.1.1",
-    "caddy": "^0.0.13",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-import": "2.26.0",
@@ -67,7 +78,6 @@
     "jiti": "^1.16.0",
     "lerna": "^6.1.0",
     "nodemon": "^2.0.20",
-    "pm2": "^5.2.0",
     "postcss": "^8.4.19",
     "prettier": "^2.6.2",
     "prisma": "^4.2.1",

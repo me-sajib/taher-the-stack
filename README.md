@@ -66,8 +66,8 @@ The database will seed once you Include `seed` env variables inside `env` file.
 Run & build all apps concurrently through single commands
 
 ```bash
-yarn start:all # run all apps
-yarn build:all # build all apps
+yarn dev # run all apps
+yarn build # build all apps
 ```
 
 Visit [package.json](./package.json) `scripts` to see more commands

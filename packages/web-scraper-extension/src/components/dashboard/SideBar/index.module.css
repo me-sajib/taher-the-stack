@@ -1,0 +1,44 @@
+.container {
+  border-right-color: var(
+    --border-color
+  );
+  border-right-width: 2px;
+  border-right-style: solid;
+}
+
+.menus {
+  margin: 30px 0px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  padding: 15px 0px;
+  font-weight: bold;
+  text-decoration: none;
+
+  transition: border 250ms ease;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  margin: 0 10px;
+  font-size: 30px;
+  color: #a2a2a2;
+}
+
+.menuText {
+  color: #000;
+  font-size: 16px;
+}
+
+.active {
+  background-color: var(--border-color);
+  border-left: 3px solid
+    var(--primary-color);
+}
+
+.menu:hover {
+  background-color: rgb(201, 223, 246);
+}

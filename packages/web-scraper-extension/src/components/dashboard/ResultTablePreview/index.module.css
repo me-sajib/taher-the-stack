@@ -1,0 +1,34 @@
+.previewTable {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.propHeadings {
+  font-size: 18px;
+  padding: 30px 0;
+}
+
+.propHeadings > th {
+  padding: 15px 10px;
+}
+
+.propHeadings > th,
+tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.rowCount {
+  text-align: center;
+  font-size: 14px;
+}
+
+.data {
+  color: rgb(22, 20, 20);
+  padding: 15px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+  font-size: 13.5px;
+  white-space: nowrap;
+}
