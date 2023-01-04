@@ -30,15 +30,9 @@
     "incremental": true,
     "types": ["node"],
     "paths": {
-      "@software-sheba/*": [
-        "packages/*/src"
-      ],
-      "@software-sheba/api/src/*": [
-        "packages/api/src"
-      ],
-      "@software-sheba/dashboard/src/*": [
-        "packages/dashboard/src"
-      ],
+      "@software-sheba/*": ["packages/*/src"],
+      "@software-sheba/api/src/*": ["packages/api/src"],
+      "@software-sheba/dashboard/src/*": ["packages/dashboard/src"],
       "@software-sheba/proxy-manager-extension/src/*": [
         "packages/proxy-manager-extension/src"
       ],
@@ -51,14 +45,9 @@
       "@software-sheba/web-scraper-extension/src/*": [
         "packages/web-scraper-extension/src"
       ],
-      "@software-sheba/website/src/*": [
-        "packages/website/src"
-      ]
+      "@software-sheba/website/src/*": ["packages/website/src"]
     }
   },
   "include": ["packages/**/*"],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

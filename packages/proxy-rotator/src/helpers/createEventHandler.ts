@@ -1,14 +1,8 @@
-import {
-  ClientRequest,
-  ServerResponse
-} from 'http';
+import { ClientRequest, ServerResponse } from 'http';
 import { Socket } from 'net';
 
 export const createEventHandlers = (
-  res:
-    | ServerResponse
-    | Socket
-    | ClientRequest
+  res: ServerResponse | Socket | ClientRequest
 ) => ({
   data(chunk) {
     console.log('Write data');

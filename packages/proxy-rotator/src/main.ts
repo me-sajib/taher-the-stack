@@ -4,17 +4,9 @@ import { baseHandler } from './helpers';
 import { ServerEvent } from './interfaces';
 
 const proxyServer = http.createServer();
-const events: ServerEvent[] = [
-  'request',
-  'connect'
-];
+const events: ServerEvent[] = ['request', 'connect'];
 
-events.forEach((event) =>
-  proxyServer.on(
-    event,
-    baseHandler(event)
-  )
-);
+events.forEach((event) => proxyServer.on(event, baseHandler(event)));
 
 const port = process.env.PORT || 60000;
 

@@ -23,20 +23,14 @@ export class ProxyListService {
     private checkProxyService: CheckProxyService
   ) {}
 
-  async createProxyList(
-    list: ProxyListBodyDto,
-    userId: string
-  ) {
+  async createProxyList(list: ProxyListBodyDto, userId: string) {
     try {
-      const proxyList =
-        await this.prisma.proxyList.create(
-          {
-            data: {
-              ...list,
-              userId
-            }
-          }
-        );
+      const proxyList = await this.prisma.proxyList.create({
+        data: {
+          ...list,
+          userId
+        }
+      });
 
       Logger.log(
         `Proxy list created successfully.\n${JSON.stringify(
@@ -47,8 +41,7 @@ export class ProxyListService {
       );
       return proxyList;
     } catch (e) {
-      const uniqueError =
-        isUniqueError(e);
+      const uniqueError = isUniqueError(e);
 
       if (uniqueError) {
         return uniqueError;
@@ -58,20 +51,16 @@ export class ProxyListService {
     }
   }
 
-  async getProxyList(
-    param: ProxyListParamDto
-  ) {
+  async getProxyList(param: ProxyListParamDto) {
     const uniqueProxyList: ProxyList =
-      await this.prisma.proxyList.findUnique(
-        {
-          where: {
-            username: param.username
-          },
-          include: {
-            Proxies: true
-          }
+      await this.prisma.proxyList.findUnique({
+        where: {
+          username: param.username
+        },
+        include: {
+          Proxies: true
         }
-      );
+      });
 
     return uniqueProxyList;
   }
@@ -80,39 +69,29 @@ export class ProxyListService {
     userId: string,
     queryDto: ProxyListGetDtoQuery
   ) {
-    const proxyLists =
-      await this.prisma.proxyList.findMany(
-        {
-          where: { userId },
-          include: {
-            Proxies:
-              queryDto.includeProxies ??
-              false
-          }
-        }
-      );
+    const proxyLists = await this.prisma.proxyList.findMany({
+      where: { userId },
+      include: {
+        Proxies: queryDto.includeProxies ?? false
+      }
+    });
 
     Logger.log(`GET: all proxyList`);
 
     return proxyLists;
   }
 
-  async deleteBulkProxyList(
-    userId: string,
-    listKeys?: string[]
-  ) {
-    await this.prisma.proxyList.deleteMany(
-      {
-        where: Object.assign(
-          { userId },
-          listKeys && {
-            key: {
-              in: listKeys
-            }
+  async deleteBulkProxyList(userId: string, listKeys?: string[]) {
+    await this.prisma.proxyList.deleteMany({
+      where: Object.assign(
+        { userId },
+        listKeys && {
+          key: {
+            in: listKeys
           }
-        )
-      }
-    );
+        }
+      )
+    });
 
     listKeys
       ? Logger.log(
@@ -120,9 +99,7 @@ export class ProxyListService {
             listKeys
           )}`
         )
-      : Logger.log(
-          `DELETE: all proxy lists`
-        );
+      : Logger.log(`DELETE: all proxy lists`);
 
     return new HttpException(
       'Deleted proxy list successfully',
@@ -130,31 +107,23 @@ export class ProxyListService {
     );
   }
 
-  async bulkUpdateProxyList(
-    updatedProxyList: ProxyListUpdateDto[]
-  ) {
+  async bulkUpdateProxyList(updatedProxyList: ProxyListUpdateDto[]) {
     const updatedList = [];
 
     for (const proxyList of updatedProxyList) {
-      const {
-        key,
-        ...restUpdatedProxyList
-      } = proxyList;
+      const { key, ...restUpdatedProxyList } = proxyList;
 
       try {
         updatedList.push(
-          await this.prisma.proxyList.update(
-            {
-              where: {
-                key
-              },
-              data: restUpdatedProxyList
-            }
-          )
+          await this.prisma.proxyList.update({
+            where: {
+              key
+            },
+            data: restUpdatedProxyList
+          })
         );
       } catch (e) {
-        const uniqueError =
-          isUniqueError(e);
+        const uniqueError = isUniqueError(e);
 
         if (uniqueError) {
           return uniqueError;
@@ -167,54 +136,39 @@ export class ProxyListService {
     return updatedList;
   }
 
-  async checkProxyList({
-    checkProxyListIds
-  }: CheckProxyListBody) {
+  async checkProxyList({ checkProxyListIds }: CheckProxyListBody) {
     // update all selected proxy list checking to true
-    await this.prisma.proxyList.updateMany(
-      {
-        where: {
-          key: {
-            in: checkProxyListIds
-          }
-        },
-        data: {
-          checking: true
+    await this.prisma.proxyList.updateMany({
+      where: {
+        key: {
+          in: checkProxyListIds
         }
+      },
+      data: {
+        checking: true
       }
-    );
+    });
 
     // this map holding key as proxy id and value is the key of that proxy
-    const checkingMap: Map<
-      number,
-      string
-    > = new Map();
+    const checkingMap: Map<number, string> = new Map();
 
     for (const proxyListId of checkProxyListIds) {
       // select all proxies of proxy list and store it in checkingMap
-      const proxyIds =
-        await this.prisma.proxyList.findUnique(
-          {
-            where: {
-              key: proxyListId
-            },
+      const proxyIds = await this.prisma.proxyList.findUnique({
+        where: {
+          key: proxyListId
+        },
+        select: {
+          Proxies: {
             select: {
-              Proxies: {
-                select: {
-                  id: true
-                }
-              }
+              id: true
             }
           }
-        );
+        }
+      });
 
-      for (const {
-        id
-      } of proxyIds.Proxies) {
-        checkingMap.set(
-          id,
-          proxyListId
-        );
+      for (const { id } of proxyIds.Proxies) {
+        checkingMap.set(id, proxyListId);
       }
     }
 
@@ -245,29 +199,24 @@ export class ProxyListService {
 
     for (const id of checkingMap.keys()) {
       await this.checkProxyService.getProxyStatus(
-        await this.checkProxyService.getProxy(
-          id
-        )
+        await this.checkProxyService.getProxy(id)
       );
 
-      const proxyKey: string =
-        checkingMap.get(id);
+      const proxyKey: string = checkingMap.get(id);
 
       proxyKeyMap[proxyKey]--;
 
       if (proxyKeyMap[proxyKey] === 0) {
         delete proxyKeyMap[proxyKey];
 
-        await this.prisma.proxyList.update(
-          {
-            where: {
-              key: proxyKey
-            },
-            data: {
-              checking: false
-            }
+        await this.prisma.proxyList.update({
+          where: {
+            key: proxyKey
+          },
+          data: {
+            checking: false
           }
-        );
+        });
       }
 
       checkingMap.delete(id);

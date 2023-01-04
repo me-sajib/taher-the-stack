@@ -12,8 +12,7 @@ export default function CssBaseline() {
         html: {
           width: '100%',
           height: '100%',
-          WebkitOverflowScrolling:
-            'touch'
+          WebkitOverflowScrolling: 'touch'
         },
         body: {
           width: '100%',
@@ -26,16 +25,14 @@ export default function CssBaseline() {
         input: {
           '&[type=number]': {
             MozAppearance: 'textfield',
-            '&::-webkit-outer-spin-button':
-              {
-                margin: 0,
-                WebkitAppearance: 'none'
-              },
-            '&::-webkit-inner-spin-button':
-              {
-                margin: 0,
-                WebkitAppearance: 'none'
-              }
+            '&::-webkit-outer-spin-button': {
+              margin: 0,
+              WebkitAppearance: 'none'
+            },
+            '&::-webkit-inner-spin-button': {
+              margin: 0,
+              WebkitAppearance: 'none'
+            }
           }
         },
         img: {

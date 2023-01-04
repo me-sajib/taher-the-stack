@@ -8,10 +8,7 @@ import {
   ResultSchema,
   ScrapeSelectors
 } from '../interfaces/extension';
-import {
-  makeResultSchema,
-  resultScraper
-} from './resultScraper';
+import { makeResultSchema, resultScraper } from './resultScraper';
 import sendAction from './sendAction';
 
 const viewResult = (
@@ -20,39 +17,29 @@ const viewResult = (
 ) => {
   const resultSchema: ResultSchema =
     makeResultSchema(scrapeSelectors);
-  let results: Result[],
-    totalScraped: number;
+  let results: Result[], totalScraped: number;
   store.dispatch(toggleScrapping());
 
   if (paginate.limit) {
     results = [];
     totalScraped = 0;
   } else {
-    results = resultScraper(
-      resultSchema
-    );
-    totalScraped = Object.values(
-      scrapeSelectors
-    ).reduce(
-      (total, select) =>
-        total + select.totalCount,
+    results = resultScraper(resultSchema);
+    totalScraped = Object.values(scrapeSelectors).reduce(
+      (total, select) => total + select.totalCount,
       0
     );
   }
 
-  const scrapedInfos: ScrapedPageInfo =
-    {
-      url: document.location.href,
-      paginate,
-      resultSchema,
-      results,
-      totalScraped
-    };
+  const scrapedInfos: ScrapedPageInfo = {
+    url: document.location.href,
+    paginate,
+    resultSchema,
+    results,
+    totalScraped
+  };
 
-  sendAction(
-    scrapedInfos,
-    'VIEW_RESULT'
-  );
+  sendAction(scrapedInfos, 'VIEW_RESULT');
 };
 
 export default viewResult;

@@ -17,42 +17,29 @@ const getSiblingSelector = (
     prevSiblingSelector ?? selector
   } + ${selector}`;
 
-  const generalQueryCount: number =
-    elementQueryCount(
-      generalQuery,
-      parent
-    );
-  const foundElementPosition = (
-    query: string
-  ) => {
-    const foundElement: Element = $(
-      query,
-      parent
-    )!;
-    return (
-      getElementIndex(foundElement) + 1
-    );
+  const generalQueryCount: number = elementQueryCount(
+    generalQuery,
+    parent
+  );
+  const foundElementPosition = (query: string) => {
+    const foundElement: Element = $(query, parent)!;
+    return getElementIndex(foundElement) + 1;
   };
 
   if (
     generalQueryCount === 1 &&
-    foundElementPosition(
-      generalQuery
-    ) === position
+    foundElementPosition(generalQuery) === position
   ) {
     return generalQuery;
   }
 
-  const adjacentQueryCount: number =
-    elementQueryCount(
-      adjacentQuery,
-      parent
-    );
+  const adjacentQueryCount: number = elementQueryCount(
+    adjacentQuery,
+    parent
+  );
   if (
     adjacentQueryCount === 1 &&
-    foundElementPosition(
-      adjacentQuery
-    ) === position
+    foundElementPosition(adjacentQuery) === position
   ) {
     return adjacentQuery;
   }

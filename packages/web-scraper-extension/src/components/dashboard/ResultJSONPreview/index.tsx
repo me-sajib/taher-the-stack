@@ -7,9 +7,7 @@ interface ResultPropTypes {
   results: Result[];
 }
 
-const ResultJSONPreview = ({
-  results
-}: ResultPropTypes) => (
+const ResultJSONPreview = ({ results }: ResultPropTypes) => (
   <Pagination results={results}>
     {(slicedResult) => (
       <SyntaxHighlighter
@@ -20,11 +18,7 @@ const ResultJSONPreview = ({
         }}
         showLineNumbers={true}
       >
-        {JSON.stringify(
-          slicedResult,
-          null,
-          2
-        )}
+        {JSON.stringify(slicedResult, null, 2)}
       </SyntaxHighlighter>
     )}
   </Pagination>

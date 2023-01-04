@@ -4,10 +4,7 @@ import { ParseModule } from './parse/parse.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
-    ParseModule,
-    ConfigModule.forRoot()
-  ],
+  imports: [ParseModule, ConfigModule.forRoot()],
   controllers: [AppController]
 })
 export class AppModule {}

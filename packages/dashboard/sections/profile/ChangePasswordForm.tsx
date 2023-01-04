@@ -17,16 +17,14 @@ interface ChangePasswordTypes {
 }
 
 export default function ChangePasswordForm() {
-  const changePassDefaultValue: ChangePasswordTypes =
-    {
-      currentPassword: '',
-      newPassword: '',
-      reenterPassword: ''
-    };
+  const changePassDefaultValue: ChangePasswordTypes = {
+    currentPassword: '',
+    newPassword: '',
+    reenterPassword: ''
+  };
 
   const method = useForm({
-    defaultValues:
-      changePassDefaultValue
+    defaultValues: changePassDefaultValue
   });
 
   const {
@@ -36,43 +34,25 @@ export default function ChangePasswordForm() {
     formState: { isSubmitting }
   } = method;
 
-  const submitHandler = async (
-    formData: ChangePasswordTypes
-  ) => {
-    if (
-      formData.newPassword !==
-      formData.reenterPassword
-    ) {
-      const message =
-        'Password are not same';
+  const submitHandler = async (formData: ChangePasswordTypes) => {
+    if (formData.newPassword !== formData.reenterPassword) {
+      const message = 'Password are not same';
       setError('newPassword', {
         message
       });
-      setError(
-        'reenterPassword',
-        { message },
-        { shouldFocus: true }
-      );
+      setError('reenterPassword', { message }, { shouldFocus: true });
       return;
     }
 
-    const { data } = await axios.patch(
-      '/api/user/password-reset',
-      {
-        newPassword:
-          formData.newPassword,
-        currentPassword:
-          formData.currentPassword
-      }
-    );
+    const { data } = await axios.patch('/api/user/password-reset', {
+      newPassword: formData.newPassword,
+      currentPassword: formData.currentPassword
+    });
 
     if (data.status === 403) {
-      return setError(
-        'currentPassword',
-        {
-          message: data.message
-        }
-      );
+      return setError('currentPassword', {
+        message: data.message
+      });
     }
 
     reset();
@@ -81,9 +61,7 @@ export default function ChangePasswordForm() {
   return (
     <FormProvider
       methods={method}
-      onSubmit={handleSubmit(
-        submitHandler
-      )}
+      onSubmit={handleSubmit(submitHandler)}
     >
       <div className="flex gap-3">
         <RHFPasswordField

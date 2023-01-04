@@ -31,10 +31,7 @@ const Button = ({
 }: ButtonPropTypes) => (
   <button
     type="button"
-    className={addClass(
-      classes!,
-      'scrape-button'
-    )}
+    className={addClass(classes!, 'scrape-button')}
     onClick={clickAction}
   >
     {children}

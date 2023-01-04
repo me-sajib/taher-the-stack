@@ -1,11 +1,5 @@
-import {
-  useEffect,
-  useState
-} from 'react';
-import {
-  useAppDispatch,
-  useAppSelector
-} from '../../../app/hooks';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   getRecipes,
   saveToRecipe,
@@ -14,10 +8,7 @@ import {
 import { EXTENSION_TAG_NAME } from '../../../global';
 import removeRecipeProp from '../../../helpers/removeRecipeProp';
 import useRecipeForm from '../../../hooks/useRecipeForm';
-import {
-  Page,
-  Recipe
-} from '../../../interfaces/dashboard';
+import { Page, Recipe } from '../../../interfaces/dashboard';
 import addClass from '../../../utils/addClass';
 import createFormatDate from '../../../utils/createFormatDate';
 import RecipeFormEditor from '../RecipeFormEditor';
@@ -29,34 +20,24 @@ interface SaveRecipePropTypes {
   page: Page | Recipe;
 }
 
-const SaveRecipe = ({
-  page
-}: SaveRecipePropTypes) => {
-  const recipes =
-    useAppSelector(getRecipes);
+const SaveRecipe = ({ page }: SaveRecipePropTypes) => {
+  const recipes = useAppSelector(getRecipes);
   const dispatch = useAppDispatch();
 
-  const {
-    recipeForm,
-    isValidForm,
-    resultSchema,
-    setRecipeForm
-  } = useRecipeForm(page);
-  const [isSaved, setSaveStatus] =
-    useState<boolean>(false);
+  const { recipeForm, isValidForm, resultSchema, setRecipeForm } =
+    useRecipeForm(page);
+  const [isSaved, setSaveStatus] = useState<boolean>(false);
 
   useEffect(() => {
     if (chrome.storage) {
       chrome.storage.sync.set({
-        [EXTENSION_TAG_NAME]:
-          removeRecipeProp(recipes)
+        [EXTENSION_TAG_NAME]: removeRecipeProp(recipes)
       });
     }
   }, [recipes]);
 
   const saveRecipeHandler = () => {
-    const { name, url, paginate } =
-      recipeForm;
+    const { name, url, paginate } = recipeForm;
     const updatedRecipe = {
       name,
       url,
@@ -66,42 +47,24 @@ const SaveRecipe = ({
       updateAt: null
     };
 
-    dispatch(
-      updateCurrentPage(updatedRecipe)
-    );
-    dispatch(
-      saveToRecipe(updatedRecipe)
-    );
+    dispatch(updateCurrentPage(updatedRecipe));
+    dispatch(saveToRecipe(updatedRecipe));
 
     setSaveStatus(true);
   };
 
   return (
     <RecipeLayout heading="Save scrapping recipe">
-      <RecipeFormEditor
-        state={recipeForm}
-        setState={setRecipeForm}
-      />
+      <RecipeFormEditor state={recipeForm} setState={setRecipeForm} />
 
-      <div
-        className={
-          classes.actionButtons
-        }
-      >
+      <div className={classes.actionButtons}>
         <TinyButton
           classes={addClass(
-            (!isValidForm || isSaved) &&
-              classes.disabled,
+            (!isValidForm || isSaved) && classes.disabled,
             classes.create
           )}
-          innerText={
-            isSaved
-              ? 'saved'
-              : 'Create recipe'
-          }
-          clickHandler={
-            saveRecipeHandler
-          }
+          innerText={isSaved ? 'saved' : 'Create recipe'}
+          clickHandler={saveRecipeHandler}
         />
       </div>
     </RecipeLayout>

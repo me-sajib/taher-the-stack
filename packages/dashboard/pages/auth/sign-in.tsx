@@ -13,8 +13,7 @@ export default function SingInPage() {
       }}
       form={{
         title: 'Sign in',
-        subTitle:
-          'Enter your credentials below.'
+        subTitle: 'Enter your credentials below.'
       }}
     >
       <SignInForm />

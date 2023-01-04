@@ -1,78 +1,39 @@
 import flatten from 'flat';
-import {
-  useCallback,
-  useEffect,
-  useState
-} from 'react';
-import {
-  Page,
-  PageFormState,
-  Recipe
-} from '../interfaces/dashboard';
+import { useCallback, useEffect, useState } from 'react';
+import { Page, PageFormState, Recipe } from '../interfaces/dashboard';
 import { ResultSchema } from '../interfaces/extension';
 import generatePerfectKey from '../utils/generatePerfectKey';
 import objectToArray from '../utils/ObjectToArray';
 
-const generateStateFromRecipe = (
-  recipe: Recipe | Page
-) => {
-  const {
-    name,
-    url,
-    paginate,
-    resultSchema
-  } = recipe;
+const generateStateFromRecipe = (recipe: Recipe | Page) => {
+  const { name, url, paginate, resultSchema } = recipe;
   return {
     name,
     url,
     paginate,
-    resultSchemas: objectToArray(
-      resultSchema
-    )
+    resultSchemas: objectToArray(resultSchema)
   };
 };
 
-const useRecipeForm = (
-  recipe: Recipe | Page
-) => {
-  const modifiedRecipe =
-    generateStateFromRecipe(recipe);
-  type StateResult =
-    typeof modifiedRecipe.resultSchemas;
+const useRecipeForm = (recipe: Recipe | Page) => {
+  const modifiedRecipe = generateStateFromRecipe(recipe);
+  type StateResult = typeof modifiedRecipe.resultSchemas;
   const [recipeForm, setRecipeForm] =
-    useState<
-      PageFormState<StateResult>
-    >(modifiedRecipe);
-  const [
-    isValidForm,
-    setValidationForm
-  ] = useState<boolean>(false);
+    useState<PageFormState<StateResult>>(modifiedRecipe);
+  const [isValidForm, setValidationForm] = useState<boolean>(false);
 
   useEffect(() => {
-    setRecipeForm(
-      generateStateFromRecipe(recipe)
-    );
+    setRecipeForm(generateStateFromRecipe(recipe));
   }, [recipe]);
 
   const toResultSchema = useCallback(
     () =>
       recipeForm.resultSchemas.reduce(
-        (
-          acc,
-          {
-            key: name,
-            value: selectors
-          }
-        ) => {
+        (acc, { key: name, value: selectors }) => {
           if (selectors.length) {
             // if any selector exist
             if (name in acc) {
-              acc[
-                generatePerfectKey(
-                  acc,
-                  name
-                )
-              ] = selectors;
+              acc[generatePerfectKey(acc, name)] = selectors;
             } else {
               acc[name] = selectors;
             }
@@ -92,11 +53,7 @@ const useRecipeForm = (
       cloneForm = flatten(cloneForm);
     }
 
-    setValidationForm(
-      Object.values(cloneForm).every(
-        String
-      )
-    );
+    setValidationForm(Object.values(cloneForm).every(String));
   }, [recipeForm]);
 
   return {

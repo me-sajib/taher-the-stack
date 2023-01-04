@@ -1,8 +1,4 @@
-import {
-  Grid,
-  Skeleton,
-  Stack
-} from '@mui/material';
+import { Grid, Skeleton, Stack } from '@mui/material';
 
 const LoadingListFallback = () => (
   <Grid

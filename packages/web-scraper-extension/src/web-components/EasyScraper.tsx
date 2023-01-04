@@ -16,35 +16,22 @@ class EasyScraper extends HTMLElement {
   constructor() {
     super();
 
-    const closedShadow: ShadowRoot =
-      this.attachShadow({
-        mode: 'closed'
-      });
-    const root = createRoot(
-      closedShadow
-    );
-    const extensionStyles: HTMLStyleElement =
-      generateCSS(stylesJss);
+    const closedShadow: ShadowRoot = this.attachShadow({
+      mode: 'closed'
+    });
+    const root = createRoot(closedShadow);
+    const extensionStyles: HTMLStyleElement = generateCSS(stylesJss);
 
-    const externalStyles: HTMLStyleElement =
-      Object.assign(
-        generateCSS(
-          generateDetectionTheme(
-            colorPalate.current
-          )
-        ),
-        {
-          id: DETECTION_STYLE_ID,
-          type: 'text/css'
-        }
-      );
+    const externalStyles: HTMLStyleElement = Object.assign(
+      generateCSS(generateDetectionTheme(colorPalate.current)),
+      {
+        id: DETECTION_STYLE_ID,
+        type: 'text/css'
+      }
+    );
 
-    document.head.appendChild(
-      externalStyles
-    );
-    closedShadow.appendChild(
-      extensionStyles
-    );
+    document.head.appendChild(externalStyles);
+    closedShadow.appendChild(extensionStyles);
 
     marginTop('body', '80px', () =>
       root.render(

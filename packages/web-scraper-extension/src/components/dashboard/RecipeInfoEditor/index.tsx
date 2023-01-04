@@ -6,9 +6,7 @@ import SectionLayout from '../SectionLayout';
 interface RecipeInfoEditorPropTypes {
   name: string;
   url: string;
-  setFormState: React.Dispatch<
-    React.SetStateAction<any>
-  >;
+  setFormState: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const RecipeInfoEditor = ({
@@ -16,17 +14,13 @@ const RecipeInfoEditor = ({
   url,
   setFormState
 }: RecipeInfoEditorPropTypes) => {
-  const blurHandler = (
-    e: React.FocusEvent<HTMLInputElement>
-  ) => {
+  const blurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormState(
-      (prevState: PageFormState) => ({
-        ...prevState,
-        [name]: value
-      })
-    );
+    setFormState((prevState: PageFormState) => ({
+      ...prevState,
+      [name]: value
+    }));
   };
   return (
     <SectionLayout

@@ -69,8 +69,7 @@ export interface ElementDetails {
   ref: Element;
 }
 
-export interface ElementFootprint
-  extends ElementDetails {
+export interface ElementFootprint extends ElementDetails {
   siblings: {
     prev: Array<ElementDetails>;
     next: Array<ElementDetails>;
@@ -101,7 +100,5 @@ export interface MultiResult {
 }
 
 export interface Result {
-  [propertyName: keyof ResultSchema]:
-    | string
-    | MultiResult;
+  [propertyName: keyof ResultSchema]: string | MultiResult;
 }

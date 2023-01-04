@@ -6,10 +6,7 @@ export default function Card(theme) {
       styleOverrides: {
         root: {
           boxShadow: theme.shadows[2],
-          borderRadius:
-            Number(
-              theme.shape.borderRadius
-            ) * 2,
+          borderRadius: Number(theme.shape.borderRadius) * 2,
           position: 'relative',
           zIndex: 0 // Fix Safari overflow: hidden with border radius
         }
@@ -26,11 +23,7 @@ export default function Card(theme) {
       },
       styleOverrides: {
         root: {
-          padding: theme.spacing(
-            3,
-            3,
-            0
-          )
+          padding: theme.spacing(3, 3, 0)
         }
       }
     },

@@ -1,10 +1,7 @@
 import clsx from 'clsx';
 import { getChange } from 'packages/dashboard/utils';
 import { Validator } from 'packages/dashboard/validator';
-import React, {
-  useEffect,
-  useState
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from './Button';
 import { Modal } from './Modal';
 
@@ -12,14 +9,10 @@ interface BulkEditorTypes {
   modalId: string;
   title: string;
   editStateData: string;
-  bulkEditHandler: (
-    changedMap: Map<number, any>
-  ) => void;
+  bulkEditHandler: (changedMap: Map<number, any>) => void;
   extraValidation?: (
     changedMap: Map<number, any>,
-    setError: React.Dispatch<
-      React.SetStateAction<string>
-    >
+    setError: React.Dispatch<React.SetStateAction<string>>
   ) => boolean;
 }
 
@@ -30,10 +23,8 @@ export default function BulkEditor({
   bulkEditHandler,
   extraValidation
 }: BulkEditorTypes) {
-  const [modalText, setModalText] =
-    useState(editStateData);
-  const [bulkError, setBulkError] =
-    useState('');
+  const [modalText, setModalText] = useState(editStateData);
+  const [bulkError, setBulkError] = useState('');
 
   useEffect(() => {
     setModalText(editStateData);
@@ -45,46 +36,29 @@ export default function BulkEditor({
     setModalText(e.target.value);
   };
 
-  const validateBulkData = (
-    changedMap: Map<number, any>
-  ) => {
+  const validateBulkData = (changedMap: Map<number, any>) => {
     for (const obj of changedMap.values()) {
-      const validator = new Validator(
-        obj
-      );
-      const isValidMessage =
-        validator.lunch();
+      const validator = new Validator(obj);
+      const isValidMessage = validator.lunch();
 
       if (isValidMessage !== true) {
-        setBulkError(
-          isValidMessage as string
-        );
+        setBulkError(isValidMessage as string);
         return false;
       }
     }
 
     return extraValidation
-      ? extraValidation(
-          changedMap,
-          setBulkError
-        )
+      ? extraValidation(changedMap, setBulkError)
       : true;
   };
 
   const saveHandler = () => {
     try {
-      const recentChange =
-        JSON.parse(modalText);
-      const prevState = JSON.parse(
-        editStateData
-      );
-      const changedMap = getChange(
-        prevState,
-        recentChange
-      );
+      const recentChange = JSON.parse(modalText);
+      const prevState = JSON.parse(editStateData);
+      const changedMap = getChange(prevState, recentChange);
 
-      const isValid =
-        validateBulkData(changedMap);
+      const isValid = validateBulkData(changedMap);
 
       if (isValid) {
         bulkEditHandler(changedMap);
@@ -96,20 +70,15 @@ export default function BulkEditor({
   };
 
   return (
-    <Modal
-      title={title}
-      modalId={modalId}
-    >
+    <Modal title={title} modalId={modalId}>
       {() => (
         <div className="flex flex-col gap-3 py-5">
           <textarea
             className={clsx(
               'textarea h-64 max-w-full resize-none bg-transparent text-black',
               {
-                'textarea-primary':
-                  !bulkError,
-                'textarea-error':
-                  bulkError
+                'textarea-primary': !bulkError,
+                'textarea-error': bulkError
               }
             )}
             placeholder="JSON"
@@ -117,14 +86,9 @@ export default function BulkEditor({
             onChange={changeHandler}
           />
           {bulkError && (
-            <span className="mt-1 text-red-500">
-              {bulkError}
-            </span>
+            <span className="mt-1 text-red-500">{bulkError}</span>
           )}
-          <Button
-            text="Update"
-            clickHandler={saveHandler}
-          />
+          <Button text="Update" clickHandler={saveHandler} />
         </div>
       )}
     </Modal>

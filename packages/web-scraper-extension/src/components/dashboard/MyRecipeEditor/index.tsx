@@ -5,10 +5,7 @@ import {
   useNavigate,
   useParams
 } from 'react-router-dom';
-import {
-  useAppDispatch,
-  useAppSelector
-} from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { store } from '../../../app/store';
 import {
   deleteRecipe,
@@ -24,10 +21,7 @@ import { EXTENSION_TAG_NAME } from '../../../global';
 import removeRecipeProp from '../../../helpers/removeRecipeProp';
 import sendAction from '../../../helpers/sendAction';
 import useRecipeForm from '../../../hooks/useRecipeForm';
-import {
-  Recipe,
-  Recipes
-} from '../../../interfaces/dashboard';
+import { Recipe, Recipes } from '../../../interfaces/dashboard';
 import addClass from '../../../utils/addClass';
 import createFormatDate from '../../../utils/createFormatDate';
 import InfiniteLoading from '../../loaders/InfiniteLoading';
@@ -44,25 +38,16 @@ const recipeResultHandler =
   (
     { type, payload }: any,
     _: chrome.runtime.MessageSender,
-    sendResponse: (
-      response?: any
-    ) => void
+    sendResponse: (response?: any) => void
   ) => {
     if (type === 'OPEN_RECIPE_RESULT') {
-      const {
-        url,
-        id,
-        results,
-        totalScraped,
-        startTime
-      } = payload;
-      const { recipes } =
-        store.getState().dashboard;
+      const { url, id, results, totalScraped, startTime } = payload;
+      const { recipes } = store.getState().dashboard;
       const { hostname } = new URL(url);
 
-      const recipe: Recipe = recipes[
-        hostname as keyof Recipes
-      ].at(Number(id) - 1)!;
+      const recipe: Recipe = recipes[hostname as keyof Recipes].at(
+        Number(id) - 1
+      )!;
 
       store.dispatch(
         updateRecipe({
@@ -70,56 +55,36 @@ const recipeResultHandler =
           id,
           recipe: {
             ...recipe,
-            updateAt:
-              createFormatDate(),
+            updateAt: createFormatDate(),
             results,
             totalScraped,
-            duration:
-              formatDistanceStrict(
-                startTime,
-                new Date()
-              )
+            duration: formatDistanceStrict(startTime, new Date())
           }
         })
       );
 
-      sendResponse(
-        `Updated recipe ${payload.name}`
-      );
-      navigate(
-        `/my-recipe/${hostname}/${id}/result`
-      ); // navigate to result page
+      sendResponse(`Updated recipe ${payload.name}`);
+      navigate(`/my-recipe/${hostname}/${id}/result`); // navigate to result page
     }
   };
 
 const MyRecipeEditor = () => {
-  const recipes =
-    useAppSelector(getRecipes);
+  const recipes = useAppSelector(getRecipes);
   const { hostname, id } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const recipe: Recipe = recipes[
-    hostname as string
-  ].at(Number(id) - 1)!;
-  const {
-    recipeForm,
-    isValidForm,
-    resultSchema,
-    setRecipeForm
-  } = useRecipeForm(recipe);
-  const isScrapping = useAppSelector(
-    getIsScrapping
-  );
+  const recipe: Recipe = recipes[hostname as string].at(
+    Number(id) - 1
+  )!;
+  const { recipeForm, isValidForm, resultSchema, setRecipeForm } =
+    useRecipeForm(recipe);
+  const isScrapping = useAppSelector(getIsScrapping);
 
-  const hasResult = Boolean(
-    recipe.totalScraped
-  );
+  const hasResult = Boolean(recipe.totalScraped);
 
   const navigateResult = () =>
-    navigate(
-      `/my-recipe/${hostname}/${id}/result`
-    );
+    navigate(`/my-recipe/${hostname}/${id}/result`);
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener(
@@ -130,8 +95,7 @@ const MyRecipeEditor = () => {
   useEffect(() => {
     if (chrome.storage) {
       chrome.storage.sync.set({
-        [EXTENSION_TAG_NAME]:
-          removeRecipeProp(recipes)
+        [EXTENSION_TAG_NAME]: removeRecipeProp(recipes)
       });
     }
   }, [recipes]);
@@ -152,8 +116,7 @@ const MyRecipeEditor = () => {
   };
 
   const runRecipeHandler = () => {
-    const { url, paginate } =
-      recipeForm;
+    const { url, paginate } = recipeForm;
     dispatch(toggleScrapping());
     sendAction(
       {
@@ -161,9 +124,7 @@ const MyRecipeEditor = () => {
         url,
         paginate: {
           ...paginate,
-          limit: !paginate.limit
-            ? 1
-            : paginate.limit
+          limit: !paginate.limit ? 1 : paginate.limit
         },
         resultSchema,
         results: [],
@@ -174,8 +135,7 @@ const MyRecipeEditor = () => {
   };
 
   const cloneRecipeHandler = () => {
-    const cloneRecipe =
-      structuredClone(recipe);
+    const cloneRecipe = structuredClone(recipe);
     cloneRecipe.name = `${recipe.name}_clone`;
 
     dispatch(saveToRecipe(cloneRecipe));
@@ -195,69 +155,43 @@ const MyRecipeEditor = () => {
   return (
     <RecipeLayout
       heading={recipe.name}
-      headingClasses={
-        classes.recipeFormHeading
-      }
+      headingClasses={classes.recipeFormHeading}
     >
-      <div
-        className={classes.runButtons}
-      >
+      <div className={classes.runButtons}>
         {hasResult && (
           <TinyButton
             classes={classes.runButton}
             innerText={'result'}
-            clickHandler={
-              navigateResult
-            }
+            clickHandler={navigateResult}
           />
         )}
         <TinyButton
           classes={classes.runButton}
           innerText={'run recipe'}
-          clickHandler={
-            runRecipeHandler
-          }
+          clickHandler={runRecipeHandler}
           disable={isScrapping}
         >
-          {isScrapping && (
-            <InfiniteLoading />
-          )}
+          {isScrapping && <InfiniteLoading />}
         </TinyButton>
         <TinyButton
           classes={classes.runButton}
           innerText={'clone recipe'}
-          clickHandler={
-            cloneRecipeHandler
-          }
+          clickHandler={cloneRecipeHandler}
         />
       </div>
       <Divider />
-      <RecipeFormEditor
-        state={recipeForm}
-        setState={setRecipeForm}
-      />
+      <RecipeFormEditor state={recipeForm} setState={setRecipeForm} />
 
-      <div
-        className={
-          classes.actionButtons
-        }
-      >
+      <div className={classes.actionButtons}>
         <TinyButton
           classes={classes.delete}
           innerText="delete"
-          clickHandler={
-            deleteRecipeHandler
-          }
+          clickHandler={deleteRecipeHandler}
         />
         <TinyButton
-          classes={addClass(
-            !isValidForm &&
-              classes.disabled
-          )}
+          classes={addClass(!isValidForm && classes.disabled)}
           innerText={'update'}
-          clickHandler={
-            updateRecipeHandler
-          }
+          clickHandler={updateRecipeHandler}
         />
       </div>
     </RecipeLayout>

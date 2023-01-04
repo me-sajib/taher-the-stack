@@ -1,7 +1,4 @@
-import {
-  Proxy,
-  ProxyList
-} from '@prisma/client';
+import { Proxy, ProxyList } from '@prisma/client';
 
 export interface RotateProxy {
   host: string;
@@ -22,16 +19,12 @@ export interface Auth {
   password: string;
 }
 
-export type ProxyListWithProxy =
-  ProxyList & {
-    Proxies: Proxy[];
-  };
+export type ProxyListWithProxy = ProxyList & {
+  Proxies: Proxy[];
+};
 
-export type ServerEvent =
-  | 'request'
-  | 'connect';
+export type ServerEvent = 'request' | 'connect';
 
-export interface ResponseError
-  extends Error {
+export interface ResponseError extends Error {
   statusCode?: number;
 }

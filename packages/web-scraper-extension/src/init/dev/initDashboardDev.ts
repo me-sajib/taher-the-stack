@@ -4,24 +4,19 @@ import { ScrapedPageInfo } from '../../interfaces/dashboard';
 import initDashboardProd from '../prod/initDashboardProd';
 
 const createDashboard = () => {
-  const children: Element[] = [
-    ...document.body.children
-  ];
+  const children: Element[] = [...document.body.children];
 
   for (const node of children) {
     BODY_HOLDER.appendChild(node);
   }
 
-  const dashboard: HTMLDivElement =
-    document.createElement('div');
+  const dashboard: HTMLDivElement = document.createElement('div');
   dashboard.id = 'root';
 
   document.body.appendChild(dashboard);
 };
 
-const initDashboardDev = (
-  scrapedInfo: ScrapedPageInfo
-) => {
+const initDashboardDev = (scrapedInfo: ScrapedPageInfo) => {
   removeElementDetector();
   createDashboard();
 

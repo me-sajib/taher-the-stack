@@ -6,10 +6,6 @@ test('Unit test of generatePerfectKey function', () => {
     type: 'scraper'
   };
 
-  expect(
-    generatePerfectKey(obj, 'name')
-  ).toBe('name__2');
-  expect(
-    generatePerfectKey(obj, 'type')
-  ).toBe('type__2');
+  expect(generatePerfectKey(obj, 'name')).toBe('name__2');
+  expect(generatePerfectKey(obj, 'type')).toBe('type__2');
 });

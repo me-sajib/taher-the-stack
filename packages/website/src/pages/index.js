@@ -8,55 +8,34 @@ import HomepageFeatures from '../components/HomepageFeatures';
 import styles from './index.module.css';
 
 function HomepageHeader() {
-  const { siteConfig } =
-    useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
 
   return (
-    <header
-      className={styles.heroBanner}
-    >
+    <header className={styles.heroBanner}>
       <div className="container">
         <div className="row padding-horiz--md">
           <div className="col col--7">
-            <div
-              className={clsx(
-                styles.relative,
-                'row'
-              )}
-            >
+            <div className={clsx(styles.relative, 'row')}>
               <div className="col">
-                <h1
-                  className={
-                    styles.tagline
-                  }
-                >
-                  The extension <br />{' '}
-                  makes it easy to{' '}
-                  <br /> use proxies
+                <h1 className={styles.tagline}>
+                  The extension <br /> makes it easy to <br /> use
+                  proxies
                 </h1>
               </div>
             </div>
             <div className="row">
               <div className="col">
                 <h2>
-                  It helps you to manage
-                  your proxies with
-                  ease.
+                  It helps you to manage your proxies with ease.
                 </h2>
               </div>
             </div>
             <div className="row">
               <div className="col">
-                <div
-                  className={
-                    styles.heroButtons
-                  }
-                >
+                <div className={styles.heroButtons}>
                   <Link
                     to="docs/introduction"
-                    className={
-                      styles.getStarted
-                    }
+                    className={styles.getStarted}
                   >
                     Get Started
                   </Link>
@@ -73,11 +52,7 @@ function HomepageHeader() {
             </div>
           </div>
           <div
-            className={clsx(
-              styles.relative,
-              'col',
-              'col--5'
-            )}
+            className={clsx(styles.relative, 'col', 'col--5')}
           ></div>
         </div>
       </div>
@@ -86,8 +61,7 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-  const { siteConfig } =
-    useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
       title={siteConfig.title}

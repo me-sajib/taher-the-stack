@@ -1,9 +1,4 @@
-import {
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import icon from '../../icon';
 import addClass from '../../utils/addClass';
 import generateUid from '../../utils/generateUid';
@@ -24,14 +19,10 @@ const SelectGroup = ({
   placeholder = 'Select an option',
   liftValue
 }: SelectGroupPropTypes) => {
-  const [selectValue, setSelectValue] =
-    useState<string>(placeholder);
-  const [open, setOpen] =
-    useState<boolean>(false);
-  const [focusIndex, setFocusIndex] =
-    useState<number>(0);
-  const ref =
-    useRef<HTMLInputElement>(null);
+  const [selectValue, setSelectValue] = useState<string>(placeholder);
+  const [open, setOpen] = useState<boolean>(false);
+  const [focusIndex, setFocusIndex] = useState<number>(0);
+  const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open) {
@@ -40,13 +31,10 @@ const SelectGroup = ({
   }, [open]);
 
   const selectedChangeHandler = () => {
-    const focusValue: string =
-      options.at(focusIndex)!;
+    const focusValue: string = options.at(focusIndex)!;
 
     if (focusValue === selectValue) {
-      return setSelectValue(
-        placeholder
-      );
+      return setSelectValue(placeholder);
     }
 
     setSelectValue(focusValue);
@@ -55,26 +43,17 @@ const SelectGroup = ({
     liftValue(focusValue);
   };
 
-  const focusHandler = () =>
-    setOpen(true);
-  const clickOpenHandler = () =>
-    setOpen(!open);
+  const focusHandler = () => setOpen(true);
+  const clickOpenHandler = () => setOpen(!open);
 
-  const keyboardHandler = (
-    e: KeyboardEvent<HTMLInputElement>
-  ) => {
+  const keyboardHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     const { length } = options;
 
     switch (e.key) {
       case 'ArrowUp':
-        return setFocusIndex(
-          (length + (focusIndex - 1)) %
-            length
-        );
+        return setFocusIndex((length + (focusIndex - 1)) % length);
       case 'ArrowDown':
-        return setFocusIndex(
-          (focusIndex + 1) % length
-        );
+        return setFocusIndex((focusIndex + 1) % length);
       case 'Enter':
         return selectedChangeHandler();
       case 'Escape':
@@ -83,25 +62,16 @@ const SelectGroup = ({
   };
 
   return (
-    <div
-      className={styles.container}
-      id={id}
-    >
+    <div className={styles.container} id={id}>
       <div
-        className={
-          styles.labelContainer
-        }
+        className={styles.labelContainer}
         onClick={clickOpenHandler}
       >
         <input
           ref={ref}
           type="text"
           className={styles.label}
-          value={
-            open
-              ? placeholder
-              : selectValue
-          }
+          value={open ? placeholder : selectValue}
           onFocus={focusHandler}
           onKeyDown={keyboardHandler}
           onChange={() => null}
@@ -118,33 +88,18 @@ const SelectGroup = ({
         </button>
       </div>
       {open && (
-        <ul
-          className={
-            styles.optionContainer
-          }
-        >
-          {options.map(
-            (optionValue, index) => (
-              <Option
-                key={generateUid()}
-                index={index}
-                isFocused={
-                  index === focusIndex
-                }
-                selected={
-                  optionValue ===
-                  selectValue
-                }
-                innerValue={optionValue}
-                clickHandler={
-                  selectedChangeHandler
-                }
-                setFocusIndex={
-                  setFocusIndex
-                }
-              />
-            )
-          )}
+        <ul className={styles.optionContainer}>
+          {options.map((optionValue, index) => (
+            <Option
+              key={generateUid()}
+              index={index}
+              isFocused={index === focusIndex}
+              selected={optionValue === selectValue}
+              innerValue={optionValue}
+              clickHandler={selectedChangeHandler}
+              setFocusIndex={setFocusIndex}
+            />
+          ))}
         </ul>
       )}
     </div>

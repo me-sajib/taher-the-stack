@@ -1,6 +1,4 @@
-const blockMouseEvents = (
-  event: MouseEvent
-) => {
+const blockMouseEvents = (event: MouseEvent) => {
   event.preventDefault();
   event.stopImmediatePropagation();
   event.stopPropagation();

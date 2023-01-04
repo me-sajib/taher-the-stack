@@ -5,9 +5,7 @@ const removeHighlightedAttr = () => {
   const selector = `[${SCRAPE_ATTRIBUTE_NAME}]`;
 
   $$(selector).forEach((el: Element) =>
-    el.removeAttribute(
-      selector.replace(/\[|\]/g, '')
-    )
+    el.removeAttribute(selector.replace(/\[|\]/g, ''))
   );
 };
 

@@ -1,38 +1,20 @@
-import {
-  Logger,
-  ValidationPipe
-} from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import {
-  DocumentBuilder,
-  SwaggerModule
-} from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import process from 'process';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(
-    AppModule
-  );
+  const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
     .setTitle('Easy scraper api')
-    .setDescription(
-      'Next generation scrapping tool'
-    )
+    .setDescription('Next generation scrapping tool')
     .setVersion('1.0')
     .build();
 
-  const document =
-    SwaggerModule.createDocument(
-      app,
-      config
-    );
-  SwaggerModule.setup(
-    'api',
-    app,
-    document
-  );
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   app.useGlobalPipes(
     new ValidationPipe({

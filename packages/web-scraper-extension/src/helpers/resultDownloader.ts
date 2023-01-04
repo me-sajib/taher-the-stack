@@ -3,21 +3,16 @@ const resultDownloader = (
   fileName: string,
   type = 'octet-stream'
 ) => {
-  const blob: Blob = new Blob(
-    [result],
-    { type }
-  );
-  const href: string =
-    URL.createObjectURL(blob);
+  const blob: Blob = new Blob([result], { type });
+  const href: string = URL.createObjectURL(blob);
 
-  const anchorElement: HTMLAnchorElement =
-    Object.assign(
-      document.createElement('a'),
-      {
-        href,
-        download: fileName
-      }
-    );
+  const anchorElement: HTMLAnchorElement = Object.assign(
+    document.createElement('a'),
+    {
+      href,
+      download: fileName
+    }
+  );
 
   anchorElement.click();
   URL.revokeObjectURL(href);

@@ -12,25 +12,16 @@ const ResultHeading = ({
   dates,
   hostname
 }: ResultHeadingPropTypes) => {
-  const getChangeValue = (
-    value: string
-  ) => {
+  const getChangeValue = (value: string) => {
     // TODO: Works with new selected date
   };
 
   return (
     <div className={styles.container}>
       {dates.length > 1 ? (
-        <SelectGroup
-          options={dates}
-          liftValue={getChangeValue}
-        />
+        <SelectGroup options={dates} liftValue={getChangeValue} />
       ) : (
-        <h2
-          className={styles.dateHeading}
-        >
-          {dates.at(0)}
-        </h2>
+        <h2 className={styles.dateHeading}>{dates.at(0)}</h2>
       )}
 
       <p className={styles.hostname}>

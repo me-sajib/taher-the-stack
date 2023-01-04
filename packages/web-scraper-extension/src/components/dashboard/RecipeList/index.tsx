@@ -1,8 +1,5 @@
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
-import {
-  NavLink,
-  useLocation
-} from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Recipe } from '../../../interfaces/dashboard';
 import addClass from '../../../utils/addClass';
 import generateUid from '../../../utils/generateUid';
@@ -27,51 +24,35 @@ const RecipeList = ({
     <li className={classes.container}>
       <div className={classes.host}>
         <MdOutlineArrowForwardIos
-          className={addClass(
-            classes.icon,
-            open && classes.open
-          )}
+          className={addClass(classes.icon, open && classes.open)}
           onClick={toggleRecipes}
         />
-        <span
-          className={classes.hostname}
-        >
-          {hostname}
-        </span>
+        <span className={classes.hostname}>{hostname}</span>
       </div>
       {open && (
         <ul className={classes.recipes}>
-          {recipeList.map(
-            ({ name }, index) => (
-              <li key={generateUid()}>
-                <NavLink
-                  className={() => {
-                    const path =
-                      location.pathname.replace(
-                        /(\/\w+)$/,
-                        ''
-                      );
+          {recipeList.map(({ name }, index) => (
+            <li key={generateUid()}>
+              <NavLink
+                className={() => {
+                  const path = location.pathname.replace(
+                    /(\/\w+)$/,
+                    ''
+                  );
 
-                    const isActive =
-                      path ===
-                      `/my-recipe/${hostname}/${
-                        index + 1
-                      }`;
-                    return addClass(
-                      classes.recipe,
-                      isActive &&
-                        classes.active
-                    );
-                  }}
-                  to={`/my-recipe/${hostname}/${
-                    index + 1
-                  }/edit`}
-                >
-                  {name}
-                </NavLink>
-              </li>
-            )
-          )}
+                  const isActive =
+                    path === `/my-recipe/${hostname}/${index + 1}`;
+                  return addClass(
+                    classes.recipe,
+                    isActive && classes.active
+                  );
+                }}
+                to={`/my-recipe/${hostname}/${index + 1}/edit`}
+              >
+                {name}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       )}
     </li>

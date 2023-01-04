@@ -8,12 +8,8 @@ interface PropertyInputPropTypes {
   isSelectorEdit: boolean;
   updateResultSchema: (
     id: string
-  ) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => void;
-  deleteButtonHandler: (
-    id: string
-  ) => () => void;
+  ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
+  deleteButtonHandler: (id: string) => () => void;
   inputProps: any;
 }
 
@@ -24,13 +20,10 @@ const PropertyInput = ({
   deleteButtonHandler,
   inputProps
 }: PropertyInputPropTypes) => {
-  const [hover, setHover] =
-    useState<boolean>(false);
+  const [hover, setHover] = useState<boolean>(false);
 
-  const enterHandler = () =>
-    setHover(true);
-  const leaveHandler = () =>
-    setHover(false);
+  const enterHandler = () => setHover(true);
+  const leaveHandler = () => setHover(false);
 
   return (
     <div
@@ -40,18 +33,14 @@ const PropertyInput = ({
       onMouseLeave={leaveHandler}
     >
       <InputText
-        liftValueOnBlur={updateResultSchema(
-          id
-        )}
+        liftValueOnBlur={updateResultSchema(id)}
         {...inputProps}
       />
       {!isSelectorEdit && hover && (
         <Button
           classes={classes.deleteButton}
           status="close"
-          clickAction={deleteButtonHandler(
-            id
-          )}
+          clickAction={deleteButtonHandler(id)}
         />
       )}
     </div>

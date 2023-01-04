@@ -12,24 +12,15 @@ export default function useResponsive(
 ) {
   const theme = useTheme();
 
-  const mediaUp = useMediaQuery(
-    theme.breakpoints.up(key)
-  );
+  const mediaUp = useMediaQuery(theme.breakpoints.up(key));
 
-  const mediaDown = useMediaQuery(
-    theme.breakpoints.down(key)
-  );
+  const mediaDown = useMediaQuery(theme.breakpoints.down(key));
 
   const mediaBetween = useMediaQuery(
-    theme.breakpoints.between(
-      start,
-      end
-    )
+    theme.breakpoints.between(start, end)
   );
 
-  const mediaOnly = useMediaQuery(
-    theme.breakpoints.only(key)
-  );
+  const mediaOnly = useMediaQuery(theme.breakpoints.only(key));
 
   if (query === 'up') {
     return mediaUp;

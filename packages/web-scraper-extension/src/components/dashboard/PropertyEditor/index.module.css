@@ -26,8 +26,7 @@
   padding: 10px;
   font-size: 25px;
   background-color: transparent;
-  border: 2px dashed
-    var(--divider-color);
+  border: 2px dashed var(--divider-color);
   cursor: pointer;
   transition: all 250ms ease;
 }

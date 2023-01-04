@@ -12,13 +12,8 @@ const BackButton = ({
   clickAction
 }: BackButtonPropTypes) => (
   <span
-    className={addClass(
-      styles.backButton,
-      classes
-    )}
-    onClick={
-      clickAction ?? restoreElements
-    }
+    className={addClass(styles.backButton, classes)}
+    onClick={clickAction ?? restoreElements}
   >
     {icon['back']}
   </span>

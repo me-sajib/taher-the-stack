@@ -1,8 +1,5 @@
 import { Children } from 'react';
-import {
-  useNavigate,
-  useParams
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DOWNLOAD_FORMATS } from '../../../global';
 import { Result } from '../../../interfaces/extension';
 import BackButton from '../BackButton';
@@ -33,52 +30,30 @@ const ResultLayout = ({
 }: ResultLayoutPropTypes) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const toBack = () =>
-    navigate(
-      `/my-recipe/${hostname}/${id}/edit`
-    );
+  const toBack = () => navigate(`/my-recipe/${hostname}/${id}/edit`);
 
   return (
     <div className={classes.container}>
-      <ResultHeading
-        name={name}
-        hostname={hostname}
-        dates={dates}
-      />
+      <ResultHeading name={name} hostname={hostname} dates={dates} />
       <Divider />
-      <ResultStatusBar
-        statuses={statuses}
-      />
+      <ResultStatusBar statuses={statuses} />
       <Divider />
-      <ResultPreview
-        results={results}
-      />
+      <ResultPreview results={results} />
       <Divider />
 
-      <div
-        className={
-          classes.downloadButtons
-        }
-      >
-        {Children.map(
-          DOWNLOAD_FORMATS,
-          (format) => (
-            <DownloadButton
-              format={format}
-              fileName={`${
-                name || hostname
-              }-data`}
-              results={results}
-            />
-          )
-        )}
+      <div className={classes.downloadButtons}>
+        {Children.map(DOWNLOAD_FORMATS, (format) => (
+          <DownloadButton
+            format={format}
+            fileName={`${name || hostname}-data`}
+            results={results}
+          />
+        ))}
       </div>
 
       {name && (
         <BackButton
-          classes={
-            classes.backToEditPage
-          }
+          classes={classes.backToEditPage}
           clickAction={toBack}
         />
       )}

@@ -19,16 +19,9 @@ export const Modal = ({
 
   return (
     <>
-      <input
-        className="modal-state"
-        id={modalId}
-        type="checkbox"
-      />
+      <input className="modal-state" id={modalId} type="checkbox" />
       <div className="modal w-screen">
-        <label
-          className="modal-overlay"
-          htmlFor={modalId}
-        ></label>
+        <label className="modal-overlay" htmlFor={modalId}></label>
         <div className="modal-content w-4/12 bg-gray-100">
           <label
             ref={ref}

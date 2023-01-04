@@ -26,59 +26,26 @@ const menus = [
 ];
 
 const SideBar = () => {
-  const recipes =
-    useAppSelector(getRecipes);
+  const recipes = useAppSelector(getRecipes);
 
-  const activeMenuHandler = ({
-    isActive
-  }: {
-    isActive: boolean;
-  }) =>
-    addClass(
-      isActive && classes.active,
-      classes.menu
-    );
+  const activeMenuHandler = ({ isActive }: { isActive: boolean }) =>
+    addClass(isActive && classes.active, classes.menu);
 
   return (
-    <aside
-      className={classes.container}
-    >
+    <aside className={classes.container}>
       <ul className={classes.menus}>
-        {menus.map(
-          ({ route, name, icon }) => (
-            <li key={generateUid()}>
-              <NavLink
-                to={route}
-                className={
-                  activeMenuHandler
-                }
-              >
-                <span
-                  className={
-                    classes.icon
-                  }
-                >
-                  {icons[icon]}
-                </span>
-                <span
-                  className={
-                    classes.menuText
-                  }
-                >
-                  {name}
-                </span>
-              </NavLink>
-            </li>
-          )
-        )}
+        {menus.map(({ route, name, icon }) => (
+          <li key={generateUid()}>
+            <NavLink to={route} className={activeMenuHandler}>
+              <span className={classes.icon}>{icons[icon]}</span>
+              <span className={classes.menuText}>{name}</span>
+            </NavLink>
+          </li>
+        ))}
       </ul>
 
-      {Object.keys(recipes).length !==
-        0 && (
-        <SavedRecipes
-          heading="My Recipes"
-          recipes={recipes}
-        />
+      {Object.keys(recipes).length !== 0 && (
+        <SavedRecipes heading="My Recipes" recipes={recipes} />
       )}
     </aside>
   );

@@ -9,8 +9,7 @@ import UserUpdateFrom from 'packages/dashboard/sections/profile/UserUpdateForm';
 import { Container } from '../components';
 
 export default function Profile() {
-  const profile: User =
-    useSelector(getUser);
+  const profile: User = useSelector(getUser);
 
   return (
     <DashboardLayout>

@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -11,38 +11,23 @@ const resolve = require('resolve');
  *
  * @param {Object} options
  */
-function getAdditionalModulePaths(
-  options = {}
-) {
+function getAdditionalModulePaths(options = {}) {
   const baseUrl = options.baseUrl;
 
   if (!baseUrl) {
     return '';
   }
 
-  const baseUrlResolved = path.resolve(
-    paths.appPath,
-    baseUrl
-  );
+  const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
 
   // We don't need to do anything if `baseUrl` is set to `node_modules`. This is
   // the default behavior.
-  if (
-    path.relative(
-      paths.appNodeModules,
-      baseUrlResolved
-    ) === ''
-  ) {
+  if (path.relative(paths.appNodeModules, baseUrlResolved) === '') {
     return null;
   }
 
   // Allow the user set the `baseUrl` to `appSrc`.
-  if (
-    path.relative(
-      paths.appSrc,
-      baseUrlResolved
-    ) === ''
-  ) {
+  if (path.relative(paths.appSrc, baseUrlResolved) === '') {
     return [paths.appSrc];
   }
 
@@ -51,12 +36,7 @@ function getAdditionalModulePaths(
   // not transpiled outside of `src`. We do allow importing them with the
   // absolute path (e.g. `src/Components/Button.js`) but we set that up with
   // an alias.
-  if (
-    path.relative(
-      paths.appPath,
-      baseUrlResolved
-    ) === ''
-  ) {
+  if (path.relative(paths.appPath, baseUrlResolved) === '') {
     return null;
   }
 
@@ -74,26 +54,16 @@ function getAdditionalModulePaths(
  *
  * @param {*} options
  */
-function getWebpackAliases(
-  options = {}
-) {
+function getWebpackAliases(options = {}) {
   const baseUrl = options.baseUrl;
 
   if (!baseUrl) {
     return {};
   }
 
-  const baseUrlResolved = path.resolve(
-    paths.appPath,
-    baseUrl
-  );
+  const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
 
-  if (
-    path.relative(
-      paths.appPath,
-      baseUrlResolved
-    ) === ''
-  ) {
+  if (path.relative(paths.appPath, baseUrlResolved) === '') {
     return {
       src: paths.appSrc
     };
@@ -112,17 +82,9 @@ function getJestAliases(options = {}) {
     return {};
   }
 
-  const baseUrlResolved = path.resolve(
-    paths.appPath,
-    baseUrl
-  );
+  const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
 
-  if (
-    path.relative(
-      paths.appPath,
-      baseUrlResolved
-    ) === ''
-  ) {
+  if (path.relative(paths.appPath, baseUrlResolved) === '') {
     return {
       '^src/(.*)$': '<rootDir>/src/$1'
     };
@@ -131,12 +93,8 @@ function getJestAliases(options = {}) {
 
 function getModules() {
   // Check if TypeScript is setup
-  const hasTsConfig = fs.existsSync(
-    paths.appTsConfig
-  );
-  const hasJsConfig = fs.existsSync(
-    paths.appJsConfig
-  );
+  const hasTsConfig = fs.existsSync(paths.appTsConfig);
+  const hasJsConfig = fs.existsSync(paths.appJsConfig);
 
   if (hasTsConfig && hasJsConfig) {
     throw new Error(
@@ -150,12 +108,9 @@ function getModules() {
   // TypeScript project and set up the config
   // based on tsconfig.json
   if (hasTsConfig) {
-    const ts = require(resolve.sync(
-      'typescript',
-      {
-        basedir: paths.appNodeModules
-      }
-    ));
+    const ts = require(resolve.sync('typescript', {
+      basedir: paths.appNodeModules
+    }));
     config = ts.readConfigFile(
       paths.appTsConfig,
       ts.sys.readFile
@@ -167,19 +122,14 @@ function getModules() {
   }
 
   config = config || {};
-  const options =
-    config.compilerOptions || {};
+  const options = config.compilerOptions || {};
 
-  const additionalModulePaths =
-    getAdditionalModulePaths(options);
+  const additionalModulePaths = getAdditionalModulePaths(options);
 
   return {
-    additionalModulePaths:
-      additionalModulePaths,
-    webpackAliases:
-      getWebpackAliases(options),
-    jestAliases:
-      getJestAliases(options),
+    additionalModulePaths: additionalModulePaths,
+    webpackAliases: getWebpackAliases(options),
+    jestAliases: getJestAliases(options),
     hasTsConfig
   };
 }

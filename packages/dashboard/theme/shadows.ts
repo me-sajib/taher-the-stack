@@ -7,18 +7,9 @@ import palette from './palette';
 const LIGHT_MODE = palette.grey[500];
 
 const createShadow = (color) => {
-  const transparent1 = alpha(
-    color,
-    0.2
-  );
-  const transparent2 = alpha(
-    color,
-    0.14
-  );
-  const transparent3 = alpha(
-    color,
-    0.12
-  );
+  const transparent1 = alpha(color, 0.2);
+  const transparent2 = alpha(color, 0.14);
+  const transparent3 = alpha(color, 0.12);
   return [
     'none',
     `0px 2px 1px -1px ${transparent1},0px 1px 1px 0px ${transparent2},0px 1px 3px 0px ${transparent3}`,
@@ -49,10 +40,7 @@ const createShadow = (color) => {
 };
 
 const createCustomShadow = (color) => {
-  const transparent = alpha(
-    color,
-    0.24
-  );
+  const transparent = alpha(color, 0.24);
 
   return {
     z1: `0 1px 2px 0 ${transparent}`,
@@ -61,37 +49,17 @@ const createCustomShadow = (color) => {
     z16: `0 0 2px 0 ${transparent}, 0 16px 32px -4px ${transparent}`,
     z20: `0 0 2px 0 ${transparent}, 0 20px 40px -4px ${transparent}`,
     z24: `0 0 4px 0 ${transparent}, 0 24px 48px 0 ${transparent}`,
-    primary: `0 8px 16px 0 ${alpha(
-      palette.primary.main,
-      0.24
-    )}`,
-    secondary: `0 8px 16px 0 ${alpha(
-      palette.secondary.main,
-      0.24
-    )}`,
-    info: `0 8px 16px 0 ${alpha(
-      palette.info.main,
-      0.24
-    )}`,
-    success: `0 8px 16px 0 ${alpha(
-      palette.success.main,
-      0.24
-    )}`,
-    warning: `0 8px 16px 0 ${alpha(
-      palette.warning.main,
-      0.24
-    )}`,
-    error: `0 8px 16px 0 ${alpha(
-      palette.error.main,
-      0.24
-    )}`
+    primary: `0 8px 16px 0 ${alpha(palette.primary.main, 0.24)}`,
+    secondary: `0 8px 16px 0 ${alpha(palette.secondary.main, 0.24)}`,
+    info: `0 8px 16px 0 ${alpha(palette.info.main, 0.24)}`,
+    success: `0 8px 16px 0 ${alpha(palette.success.main, 0.24)}`,
+    warning: `0 8px 16px 0 ${alpha(palette.warning.main, 0.24)}`,
+    error: `0 8px 16px 0 ${alpha(palette.error.main, 0.24)}`
   };
 };
 
-export const customShadows =
-  createCustomShadow(LIGHT_MODE);
+export const customShadows = createCustomShadow(LIGHT_MODE);
 
-const shadows =
-  createShadow(LIGHT_MODE);
+const shadows = createShadow(LIGHT_MODE);
 
 export default shadows;

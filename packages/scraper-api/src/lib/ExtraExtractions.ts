@@ -1,23 +1,17 @@
 import { Page } from 'puppeteer';
 
 class ExtraExtraction {
-  constructor(
-    private readonly page: Page
-  ) {}
+  constructor(private readonly page: Page) {}
 
   onlyBody() {
     return this.page.evaluate(
-      () =>
-        document.querySelector('body')
-          .innerHTML
+      () => document.querySelector('body').innerHTML
     );
   }
 
   onlyText() {
     return this.page.evaluate(
-      () =>
-        document.querySelector('body')
-          .innerText
+      () => document.querySelector('body').innerText
     );
   }
 
@@ -35,13 +29,8 @@ class ExtraExtraction {
     return value && this.page.metrics();
   }
 
-  async screenshotSelector(
-    selector: string
-  ) {
-    const elementHandler =
-      await this.page.waitForSelector(
-        selector
-      );
+  async screenshotSelector(selector: string) {
+    const elementHandler = await this.page.waitForSelector(selector);
     return elementHandler.screenshot();
   }
 }

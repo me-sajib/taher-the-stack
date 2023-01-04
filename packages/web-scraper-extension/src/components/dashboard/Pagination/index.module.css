@@ -1,7 +1,6 @@
 .resultContainer {
   overflow-y: auto;
-  box-shadow: rgb(0 0 0 / 10%) 0px 4px
-    12px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px;
 
   padding: 15px 15px 0px;
 }
@@ -41,9 +40,7 @@
 
 .activeIndicator {
   color: white;
-  background-color: var(
-    --primary-color
-  );
+  background-color: var(--primary-color);
 }
 
 .pageIndicator ~ .pageIndicator {

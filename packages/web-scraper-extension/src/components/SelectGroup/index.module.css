@@ -6,8 +6,7 @@
 
 .labelContainer {
   display: flex;
-  box-shadow: rgb(0 0 0 / 10%) 0px 0px
-    20px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 20px;
   border-radius: 5px;
   background-color: white;
 }
@@ -42,8 +41,7 @@
 .optionContainer {
   list-style: none;
   border-radius: 0px 0px 5px 5px;
-  box-shadow: rgb(0 0 0 / 10%) 0px 0px
-    12px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 12px;
   width: 100%;
   background-color: white;
 

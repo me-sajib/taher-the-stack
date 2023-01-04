@@ -16,26 +16,13 @@ const SectionLayout = ({
   inputBoxClasses
 }: SectionLayoutPropTypes) => (
   <>
-    <section
-      className={styles.container}
-    >
+    <section className={styles.container}>
       <div className={styles.info}>
-        <h4 className={styles.title}>
-          {title}
-        </h4>
-        <p
-          className={styles.description}
-        >
-          {description}
-        </p>
+        <h4 className={styles.title}>{title}</h4>
+        <p className={styles.description}>{description}</p>
       </div>
 
-      <div
-        className={addClass(
-          styles.inputBox,
-          inputBoxClasses
-        )}
-      >
+      <div className={addClass(styles.inputBox, inputBoxClasses)}>
         {children}
       </div>
     </section>

@@ -7,9 +7,7 @@ interface OptionPropTypes {
   selected: boolean;
   innerValue: string;
   clickHandler: () => void;
-  setFocusIndex: (
-    index: number
-  ) => void;
+  setFocusIndex: (index: number) => void;
 }
 
 const Option = ({
@@ -20,63 +18,38 @@ const Option = ({
   clickHandler,
   setFocusIndex
 }: OptionPropTypes) => {
-  const mouseEnterHandler = () =>
-    setFocusIndex(index);
-  const mouseLeaveHandler = () =>
-    setFocusIndex(index);
+  const mouseEnterHandler = () => setFocusIndex(index);
+  const mouseLeaveHandler = () => setFocusIndex(index);
 
   const conditionalStyles = [
     selected && styles.active,
     isFocused &&
-      (selected
-        ? styles.hoverSelected
-        : styles.hoverNotSelected),
-    !isFocused &&
-      selected &&
-      styles.active
+      (selected ? styles.hoverSelected : styles.hoverNotSelected),
+    !isFocused && selected && styles.active
   ];
 
   return (
     <li
-      className={addClass(
-        styles.container,
-        ...conditionalStyles
-      )}
+      className={addClass(styles.container, ...conditionalStyles)}
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
       onClick={clickHandler}
     >
-      <span className={styles.option}>
-        {innerValue}
-      </span>
+      <span className={styles.option}>{innerValue}</span>
 
       {isFocused &&
         (selected ? (
-          <span
-            className={
-              styles.hoverSelectedText
-            }
-          >
+          <span className={styles.hoverSelectedText}>
             Press Enter for remove
           </span>
         ) : (
-          <span
-            className={
-              styles.hoverSelectedText
-            }
-          >
+          <span className={styles.hoverSelectedText}>
             Press Enter for select
           </span>
         ))}
 
       {!isFocused && selected && (
-        <span
-          className={
-            styles.selectedText
-          }
-        >
-          Selected
-        </span>
+        <span className={styles.selectedText}>Selected</span>
       )}
     </li>
   );

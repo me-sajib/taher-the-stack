@@ -13,9 +13,7 @@ interface InputTextPropTypes {
   placeholder?: string;
   passedValue?: string;
   style?: React.CSSProperties;
-  changeModifier?: (
-    value: string
-  ) => string;
+  changeModifier?: (value: string) => string;
   liftValueOnChange?: React.ChangeEventHandler<HTMLInputElement>;
   liftValueOnBlur?: React.FocusEventHandler<HTMLInputElement>;
   liftValueOnKeyDown?: (
@@ -37,8 +35,7 @@ const InputText = (
   }: InputTextPropTypes,
   ref: React.ForwardedRef<any>
 ) => {
-  const [value, setValue] =
-    useState<string>(passedValue ?? '');
+  const [value, setValue] = useState<string>(passedValue ?? '');
   const id: string = useId();
 
   useEffect(() => {
@@ -47,34 +44,18 @@ const InputText = (
 
   const changeHandler =
     (cb?: (value: string) => string) =>
-    (
-      e: ChangeEvent<HTMLInputElement>
-    ) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
-      setValue(
-        typeof cb === 'function'
-          ? cb(value)
-          : value
-      );
-      liftValueOnChange &&
-        liftValueOnChange(e);
+      setValue(typeof cb === 'function' ? cb(value) : value);
+      liftValueOnChange && liftValueOnChange(e);
     };
 
-  const blurHandler = (
-    e: React.FocusEvent<HTMLInputElement>
-  ) =>
-    liftValueOnBlur &&
-    liftValueOnBlur(e);
+  const blurHandler = (e: React.FocusEvent<HTMLInputElement>) =>
+    liftValueOnBlur && liftValueOnBlur(e);
 
   return (
-    <div
-      ref={ref}
-      className={styles.container}
-    >
-      <label
-        htmlFor={id}
-        className={styles.label}
-      >
+    <div ref={ref} className={styles.container}>
+      <label htmlFor={id} className={styles.label}>
         {label}
       </label>
       <input
@@ -83,14 +64,10 @@ const InputText = (
         className={styles.input}
         type="text"
         {...{ id, placeholder, value }}
-        onChange={changeHandler(
-          changeModifier
-        )}
+        onChange={changeHandler(changeModifier)}
         onBlur={blurHandler}
         onKeyDown={
-          liftValueOnKeyDown
-            ? liftValueOnKeyDown(value)
-            : () => null
+          liftValueOnKeyDown ? liftValueOnKeyDown(value) : () => null
         }
       />
     </div>

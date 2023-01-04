@@ -26,16 +26,9 @@ class CustomBrowser {
   ) {}
 
   // this function will generate a valid Proxy object from proxy url
-  private generateUserProxy(
-    proxyUrl: string
-  ): Proxy {
+  private generateUserProxy(proxyUrl: string): Proxy {
     if (proxyUrl) {
-      const [
-        username,
-        password,
-        host,
-        port
-      ] = proxyUrl
+      const [username, password, host, port] = proxyUrl
         .replace(/^\w+:\/\//, '')
         .split(/:|@/);
 
@@ -51,37 +44,27 @@ class CustomBrowser {
 
   // it will pick a rotate proxy or users proxy, if user provide any proxy by own_proxy property
   private async getProxy() {
-    const ownProxy =
-      this.configPageDto?.own_proxy;
+    const ownProxy = this.configPageDto?.own_proxy;
 
-    delete this.configPageDto
-      ?.own_proxy;
+    delete this.configPageDto?.own_proxy;
     return (
-      this.generateUserProxy(
-        ownProxy
-      ) ?? (await proxies.next()).value
+      this.generateUserProxy(ownProxy) ?? (await proxies.next()).value
     );
   }
 
   // this function will invoke when config dto hold device prop
   async device(page: Page) {
-    const iPhone =
-      puppeteer.devices['iPhone 6'];
-    this.configPageDto.device ===
-      'mobile' &&
+    const iPhone = puppeteer.devices['iPhone 6'];
+    this.configPageDto.device === 'mobile' &&
       (await page.emulate(iPhone));
   }
 
   // this function will invoke when config dto hold block_resource prop
   async blockResource(page: Page) {
-    await page.setRequestInterception(
-      true
-    );
+    await page.setRequestInterception(true);
     const pattern = new RegExp(
       `(${this.configPageDto.block_resource
-        .map(
-          (ext) => String.raw`\.${ext}`
-        )
+        .map((ext) => String.raw`\.${ext}`)
         .join('|')})`
     );
 
@@ -95,36 +78,28 @@ class CustomBrowser {
   }
 
   async captcha(page: Page) {
-    const { id, token } =
-      this.configPageDto.captcha;
+    const { id, token } = this.configPageDto.captcha;
 
-    id &&
-      token &&
-      (await page.solveRecaptchas());
+    id && token && (await page.solveRecaptchas());
   }
 
   async captchaSolve(page: Page) {
-    this.configPageDto.captcha_solve ===
-      true &&
+    this.configPageDto.captcha_solve === true &&
       (await page.solveRecaptchas());
   }
 
   solveCaptchaConfig() {
     if (
       this.configPageDto?.captcha ||
-      this.configPageDto
-        ?.captcha_solve === true
+      this.configPageDto?.captcha_solve === true
     ) {
       puppeteerExtra.use(
         RecaptchaPlugin({
           provider: {
             id:
-              this.configPageDto.captcha
-                .id ??
-              process.env.CAPTCHA_ID,
+              this.configPageDto.captcha.id ?? process.env.CAPTCHA_ID,
             token:
-              this.configPageDto.captcha
-                .token ??
+              this.configPageDto.captcha.token ??
               process.env.CAPTCHA_TOKEN
           },
           visualFeedback: true // colorize reCAPTCHAs (violet = detected, green = solved)
@@ -134,33 +109,23 @@ class CustomBrowser {
   }
 
   async blockAds(page: Page) {
-    if (
-      this.configPageDto.block_ads ===
-      true
-    ) {
+    if (this.configPageDto.block_ads === true) {
       const blocker =
-        await PuppeteerBlocker.fromPrebuiltAdsAndTracking(
-          fetch
-        );
-      await blocker.enableBlockingInPage(
-        page
-      );
+        await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
+      await blocker.enableBlockingInPage(page);
     }
   }
 
   async windowWidth(page: Page) {
     return page.setViewport({
-      width:
-        this.configPageDto.window_width,
+      width: this.configPageDto.window_width,
       height: page.viewport().height
     });
   }
 
   async windowHeight(page: Page) {
     return page.setViewport({
-      height:
-        this.configPageDto
-          .window_height,
+      height: this.configPageDto.window_height,
       width: page.viewport().width
     });
   }
@@ -168,77 +133,58 @@ class CustomBrowser {
   async cookies(page: Page) {
     const urlInfo = new URL(this.url);
 
-    const cookieMap =
-      this.configPageDto.cookies.map(
-        (
-          cookie: Protocol.Network.CookieParam
-        ) => {
-          cookie.domain ??=
-            urlInfo.host;
-          cookie.path ??=
-            urlInfo.pathname;
-          return cookie;
-        }
-      );
+    const cookieMap = this.configPageDto.cookies.map(
+      (cookie: Protocol.Network.CookieParam) => {
+        cookie.domain ??= urlInfo.host;
+        cookie.path ??= urlInfo.pathname;
+        return cookie;
+      }
+    );
 
     Logger.log({ cookieMap });
 
     await page.setCookie(...cookieMap);
-    Logger.log(
-      'cookie set successfully'
-    );
+    Logger.log('cookie set successfully');
   }
 
   stealthConfig() {
-    this.configPageDto?.stealth_mode ===
-      true &&
-      puppeteerExtra.use(
-        StealthPlugin()
-      );
+    this.configPageDto?.stealth_mode === true &&
+      puppeteerExtra.use(StealthPlugin());
   }
 
   async launch() {
     this.proxy = await this.getProxy();
-    const { host, port, auth } =
-      this.proxy ?? {};
-    const proxyUrl =
-      await anonymizeProxy(
-        `http://${
-          auth
-            ? `${auth.username}:${auth.password}@`
-            : ''
-        }${host}:${port}`
-      );
-    const options: PuppeteerLaunchOptions =
-      Object.assign(
-        {
-          headless: true,
-          ignoreHTTPSErrors: true
-        },
-        host &&
-          port && {
-            args: [
-              '--no-sandbox',
-              `--proxy-server=${proxyUrl}`,
-              '--disable-web-security'
-            ]
-          }
-      );
+    const { host, port, auth } = this.proxy ?? {};
+    const proxyUrl = await anonymizeProxy(
+      `http://${
+        auth ? `${auth.username}:${auth.password}@` : ''
+      }${host}:${port}`
+    );
+    const options: PuppeteerLaunchOptions = Object.assign(
+      {
+        headless: true,
+        ignoreHTTPSErrors: true
+      },
+      host &&
+        port && {
+          args: [
+            '--no-sandbox',
+            `--proxy-server=${proxyUrl}`,
+            '--disable-web-security'
+          ]
+        }
+    );
 
     this.solveCaptchaConfig();
     this.stealthConfig();
 
-    this.browser =
-      await puppeteerExtra.launch(
-        options
-      );
+    this.browser = await puppeteerExtra.launch(options);
 
     return this;
   }
 
   async newPage(): Promise<Page> {
-    const page =
-      await this.browser.newPage();
+    const page = await this.browser.newPage();
 
     return page;
   }

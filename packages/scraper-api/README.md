@@ -159,12 +159,7 @@ This parameter will take an array of extension names. through this, you can easi
 ```json
 {
   "config": {
-    "block_resource": [
-      "png",
-      "gif",
-      "jpeg",
-      "jpg"
-    ]
+    "block_resource": ["png", "gif", "jpeg", "jpg"]
   }
 }
 ```
@@ -358,12 +353,7 @@ If you would like to click on an element just add it in instructions object like
 It will take a valid CSS selector. This parameter can take a `ClickOption` as well.
 
 ```ts
-type MouseButton =
-  | 'left'
-  | 'right'
-  | 'middle'
-  | 'back'
-  | 'forward';
+type MouseButton = 'left' | 'right' | 'middle' | 'back' | 'forward';
 
 interface ClickOption {
   selector: string;
@@ -451,9 +441,7 @@ Suppose you want to run the code `console.log('foo')` on the webpage you need to
 
 ```json
 {
-  "instructions": [
-    { "evaluate": "console.log('foo')" }
-  ]
+  "instructions": [{ "evaluate": "console.log('foo')" }]
 }
 ```
 
@@ -511,9 +499,7 @@ This can take `ExtractOption`, remember `output` can take also the `ExtractDto` 
 
 ```ts
 interface ExtractionDto {
-  [property: string]:
-    | string
-    | ExtractOption;
+  [property: string]: string | ExtractOption;
 }
 
 interface ExtractOption {
@@ -637,22 +623,10 @@ For a given selector, you can extract different kinds of data using the output o
   "heading_html": "<h1 id=\"heading\">I am the title</h1>",
   "heading_id": "heading",
   "table_array": [
-    [
-      "row one column one",
-      "row one column two"
-    ],
-    [
-      "row two column one",
-      "row two column two"
-    ],
-    [
-      "row three column one",
-      "row three column two"
-    ],
-    [
-      "row four column one",
-      "row four column two"
-    ]
+    ["row one column one", "row one column two"],
+    ["row two column one", "row two column two"],
+    ["row three column one", "row three column two"],
+    ["row four column one", "row four column two"]
   ],
   "table_json": [
     {

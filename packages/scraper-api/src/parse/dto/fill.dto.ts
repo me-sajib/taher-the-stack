@@ -1,9 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class FillDto {
   @IsString()
@@ -11,8 +7,7 @@ export class FillDto {
   @ApiProperty({
     name: 'selector',
     type: String,
-    description:
-      'The valid input field css selector'
+    description: 'The valid input field css selector'
   })
   selector: string;
 
@@ -21,8 +16,7 @@ export class FillDto {
   @ApiProperty({
     name: 'text',
     type: String,
-    description:
-      'The value text you want to input in that field'
+    description: 'The value text you want to input in that field'
   })
   text: string;
 
@@ -31,8 +25,7 @@ export class FillDto {
     name: 'delay',
     type: Number,
     required: false,
-    description:
-      'The number in ms of type speed'
+    description: 'The number in ms of type speed'
   })
   delay?: number;
 }

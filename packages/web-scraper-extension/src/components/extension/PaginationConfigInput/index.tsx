@@ -13,21 +13,17 @@ const PaginationConfigInput = ({
   placeholder,
   after
 }: PaginationConfigInputPropTypes) => {
-  const [limit, setLimit] =
-    useState<string>('');
+  const [limit, setLimit] = useState<string>('');
   const dispatch = useAppDispatch();
 
-  const changeHandler = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
     setLimit(value.replace(/\D+/g, ''));
   };
 
   const blurHandler = () => {
-    const validateLimit: number =
-      +limit || 1;
+    const validateLimit: number = +limit || 1;
 
     dispatch(
       setPaginate({
@@ -38,11 +34,7 @@ const PaginationConfigInput = ({
   };
 
   return (
-    <div
-      className={
-        'pagination-input-container'
-      }
-    >
+    <div className={'pagination-input-container'}>
       <input
         className={'pagination-input'}
         placeholder={placeholder}
@@ -51,11 +43,7 @@ const PaginationConfigInput = ({
         onChange={changeHandler}
         onBlur={blurHandler}
       />
-      {after && (
-        <p className={'label-after'}>
-          {after}
-        </p>
-      )}
+      {after && <p className={'label-after'}>{after}</p>}
     </div>
   );
 };

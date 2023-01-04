@@ -46,9 +46,7 @@ export default function Index({
               <h4 className="text-2xl text-black font-semibold">
                 {form.title}
               </h4>
-              <span>
-                {form.subTitle}
-              </span>
+              <span>{form.subTitle}</span>
             </div>
             {children}
 
@@ -56,9 +54,7 @@ export default function Index({
               {redirect.title} {''}
               <span
                 className="text-blue-600 font-bold underline cursor-pointer"
-                onClick={
-                  redirectHandler
-                }
+                onClick={redirectHandler}
               >
                 {redirect.placeholder}
               </span>

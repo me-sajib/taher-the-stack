@@ -9,13 +9,10 @@ import { ScrapedPageInfo } from '../../interfaces/dashboard';
 import createFormatDate from '../../utils/createFormatDate';
 import { $ } from '../../utils/scrapeHelpers';
 
-const initDashboardProd = (
-  scrapedInfo: ScrapedPageInfo
-) => {
+const initDashboardProd = (scrapedInfo: ScrapedPageInfo) => {
   store.dispatch(
     updateCurrentPage({
-      hostname: new URL(scrapedInfo.url)
-        .hostname,
+      hostname: new URL(scrapedInfo.url).hostname,
       createAt: createFormatDate(),
       ...scrapedInfo
     })

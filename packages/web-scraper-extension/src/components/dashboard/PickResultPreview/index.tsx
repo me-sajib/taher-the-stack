@@ -13,23 +13,11 @@ const PickResultPreview = ({
 }: ResultPreviewPropTypes) => {
   switch (mode.toUpperCase()) {
     case 'TABLE':
-      return (
-        <ResultTablePreview
-          results={results}
-        />
-      );
+      return <ResultTablePreview results={results} />;
     case 'JSON':
-      return (
-        <ResultJSONPreview
-          results={results}
-        />
-      );
+      return <ResultJSONPreview results={results} />;
     default:
-      return (
-        <p className="result-!found">
-          Status not valid
-        </p>
-      );
+      return <p className="result-!found">Status not valid</p>;
   }
 };
 

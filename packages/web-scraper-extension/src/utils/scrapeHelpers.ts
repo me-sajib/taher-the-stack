@@ -11,54 +11,34 @@ import generateUid from './generateUid';
 const $ = (
   query: string,
   root: Document | Element = document
-): Element =>
-  (query
-    ? root.querySelector(query)
-    : null)!;
+): Element => (query ? root.querySelector(query) : null)!;
 
 const $$ = (
   query: string,
   root: Document | Element = document
-): Element[] => [
-  ...root.querySelectorAll(
-    query || null!
-  )
-];
+): Element[] => [...root.querySelectorAll(query || null!)];
 
 const generateCSS = (
   schemas: Array<StyleSchema>,
   extraCss = ''
 ): HTMLStyleElement => {
-  const styleTag: HTMLStyleElement =
-    document.createElement('style');
-  styleTag.setAttribute(
-    'type',
-    'text/css'
-  );
+  const styleTag: HTMLStyleElement = document.createElement('style');
+  styleTag.setAttribute('type', 'text/css');
 
   const css: string = schemas.reduce(
-    (
-      acc: string,
-      schema: StyleSchema
-    ) => {
-      const { attr, selector } =
-        schema!;
+    (acc: string, schema: StyleSchema) => {
+      const { attr, selector } = schema!;
 
-      const cssPropValue: string =
-        Object.entries(
-          schema.styles
-        ).reduce(
-          (style, [prop, value]) =>
-            `${style}${camelToKebabCase(
-              prop
-            )}:${value};`,
-          ''
-        );
+      const cssPropValue: string = Object.entries(
+        schema.styles
+      ).reduce(
+        (style, [prop, value]) =>
+          `${style}${camelToKebabCase(prop)}:${value};`,
+        ''
+      );
 
       return `${acc}${
-        attr
-          ? `[${attr?.name}="${attr?.value}"]`
-          : `${selector}`
+        attr ? `[${attr?.name}="${attr?.value}"]` : `${selector}`
       }{${cssPropValue}}`;
     },
     ''
@@ -69,31 +49,20 @@ const generateCSS = (
   return styleTag;
 };
 
-const getElementIndex = (
-  el: Element
-): number => {
+const getElementIndex = (el: Element): number => {
   if (el.parentElement) {
-    const uniqueValue: string =
-      generateUid(5);
-    el.setAttribute(
-      'data-selected',
-      uniqueValue
-    );
+    const uniqueValue: string = generateUid(5);
+    el.setAttribute('data-selected', uniqueValue);
 
-    const siblings: Array<Element> =
-      Array.from(
-        el.parentElement.children
-      );
+    const siblings: Array<Element> = Array.from(
+      el.parentElement.children
+    );
 
     for (const index in siblings) {
       if (
-        siblings[index].getAttribute(
-          'data-selected'
-        ) === uniqueValue
+        siblings[index].getAttribute('data-selected') === uniqueValue
       ) {
-        el.removeAttribute(
-          'data-selected'
-        );
+        el.removeAttribute('data-selected');
         return +index;
       }
     }
@@ -108,27 +77,21 @@ const attributesFilter = (
   attrValue: string
 ) => {
   type Cases = {
-    [key: string]: (
-      value: string
-    ) => string;
+    [key: string]: (value: string) => string;
   };
   const cases: Cases = {
-    class: (attrValue: string) =>
-      attrValue.split(/\s+/).at(0)!
+    class: (attrValue: string) => attrValue.split(/\s+/).at(0)!
   };
 
-  const filterSet: Set<string> =
-    new Set([
-      'class',
-      'id',
-      SCRAPE_ATTRIBUTE_NAME
-    ]);
+  const filterSet: Set<string> = new Set([
+    'class',
+    'id',
+    SCRAPE_ATTRIBUTE_NAME
+  ]);
 
   if (filterSet.has(attrName)) {
     attrs[attrName] =
-      attrName in cases
-        ? cases[attrName](attrValue)
-        : attrValue;
+      attrName in cases ? cases[attrName](attrValue) : attrValue;
   }
 
   return attrs;
@@ -139,53 +102,33 @@ const getElementDetails = (
   position?: number
 ): ElementDetails => ({
   name: el.nodeName.toLowerCase(),
-  attrs: Object.values(
-    el.attributes
-  ).reduce(
-    (
-      attributes,
-      { nodeName, nodeValue }
-    ) =>
-      attributesFilter(
-        attributes,
-        nodeName,
-        nodeValue!
-      ),
+  attrs: Object.values(el.attributes).reduce(
+    (attributes, { nodeName, nodeValue }) =>
+      attributesFilter(attributes, nodeName, nodeValue!),
     {} as AttrDetails
   ),
-  position:
-    position ?? getElementIndex(el) + 1,
+  position: position ?? getElementIndex(el) + 1,
   parent: null,
   ref: el
 });
 
 const getSiblingDetails = (
   el: Element,
-  direction:
-    | 'previousElementSibling'
-    | 'nextElementSibling',
+  direction: 'previousElementSibling' | 'nextElementSibling',
   positionFrom: number,
   parent: ElementFootprint | null = null
 ): Array<ElementDetails> => {
-  const elements: Array<ElementDetails> =
-    [];
+  const elements: Array<ElementDetails> = [];
 
   const incrementValue =
-    direction ===
-    'previousElementSibling'
-      ? -1
-      : 1;
+    direction === 'previousElementSibling' ? -1 : 1;
 
   while (el[direction]) {
     el = el[direction]!;
-    positionFrom =
-      positionFrom + incrementValue;
+    positionFrom = positionFrom + incrementValue;
 
     elements.push({
-      ...getElementDetails(
-        el,
-        positionFrom
-      ),
+      ...getElementDetails(el, positionFrom),
       parent
     });
   }
@@ -193,9 +136,7 @@ const getSiblingDetails = (
   return elements;
 };
 
-const getElementFootprint = (
-  el: Element
-): ElementFootprint => {
+const getElementFootprint = (el: Element): ElementFootprint => {
   const footprint: ElementFootprint = {
     ...getElementDetails(el),
     siblings: {
@@ -206,25 +147,20 @@ const getElementFootprint = (
   };
 
   if (el.parentElement) {
-    footprint.parent =
-      getElementFootprint(
-        el.parentElement
-      );
+    footprint.parent = getElementFootprint(el.parentElement);
 
-    footprint.siblings!.prev =
-      getSiblingDetails(
-        el,
-        'previousElementSibling',
-        footprint.position,
-        footprint.parent
-      );
-    footprint.siblings!.next =
-      getSiblingDetails(
-        el,
-        'nextElementSibling',
-        footprint.position,
-        footprint.parent
-      );
+    footprint.siblings!.prev = getSiblingDetails(
+      el,
+      'previousElementSibling',
+      footprint.position,
+      footprint.parent
+    );
+    footprint.siblings!.next = getSiblingDetails(
+      el,
+      'nextElementSibling',
+      footprint.position,
+      footprint.parent
+    );
   }
 
   return footprint;
@@ -232,10 +168,7 @@ const getElementFootprint = (
 
 const makeValidClass = (
   ft: ElementFootprint | ElementDetails
-): string =>
-  ft.attrs.class
-    ? `.${ft.attrs.class}`
-    : '';
+): string => (ft.attrs.class ? `.${ft.attrs.class}` : '');
 
 const elementQueryCount = (
   query: string,
@@ -245,25 +178,16 @@ const elementQueryCount = (
 const getPrioritySelector = (
   suggest: string,
   position: number
-): string =>
-  `${suggest}:nth-child(${position})`;
+): string => `${suggest}:nth-child(${position})`;
 
 const generatePerfectQuery = (
   queries: string[],
   root: Element | Document = document
 ) => {
-  const queryMap: Map<number, string> =
-    queries.reduce(
-      (map, query) =>
-        map.set(
-          elementQueryCount(
-            query,
-            root
-          ),
-          query
-        ),
-      new Map()
-    );
+  const queryMap: Map<number, string> = queries.reduce(
+    (map, query) => map.set(elementQueryCount(query, root), query),
+    new Map()
+  );
 
   return queryMap.values().next().value;
 };
@@ -271,10 +195,8 @@ const generatePerfectQuery = (
 const reduceElementSelector = (
   elementDetails: ElementDetails
 ): string => {
-  const tagName: string =
-    elementDetails.name;
-  const className: string =
-    makeValidClass(elementDetails);
+  const tagName: string = elementDetails.name;
+  const className: string = makeValidClass(elementDetails);
 
   const queries: string[] = [
     `${tagName}${className}`,
@@ -285,21 +207,14 @@ const reduceElementSelector = (
   return generatePerfectQuery(queries);
 };
 
-const reduceQueryString = (
-  query: string
-) => {
+const reduceQueryString = (query: string) => {
   const queries: string[] = [query];
   let matched;
 
-  while (
-    (matched = / > |\s/.exec(query))
-  ) {
-    const patternMatched: string =
-      matched.at(0)!;
+  while ((matched = / > |\s/.exec(query))) {
+    const patternMatched: string = matched.at(0)!;
     const { index, input } = matched;
-    query = input
-      .substring(index)
-      .replace(patternMatched, '');
+    query = input.substring(index).replace(patternMatched, '');
 
     queries.push(query);
   }
@@ -308,17 +223,10 @@ const reduceQueryString = (
 };
 
 const predictQuery =
-  (
-    map: Map<number, string>,
-    limit = Infinity
-  ) =>
-  (
-    query: string,
-    root: Element | Document = document
-  ): number => {
+  (map: Map<number, string>, limit = Infinity) =>
+  (query: string, root: Element | Document = document): number => {
     if (limit > 0) {
-      const totalCount =
-        elementQueryCount(query, root);
+      const totalCount = elementQueryCount(query, root);
 
       if (map.has(totalCount)) {
         return --limit;

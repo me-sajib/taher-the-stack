@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import {
-  useAppDispatch,
-  useAppSelector
-} from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
   deleteScrapeSelector,
   getScrapeSelectors,
@@ -14,32 +11,25 @@ const usePropWrapper = (
   uid: string,
   propInputRef?: React.RefObject<HTMLInputElement>
 ) => {
-  const [isMouseEnter, setMouseEnter] =
-    useState<boolean>(false);
-  const scrapeSelectors =
-    useAppSelector(getScrapeSelectors);
+  const [isMouseEnter, setMouseEnter] = useState<boolean>(false);
+  const scrapeSelectors = useAppSelector(getScrapeSelectors);
 
   const dispatch = useAppDispatch();
 
-  const mouseEnterHandler = () =>
-    setMouseEnter(true);
-  const mouseLeaveHandler = () =>
-    setMouseEnter(false);
+  const mouseEnterHandler = () => setMouseEnter(true);
+  const mouseLeaveHandler = () => setMouseEnter(false);
 
   const deleteActionHandler = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.stopPropagation();
 
-    dispatch(
-      deleteScrapeSelector({ uid })
-    );
+    dispatch(deleteScrapeSelector({ uid }));
     dispatch(resetState({}));
   };
 
   const propNameClickHandler = () => {
-    const selector =
-      scrapeSelectors[uid];
+    const selector = scrapeSelectors[uid];
 
     propInputRef?.current!.focus();
 

@@ -6,28 +6,19 @@ import {
   Query,
   Req
 } from '@nestjs/common';
-import {
-  ApiOperation,
-  ApiResponse
-} from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Request } from 'express';
-import {
-  ParseBodyDto,
-  ParseQueryDto
-} from './dto';
+import { ParseBodyDto, ParseQueryDto } from './dto';
 import { ParseService } from './parse.service';
 
 @Controller('parse')
 export class ParseController {
-  constructor(
-    private parseService: ParseService
-  ) {}
+  constructor(private parseService: ParseService) {}
 
   @Get()
   @ApiOperation({
     tags: ['scrape'],
-    summary:
-      'Instruct and scrape data from any site',
+    summary: 'Instruct and scrape data from any site',
     description: `
       This endpoint handles all types of scrapping functionality like
         1. Configuration of the headless browser
@@ -41,8 +32,7 @@ export class ParseController {
   })
   @ApiResponse({
     status: 200,
-    description:
-      'The scraped data based on the body command'
+    description: 'The scraped data based on the body command'
   })
   async parse(
     @Query() queryDto: ParseQueryDto,
@@ -50,19 +40,11 @@ export class ParseController {
     @Req() req: Request
   ) {
     if (
-      this.parseService.validateAccessToken(
-        queryDto.access_token
-      )
+      this.parseService.validateAccessToken(queryDto.access_token)
     ) {
-      return this.parseService.parse(
-        queryDto,
-        bodyDto,
-        req
-      );
+      return this.parseService.parse(queryDto, bodyDto, req);
     }
 
-    throw new ForbiddenException(
-      'Invalid access token'
-    );
+    throw new ForbiddenException('Invalid access token');
   }
 }

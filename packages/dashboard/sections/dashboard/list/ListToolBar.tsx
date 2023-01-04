@@ -5,52 +5,30 @@ import {
   Toolbar,
   Typography
 } from '@mui/material';
-import {
-  styled,
-  Theme
-} from '@mui/material/styles';
+import { styled, Theme } from '@mui/material/styles';
 import BulkEditor from 'packages/dashboard/components/BulkEditor';
 // component
 import { getIcon } from 'packages/dashboard/utils';
-import React, {
-  useEffect,
-  useState
-} from 'react';
+import React, { useEffect, useState } from 'react';
 
-const RootStyle = styled(Toolbar)(
-  ({ theme }) => ({
-    height: 96,
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: theme.spacing(0, 1, 0, 3)
-  })
-);
+const RootStyle = styled(Toolbar)(({ theme }) => ({
+  height: 96,
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: theme.spacing(0, 1, 0, 3)
+}));
 
 interface CustomTheme extends Theme {
   customShadows: any;
 }
 
-const SearchStyle = styled(
-  OutlinedInput
-)(
-  ({
-    theme
-  }: {
-    theme: CustomTheme;
-  }) => ({
+const SearchStyle = styled(OutlinedInput)(
+  ({ theme }: { theme: CustomTheme }) => ({
     width: 240,
-    transition:
-      theme.transitions.create(
-        ['box-shadow', 'width'],
-        {
-          easing:
-            theme.transitions.easing
-              .easeInOut,
-          duration:
-            theme.transitions.duration
-              .shorter
-        }
-      ),
+    transition: theme.transitions.create(['box-shadow', 'width'], {
+      easing: theme.transitions.easing.easeInOut,
+      duration: theme.transitions.duration.shorter
+    }),
 
     '&.Mui-focused': {
       width: 320,
@@ -68,17 +46,13 @@ interface ListToolbarTypes {
   numSelected: number;
   filterName: string;
   editStateData: string;
-  bulkEditHandler: <T>(
-    changedMap: Map<number, T>
-  ) => void;
+  bulkEditHandler: <T>(changedMap: Map<number, T>) => void;
   bulkDeleteHandler: () => void;
   bulkRecheckHandler: () => void;
   onFilterName: (query: string) => void;
   extraValidation?: (
     state: Map<number, any>,
-    setError: React.Dispatch<
-      React.SetStateAction<string>
-    >
+    setError: React.Dispatch<React.SetStateAction<string>>
   ) => boolean;
 }
 
@@ -93,13 +67,9 @@ export default function ListToolbar({
   onFilterName,
   extraValidation
 }: ListToolbarTypes) {
-  const [queryText, setQueryText] =
-    useState<string>(filterName);
+  const [queryText, setQueryText] = useState<string>(filterName);
 
-  useEffect(
-    () => onFilterName(queryText),
-    [queryText]
-  );
+  useEffect(() => onFilterName(queryText), [queryText]);
 
   const queryChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -126,10 +96,7 @@ export default function ListToolbar({
       className="bg-gray-50"
     >
       {numSelected > 0 ? (
-        <Typography
-          component="div"
-          variant="subtitle1"
-        >
+        <Typography component="div" variant="subtitle1">
           {numSelected} selected
         </Typography>
       ) : (
@@ -139,9 +106,7 @@ export default function ListToolbar({
           placeholder={placeholder}
           startAdornment={
             <InputAdornment position="start">
-              {getIcon(
-                'eva:search-fill'
-              )}
+              {getIcon('eva:search-fill')}
             </InputAdornment>
           }
         />
@@ -153,24 +118,16 @@ export default function ListToolbar({
             <span
               className="tooltip tooltip-bottom cursor-pointer"
               data-tooltip="Delete"
-              onClick={
-                bulkDeleteHandler
-              }
+              onClick={bulkDeleteHandler}
             >
-              {getIcon(
-                'eva:trash-2-fill'
-              )}
+              {getIcon('eva:trash-2-fill')}
             </span>
             <span
               className="tooltip tooltip-bottom cursor-pointer"
               data-tooltip="Recheck"
-              onClick={
-                bulkRecheckHandler
-              }
+              onClick={bulkRecheckHandler}
             >
-              {getIcon(
-                'fluent:arrow-clockwise-16-filled'
-              )}
+              {getIcon('fluent:arrow-clockwise-16-filled')}
             </span>
           </div>
         ) : (
@@ -178,14 +135,8 @@ export default function ListToolbar({
             className="tooltip tooltip-bottom cursor-pointer"
             data-tooltip="Edit"
           >
-            <label
-              htmlFor={
-                bulkEditorProps.modalId
-              }
-            >
-              {getIcon(
-                'akar-icons:edit'
-              )}
+            <label htmlFor={bulkEditorProps.modalId}>
+              {getIcon('akar-icons:edit')}
             </label>
           </span>
         )
@@ -197,9 +148,7 @@ export default function ListToolbar({
         </Tooltip>} */
       }
 
-      <BulkEditor
-        {...bulkEditorProps}
-      />
+      <BulkEditor {...bulkEditorProps} />
     </RootStyle>
   );
 }

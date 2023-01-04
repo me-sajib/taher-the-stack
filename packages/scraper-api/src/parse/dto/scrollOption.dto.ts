@@ -44,8 +44,7 @@ export class ScrollOption {
     name: 'scrollCount',
     required: false,
     type: Number,
-    description:
-      'The number you want to trigger the scroll action'
+    description: 'The number you want to trigger the scroll action'
   })
   scrollCount?: number;
 
@@ -53,8 +52,7 @@ export class ScrollOption {
     name: 'behavior',
     required: false,
     enum: ['auto', 'smooth'],
-    description:
-      'The behavior of scroll action'
+    description: 'The behavior of scroll action'
   })
   @IsOptional()
   behavior?: 'auto' | 'smooth';
