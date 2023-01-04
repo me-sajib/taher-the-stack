@@ -4,6 +4,6 @@ export * from './generateClientRequest';
 export * from './getProxyList';
 export * from './getProxyUserPass';
 export * from './getRotateProxy';
-export * from './handleRequest';
+export * from './mangeHandler';
 export * from './prepareClientReq';
 export * from './verifyUserAuth';
