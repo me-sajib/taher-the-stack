@@ -1,0 +1,8 @@
+{
+  "label": "Dashboard",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "The GUI for managing proxies"
+  }
+}
