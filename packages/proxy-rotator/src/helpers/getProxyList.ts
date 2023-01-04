@@ -1,19 +1,14 @@
-import {
-  Proxy,
-  ProxyList
-} from '@prisma/client';
+import * as argon from 'argon2';
+import { ProxyListWithProxy } from '../interfaces';
 import prisma from '../prismaClient';
 
 export const getProxyList = async (
-  authUser: string,
-  authPass: string
-): Promise<
-  ProxyList & { Proxies: Proxy[] }
-> => {
+  username: string
+): Promise<ProxyListWithProxy> => {
   const proxyList =
     await prisma.proxyList.findUnique({
       where: {
-        username: authUser
+        username
       },
       include: {
         Proxies: {
@@ -24,15 +19,11 @@ export const getProxyList = async (
       }
     });
 
-  if (
-    !proxyList ||
-    proxyList.password !== authPass
-  ) {
-    const error: any = new Error(
-      'Invalid Credential'
-    );
-    error.statusCode = 401;
-    throw error;
+  if (proxyList) {
+    proxyList.password =
+      await argon.hash(
+        proxyList.password
+      );
   }
 
   return proxyList;

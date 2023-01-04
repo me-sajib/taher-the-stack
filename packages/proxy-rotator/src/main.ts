@@ -1,14 +1,18 @@
 import 'dotenv/config';
 import * as http from 'http';
-import mainHandler from './handlers';
+import { baseHandler } from './helpers';
+import { ServerEvent } from './interfaces';
 
 const proxyServer = http.createServer();
-const events = ['request', 'connect'];
+const events: ServerEvent[] = [
+  'request',
+  'connect'
+];
 
 events.forEach((event) =>
   proxyServer.on(
     event,
-    mainHandler(event)
+    baseHandler(event)
   )
 );
 

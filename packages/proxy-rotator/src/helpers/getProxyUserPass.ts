@@ -1,10 +1,9 @@
 import { IncomingMessage } from 'http';
-import data from '../data';
-import { getProxyList } from './getProxyList';
+import { Auth } from '../interfaces';
 
-const checkAuth = async (
+export const getProxyUserPass = (
   req: IncomingMessage
-) => {
+): Auth => {
   // parse login and password from headers
   const authHeader =
     req.headers.authorization ||
@@ -17,17 +16,5 @@ const checkAuth = async (
       .toString()
       .split(':');
 
-  try {
-    data.set(
-      await getProxyList(
-        username,
-        password
-      )
-    );
-    return true;
-  } catch (e) {
-    return false;
-  }
+  return { username, password };
 };
-
-export default checkAuth;

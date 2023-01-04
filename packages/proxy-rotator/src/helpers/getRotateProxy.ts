@@ -1,21 +1,20 @@
+import { Proxy } from '@prisma/client';
 import {
-  Proxy,
-  ProxyList
-} from '@prisma/client';
-import { RotateProxy } from '../interfaces';
+  ProxyListWithProxy,
+  RotateProxy
+} from '../interfaces';
 import prisma from '../prismaClient';
 
 // By username & password this function get a rotate proxy from proxy lists
 export const getRotateProxy = async (
-  proxyList: ProxyList & {
-    Proxies: Proxy[];
-  }
+  proxyList: ProxyListWithProxy
 ): Promise<RotateProxy> => {
   const {
     username,
     rotatingIndex,
     Proxies
   } = proxyList;
+
   let nextIndex: number =
     rotatingIndex + 1;
   let proxy: Proxy;
