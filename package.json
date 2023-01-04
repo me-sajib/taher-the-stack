@@ -32,7 +32,7 @@
   "lint-staged": {
     "./packages/api/src/**/**/*.ts": [
       "prettier --write packages/api/",
-      "eslint ."
+      "eslint packages/api/"
     ],
     "./packages/dashboard/**/**/*.{ts,tsx}": [
       "prettier --write packages/dashboard/",
@@ -51,8 +51,8 @@
       "eslint packages/scraper-api/"
     ],
     "./packages/web-scraper-extension/src/**/*.{ts,tsx}": [
-      "prettier --write packages/web-scraper-extension/",
-      "eslint packages/web-scraper-extension/"
+      "prettier --write packages/web-scraper-extension/src/",
+      "eslint packages/web-scraper-extension/src/"
     ],
     "./packages/website/**/*.{js,jsx}": [
       "prettier --write packages/website/",
