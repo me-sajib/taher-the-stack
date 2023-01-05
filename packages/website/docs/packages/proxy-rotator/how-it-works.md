@@ -3,7 +3,7 @@ title: How it Works
 sidebar_position: 3
 ---
 
-First, it searches the proxy list records using the designated username. Once the password matches, the app authenticates the user and returns the appropriate rotating proxy. If the proxy has a username and password, these details are passed as authentication in the proxy request. The app also has a feature that increments the rotatingIndex by 1 after each request. If the index exceeds the length of the proxy list, it resets to 0 and begins the process again. This ensures that users have access to a diverse range of proxies and helps maintain a secure connection to the internet. For more information about this process, you can check out the getRotateProxy function to see the workflow.
+First, it searches the proxy list records using the designated username. Once the password matches, the app authenticates the user and returns the appropriate rotating proxy. If the proxy has a username and password, these details are passed as authentication in the proxy request. The app also has a feature that increments the `rotatingIndex` by `1` after each request. If the index exceeds the length of the proxy list, it resets to `0` and begins the process again. This ensures that users have access to a diverse range of proxies and helps maintain a secure connection to the internet. For more information about this process, you can check out the `getRotateProxy` function to see the workflow.
 
 The returned proxy looks like this:
 

@@ -1,0 +1,8 @@
+{
+  "label": "Proxy manager extension",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "The extension makes it easy to use proxies"
+  }
+}
