@@ -4,9 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import navConfig from '../layouts/dashboard/NavConfig';
 
-export const NavMenus = ({
-  classes = ''
-}) => {
+export const NavMenus = ({ classes = '' }) => {
   const router = useRouter();
 
   return (
@@ -14,15 +12,10 @@ export const NavMenus = ({
       {navConfig.map((item) => {
         const isActiveMenu =
           item.path.split('/').at(1) ===
-          router.pathname
-            .split('/')
-            .at(1);
+          router.pathname.split('/').at(1);
 
         return (
-          <Link
-            key={nanoid()}
-            href={item.path}
-          >
+          <Link key={nanoid()} href={item.path}>
             <span
               className={clsx(
                 'cursor-pointer',
@@ -32,12 +25,8 @@ export const NavMenus = ({
               )}
             >
               <div className="flex">
-                <span className="mr-2">
-                  {item.icon}
-                </span>
-                <span>
-                  {item.title}
-                </span>
+                <span className="mr-2">{item.icon}</span>
+                <span>{item.title}</span>
               </div>
             </span>
           </Link>

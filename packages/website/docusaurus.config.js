@@ -4,14 +4,12 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
-const siteTitle =
-  'Proxy Manager Extension';
+const siteTitle = 'Proxy Manager Extension';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: siteTitle,
-  tagline:
-    'Manage your proxies through extension',
+  tagline: 'Manage your proxies through extension',
   url: 'http://proxymanagerextension.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -21,8 +19,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'SoftwareSheba', // Usually your GitHub org/user name.
-  projectName:
-    'proxy-manager-extension', // Usually your repo name.
+  projectName: 'proxy-manager-extension', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -38,18 +35,14 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve(
-            './sidebars.js'
-          ),
+          sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/'
         },
         theme: {
-          customCss: require.resolve(
-            './src/css/custom.css'
-          )
+          customCss: require.resolve('./src/css/custom.css')
         }
       })
     ]

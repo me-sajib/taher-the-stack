@@ -1,0 +1,15 @@
+.container {
+  position: relative;
+  padding: 0 80px;
+}
+
+.downloadButtons {
+  text-align: center;
+  margin: 25px 0;
+}
+
+.backToEditPage {
+  position: absolute;
+  top: 0;
+  left: 20px;
+}

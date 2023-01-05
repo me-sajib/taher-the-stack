@@ -1,13 +1,7 @@
-import {
-  Button,
-  Modal
-} from 'packages/dashboard/components';
+import { Button, Modal } from 'packages/dashboard/components';
 import { getProxyListError } from 'packages/dashboard/store/proxyListSlice';
 import { useEffect } from 'react';
-import {
-  SubmitHandler,
-  useForm
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import validator from '../validator';
 import FormProvider from './hook-form/FormProvider';
@@ -35,15 +29,12 @@ export default function ProxyListModal({
   modalId,
   onSubmit
 }: ProxyListModalTypes) {
-  const proxyListError = useSelector(
-    getProxyListError
-  );
-  const defaultFormState =
-    formState ?? {
-      name: '',
-      username: '',
-      password: ''
-    };
+  const proxyListError = useSelector(getProxyListError);
+  const defaultFormState = formState ?? {
+    name: '',
+    username: '',
+    password: ''
+  };
 
   const methods = useForm({
     defaultValues: defaultFormState
@@ -56,15 +47,11 @@ export default function ProxyListModal({
 
   useEffect(() => {
     proxyListError.forEach((error) => {
-      const [propName] =
-        error.message.split(/\s/);
+      const [propName] = error.message.split(/\s/);
 
-      setError(
-        propName as keyof ProxyModalData,
-        {
-          message: error.message
-        }
-      );
+      setError(propName as keyof ProxyModalData, {
+        message: error.message
+      });
     });
   }, [proxyListError]);
 
@@ -82,9 +69,7 @@ export default function ProxyListModal({
         return (
           <FormProvider
             methods={methods}
-            onSubmit={handleSubmit(
-              onSubmit
-            )}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col gap-3 py-5">
               <RHFTextField
@@ -119,8 +104,7 @@ export default function ProxyListModal({
                 text={actionType}
                 classes="mt-2"
                 conditionClasses={{
-                  'btn-loading':
-                    isSubmitting
+                  'btn-loading': isSubmitting
                 }}
               />
             </div>

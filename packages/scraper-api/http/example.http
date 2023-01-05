@@ -1,0 +1,330 @@
+@hostname = localhost
+@port = 3333
+@host = {{hostname}}:{{port}}
+@parseUrl =  http://{{host}}/parse?access_token=hello2345
+
+### check health
+GET http://{{host}}/health
+
+### without render
+GET {{parseUrl}}
+
+### get only text of the site
+GET {{parseUrl}}&render=true&url=https://www.httpbin.org/ip
+Content-Type: application/json
+
+{
+    "only_text": true
+}
+
+### get metrics
+GET {{parseUrl}}&render=true&url=https://www.httpbin.org/ip
+Content-Type: application/json
+
+{
+    "metrics": true
+}
+
+### custom headers
+GET {{parseUrl}}&render=true&keep_headers=true&url=https://www.httpbin.org/headers
+ESA-X-MyHeader: 123
+
+{
+    "only_text": true
+}
+
+### get only body
+GET {{parseUrl}}&render=true&url=https://www.httpbin.org/ip
+Content-Type: application/json
+
+{
+    "only_body": true
+}
+
+### take a screenshot
+GET {{parseUrl}}&render=true&url=https://www.facebook.com
+Content-Type: application/json
+
+{
+    "screenshot": true
+}
+
+### take screenshot of full screen
+GET {{parseUrl}}&render=true&url=https://www.facebook.com
+Content-Type: application/json
+
+{
+    "screenshot_full_page": true
+}
+
+### take a screenshot of specific element
+GET {{parseUrl}}&render=true&url=https://www.httpbin.org/ip
+Content-Type: application/json
+
+{
+    "screenshot_selector": "pre"
+}
+
+### take screenshot with specific window size
+GET {{parseUrl}}&render=true&url=https://www.httpbin.org/ip
+Content-Type: application/json
+
+{
+    "config": {
+        "window_width": 500,
+        "window_height": 500
+    },
+    "screenshot": true
+}
+
+### scrape data by own proxy feature
+GET {{parseUrl}}&render=true&url=https://www.httpbin.org/ip
+Content-Type: application/json
+
+{
+    "config": {
+        "own_proxy": "username:password@proxyaddress.com:port"
+    },
+    "only_text": true
+}
+
+### set cookies
+GET {{parseUrl}}&render=true&url=https://www.httpbin.org/ip
+Content-Type: application/json
+
+{
+    "config": {
+        "cookies": [
+            {
+                "name": "cookie1",
+                "value": "value1"
+            },
+            {
+                "name": "cookie2",
+                "value": "value2"
+            }
+        ]
+    },
+    "only_text": true
+}
+
+### block resources
+GET {{parseUrl}}&render=true&url=https://www.pexels.com/search/website/
+Content-Type: application/json
+
+{
+    "config": {
+        "block_resource": ["png", "gif", "jpeg", "jpg"]
+    },
+    "instructions": [
+        {
+            "wait": 5000
+        }
+    ]
+}
+
+### block ads
+GET {{parseUrl}}&render=true&url=https://www.prothomalo.com/
+Content-Type: application/json
+
+{
+    "config": {
+        "window_width": 1080,
+        "windwo_height": 720,
+        "block_ads": true
+    },
+    "instructions": [
+        {
+            "wait": 30000
+        }
+    ]
+}
+
+### wait for element
+GET {{parseUrl}}&render=true&url=https://news.ycombinator.com/
+Content-Type: application/json
+
+{
+    "instructions": [
+        {
+            "wait_for": ".titleline"
+        }
+    ],
+    "return_page_source": true
+}
+
+### wait for element & click
+GET {{parseUrl}}&render=true&url=https://news.ycombinator.com/
+Content-Type: application/json
+
+{
+    "instructions": [
+        {
+            "wait_for_and_click": {
+                "selector": ".titleline",
+                "delay": 3000
+            }
+        }
+    ],
+    "return_page_source": true
+}
+
+### scroll x
+GET {{parseUrl}}&render=true&url=https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-x
+Content-Type: application/json
+
+{
+    "instructions": [
+        {
+            "scroll_y": 5400,
+            "scroll_x": {
+                "selector": "#div2",
+                "amount": 35,
+                "scrollCount": 5,
+                "delay": 1000,
+                "behavior": "smooth"
+            }
+        },
+        {
+            "scroll_x": {
+                "selector": "#div4",
+                "amount": 35,
+                "scrollCount": 5,
+                "delay": 1000,
+                "behavior": "smooth"
+            },
+            "wait": 5000
+        }
+    ],
+    "screenshot": true
+}
+
+### scroll y
+GET {{parseUrl}}&render=true&url=https://www.producthunt.com/
+Content-Type: application/json
+
+{
+    "instructions": [
+        {
+            "scroll_y": {
+                "selector": ".nothing",
+                "amount": 3500,
+                "scrollCount": 20,
+                "delay": 3000,
+                "behavior": "smooth"
+            }
+        }
+    ]
+}
+
+### fill input
+GET {{parseUrl}}&render=true&url=https://pptr.dev/
+Content-Type: application/json
+
+{
+    "instructions": [
+        {
+            "fill": {
+                "selector": ".navbar__search-input",
+                "text": "Page.type",
+                "delay": 800
+            }
+        }
+    ]
+}
+
+### evaluate
+GET {{parseUrl}}&render=true&url=https://www.example.com/
+Content-Type: application/json
+
+{
+    "instructions": [
+        {
+            "evaluate": "console.log('done')",
+            "wait": 10000
+        }
+    ]
+}
+
+### extract data selector & text
+GET {{parseUrl}}&render=true&url=https://www.example.com/
+Content-Type: application/json
+
+{
+    "extract": {
+        "title": "h1",
+        "paragraph": {
+            "selector": "p",
+            "clean": true
+        }
+    }
+}
+
+### extract data list
+GET {{parseUrl}}&render=true&url=https://news.ycombinator.com/
+Content-Type: application/json
+
+{
+    "extract": {
+        "titles": {
+            "selector": ".titleline > a",
+            "type": "list"
+        }
+    }
+}
+
+### extract data list
+GET {{parseUrl}}&render=true&url=https://news.ycombinator.com/
+Content-Type: application/json
+
+{
+    "extract": {
+        "titles": {
+            "selector": ".titleline > a",
+            "type": "list"
+        },
+        "links": {
+            "selector": ".titleline > a",
+            "output": "@href",
+            "type": "list"
+        }
+    }
+}
+
+### extract data list
+GET {{parseUrl}}&render=true&url=https://www.scrapingbee.com/documentation/data-extraction/#array-representation
+Content-Type: application/json
+
+{
+    "extract": {
+        "price_table": {
+            "selector": "table",
+            "output": "table_json"
+        }
+    }
+}
+
+### nested scraping
+GET {{parseUrl}}&render=true&url=https://news.ycombinator.com/
+Content-Type: application/json
+
+{
+    "extract": {
+        "articles": {
+            "selector": ".athing",
+            "type": "list",
+            "output": {
+                "title": ".titleline > a",
+                "title_link": {
+                    "selector": ".titleline > a",
+                    "output": "@href"
+                },
+                "subtitle": ".sitebit",
+                "subtitle_link": {
+                    "selector": ".sitebit > a",
+                    "output": "@href"
+                }
+            }
+        }
+    }
+}

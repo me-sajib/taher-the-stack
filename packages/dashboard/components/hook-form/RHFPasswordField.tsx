@@ -2,26 +2,17 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import RHFTextField from './RHFTextFiled';
 
-const RHFPasswordField = ({
-  name,
-  classes = '',
-  ...props
-}) => {
-  const [show, setShow] =
-    useState(false);
+const RHFPasswordField = ({ name, classes = '', ...props }) => {
+  const [show, setShow] = useState(false);
 
-  const toggleShow = () =>
-    setShow((prev) => !prev);
+  const toggleShow = () => setShow((prev) => !prev);
 
   return (
     <RHFTextField
       name={name}
       {...props}
       type={show ? 'text' : 'password'}
-      classes={clsx(
-        'relative',
-        classes
-      )}
+      classes={clsx('relative', classes)}
     >
       <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm">
         {show ? (

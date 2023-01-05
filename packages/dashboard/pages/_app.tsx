@@ -4,10 +4,7 @@ import { wrapper } from 'packages/dashboard/store';
 import ThemeProvider from '../theme/';
 import './styles.css';
 
-function App({
-  Component,
-  pageProps
-}: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <Head>

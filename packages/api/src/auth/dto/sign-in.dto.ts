@@ -23,8 +23,7 @@ export class AuthSigninDto {
   @MinLength(3)
   @ApiProperty({
     name: 'password',
-    description:
-      'The password of an user',
+    description: 'The password of an user',
     default: '',
     type: String
   })
@@ -34,8 +33,7 @@ export class AuthSigninDto {
   @IsBoolean()
   @ApiProperty({
     name: 'remember',
-    description:
-      'The remember status for next time login',
+    description: 'The remember status for next time login',
     required: false,
     default: false,
     type: Boolean

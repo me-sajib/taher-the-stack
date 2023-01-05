@@ -6,14 +6,11 @@ import { getUser } from 'packages/dashboard/store/userSlice';
 import { useSelector } from 'react-redux';
 
 const AccountPopover = () => {
-  const profile: User =
-    useSelector(getUser);
+  const profile: User = useSelector(getUser);
   const router = useRouter();
 
   const logoutHandler = async () => {
-    await axios.delete(
-      '/api/auth/sign-out'
-    );
+    await axios.delete('/api/auth/sign-out');
     router.push('/auth/sign-in');
   };
 
@@ -24,9 +21,7 @@ const AccountPopover = () => {
           className="btn flex bg-transparent text-lg border-none text-black"
           tabIndex={0}
         >
-          <span>
-            {profile.username}
-          </span>
+          <span>{profile.username}</span>
           <svg
             className="ml-2 -mr-1 h-5 w-5"
             viewBox="0 0 20 20"
@@ -46,9 +41,7 @@ const AccountPopover = () => {
               {profile.fullname}
             </p>
             <p className="truncate text-sm leading-5 text-content2">
-              <strong>
-                {profile.email}
-              </strong>
+              <strong>{profile.email}</strong>
             </p>
           </div>
 

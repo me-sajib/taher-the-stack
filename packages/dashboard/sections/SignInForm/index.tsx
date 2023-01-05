@@ -18,12 +18,11 @@ interface SignInFormTypes {
 
 const SignInForm = () => {
   const router = useRouter();
-  const defaultValues: SignInFormTypes =
-    {
-      identifier: '',
-      password: '',
-      remember: true
-    };
+  const defaultValues: SignInFormTypes = {
+    identifier: '',
+    password: '',
+    remember: true
+  };
 
   const methods = useForm({
     defaultValues
@@ -34,14 +33,11 @@ const SignInForm = () => {
     formState: { isSubmitting }
   } = methods;
 
-  const onSubmit = async (
-    formData: SignInFormTypes
-  ) => {
-    const { data: res } =
-      await axios.post(
-        '/api/auth/sign-in',
-        formData
-      );
+  const onSubmit = async (formData: SignInFormTypes) => {
+    const { data: res } = await axios.post(
+      '/api/auth/sign-in',
+      formData
+    );
 
     if (res.status === 403) {
       setError('identifier', {
@@ -52,15 +48,11 @@ const SignInForm = () => {
       });
     }
 
-    res.status === 202 &&
-      router.push('/proxy-list');
+    res.status === 202 && router.push('/proxy-list');
   };
 
   return (
-    <FormProvider
-      methods={methods}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4">
         <RHFTextField
           classes="mb-3"
@@ -72,10 +64,7 @@ const SignInForm = () => {
           name="password"
           placeholder="Password"
         />
-        <RHFCheckbox
-          name="remember"
-          label="Remember me"
-        />
+        <RHFCheckbox name="remember" label="Remember me" />
       </div>
 
       <Button

@@ -27,21 +27,14 @@ async function seed() {
     const users: SignUpUser[] = [];
 
     while (totalUser--) {
-      const [firstName, lastName] =
-        faker.name
-          .fullName()
-          .split(/\s/);
+      const [firstName, lastName] = faker.name.fullName().split(/\s/);
 
       const user = {
         fullname: `${firstName} ${lastName}`,
-        email: faker.internet.email(
-          firstName,
-          lastName
-        ),
-        username:
-          `${firstName}${faker.random.alphaNumeric(
-            5
-          )}`.toLowerCase(),
+        email: faker.internet.email(firstName, lastName),
+        username: `${firstName}${faker.random.alphaNumeric(
+          5
+        )}`.toLowerCase(),
         password: 'Hello12345'
       };
 
@@ -49,60 +42,43 @@ async function seed() {
       await client.user.create({
         data: {
           ...user,
-          password: await argon.hash(
-            user.password
-          )
+          password: await argon.hash(user.password)
         }
       });
     }
 
     // create proxy list
     if (PROXY_LIST_COUNT) {
-      for (const {
-        id,
-        username
-      } of users) {
-        let totalProxyList: number =
-          +PROXY_LIST_COUNT;
+      for (const { id, username } of users) {
+        let totalProxyList: number = +PROXY_LIST_COUNT;
 
         while (totalProxyList--) {
           const proxyList = {
             name: faker.word.noun(),
-            username:
-              `${username}${faker.random.alphaNumeric(
-                4
-              )}`.toLowerCase(),
-            password:
-              faker.internet.password(5)
+            username: `${username}${faker.random.alphaNumeric(
+              4
+            )}`.toLowerCase(),
+            password: faker.internet.password(5)
           };
 
-          await client.proxyList.create(
-            {
-              data: {
-                userId: id as string,
-                ...proxyList
-              }
+          await client.proxyList.create({
+            data: {
+              userId: id as string,
+              ...proxyList
             }
-          );
+          });
         }
       }
     }
   }
 
-  if (
-    FULL_NAME &&
-    USERNAME &&
-    EMAIL &&
-    PASSWORD
-  ) {
+  if (FULL_NAME && USERNAME && EMAIL && PASSWORD) {
     await client.user.create({
       data: {
         fullname: FULL_NAME,
         username: USERNAME,
         email: EMAIL,
-        password: await argon.hash(
-          PASSWORD
-        )
+        password: await argon.hash(PASSWORD)
       }
     });
   }

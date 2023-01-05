@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "easy-web-scraper",
+  "version": "0.0.1",
+  "description": "A chrome extension for web scraping",
+  "icons": {
+    "32": "./easy-scraper.png"
+  },
+  "action": {
+    "default_icon": "./easy-scraper.png"
+  },
+  "background": {
+    "service_worker": "./background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"]
+    }
+  ],
+  "permissions": ["tabs", "activeTab", "scripting", "storage"],
+  "host_permissions": ["http://*/", "https://*/", "<all_urls>"]
+}

@@ -54,7 +54,7 @@ yarn prisma studio
 Now run for the `API` server through
 
 ```bash
-yarn start:api
+yarn dev:api
 ```
 
 It will be listening on `localhost:3333` by default, and the prefix of the API is `/api`. Furthermore, you can find the **Open API - Swagger** at `/swagger` endpoint.
@@ -62,5 +62,5 @@ It will be listening on `localhost:3333` by default, and the prefix of the API i
 And to build in production mode
 
 ```bash
-yarn start:build
+yarn build:api
 ```

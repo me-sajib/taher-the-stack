@@ -1,0 +1,42 @@
+{
+  "name": "@software-sheba/proxy-manager-extension",
+  "displayName": "Proxy manager extension",
+  "version": "1.0.0",
+  "description": "Mange your proxies through extension ",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "@plasmohq/storage": "^0.13.0",
+    "nanoid": "^4.0.0",
+    "plasmo": "0.59.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwind-merge": "^1.8.0"
+  },
+  "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "3.6.0",
+    "@types/chrome": "0.0.202",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "prettier": "2.8.0",
+    "typescript": "4.9.3"
+  },
+  "manifest": {
+    "host_permissions": [
+      "https://*/*",
+      "http://*/*",
+      "<all_urls>"
+    ],
+    "permissions": [
+      "tabs",
+      "proxy",
+      "webRequest",
+      "webRequestAuthProvider"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+.container {
+  width: 70%;
+  position: relative;
+  margin: 30px auto;
+}
+
+.heading {
+  text-align: center;
+  font-size: 30px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+}

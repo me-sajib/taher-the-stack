@@ -12,9 +12,7 @@ import Typography from './Typography';
 
 // ----------------------------------------------------------------------
 
-export default function ComponentsOverrides(
-  theme
-) {
+export default function ComponentsOverrides(theme) {
   return Object.assign(
     Card(theme),
     Input(theme),

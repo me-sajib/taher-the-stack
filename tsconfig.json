@@ -16,10 +16,7 @@
     "noLib": false,
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false,
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "jsx": "preserve",
@@ -31,20 +28,26 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "paths": {
-      "@proxy-manager/*": [
-        "packages/*/src"
-      ]
+      "@software-sheba/*": ["packages/*/src"],
+      "@software-sheba/api/src/*": ["packages/api/src"],
+      "@software-sheba/dashboard/src/*": ["packages/dashboard/src"],
+      "@software-sheba/proxy-manager-extension/src/*": [
+        "packages/proxy-manager-extension/src"
+      ],
+      "@software-sheba/proxy-rotator/src/*": [
+        "packages/proxy-rotator/src"
+      ],
+      "@software-sheba/scraper-api/src/*": [
+        "packages/scraper-api/src"
+      ],
+      "@software-sheba/web-scraper-extension/src/*": [
+        "packages/web-scraper-extension/src"
+      ],
+      "@software-sheba/website/src/*": ["packages/website/src"]
     }
   },
-  "include": [
-    "packages/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "include": ["packages/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

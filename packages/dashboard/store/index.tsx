@@ -19,34 +19,23 @@ const reducer = combineReducers({
 
 const store = configureStore({
   reducer,
-  devTools:
-    process.env.NODE_ENV !==
-    'production'
+  devTools: process.env.NODE_ENV !== 'production'
 });
 
-export type AppDispatch =
-  typeof store.dispatch;
-export type RootState = ReturnType<
-  typeof store.getState
->;
-export type AppThunk<
-  ReturnType = void
-> = ThunkAction<
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
   Action<string>
 >;
-export type AppThunkDispatch =
-  ThunkDispatch<
-    RootState,
-    any,
-    AnyAction
-  >;
+export type AppThunkDispatch = ThunkDispatch<
+  RootState,
+  any,
+  AnyAction
+>;
 
-export const wrapper = createWrapper(
-  () => store,
-  { debug: true }
-);
+export const wrapper = createWrapper(() => store, { debug: true });
 
 export default store;

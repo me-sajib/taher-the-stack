@@ -1,7 +1,4 @@
-import {
-  SubmitHandler,
-  useForm
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Modal } from '.';
 import validator from '../validator';
 import FormProvider from './hook-form/FormProvider';
@@ -29,14 +26,13 @@ export default function ProxyModal({
   modalId,
   onSubmit
 }: ProxyModalTypes) {
-  const defaultFormState: ProxyModalData =
-    formState ?? {
-      host: '',
-      port: NaN,
-      username: '',
-      password: '',
-      country: ''
-    };
+  const defaultFormState: ProxyModalData = formState ?? {
+    host: '',
+    port: NaN,
+    username: '',
+    password: '',
+    country: ''
+  };
 
   const methods = useForm({
     defaultValues: defaultFormState
@@ -57,9 +53,7 @@ export default function ProxyModal({
       {() => (
         <FormProvider
           methods={methods}
-          onSubmit={handleSubmit(
-            onSubmit
-          )}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex flex-col gap-3 py-5">
             <RHFTextField
@@ -104,8 +98,7 @@ export default function ProxyModal({
               text={actionType}
               classes="mt-2"
               conditionClasses={{
-                'btn-loading':
-                  isSubmitting
+                'btn-loading': isSubmitting
               }}
             />
           </div>

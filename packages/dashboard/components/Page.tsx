@@ -5,10 +5,7 @@ interface PageTypes {
   title: string;
 }
 
-const Page = ({
-  children,
-  title
-}: PageTypes) => (
+const Page = ({ children, title }: PageTypes) => (
   <>
     <Head>
       <title>{`${title} | Proxy Manager`}</title>

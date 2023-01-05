@@ -8,31 +8,20 @@ import {
   getUser,
   getUserStatus
 } from 'packages/dashboard/store/userSlice';
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DashboardNavbar from './DashboardNavBar';
 
-export default function DashboardLayout({
-  children
-}) {
-  const profileStatus = useSelector(
-    getUserStatus
-  );
+export default function DashboardLayout({ children }) {
+  const profileStatus = useSelector(getUserStatus);
 
   const profile = useSelector(getUser);
-  const asyncDispatch =
-    useDispatch<AppThunkDispatch>();
+  const asyncDispatch = useDispatch<AppThunkDispatch>();
 
   useEffect(() => {
     asyncDispatch(fetchUserProfile());
   }, [asyncDispatch]);
 
-  if (
-    profileStatus === 'loading' &&
-    !profile
-  ) {
+  if (profileStatus === 'loading' && !profile) {
     return <LinearProgress />;
   }
 

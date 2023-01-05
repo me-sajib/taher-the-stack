@@ -1,5 +1,5 @@
 {
-  "name": "proxy-rotator",
+  "name": "@software-sheba/proxy-rotator",
   "version": "1.0.0",
   "description": "A proxy rotator app",
   "author": "Developer <fahimfaisal.soikot@gmail.com>",
@@ -16,7 +16,8 @@
   "scripts": {
     "dev": "nodemon --exec jiti src/main.ts",
     "start": "jiti dist/main.js",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "format": "prettier --write \"src/**/*.ts\""
   },
   "bugs": {
     "url": "https://github.com/SoftwareSheba/easy-proxy-manager/issues"

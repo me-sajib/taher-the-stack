@@ -1,4 +1,4 @@
-# `@easy-proxy-manager/proxy-rotator`
+# `@software-sheba/proxy-rotator`
 
 A clean & simple proxy rotator for easy-proxy-manager app
 
@@ -33,11 +33,11 @@ After this it invokes the `getOptions` function that creates a new request optio
 This app can be running by the below command:
 
 ```bash
-yarn start:rotator
+yarn dev:proxy-rotator
 ```
 
 > Run for production build
 
 ```bash
-yarn build:rotator
+yarn build:proxy-rotator
 ```

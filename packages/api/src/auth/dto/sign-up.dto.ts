@@ -18,8 +18,7 @@ export class AuthSignupDto {
   @MaxLength(50)
   @ApiProperty({
     name: 'fullname',
-    description:
-      'The full name of an user',
+    description: 'The full name of an user',
     default: '',
     type: String
   })
@@ -31,8 +30,7 @@ export class AuthSignupDto {
   @ValidateBy(...usernameValidator)
   @ApiProperty({
     name: 'username',
-    description:
-      'The username of an user',
+    description: 'The username of an user',
     default: '',
     type: String
   })
@@ -53,8 +51,7 @@ export class AuthSignupDto {
   @MinLength(3)
   @ApiProperty({
     name: 'password',
-    description:
-      'The password of an user',
+    description: 'The password of an user',
     default: '',
     type: String
   })
@@ -64,8 +61,7 @@ export class AuthSignupDto {
   @IsBoolean()
   @ApiProperty({
     name: 'remember',
-    description:
-      'The remember status for next time login',
+    description: 'The remember status for next time login',
     required: false,
     default: false,
     type: Boolean

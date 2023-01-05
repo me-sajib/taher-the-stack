@@ -10,8 +10,7 @@ export class ProxyUpdateDto {
   @IsNumber()
   @ApiProperty({
     name: 'id',
-    description:
-      'The proxy id to update',
+    description: 'The proxy id to update',
     type: Number,
     default: 0
   })
@@ -22,8 +21,7 @@ export class ProxyUpdateDto {
   @IsNotEmpty()
   @ApiProperty({
     name: 'host',
-    description:
-      'The ip address of proxy server',
+    description: 'The ip address of proxy server',
     required: false,
     type: String,
     default: ''
@@ -34,8 +32,7 @@ export class ProxyUpdateDto {
   @IsNumber()
   @ApiProperty({
     name: 'port',
-    description:
-      'Valid proxy port number',
+    description: 'Valid proxy port number',
     type: Number,
     default: 3000
   })
@@ -47,8 +44,7 @@ export class ProxyUpdateDto {
   @ApiProperty({
     name: 'country',
     required: false,
-    description:
-      'The country name of the server',
+    description: 'The country name of the server',
     type: String,
     default: ''
   })
@@ -60,23 +56,18 @@ export class ProxyUpdateDto {
   @ApiProperty({
     name: 'status',
     required: false,
-    description:
-      'The status of the proxy server',
+    description: 'The status of the proxy server',
     type: String,
     default: 'ACTIVE'
   })
-  status:
-    | 'ACTIVE'
-    | 'INACTIVE'
-    | 'CHECKING';
+  status: 'ACTIVE' | 'INACTIVE' | 'CHECKING';
 
   @IsOptional()
   @IsString()
   @ApiProperty({
     name: 'username',
     required: false,
-    description:
-      'The username of the proxy server',
+    description: 'The username of the proxy server',
     type: String,
     default: ''
   })
@@ -88,8 +79,7 @@ export class ProxyUpdateDto {
   @ApiProperty({
     name: 'lastCheckAt',
     required: false,
-    description:
-      'The time of last check status of proxy server',
+    description: 'The time of last check status of proxy server',
     type: String,
     default: new Date()
   })
@@ -100,8 +90,7 @@ export class ProxyUpdateDto {
   @ApiProperty({
     name: 'totalHits',
     required: false,
-    description:
-      'The number of hits to this proxy server',
+    description: 'The number of hits to this proxy server',
     type: Number,
     default: 0
   })

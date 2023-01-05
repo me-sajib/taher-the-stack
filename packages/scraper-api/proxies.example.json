@@ -1,0 +1,7 @@
+[
+  {
+    "address": "proxy address",
+    "port": 4000,
+    "auth": "username:password"
+  }
+]

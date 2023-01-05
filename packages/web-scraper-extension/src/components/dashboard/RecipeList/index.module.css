@@ -1,0 +1,46 @@
+.container {
+  font-size: 18.5px;
+  color: var(--fade-text-color);
+}
+
+.host {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  user-select: none;
+}
+
+.icon {
+  cursor: pointer;
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: transform 250ms ease;
+  margin-right: 5px;
+  opacity: 0.6;
+}
+
+.open {
+  transform: rotate(90deg);
+}
+
+.recipes {
+  list-style: none;
+}
+
+.recipe {
+  color: #282525;
+  display: block;
+  padding: 7px 0 7px 40px;
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+  font-size: 16px;
+}
+
+.recipe:hover {
+  background-color: hsl(211, 71%, 88%);
+}
+
+.active {
+  font-weight: bold;
+  background-color: var(--border-color);
+}

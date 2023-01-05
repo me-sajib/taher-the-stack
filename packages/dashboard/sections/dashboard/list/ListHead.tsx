@@ -24,10 +24,7 @@ const visuallyHidden = {
 };
 
 ListHead.propTypes = {
-  order: PropTypes.oneOf([
-    'asc',
-    'desc'
-  ]),
+  order: PropTypes.oneOf(['asc', 'desc']),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
   headLabel: PropTypes.array,
@@ -50,67 +47,41 @@ export default function ListHead<T>({
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
-            indeterminate={
-              numSelected > 0 &&
-              numSelected < rowCount
-            }
-            checked={
-              rowCount > 0 &&
-              numSelected === rowCount
-            }
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
           />
         </TableCell>
-        {headLabel.map(
-          (headCell: HeadType<T>) =>
-            headCell ? (
-              <TableCell
-                key={nanoid()}
-                align={
-                  headCell.align ||
-                  'left'
-                }
-                sortDirection={
-                  orderBy ===
-                  headCell.id
-                    ? order
-                    : false
-                }
+        {headLabel.map((headCell: HeadType<T>) =>
+          headCell ? (
+            <TableCell
+              key={nanoid()}
+              align={headCell.align || 'left'}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              <TableSortLabel
+                hideSortIcon
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={onRequestSort(headCell.id)}
               >
-                <TableSortLabel
-                  hideSortIcon
-                  active={
-                    orderBy ===
-                    headCell.id
-                  }
-                  direction={
-                    orderBy ===
-                    headCell.id
-                      ? order
-                      : 'asc'
-                  }
-                  onClick={onRequestSort(
-                    headCell.id
-                  )}
-                >
-                  {headCell.label}
-                  {orderBy ===
-                  headCell.id ? (
-                    <Box
-                      sx={{
-                        ...visuallyHidden
-                      }}
-                    >
-                      {order === 'desc'
-                        ? 'sorted descending'
-                        : 'sorted ascending'}
-                    </Box>
-                  ) : null}
-                </TableSortLabel>
-              </TableCell>
-            ) : (
-              headCell
-            )
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box
+                    sx={{
+                      ...visuallyHidden
+                    }}
+                  >
+                    {order === 'desc'
+                      ? 'sorted descending'
+                      : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          ) : (
+            headCell
+          )
         )}
         <TableCell />
       </TableRow>

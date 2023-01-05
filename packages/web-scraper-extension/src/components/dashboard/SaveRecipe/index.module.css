@@ -1,0 +1,17 @@
+.actionButtons {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.create {
+  display: inline-block;
+  padding: 15px 10px;
+  font-size: 20px;
+  border-radius: unset;
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: var(--fade-text-color);
+}

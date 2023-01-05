@@ -1,0 +1,32 @@
+.propEditorInputBox {
+  display: flex;
+  position: relative;
+}
+
+.inputContainer {
+  flex-basis: 80%;
+}
+
+.editButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 13.5px;
+  padding: 5px;
+  color: var(--primary-color);
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.addButton {
+  all: unset;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  font-size: 25px;
+  background-color: transparent;
+  border: 2px dashed var(--divider-color);
+  cursor: pointer;
+  transition: all 250ms ease;
+}

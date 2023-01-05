@@ -25,24 +25,14 @@ const RHFTextField = ({
     <Controller
       name={name}
       control={control}
-      render={({
-        field,
-        fieldState: { error }
-      }) => (
+      render={({ field, fieldState: { error } }) => (
         <div>
-          <div
-            className={clsx(classes)}
-          >
+          <div className={clsx(classes)}>
             <input
-              className={clsx(
-                'input-block input text-black',
-                {
-                  'input-ghost-primary':
-                    !error,
-                  'input-ghost-error':
-                    error
-                }
-              )}
+              className={clsx('input-block input text-black', {
+                'input-ghost-primary': !error,
+                'input-ghost-error': error
+              })}
               {...field}
               {...other}
             />

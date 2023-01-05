@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Easy web scraper - Hacker News</title>
+    <style>
+      body {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 10pt;
+        color: #828282;
+      }
+      td {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 10pt;
+        color: #828282;
+      }
+
+      .admin td {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 8.5pt;
+        color: #000000;
+      }
+      .subtext td {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 7pt;
+        color: #828282;
+      }
+
+      input {
+        font-family: monospace;
+        font-size: 10pt;
+      }
+      input[type=\"submit\"] {
+        font-family: Verdana, Geneva, sans-serif;
+      }
+      textarea {
+        font-family: monospace;
+        font-size: 10pt;
+      }
+
+      a:link {
+        color: #000000;
+        text-decoration: none;
+      }
+      a:visited {
+        color: #828282;
+        text-decoration: none;
+      }
+
+      .default {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 10pt;
+        color: #828282;
+      }
+      .admin {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 8.5pt;
+        color: #000000;
+      }
+      .title {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 10pt;
+        color: #828282;
+      }
+      .subtext {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 7pt;
+        color: #828282;
+      }
+      .yclinks {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 8pt;
+        color: #828282;
+      }
+      .pagetop {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 10pt;
+        color: #222222;
+      }
+      .comhead {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 8pt;
+        color: #828282;
+      }
+      .comment {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 9pt;
+      }
+      .hnname {
+        margin-right: 5px;
+      }
+
+      .comment a:link,
+      .comment a:visited {
+        text-decoration: underline;
+      }
+      .noshow {
+        display: none;
+      }
+      .nosee {
+        visibility: hidden;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .c00,
+      .c00 a:link {
+        color: #000000;
+      }
+      .c5a,
+      .c5a a:link,
+      .c5a a:visited {
+        color: #5a5a5a;
+      }
+      .c73,
+      .c73 a:link,
+      .c73 a:visited {
+        color: #737373;
+      }
+      .c82,
+      .c82 a:link,
+      .c82 a:visited {
+        color: #828282;
+      }
+      .c88,
+      .c88 a:link,
+      .c88 a:visited {
+        color: #888888;
+      }
+      .c9c,
+      .c9c a:link,
+      .c9c a:visited {
+        color: #9c9c9c;
+      }
+      .cae,
+      .cae a:link,
+      .cae a:visited {
+        color: #aeaeae;
+      }
+      .cbe,
+      .cbe a:link,
+      .cbe a:visited {
+        color: #bebebe;
+      }
+      .cce,
+      .cce a:link,
+      .cce a:visited {
+        color: #cecece;
+      }
+      .cdd,
+      .cdd a:link,
+      .cdd a:visited {
+        color: #dddddd;
+      }
+
+      .pagetop a:visited {
+        color: #000000;
+      }
+      .topsel a:link,
+      .topsel a:visited {
+        color: #ffffff;
+      }
+
+      .subtext a:link,
+      .subtext a:visited {
+        color: #828282;
+      }
+      .subtext a:hover {
+        text-decoration: underline;
+      }
+
+      .comhead a:link,
+      .subtext a:visited {
+        color: #828282;
+      }
+      .comhead a:hover {
+        text-decoration: underline;
+      }
+
+      .hnmore a:link,
+      a:visited {
+        color: #828282;
+      }
+      .hnmore {
+        text-decoration: underline;
+      }
+
+      .default p {
+        margin-top: 8px;
+        margin-bottom: 0px;
+      }
+
+      .pagebreak {
+        page-break-before: always;
+      }
+
+      pre {
+        overflow: auto;
+        padding: 2px;
+      }
+      pre:hover {
+        overflow: auto;
+      }
+
+      .votearrow {
+        width: 10px;
+        height: 10px;
+        border: 0px;
+        margin: 3px 2px 6px;
+        background: url('grayarrow.gif') no-repeat;
+      }
+
+      .votelinks.nosee div.votearrow.rotate180 {
+        display: none;
+      }
+
+      @media only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (min-device-pixel-ratio: 2) {
+        .votearrow {
+          background-size: 10px;
+          background-image: url('grayarrow2x.gif');
+        }
+      }
+
+      .rotate180 {
+        -webkit-transform: rotate(
+          180deg
+        ); /* Chrome and other webkit browsers */
+        -moz-transform: rotate(180deg); /* FF */
+        -o-transform: rotate(180deg); /* Opera */
+        -ms-transform: rotate(180deg); /* IE9 */
+        transform: rotate(180deg); /* W3C complaint browsers */
+
+        /* IE8 and below */
+        -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=-1, M12=0, M21=0, M22=-1, DX=0, DY=0, SizingMethod='auto expand')";
+      }
+
+      /* mobile device */
+      @media only screen and (min-width: 300px) and (max-width: 750px) {
+        #hnmain {
+          width: 100%;
+        }
+        body {
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          -webkit-text-size-adjust: none;
+        }
+        td {
+          height: inherit !important;
+        }
+        .title,
+        .comment {
+          font-size: inherit;
+        }
+        span.pagetop {
+          display: block;
+          margin: 3px 5px;
+          font-size: 12px;
+        }
+        span.pagetop b {
+          display: block;
+          font-size: 15px;
+        }
+        table.comment-tree .comment a {
+          display: inline-block;
+          max-width: 200px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          vertical-align: top;
+        }
+        img[src='s.gif'][width='40'] {
+          width: 12px;
+        }
+        img[src='s.gif'][width='80'] {
+          width: 24px;
+        }
+        img[src='s.gif'][width='120'] {
+          width: 36px;
+        }
+        img[src='s.gif'][width='160'] {
+          width: 48px;
+        }
+        img[src='s.gif'][width='200'] {
+          width: 60px;
+        }
+        img[src='s.gif'][width='240'] {
+          width: 72px;
+        }
+        img[src='s.gif'][width='280'] {
+          width: 84px;
+        }
+        img[src='s.gif'][width='320'] {
+          width: 96px;
+        }
+        img[src='s.gif'][width='360'] {
+          width: 108px;
+        }
+        img[src='s.gif'][width='400'] {
+          width: 120px;
+        }
+        img[src='s.gif'][width='440'] {
+          width: 132px;
+        }
+        img[src='s.gif'][width='480'] {
+          width: 144px;
+        }
+        img[src='s.gif'][width='520'] {
+          width: 156px;
+        }
+        img[src='s.gif'][width='560'] {
+          width: 168px;
+        }
+        img[src='s.gif'][width='600'] {
+          width: 180px;
+        }
+        img[src='s.gif'][width='640'] {
+          width: 192px;
+        }
+        img[src='s.gif'][width='680'] {
+          width: 204px;
+        }
+        img[src='s.gif'][width='720'] {
+          width: 216px;
+        }
+        img[src='s.gif'][width='760'] {
+          width: 228px;
+        }
+        img[src='s.gif'][width='800'] {
+          width: 240px;
+        }
+        img[src='s.gif'][width='840'] {
+          width: 252px;
+        }
+        .title {
+          font-size: 11pt;
+          line-height: 14pt;
+        }
+        .subtext {
+          font-size: 9pt;
+        }
+        .itemlist {
+          padding-right: 5px;
+        }
+        .votearrow {
+          transform: scale(1.3, 1.3);
+          margin-right: 6px;
+        }
+        .votearrow.rotate180 {
+          -webkit-transform: rotate(180deg) scale(1.3, 1.3); /* Chrome and other webkit browsers */
+          -moz-transform: rotate(180deg) scale(1.3, 1.3); /* FF */
+          -o-transform: rotate(180deg) scale(1.3, 1.3); /* Opera */
+          -ms-transform: rotate(180deg) scale(1.3, 1.3); /* IE9 */
+          transform: rotate(180deg) scale(1.3, 1.3); /* W3C complaint browsers */
+        }
+        .votelinks {
+          min-width: 18px;
+        }
+        .votelinks a {
+          display: block;
+          margin-bottom: 9px;
+        }
+        input[type='text'],
+        input[type='number'],
+        textarea {
+          font-size: 16px;
+          width: 90%;
+        }
+      }
+
+      .comment {
+        max-width: 1215px;
+        overflow: auto;
+      }
+      pre {
+        max-width: 900px;
+      }
+
+      @media only screen and (min-width: 300px) and (max-width: 389px) {
+        .comment {
+          max-width: 270px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 200px;
+        }
+      }
+      @media only screen and (min-width: 390px) and (max-width: 509px) {
+        .comment {
+          max-width: 350px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 260px;
+        }
+      }
+      @media only screen and (min-width: 510px) and (max-width: 599px) {
+        .comment {
+          max-width: 460px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 340px;
+        }
+      }
+      @media only screen and (min-width: 600px) and (max-width: 689px) {
+        .comment {
+          max-width: 540px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 400px;
+        }
+      }
+      @media only screen and (min-width: 690px) and (max-width: 809px) {
+        .comment {
+          max-width: 620px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 460px;
+        }
+      }
+      @media only screen and (min-width: 810px) and (max-width: 899px) {
+        .comment {
+          max-width: 730px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 540px;
+        }
+      }
+      @media only screen and (min-width: 900px) and (max-width: 1079px) {
+        .comment {
+          max-width: 810px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 600px;
+        }
+      }
+      @media only screen and (min-width: 1080px) and (max-width: 1169px) {
+        .comment {
+          max-width: 970px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 720px;
+        }
+      }
+      @media only screen and (min-width: 1170px) and (max-width: 1259px) {
+        .comment {
+          max-width: 1050px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 780px;
+        }
+      }
+      @media only screen and (min-width: 1260px) and (max-width: 1349px) {
+        .comment {
+          max-width: 1130px;
+          overflow: auto;
+        }
+        pre {
+          max-width: 840px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <div id="root"></div>
+      <table
+        id="hnmain"
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        width="85%"
+        bgcolor="#f6f6ef"
+      >
+        <tbody>
+          <tr>
+            <td bgcolor="#ff6600">
+              <table
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+                width="100%"
+                style="padding: 2px"
+              >
+                <tbody>
+                  <tr>
+                    <td style="width: 18px; padding-right: 4px">
+                      <a href="https://news.ycombinator.com"
+                        ><img
+                          src="https://news.ycombinator.com/y18.gif"
+                          width="18"
+                          height="18"
+                          style="border: 1px white solid"
+                      /></a>
+                    </td>
+                    <td style="line-height: 12pt; height: 10px">
+                      <span class="pagetop"
+                        ><b class="hnname"
+                          ><a href="news">Hacker News</a></b
+                        >
+                        <a href="newest">new</a>
+                        |
+                        <a href="front">past</a>
+                        |
+                        <a href="newcomments">comments</a>
+                        |
+                        <a href="ask">ask</a>
+                        |
+                        <a href="show">show</a>
+                        |
+                        <a href="jobs">jobs</a>
+                        |
+                        <a href="submit">submit</a>
+                      </span>
+                    </td>
+                    <td style="text-align: right; padding-right: 4px">
+                      <span class="pagetop">
+                        <a href="login?goto=news">login</a>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr id="pagespace" title="" style="height: 10px"></tr>
+          <tr>
+            <td>
+              <table
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+                class="itemlist"
+              >
+                <tbody>
+                  <tr class="athing" id="19847241">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">1.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19847241"
+                          href="vote?id=19847241&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a href="https://jsmpeg.com/" class="storylink"
+                        >JSMpeg – MPEG1 Video and MP2 Audio Decoder in
+                        JavaScript</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=jsmpeg.com"
+                          ><span class="sitestr">jsmpeg.com</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19847241"
+                        >100 points</span
+                      >
+                      by
+                      <a href="user?id=mmcclure" class="hnuser"
+                        >mmcclure</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19847241"
+                          >5 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19847241"></span>
+                      |
+                      <a href="hide?id=19847241&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19847241">29&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19838769">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">2.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19838769"
+                          href="vote?id=19838769&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://developers.redhat.com/blog/2019/05/06/how-c-array-sizes-become-part-of-the-binary-interface-of-a-library/"
+                        class="storylink"
+                        >How C array sizes become part of the binary
+                        interface of a library</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=redhat.com"
+                          ><span class="sitestr">redhat.com</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19838769"
+                        >68 points</span
+                      >
+                      by
+                      <a href="user?id=Sindisil" class="hnuser"
+                        >Sindisil</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19838769"
+                          >5 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19838769"></span>
+                      |
+                      <a href="hide?id=19838769&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19838769">9&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19837742">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">3.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19837742"
+                          href="vote?id=19837742&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://nextjournal.com"
+                        class="storylink"
+                        >Show HN: Nextjournal – seamless data science
+                        for teams</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=nextjournal.com"
+                          ><span class="sitestr"
+                            >nextjournal.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19837742"
+                        >112 points</span
+                      >
+                      by
+                      <a href="user?id=kvlr" class="hnuser">kvlr</a>
+                      <span class="age"
+                        ><a href="item?id=19837742"
+                          >7 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19837742"></span>
+                      |
+                      <a href="hide?id=19837742&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19837742">16&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19835214">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">4.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19835214"
+                          href="vote?id=19835214&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="http://www.clipsrules.net/"
+                        class="storylink"
+                        >Clips: A Tool for Building Expert Systems</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=clipsrules.net"
+                          ><span class="sitestr"
+                            >clipsrules.net</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19835214"
+                        >35 points</span
+                      >
+                      by
+                      <a href="user?id=vector_spaces" class="hnuser"
+                        >vector_spaces</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19835214"
+                          >5 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19835214"></span>
+                      |
+                      <a href="hide?id=19835214&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19835214">18&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19846371">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">5.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19846371"
+                          href="vote?id=19846371&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://www.csail.mit.edu/news/smarter-training-neural-networks"
+                        class="storylink"
+                        >Smarter Training of Neural Networks</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=mit.edu"
+                          ><span class="sitestr">mit.edu</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19846371"
+                        >118 points</span
+                      >
+                      by
+                      <a href="user?id=magoghm" class="hnuser"
+                        >magoghm</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19846371"
+                          >9 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19846371"></span>
+                      |
+                      <a href="hide?id=19846371&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19846371">17&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19845776">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">6.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19845776"
+                          href="vote?id=19845776&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://juretriglav.si/open-source-collaborative-text-editors/"
+                        class="storylink"
+                        >Open source collaborative text editors</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=juretriglav.si"
+                          ><span class="sitestr"
+                            >juretriglav.si</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19845776"
+                        >405 points</span
+                      >
+                      by
+                      <a href="user?id=juretriglav" class="hnuser"
+                        >juretriglav</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19845776"
+                          >10 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19845776"></span>
+                      |
+                      <a href="hide?id=19845776&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19845776">109&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19847939">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">7.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19847939"
+                          href="vote?id=19847939&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://arxiv.org/abs/1904.09828"
+                        class="storylink"
+                        >Magic: The Gathering is Turing Complete</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=arxiv.org"
+                          ><span class="sitestr">arxiv.org</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19847939"
+                        >71 points</span
+                      >
+                      by
+                      <a href="user?id=lelf" class="hnuser">lelf</a>
+                      <span class="age"
+                        ><a href="item?id=19847939"
+                          >2 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19847939"></span>
+                      |
+                      <a href="hide?id=19847939&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19847939">72&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19844787">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">8.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19844787"
+                          href="vote?id=19844787&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://www.japantimes.co.jp/news/2019/05/05/business/tech/south-koreas-booming-webtoons-put-japans-print-manga-notice/"
+                        class="storylink"
+                        >South Korea's booming 'webtoons'</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=japantimes.co.jp"
+                          ><span class="sitestr"
+                            >japantimes.co.jp</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19844787"
+                        >151 points</span
+                      >
+                      by
+                      <a href="user?id=oska" class="hnuser">oska</a>
+                      <span class="age"
+                        ><a href="item?id=19844787"
+                          >13 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19844787"></span>
+                      |
+                      <a href="hide?id=19844787&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19844787">84&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19846819">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">9.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19846819"
+                          href="vote?id=19846819&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://easyperf.net/blog/2019/05/06/Estimating-branch-probability"
+                        class="storylink"
+                        >Estimating branch probability using Intel LBR
+                        feature</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=easyperf.net"
+                          ><span class="sitestr"
+                            >easyperf.net</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19846819"
+                        >37 points</span
+                      >
+                      by
+                      <a href="user?id=ot" class="hnuser">ot</a>
+                      <span class="age"
+                        ><a href="item?id=19846819"
+                          >7 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19846819"></span>
+                      |
+                      <a href="hide?id=19846819&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19846819">4&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19842240">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">10.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19842240"
+                          href="vote?id=19842240&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a href="item?id=19842240" class="storylink"
+                        >Launch HN: Prometheus (YC W19) – Remove CO2
+                        from Air and Turn It into Gasoline</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19842240"
+                        >1111 points</span
+                      >
+                      by
+                      <a href="user?id=rmcginnis" class="hnuser"
+                        >rmcginnis</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19842240"
+                          >18 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19842240"></span>
+                      |
+                      <a href="hide?id=19842240&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19842240">498&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19838430">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">11.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19838430"
+                          href="vote?id=19838430&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://www.theverge.com/2019/5/6/18530946/microsoft-solitaire-world-video-game-hall-of-fame"
+                        class="storylink"
+                        >Microsoft Solitaire Inducted into World Video
+                        Game Hall of Fame</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=theverge.com"
+                          ><span class="sitestr"
+                            >theverge.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19838430"
+                        >101 points</span
+                      >
+                      by
+                      <a href="user?id=Yuval_Halevi" class="hnuser"
+                        >Yuval_Halevi</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19838430"
+                          >13 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19838430"></span>
+                      |
+                      <a href="hide?id=19838430&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19838430">30&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19838406">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">12.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19838406"
+                          href="vote?id=19838406&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://www.theguardian.com/us-news/ng-interactive/2019/may/06/cancertown-louisana-reserve-special-report"
+                        class="storylink"
+                        >A small town, a chemical plant and the
+                        residents' desperate fight for clear air</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=theguardian.com"
+                          ><span class="sitestr"
+                            >theguardian.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19838406"
+                        >59 points</span
+                      >
+                      by
+                      <a href="user?id=1_player" class="hnuser"
+                        >1_player</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19838406"
+                          >10 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19838406"></span>
+                      |
+                      <a href="hide?id=19838406&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19838406">33&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19837119">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">13.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19837119"
+                          href="vote?id=19837119&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://www.bloomberg.com/news/articles/2019-05-06/who-to-sue-when-a-robot-loses-your-fortune"
+                        class="storylink"
+                        >Who to Sue When a Robot Loses Your Fortune</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=bloomberg.com"
+                          ><span class="sitestr"
+                            >bloomberg.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19837119"
+                        >12 points</span
+                      >
+                      by
+                      <a href="user?id=lnguyen" class="hnuser"
+                        >lnguyen</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19837119"
+                          >3 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19837119"></span>
+                      |
+                      <a href="hide?id=19837119&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19837119">1&nbsp;comment</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19838163">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">14.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19838163"
+                          href="vote?id=19838163&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://osoco.es/thoughts/2019/05/understanding-bloom-filters-with-pharo-smalltalk/"
+                        class="storylink"
+                        >Understanding Bloom Filters with Pharo</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=osoco.es"
+                          ><span class="sitestr">osoco.es</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19838163"
+                        >104 points</span
+                      >
+                      by
+                      <a href="user?id=mpweiher" class="hnuser"
+                        >mpweiher</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19838163"
+                          >13 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19838163"></span>
+                      |
+                      <a href="hide?id=19838163&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19838163">3&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19844551">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">15.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19844551"
+                          href="vote?id=19844551&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://newscenter.lbl.gov/2019/05/06/recycling-plastic-from-the-inside-out/"
+                        class="storylink"
+                        >Reycling Plastic from the Inside Out</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=lbl.gov"
+                          ><span class="sitestr">lbl.gov</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19844551"
+                        >104 points</span
+                      >
+                      by
+                      <a href="user?id=chmaynard" class="hnuser"
+                        >chmaynard</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19844551"
+                          >14 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19844551"></span>
+                      |
+                      <a href="hide?id=19844551&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19844551">37&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19836441">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">16.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19836441"
+                          href="vote?id=19836441&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="http://acypher.com/wwid/"
+                        class="storylink"
+                        >Watch What I Do: Programming by Demonstration
+                        (1993)</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=acypher.com"
+                          ><span class="sitestr">acypher.com</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19836441"
+                        >53 points</span
+                      >
+                      by
+                      <a href="user?id=bobbiechen" class="hnuser"
+                        >bobbiechen</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19836441"
+                          >13 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19836441"></span>
+                      |
+                      <a href="hide?id=19836441&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19836441">8&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19837192">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">17.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19837192"
+                          href="vote?id=19837192&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://usesthis.com/interviews/joe.armstrong/"
+                        class="storylink"
+                        >Uses This: Joe Armstrong</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=usesthis.com"
+                          ><span class="sitestr"
+                            >usesthis.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19837192"
+                        >159 points</span
+                      >
+                      by
+                      <a href="user?id=yakshaving_jgt" class="hnuser"
+                        >yakshaving_jgt</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19837192"
+                          >12 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19837192"></span>
+                      |
+                      <a href="hide?id=19837192&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19837192">42&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19846210">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">18.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19846210"
+                          href="vote?id=19846210&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://www.thedrive.com/the-war-zone/27795/the-air-force-just-shot-down-multiple-missiles-with-a-laser-destined-for-fighter-aircraft"
+                        class="storylink"
+                        >U.S. Air Force has shot down multiple
+                        air-launched missiles in a test</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=thedrive.com"
+                          ><span class="sitestr"
+                            >thedrive.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19846210"
+                        >76 points</span
+                      >
+                      by
+                      <a href="user?id=SEJeff" class="hnuser"
+                        >SEJeff</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19846210"
+                          >9 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19846210"></span>
+                      |
+                      <a href="hide?id=19846210&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19846210">84&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19844153">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">19.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19844153"
+                          href="vote?id=19844153&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="http://fernandoi.cl/blog/posts/altair/"
+                        class="storylink"
+                        >Using Altair for most of my visualization in
+                        Python</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=fernandoi.cl"
+                          ><span class="sitestr"
+                            >fernandoi.cl</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19844153"
+                        >264 points</span
+                      >
+                      by
+                      <a href="user?id=cuchoi" class="hnuser"
+                        >cuchoi</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19844153"
+                          >15 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19844153"></span>
+                      |
+                      <a href="hide?id=19844153&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19844153">67&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19838333">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">20.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19838333"
+                          href="vote?id=19838333&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="http://www.bbc.com/travel/story/20190505-is-havana-getting-a-makeover"
+                        class="storylink"
+                        >Restoring Havana's neon</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=bbc.com"
+                          ><span class="sitestr">bbc.com</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19838333"
+                        >24 points</span
+                      >
+                      by
+                      <a href="user?id=MiriamWeiner" class="hnuser"
+                        >MiriamWeiner</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19838333"
+                          >9 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19838333"></span>
+                      |
+                      <a href="hide?id=19838333&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19838333">4&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19845480">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">21.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19845480"
+                          href="vote?id=19845480&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://oatpp.io/benchmark/websocket/2-million/"
+                        class="storylink"
+                        >Show HN: 2M fully loaded concurrent
+                        WebSockets</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=oatpp.io"
+                          ><span class="sitestr">oatpp.io</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19845480"
+                        >117 points</span
+                      >
+                      by
+                      <a href="user?id=lganzzzo" class="hnuser"
+                        >lganzzzo</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19845480"
+                          >11 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19845480"></span>
+                      |
+                      <a href="hide?id=19845480&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19845480">18&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19843464">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">22.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19843464"
+                          href="vote?id=19843464&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="http://kernel.dk/io_uring.pdf"
+                        class="storylink"
+                        >Efficient IO with io_uring [pdf]</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=kernel.dk"
+                          ><span class="sitestr">kernel.dk</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19843464"
+                        >222 points</span
+                      >
+                      by
+                      <a href="user?id=diegocg" class="hnuser"
+                        >diegocg</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19843464"
+                          >16 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19843464"></span>
+                      |
+                      <a href="hide?id=19843464&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19843464">45&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19845537">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">23.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19845537"
+                          href="vote?id=19845537&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://www.worldtimezone.com/dst_news/dst_news_usa07.html"
+                        class="storylink"
+                        >Map of Proposed US Time Zone Changes</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=worldtimezone.com"
+                          ><span class="sitestr"
+                            >worldtimezone.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19845537"
+                        >111 points</span
+                      >
+                      by
+                      <a href="user?id=synack" class="hnuser"
+                        >synack</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19845537"
+                          >11 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19845537"></span>
+                      |
+                      <a href="hide?id=19845537&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19845537">152&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19839081">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">24.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19839081"
+                          href="vote?id=19839081&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://github.com/dgryski/go-perfbook"
+                        class="storylink"
+                        >Practices for writing high-performance Go</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=github.com"
+                          ><span class="sitestr">github.com</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19839081"
+                        >430 points</span
+                      >
+                      by
+                      <a href="user?id=ingve" class="hnuser">ingve</a>
+                      <span class="age"
+                        ><a href="item?id=19839081"
+                          >23 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19839081"></span>
+                      |
+                      <a href="hide?id=19839081&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19839081">69&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19843288">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">25.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19843288"
+                          href="vote?id=19843288&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://www.philanthropy.com/article/With-Government-Skittish-About/246170?key=GCZRFFWJmdWfHIIYJmst8JP0M4DTMThB3J8gWMr73DvMQUzdvlnIckIeopOfeeXEQzk0Y0xhRF9fcWRWUGIyYTctTklFRXFZdTRyRVA1aFUwbGdhN0hPUk9tOA"
+                        class="storylink"
+                        >A Psychedelic Renaissance</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=philanthropy.com"
+                          ><span class="sitestr"
+                            >philanthropy.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19843288"
+                        >186 points</span
+                      >
+                      by
+                      <a href="user?id=anythingnonidin" class="hnuser"
+                        >anythingnonidin</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19843288"
+                          >16 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19843288"></span>
+                      |
+                      <a href="hide?id=19843288&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19843288">79&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19847503">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">26.</span>
+                    </td>
+                    <td></td>
+                    <td class="title">
+                      <a
+                        href="http://www.indeed.com/job/senior-front-end-developer-4a95dc557dabbc39"
+                        class="storylink"
+                        rel="nofollow"
+                        >XIX Is Hiring a Senior Front End Engineer</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=indeed.com"
+                          ><span class="sitestr">indeed.com</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="age"
+                        ><a href="item?id=19847503"
+                          >4 hours ago</a
+                        ></span
+                      >
+                      |
+                      <a href="hide?id=19847503&amp;goto=news"
+                        >hide</a
+                      >
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19840042">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">27.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19840042"
+                          href="vote?id=19840042&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://gravitational.com/blog/aws_vs_colocation/"
+                        class="storylink"
+                        >Rolling your own servers with Kubernetes</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=gravitational.com"
+                          ><span class="sitestr"
+                            >gravitational.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19840042"
+                        >377 points</span
+                      >
+                      by
+                      <a href="user?id=old-gregg" class="hnuser"
+                        >old-gregg</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19840042"
+                          >21 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19840042"></span>
+                      |
+                      <a href="hide?id=19840042&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19840042">184&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19845343">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">28.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19845343"
+                          href="vote?id=19845343&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://paragonie.com/blog/2019/05/wordpress-5-2-mitigating-supply-chain-attacks-against-33-internet"
+                        class="storylink"
+                        >WordPress 5.2: Mitigating Supply-Chain
+                        Attacks</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=paragonie.com"
+                          ><span class="sitestr"
+                            >paragonie.com</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19845343"
+                        >94 points</span
+                      >
+                      by
+                      <a href="user?id=CiPHPerCoder" class="hnuser"
+                        >CiPHPerCoder</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19845343"
+                          >12 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19845343"></span>
+                      |
+                      <a href="hide?id=19845343&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19845343">27&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19837981">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">29.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19837981"
+                          href="vote?id=19837981&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://dave.cheney.net/paste/clear-is-better-than-clever.pdf"
+                        class="storylink"
+                        >Clear is better than clever [pdf]</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=cheney.net"
+                          ><span class="sitestr">cheney.net</span></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19837981"
+                        >471 points</span
+                      >
+                      by
+                      <a href="user?id=ngaut" class="hnuser">ngaut</a>
+                      <span class="age"
+                        ><a href="item?id=19837981"
+                          >1 day ago</a
+                        ></span
+                      >
+                      <span id="unv_19837981"></span>
+                      |
+                      <a href="hide?id=19837981&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19837981">304&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="athing" id="19847772">
+                    <td align="right" valign="top" class="title">
+                      <span class="rank">30.</span>
+                    </td>
+                    <td valign="top" class="votelinks">
+                      <center>
+                        <a
+                          id="up_19847772"
+                          href="vote?id=19847772&amp;how=up&amp;goto=news"
+                          ><div class="votearrow" title="upvote"></div
+                        ></a>
+                      </center>
+                    </td>
+                    <td class="title">
+                      <a
+                        href="https://blog.torproject.org/new-release-tor-browser-808"
+                        class="storylink"
+                        >Tor Browser 8.0.8</a
+                      ><span class="sitebit comhead">
+                        (<a href="from?site=torproject.org"
+                          ><span class="sitestr"
+                            >torproject.org</span
+                          ></a
+                        >)</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="subtext">
+                      <span class="score" id="score_19847772"
+                        >52 points</span
+                      >
+                      by
+                      <a href="user?id=bigiain" class="hnuser"
+                        >bigiain</a
+                      >
+                      <span class="age"
+                        ><a href="item?id=19847772"
+                          >3 hours ago</a
+                        ></span
+                      >
+                      <span id="unv_19847772"></span>
+                      |
+                      <a href="hide?id=19847772&amp;goto=news"
+                        >hide</a
+                      >
+                      |
+                      <a href="item?id=19847772">5&nbsp;comments</a>
+                    </td>
+                  </tr>
+                  <tr class="spacer" style="height: 5px"></tr>
+                  <tr class="morespace" style="height: 10px"></tr>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="title">
+                      <a href="news?p=2" class="morelink" rel="next"
+                        >More</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="s.gif" height="10" width="0" />
+              <table width="100%" cellspacing="0" cellpadding="1">
+                <tbody>
+                  <tr>
+                    <td bgcolor="#ff6600"></td>
+                  </tr>
+                </tbody>
+              </table>
+              <br />
+              <center>
+                <span class="yclinks"
+                  ><a href="newsguidelines.html">Guidelines</a>
+                  |
+                  <a href="newsfaq.html">FAQ</a>
+                  |
+                  <a href="mailto:hn@ycombinator.com">Support</a>
+                  |
+                  <a href="https://github.com/HackerNews/API">API</a>
+                  |
+                  <a href="security.html">Security</a>
+                  |
+                  <a href="lists">Lists</a>
+                  |
+                  <a href="bookmarklet.html" rel="nofollow"
+                    >Bookmarklet</a
+                  >
+                  |
+                  <a href="http://www.ycombinator.com/legal/"
+                    >Legal</a
+                  >
+                  |
+                  <a href="http://www.ycombinator.com/apply/"
+                    >Apply to YC</a
+                  >
+                  |
+                  <a href="mailto:hn@ycombinator.com"
+                    >Contact</a
+                  ></span
+                ><br /><br />
+                <form method="get" action="//hn.algolia.com/">
+                  Search:
+                  <input
+                    type="text"
+                    name="q"
+                    value=""
+                    size="17"
+                    autocorrect="off"
+                    spellcheck="false"
+                    autocapitalize="off"
+                    autocomplete="false"
+                  />
+                </form>
+              </center>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+  </body>
+</html>

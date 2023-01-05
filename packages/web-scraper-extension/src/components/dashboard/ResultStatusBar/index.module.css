@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  padding: 20px 0px;
+}
+
+.statusContainer {
+  text-align: center;
+  line-height: 1.8;
+}
+
+.statusHeading {
+  font-size: 1.5rem;
+}
+
+.status {
+  color: var(--fade-text-color);
+  font-size: 15.5px;
+}

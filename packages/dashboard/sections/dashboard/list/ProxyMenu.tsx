@@ -5,10 +5,7 @@ import {
   getList,
   getProxies
 } from 'packages/dashboard/store/proxySlice';
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import MenuItems from 'packages/dashboard/components/MenuItems';
 import { MenuItemType } from 'packages/dashboard/interfaces';
@@ -23,26 +20,13 @@ interface ListMenuTypes {
   id: number;
 }
 
-export default function ProxyMenu({
-  id
-}: ListMenuTypes) {
-  const { key: proxyListKey } =
-    useSelector(getList);
-  const proxies: Proxy[] =
-    useSelector(getProxies);
-  const proxy = proxies.find(
-    (proxy) => proxy.id === id
-  );
-  const {
-    host,
-    port,
-    country,
-    username,
-    password
-  } = proxy;
+export default function ProxyMenu({ id }: ListMenuTypes) {
+  const { key: proxyListKey } = useSelector(getList);
+  const proxies: Proxy[] = useSelector(getProxies);
+  const proxy = proxies.find((proxy) => proxy.id === id);
+  const { host, port, country, username, password } = proxy;
 
-  const dispatch =
-    useDispatch<AppThunkDispatch>();
+  const dispatch = useDispatch<AppThunkDispatch>();
 
   const deleteProxyHandler = () => {
     dispatch(
@@ -54,9 +38,7 @@ export default function ProxyMenu({
   };
 
   const editProxyHandler = (data) => {
-    dispatch(
-      editProxy([{ ...data, id }])
-    );
+    dispatch(editProxy([{ ...data, id }]));
   };
 
   const recheckProxyHandler = () => {
@@ -102,15 +84,11 @@ export default function ProxyMenu({
           className="rounded hover:bg-gray-200 cursor-pointer"
           tabIndex={0}
         >
-          {getIcon(
-            'eva:more-vertical-fill'
-          )}
+          {getIcon('eva:more-vertical-fill')}
         </label>
 
         <div className="dropdown-menu dropdown-menu-left bg-gray-100">
-          <MenuItems
-            items={menuItems}
-          />
+          <MenuItems items={menuItems} />
         </div>
       </div>
     </>

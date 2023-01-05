@@ -1,0 +1,22 @@
+.button {
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  font-size: 16.5px;
+  color: white;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0.95;
+}
+
+.disableButton {
+  border-radius: 5px;
+  background-color: hsl(50, 6%, 82%);
+  color: black;
+}
+
+.button:hover {
+  background-color: var(--secondary-color);
+}

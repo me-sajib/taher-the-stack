@@ -12,8 +12,7 @@ export class ProxyCreateDto {
   @IsNotEmpty()
   @ApiProperty({
     name: 'host',
-    description:
-      'The ip address of proxy server',
+    description: 'The ip address of proxy server',
     type: String,
     default: ''
   })
@@ -22,8 +21,7 @@ export class ProxyCreateDto {
   @IsNumber()
   @ApiProperty({
     name: 'port',
-    description:
-      'Valid proxy port number',
+    description: 'Valid proxy port number',
     type: Number,
     default: 3000
   })
@@ -34,8 +32,7 @@ export class ProxyCreateDto {
   @ApiProperty({
     name: 'country',
     required: false,
-    description:
-      'The country name of the server',
+    description: 'The country name of the server',
     type: String,
     default: ''
   })
@@ -46,8 +43,7 @@ export class ProxyCreateDto {
   @ApiProperty({
     name: 'username',
     required: false,
-    description:
-      'The username of the proxy server',
+    description: 'The username of the proxy server',
     type: String,
     default: ''
   })
@@ -58,8 +54,7 @@ export class ProxyCreateDto {
   @ApiProperty({
     name: 'password',
     required: false,
-    description:
-      'The password of the proxy server',
+    description: 'The password of the proxy server',
     type: String,
     default: ''
   })
@@ -68,8 +63,7 @@ export class ProxyCreateDto {
   @IsUUID()
   @ApiProperty({
     name: 'proxyListKey',
-    description:
-      'The proxy list key where will be listed this proxy',
+    description: 'The proxy list key where will be listed this proxy',
     type: String,
     default: ''
   })
