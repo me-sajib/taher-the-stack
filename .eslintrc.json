@@ -6,7 +6,9 @@
     "node": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
@@ -16,8 +18,7 @@
     "dist",
     "coverage",
     "**/*.d.ts",
-    "**/*.js",
-    "public/*"
+    "**/*.js"
   ],
   "rules": {
     "no-console": "off",
