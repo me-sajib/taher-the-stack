@@ -26,7 +26,7 @@ interface Proxy {
 }
 ```
 
-After this it invokes the `getOptions` function that creates a new request option and includes the proxy-authorization by the proxy into the header & finally sending the request.
+After this, it invokes the `generateClientRequest` function, which creates a new request option and includes the proxy authorization by the proxy into the header, and finally sends the request.
 
 ## How to run
 
