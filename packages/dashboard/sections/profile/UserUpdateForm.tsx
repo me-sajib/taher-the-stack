@@ -4,10 +4,7 @@ import {
   getUser,
   getUserErrors
 } from 'packages/dashboard/store/userSlice';
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // form
 import FormProvider from 'packages/dashboard/components/hook-form/FormProvider';
@@ -31,21 +28,16 @@ interface ProfileDataTypes {
 }
 
 export default function UserUpdateFrom() {
-  const profile: User =
-    useSelector(getUser);
-  const userErrors = useSelector(
-    getUserErrors
-  );
-  const asyncDispatch =
-    useDispatch<AppThunkDispatch>();
+  const profile: User = useSelector(getUser);
+  const userErrors = useSelector(getUserErrors);
+  const asyncDispatch = useDispatch<AppThunkDispatch>();
   const syncDispatch = useDispatch();
 
-  const userInfoDefaultValues: ProfileDataTypes =
-    {
-      fullname: profile.fullname,
-      username: profile.username,
-      email: profile.email
-    };
+  const userInfoDefaultValues: ProfileDataTypes = {
+    fullname: profile.fullname,
+    username: profile.username,
+    email: profile.email
+  };
 
   const method = useForm({
     defaultValues: userInfoDefaultValues
@@ -61,21 +53,15 @@ export default function UserUpdateFrom() {
   useEffect(() => {
     userErrors.forEach((error) => {
       console.log({ userError: error });
-      const [propName] =
-        error.message.split(/\s/);
+      const [propName] = error.message.split(/\s/);
 
-      setError(
-        propName as keyof ProfileDataTypes,
-        {
-          message: error.message
-        }
-      );
+      setError(propName as keyof ProfileDataTypes, {
+        message: error.message
+      });
     });
   }, [userErrors.length]);
 
-  const submitHandler = async (
-    formData: ProfileDataTypes
-  ) => {
+  const submitHandler = async (formData: ProfileDataTypes) => {
     syncDispatch(cleanUserErrors());
 
     const updatedData = {
@@ -84,27 +70,24 @@ export default function UserUpdateFrom() {
       email: formData.email
     };
 
-    const filteredData = Object.entries(
-      updatedData
-    ).reduce((acc, [key, value]) => {
-      if (profile[key] !== value) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
-
-    asyncDispatch(
-      editUser(filteredData)
+    const filteredData = Object.entries(updatedData).reduce(
+      (acc, [key, value]) => {
+        if (profile[key] !== value) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
     );
+
+    asyncDispatch(editUser(filteredData));
     reset(filteredData);
   };
 
   return (
     <FormProvider
       methods={method}
-      onSubmit={handleSubmit(
-        submitHandler
-      )}
+      onSubmit={handleSubmit(submitHandler)}
     >
       <div className="flex gap-3">
         <RHFTextField

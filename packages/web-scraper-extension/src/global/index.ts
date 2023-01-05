@@ -1,22 +1,13 @@
 import { DownloadFormat } from '../interfaces/dashboard';
 import makePerfectId from '../utils/makePerfectId';
 
-const EXTENSION_TAG_NAME =
-  'easy-web-scraper';
-const SCRAPE_ATTRIBUTE_NAME: string =
-  makePerfectId('data-selected');
-const DETECTION_STYLE_ID: string =
-  makePerfectId('ews-detection');
-const DETECTOR_ATTR_NAME: string =
-  makePerfectId('data-selected');
-const BODY_HOLDER: DocumentFragment =
-  new DocumentFragment();
-const PREVIEW_STATUS: string[] = [
-  'Table',
-  'JSON'
-];
-const DOWNLOAD_FORMATS: DownloadFormat[] =
-  ['CSV', 'JSON'];
+const EXTENSION_TAG_NAME = 'easy-web-scraper';
+const SCRAPE_ATTRIBUTE_NAME: string = makePerfectId('data-selected');
+const DETECTION_STYLE_ID: string = makePerfectId('ews-detection');
+const DETECTOR_ATTR_NAME: string = makePerfectId('data-selected');
+const BODY_HOLDER: DocumentFragment = new DocumentFragment();
+const PREVIEW_STATUS: string[] = ['Table', 'JSON'];
+const DOWNLOAD_FORMATS: DownloadFormat[] = ['CSV', 'JSON'];
 const COLOR_PALATE: string[] = [
   '#f2ea00', // yellow
   '#ebce13', // amber

@@ -31,32 +31,32 @@
   },
   "lint-staged": {
     "./packages/api/src/**/**/*.ts": [
-      "prettier --write packages/api/",
+      "prettier --write .",
       "eslint ."
     ],
     "./packages/dashboard/**/**/*.{ts,tsx}": [
-      "prettier --write packages/dashboard/",
-      "eslint packages/dashboard/"
+      "prettier --write .",
+      "eslint ."
     ],
-    "./packages/roxy-manager-proxy-manager-extension/src/**/*.{ts,tsx}": [
-      "prettier --write packages/proxy-manager-proxy-manager-extension/",
-      "eslint packages/proxy-manager-proxy-manager-extension/"
+    "./packages/proxy-manager-extension/src/**/*.{ts,tsx}": [
+      "prettier --write .",
+      "eslint ."
     ],
     "./packages/proxy-rotator/src/**/*.ts": [
-      "prettier --write packages/proxy-rotator/",
-      "eslint packages/proxy-rotator/"
+      "prettier --write .",
+      "eslint ."
     ],
-    "./packages/scraper-api/**/**/*.{ts,tsx}": [
-      "prettier --write packages/dashboard/",
-      "eslint packages/scraper-api/"
+    "./packages/scraper-api/**/*.{ts,tsx}": [
+      "prettier --write .",
+      "eslint ."
     ],
-    "./packages/web-scraper-proxy-manager-extension/**/*.{js,jsx,ts,tsx}": [
-      "prettier --write packages/web-scraper-proxy-manager-extension/",
-      "eslint packages/web-scraper-proxy-manager-extension/"
+    "./packages/web-scraper-extension/src/**/*.{ts,tsx}": [
+      "prettier --write .",
+      "cross-env NODE_ENV=development eslint ."
     ],
     "./packages/website/**/*.{js,jsx}": [
-      "prettier --write packages/website/",
-      "eslint packages/website/"
+      "prettier --write .",
+      "eslint ."
     ]
   },
   "devDependencies": {
@@ -70,6 +70,7 @@
     "@typescript-eslint/parser": "^5.29.0",
     "autoprefixer": "^10.4.13",
     "babel-jest": "28.1.1",
+    "cross-env": "^7.0.3",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-import": "2.26.0",

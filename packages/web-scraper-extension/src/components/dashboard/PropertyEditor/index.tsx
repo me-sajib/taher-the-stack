@@ -15,112 +15,68 @@ interface ResultsSchema {
 
 interface PropertyEditorPropTypes {
   resultSchemas: ResultsSchema[];
-  setFormState: React.Dispatch<
-    React.SetStateAction<any>
-  >;
+  setFormState: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const PropertyEditor = ({
   resultSchemas,
   setFormState
 }: PropertyEditorPropTypes) => {
-  const [
-    isSelectorEdit,
-    setSelectorEdit
-  ] = useState<boolean>(false);
-  const [add, setAdd] =
-    useState<boolean>(true);
-  const toggleEdit = () =>
-    setSelectorEdit(!isSelectorEdit);
-  const toggleAddStatus = () =>
-    setAdd(!add);
+  const [isSelectorEdit, setSelectorEdit] = useState<boolean>(false);
+  const [add, setAdd] = useState<boolean>(true);
+  const toggleEdit = () => setSelectorEdit(!isSelectorEdit);
+  const toggleAddStatus = () => setAdd(!add);
 
   const updateResultSchema =
-    (id: string) =>
-    (
-      e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      const target =
-        e.target as HTMLInputElement;
+    (id: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const target = e.target as HTMLInputElement;
       const { value } = target;
 
       value &&
         setFormState(
-          (
-            prevState: PageFormState<
-              typeof resultSchemas
-            >
-          ) => ({
+          (prevState: PageFormState<typeof resultSchemas>) => ({
             ...prevState,
-            resultSchemas:
-              prevState.resultSchemas.map(
-                (schema) => {
-                  const {
-                    id: currentId,
-                    value: selectors
-                  } = schema;
+            resultSchemas: prevState.resultSchemas.map((schema) => {
+              const { id: currentId, value: selectors } = schema;
 
-                  if (
-                    id === currentId
-                  ) {
-                    if (
-                      isSelectorEdit ||
-                      !selectors.length
-                    ) {
-                      return {
-                        ...schema,
-                        value:
-                          value.split(
-                            /,\s*/
-                          )
-                      };
-                    }
-
-                    return {
-                      ...schema,
-                      key: value
-                    };
-                  }
-
-                  return schema;
+              if (id === currentId) {
+                if (isSelectorEdit || !selectors.length) {
+                  return {
+                    ...schema,
+                    value: value.split(/,\s*/)
+                  };
                 }
-              )
+
+                return {
+                  ...schema,
+                  key: value
+                };
+              }
+
+              return schema;
+            })
           })
         );
     };
 
-  const deleteButtonHandler =
-    (id: string) => () => {
-      setFormState(
-        (
-          prevState: PageFormState<
-            typeof resultSchemas
-          >
-        ) => ({
-          ...prevState,
-          resultSchemas:
-            prevState.resultSchemas.filter(
-              (schema) =>
-                schema.id !== id
-            )
-        })
-      );
-    };
+  const deleteButtonHandler = (id: string) => () => {
+    setFormState(
+      (prevState: PageFormState<typeof resultSchemas>) => ({
+        ...prevState,
+        resultSchemas: prevState.resultSchemas.filter(
+          (schema) => schema.id !== id
+        )
+      })
+    );
+  };
 
   const addKeyDownDandler =
-    (value: string) =>
-    (
-      e: React.KeyboardEvent<HTMLInputElement>
-    ) => {
+    (value: string) => (e: React.KeyboardEvent<HTMLInputElement>) => {
       const { key } = e;
 
       if (value && key === 'Enter') {
         setFormState(
-          (
-            prevState: PageFormState<
-              typeof resultSchemas
-            >
-          ) => ({
+          (prevState: PageFormState<typeof resultSchemas>) => ({
             ...prevState,
             resultSchemas: [
               ...prevState.resultSchemas,
@@ -141,87 +97,55 @@ const PropertyEditor = ({
     <SectionLayout
       title="Selected properties"
       description="Name the data you selected to extract"
-      inputBoxClasses={
-        styles.propEditorInputBox
-      }
+      inputBoxClasses={styles.propEditorInputBox}
     >
-      <div
-        className={
-          styles.inputContainer
-        }
-      >
-        {resultSchemas.map(
-          ({
-            id,
-            key: name,
-            value: selectors
-          }) => {
-            let inputProps;
+      <div className={styles.inputContainer}>
+        {resultSchemas.map(({ id, key: name, value: selectors }) => {
+          let inputProps;
 
-            if (
-              isSelectorEdit ||
-              !selectors.length
-            ) {
-              inputProps = {
-                label: name,
-                placeholder:
-                  '.css .selector',
-                passedValue:
-                  selectors.join(', ')
-              };
-            } else {
-              inputProps = {
-                placeholder:
-                  'property name',
-                passedValue: name
-              };
-            }
-
-            return (
-              <PropertyInput
-                key={id}
-                id={id}
-                isSelectorEdit={
-                  isSelectorEdit
-                }
-                inputProps={inputProps}
-                updateResultSchema={
-                  updateResultSchema
-                }
-                deleteButtonHandler={
-                  deleteButtonHandler
-                }
-              />
-            );
+          if (isSelectorEdit || !selectors.length) {
+            inputProps = {
+              label: name,
+              placeholder: '.css .selector',
+              passedValue: selectors.join(', ')
+            };
+          } else {
+            inputProps = {
+              placeholder: 'property name',
+              passedValue: name
+            };
           }
-        )}
+
+          return (
+            <PropertyInput
+              key={id}
+              id={id}
+              isSelectorEdit={isSelectorEdit}
+              inputProps={inputProps}
+              updateResultSchema={updateResultSchema}
+              deleteButtonHandler={deleteButtonHandler}
+            />
+          );
+        })}
 
         {!isSelectorEdit &&
           (add ? (
             <Button
               classes={styles.addButton}
               status="add"
-              clickAction={
-                toggleAddStatus
-              }
+              clickAction={toggleAddStatus}
             />
           ) : (
             <InputText
               placeholder="Enter property name"
-              liftValueOnKeyDown={
-                addKeyDownDandler
-              }
+              liftValueOnKeyDown={addKeyDownDandler}
             />
           ))}
       </div>
 
       <Button
         classes={styles.editButton}
-        innerText={
-          isSelectorEdit
-            ? 'Edit property'
-            : 'Edit selector'
-        }
+        innerText={isSelectorEdit ? 'Edit property' : 'Edit selector'}
         clickAction={toggleEdit}
       />
     </SectionLayout>

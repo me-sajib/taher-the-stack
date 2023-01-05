@@ -11,11 +11,7 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  ApiOperation,
-  ApiParam,
-  ApiResponse
-} from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { UserDto } from '../user/dto';
 import {
@@ -31,15 +27,12 @@ import { ProxyListService } from './proxy-list.service';
 @UseGuards(AuthGuard('jwt'))
 @Controller('proxy-list')
 export class ProxyListController {
-  constructor(
-    private proxyListService: ProxyListService
-  ) {}
+  constructor(private proxyListService: ProxyListService) {}
 
   @Get()
   @ApiOperation({
     tags: ['Proxy list'],
-    summary:
-      'The list of proxy-list you would like to peek',
+    summary: 'The list of proxy-list you would like to peek',
     description:
       '__This endpoint will return all proxy-list, if `includeProxies` is `true` it returns also proxies as well__'
   })
@@ -62,28 +55,21 @@ export class ProxyListController {
   @Get('/:username')
   @ApiOperation({
     tags: ['Proxy list'],
-    summary:
-      'The proxy-list based on `:username:` param',
+    summary: 'The proxy-list based on `:username:` param',
     description:
       '__This endpoint will return a proxy-list based on parameter__'
   })
   @ApiParam({
     name: 'username',
     type: String,
-    description:
-      'The username of a specific proxy-list'
+    description: 'The username of a specific proxy-list'
   })
   @ApiResponse({
     status: 200,
-    description:
-      'It returns all proxy-list'
+    description: 'It returns all proxy-list'
   })
-  getProxyList(
-    @Param() param: ProxyListParamDto
-  ) {
-    return this.proxyListService.getProxyList(
-      param
-    );
+  getProxyList(@Param() param: ProxyListParamDto) {
+    return this.proxyListService.getProxyList(param);
   }
 
   @Post('/new')
@@ -95,8 +81,7 @@ export class ProxyListController {
   })
   @ApiResponse({
     status: 200,
-    description:
-      'It return the created proxy-list'
+    description: 'It return the created proxy-list'
   })
   @ApiResponse({
     status: 400,
@@ -116,8 +101,7 @@ export class ProxyListController {
   @Patch('/update')
   @ApiOperation({
     tags: ['Proxy list'],
-    summary:
-      'The list of proxy-list that will be updated',
+    summary: 'The list of proxy-list that will be updated',
     description:
       '__This endpoint take a list proxy proxy-list update dto & update each proxy-list one by one, afterward it returns all updated proxy-list which are provided into the body dto.__'
   })
@@ -131,12 +115,8 @@ export class ProxyListController {
     description:
       'Bad request error when the username already exist in the database'
   })
-  bulkUpdateProxyList(
-    @Body() dto: ProxyListUpdateDto[]
-  ) {
-    return this.proxyListService.bulkUpdateProxyList(
-      dto
-    );
+  bulkUpdateProxyList(@Body() dto: ProxyListUpdateDto[]) {
+    return this.proxyListService.bulkUpdateProxyList(dto);
   }
 
   @Delete('/delete')
@@ -165,22 +145,16 @@ export class ProxyListController {
   @Patch('check')
   @ApiOperation({
     tags: ['Proxy list'],
-    summary:
-      'This endpoint check the proxy list status',
+    summary: 'This endpoint check the proxy list status',
     description:
       'This endpoint will check passed list of proxy list and return the proxy list key list'
   })
   @ApiResponse({
     status: 200,
-    description:
-      'This will return proxy list map with updated status'
+    description: 'This will return proxy list map with updated status'
   })
-  checkProxyList(
-    @Body() body: CheckProxyListBody
-  ) {
+  checkProxyList(@Body() body: CheckProxyListBody) {
     console.log({ body });
-    return this.proxyListService.checkProxyList(
-      body
-    );
+    return this.proxyListService.checkProxyList(body);
   }
 }

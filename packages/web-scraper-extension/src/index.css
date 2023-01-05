@@ -10,26 +10,11 @@
 
 :root {
   --primary-color: rgb(74, 118, 236);
-  --secondary-color: rgba(
-    105,
-    211,
-    146,
-    0.9
-  );
+  --secondary-color: rgba(105, 211, 146, 0.9);
   --divider-color: rgb(203, 213, 223);
-  --fade-text-color: rgba(
-    74,
-    85,
-    104,
-    0.7
-  );
+  --fade-text-color: rgba(74, 85, 104, 0.7);
 
-  --input-box-color: rgba(
-    248,
-    250,
-    252,
-    0.952
-  );
+  --input-box-color: rgba(248, 250, 252, 0.952);
   --border-color: rgb(237, 242, 247);
   --danger: rgb(215, 72, 51);
 }

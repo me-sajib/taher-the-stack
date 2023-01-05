@@ -1,32 +1,14 @@
-import {
-  IncomingMessage,
-  ServerResponse
-} from 'http';
-import {
-  ManageHandler,
-  prepareClientReq
-} from '.';
+import { IncomingMessage, ServerResponse } from 'http';
+import { ManageHandler, prepareClientReq } from '.';
 import { ServerEvent } from '../interfaces';
 
 export const baseHandler =
   (method: ServerEvent) =>
-  async (
-    req: IncomingMessage,
-    res: ServerResponse
-  ) => {
+  async (req: IncomingMessage, res: ServerResponse) => {
     try {
-      const clientReq =
-        await prepareClientReq(
-          method,
-          req
-        );
+      const clientReq = await prepareClientReq(method, req);
 
-      const manageHandler =
-        new ManageHandler(
-          clientReq,
-          req,
-          res
-        );
+      const manageHandler = new ManageHandler(clientReq, req, res);
 
       switch (method) {
         case 'request':

@@ -13,12 +13,7 @@ const RecipeLayout = ({
   children
 }: RecipeLayoutPropTypes) => (
   <div className={classes.container}>
-    <h2
-      className={addClass(
-        classes.heading,
-        headingClasses
-      )}
-    >
+    <h2 className={addClass(classes.heading, headingClasses)}>
       {heading}
     </h2>
     {children}

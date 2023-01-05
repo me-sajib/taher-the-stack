@@ -16,8 +16,7 @@ export class InstructionDto {
     name: 'wait',
     type: Number,
     required: false,
-    description:
-      'The amount of time to wait'
+    description: 'The amount of time to wait'
   })
   wait?: number;
 
@@ -41,9 +40,7 @@ export class InstructionDto {
     description:
       'The amount of time to wait for the specific node appear & click, you can also a valid selector string'
   })
-  wait_for_and_click?:
-    | string
-    | ClickOption;
+  wait_for_and_click?: string | ClickOption;
 
   @IsOptional()
   @ApiProperty({

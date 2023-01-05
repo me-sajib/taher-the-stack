@@ -18,11 +18,7 @@ const getResultByFormat = (
     case 'CSV':
       return resultToCsv(results);
     case 'JSON':
-      return JSON.stringify(
-        results,
-        null,
-        2
-      );
+      return JSON.stringify(results, null, 2);
     default:
       return null;
   }
@@ -33,8 +29,10 @@ const DownloadButton = ({
   fileName,
   results
 }: DownloadButtonPropTypes) => {
-  const downloadableResult: string =
-    getResultByFormat(format, results)!;
+  const downloadableResult: string = getResultByFormat(
+    format,
+    results
+  )!;
 
   const clickHandler = () =>
     resultDownloader(

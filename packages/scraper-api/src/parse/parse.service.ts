@@ -15,48 +15,30 @@ import ExtraExtraction from 'src/lib/ExtraExtractions';
 import snakeToCamelCase from 'src/utils/snakeToCamelCase';
 import CustomBrowser from '../lib/CustomBrowser';
 import Instruction from '../lib/Instruction';
-import {
-  ParseBodyDto,
-  ParseQueryDto
-} from './dto';
+import { ParseBodyDto, ParseQueryDto } from './dto';
 
 @Injectable()
 export class ParseService {
   private result: string | Buffer;
   private page: Page;
-  constructor(
-    private config: ConfigService
-  ) {}
+  constructor(private config: ConfigService) {}
 
-  public validateAccessToken(
-    accessToken: string
-  ) {
-    const apiKey =
-      this.config.get('API_KEY');
+  public validateAccessToken(accessToken: string) {
+    const apiKey = this.config.get('API_KEY');
     Logger.log({ apiKey, accessToken });
-    return (
-      accessToken &&
-      apiKey === accessToken
-    );
+    return accessToken && apiKey === accessToken;
   }
 
-  private filterCustomHeaders(
-    headers: IncomingHttpHeaders
-  ) {
+  private filterCustomHeaders(headers: IncomingHttpHeaders) {
     const filteredHeaders: {
       [key: string]: string;
     } = {};
 
     for (const key in headers) {
       console.log({ key });
-      if (
-        key
-          .toUpperCase()
-          .startsWith('ESA-')
-      ) {
-        filteredHeaders[
-          key.replace(/^(ESA-)/i, '')
-        ] = headers[key].toString();
+      if (key.toUpperCase().startsWith('ESA-')) {
+        filteredHeaders[key.replace(/^(ESA-)/i, '')] =
+          headers[key].toString();
       }
     }
 
@@ -70,31 +52,19 @@ export class ParseService {
     req: Request
   ): Promise<Page> {
     const { url, keep_headers } = dto;
-    const browser =
-      await customBrowser.launch();
-    const page =
-      await browser.newPage();
+    const browser = await customBrowser.launch();
+    const page = await browser.newPage();
 
     if (keep_headers === 'true') {
-      const customHeaders =
-        this.filterCustomHeaders(
-          req.headers
-        );
+      const customHeaders = this.filterCustomHeaders(req.headers);
       console.log({ customHeaders });
-      await page.setExtraHTTPHeaders(
-        customHeaders
-      );
+      await page.setExtraHTTPHeaders(customHeaders);
     }
 
     for (const configKey in bodyDto.config) {
-      const camelCaseKey =
-        snakeToCamelCase(configKey);
-      typeof customBrowser[
-        camelCaseKey
-      ] === 'function' &&
-        (await customBrowser[
-          camelCaseKey
-        ](page));
+      const camelCaseKey = snakeToCamelCase(configKey);
+      typeof customBrowser[camelCaseKey] === 'function' &&
+        (await customBrowser[camelCaseKey](page));
     }
 
     await page.goto(normalizeUrl(url), {
@@ -110,11 +80,7 @@ export class ParseService {
     req: Request
   ) {
     Logger.log(dto);
-    const customBrowser =
-      new CustomBrowser(
-        bodyDto.config,
-        dto.url
-      );
+    const customBrowser = new CustomBrowser(bodyDto.config, dto.url);
 
     try {
       this.page = await this.gotoUrl(
@@ -125,12 +91,9 @@ export class ParseService {
       );
 
       if (dto.render === 'true') {
-        this.result = await this.render(
-          bodyDto
-        );
+        this.result = await this.render(bodyDto);
       } else {
-        this.result =
-          await this.page.content();
+        this.result = await this.page.content();
       }
 
       return this.result;
@@ -146,42 +109,26 @@ export class ParseService {
   }
 
   async render(bodyDto: ParseBodyDto) {
-    const instruction = new Instruction(
-      this.page
-    );
+    const instruction = new Instruction(this.page);
 
-    for (const instructionDto of bodyDto.instructions ??
-      []) {
+    for (const instructionDto of bodyDto.instructions ?? []) {
       for (const action in instructionDto) {
-        const value =
-          instructionDto[action];
-        const camelCaseKey =
-          snakeToCamelCase(action);
-        typeof instruction[
-          camelCaseKey
-        ] === 'function' &&
-          (await instruction[
-            camelCaseKey
-          ](value));
+        const value = instructionDto[action];
+        const camelCaseKey = snakeToCamelCase(action);
+        typeof instruction[camelCaseKey] === 'function' &&
+          (await instruction[camelCaseKey](value));
       }
     }
 
     delete bodyDto.instructions;
 
-    const extraction = new Extraction(
-      this.page
+    const extraction = new Extraction(this.page);
+    const extractRes: ExtractResponse = await extraction.extract(
+      bodyDto.extract
     );
-    const extractRes: ExtractResponse =
-      await extraction.extract(
-        bodyDto.extract
-      );
 
     if (bodyDto.extract && extractRes) {
-      this.result = JSON.stringify(
-        extractRes,
-        null,
-        2
-      );
+      this.result = JSON.stringify(extractRes, null, 2);
     }
 
     delete bodyDto.extract;
@@ -190,24 +137,15 @@ export class ParseService {
       result: this.result
     });
 
-    const extraExtraction =
-      new ExtraExtraction(this.page);
+    const extraExtraction = new ExtraExtraction(this.page);
 
     for (const extraExtractionProp in bodyDto) {
-      const extractMethod =
-        snakeToCamelCase(
-          extraExtractionProp
-        );
+      const extractMethod = snakeToCamelCase(extraExtractionProp);
 
-      if (
-        extractMethod in extraExtraction
-      ) {
-        this.result =
-          await extraExtraction[
-            extractMethod
-          ](
-            bodyDto[extraExtractionProp]
-          );
+      if (extractMethod in extraExtraction) {
+        this.result = await extraExtraction[extractMethod](
+          bodyDto[extraExtractionProp]
+        );
       }
     }
 

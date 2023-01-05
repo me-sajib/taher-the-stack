@@ -6,9 +6,7 @@ interface MenuItemsTypes {
   items: MenuItemType[];
 }
 
-const MenuItems = ({
-  items
-}: MenuItemsTypes) => (
+const MenuItems = ({ items }: MenuItemsTypes) => (
   <>
     {items.map((item) => {
       return (
@@ -24,9 +22,7 @@ const MenuItems = ({
               className="dropdown-item flex w-full text-sm leading-5 text-content2"
               role="menuitem"
             >
-              <i className="mr-2">
-                {getIcon(item.icon)}
-              </i>
+              <i className="mr-2">{getIcon(item.icon)}</i>
               <span>{item.text}</span>
             </span>
           </label>

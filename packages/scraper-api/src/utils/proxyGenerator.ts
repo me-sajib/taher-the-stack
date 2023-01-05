@@ -6,31 +6,23 @@ async function* proxyGenerator(): AsyncGenerator<
   Proxy,
   unknown
 > {
-  const proxies = await fetchProxies(
-    (proxies: string) =>
-      JSON.parse(proxies).reduce(
-        (acc, proxy) => {
-          if (
-            proxy.address &&
-            proxy.port
-          ) {
-            const [username, password] =
-              proxy?.auth.split(':');
+  const proxies = await fetchProxies((proxies: string) =>
+    JSON.parse(proxies).reduce((acc, proxy) => {
+      if (proxy.address && proxy.port) {
+        const [username, password] = proxy?.auth.split(':');
 
-            acc.push({
-              host: proxy.address,
-              port: proxy.port,
-              auth: {
-                username,
-                password
-              }
-            });
+        acc.push({
+          host: proxy.address,
+          port: proxy.port,
+          auth: {
+            username,
+            password
           }
+        });
+      }
 
-          return acc;
-        },
-        []
-      )
+      return acc;
+    }, [])
   );
   let i = 0;
 

@@ -10,10 +10,8 @@ interface BoolStateWrapperPropTypes {
 const BoolStateWrapper = ({
   children
 }: BoolStateWrapperPropTypes) => {
-  const [status, setStatus] =
-    useState<boolean>(false);
-  const toggleStatus = () =>
-    setStatus(!status);
+  const [status, setStatus] = useState<boolean>(false);
+  const toggleStatus = () => setStatus(!status);
 
   return children(status, toggleStatus);
 };

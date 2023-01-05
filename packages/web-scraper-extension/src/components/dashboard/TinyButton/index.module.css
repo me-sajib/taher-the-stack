@@ -1,9 +1,7 @@
 .button {
   display: flex;
   align-items: center;
-  background-color: var(
-    --primary-color
-  );
+  background-color: var(--primary-color);
   font-size: 16.5px;
   color: white;
   padding: 7px 10px;
@@ -20,7 +18,5 @@
 }
 
 .button:hover {
-  background-color: var(
-    --secondary-color
-  );
+  background-color: var(--secondary-color);
 }

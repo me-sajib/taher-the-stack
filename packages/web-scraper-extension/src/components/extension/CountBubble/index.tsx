@@ -30,10 +30,7 @@ const CountBubble = ({
 
   const prevResultCount: React.MutableRefObject<number> =
     useRef<number>(0);
-  const number = useNumberTransition(
-    resultCount,
-    prevResultCount
-  );
+  const number = useNumberTransition(resultCount, prevResultCount);
 
   return (
     <animated.div
@@ -43,21 +40,15 @@ const CountBubble = ({
       onMouseLeave={mouseLeaveHandler}
       style={styles}
     >
-      <animated.p
-        className={'prop-name'}
-      >
-        {isSelected
-          ? number.to(Math.floor)
-          : resultCount}
+      <animated.p className={'prop-name'}>
+        {isSelected ? number.to(Math.floor) : resultCount}
       </animated.p>
 
       {isMouseEnter && uid && (
         <Button
           status={'exit'}
           classes={'delete-action'}
-          clickAction={
-            deleteActionHandler
-          }
+          clickAction={deleteActionHandler}
         />
       )}
     </animated.div>

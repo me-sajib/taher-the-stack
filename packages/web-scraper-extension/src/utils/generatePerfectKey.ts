@@ -1,6 +1,4 @@
-const generatePerfectKey = <
-  T extends Object
->(
+const generatePerfectKey = <T extends Object>(
   obj: T,
   duplicateKey: string
 ): string => {

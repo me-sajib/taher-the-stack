@@ -1,25 +1,14 @@
-import {
-  DETECTOR_ATTR_NAME,
-  SCRAPE_ATTRIBUTE_NAME
-} from './global';
-import type {
-  StyleSchema,
-  StyleSheet
-} from './interfaces/extension';
+import { DETECTOR_ATTR_NAME, SCRAPE_ATTRIBUTE_NAME } from './global';
+import type { StyleSchema, StyleSheet } from './interfaces/extension';
 
 const root = {
   '--primary-color': 'hsl(0, 0%, 95%)',
-  '--secondary-color':
-    'hsla(224, 81%, 61%, 0.851)',
-  '--input-border-color':
-    'hsla(60, 4%, 89%, 0.89)',
-  '--success-color':
-    'hsl(144, 45%, 62%)',
-  '--danger-color':
-    'hsla(6, 78%, 57%, 0.872)',
+  '--secondary-color': 'hsla(224, 81%, 61%, 0.851)',
+  '--input-border-color': 'hsla(60, 4%, 89%, 0.89)',
+  '--success-color': 'hsl(144, 45%, 62%)',
+  '--danger-color': 'hsla(6, 78%, 57%, 0.872)',
 
-  '  --shadow':
-    'hsla(0, 0%, 0%, 0.3) 0px 1.3px 3.3px 0px'
+  '  --shadow': 'hsla(0, 0%, 0%, 0.3) 0px 1.3px 3.3px 0px'
 };
 
 const componentStyle: StyleSheet = {
@@ -51,8 +40,7 @@ const componentStyle: StyleSheet = {
     {
       selector: '.bounce',
       styles: {
-        animation:
-          'bounce 200ms ease-in'
+        animation: 'bounce 200ms ease-in'
       }
     },
     {
@@ -101,18 +89,15 @@ const componentStyle: StyleSheet = {
         top: '0',
         right: '0',
         padding: '1.56px',
-        backgroundColor:
-          'rgba(255, 255, 255, 0.742)',
+        backgroundColor: 'rgba(255, 255, 255, 0.742)',
         borderRadius: '50%',
         boxShadow: 'var(--shadow)',
         marginLeft: '0px',
-        transform:
-          'translate(3px, -5px)'
+        transform: 'translate(3px, -5px)'
       }
     },
     {
-      selector:
-        '.delete-action:hover > *',
+      selector: '.delete-action:hover > *',
       styles: {
         color: 'var(--danger-color)'
       }
@@ -124,8 +109,7 @@ const componentStyle: StyleSheet = {
         bottom: '0',
         right: '0',
         padding: '1.56px',
-        backgroundColor:
-          'rgba(255, 255, 255, 0.742)',
+        backgroundColor: 'rgba(255, 255, 255, 0.742)',
         borderRadius: '50%',
         boxShadow: 'var(--shadow)',
         marginLeft: '0px',
@@ -133,15 +117,13 @@ const componentStyle: StyleSheet = {
       }
     },
     {
-      selector:
-        '.edit-action:hover > *',
+      selector: '.edit-action:hover > *',
       styles: {
         color: 'var(--secondary-color)'
       }
     },
     {
-      selector:
-        '.delete-action > *, .edit-action > *',
+      selector: '.delete-action > *, .edit-action > *',
       styles: {
         fontSize: '13.5px'
       }
@@ -154,36 +136,30 @@ const componentStyle: StyleSheet = {
         marginRight: '15px',
         borderBottomWidth: '1.23px',
         borderBottomStyle: 'solid',
-        borderBottomColor:
-          'var(--input-border-color)',
+        borderBottomColor: 'var(--input-border-color)',
         fontSize: '18px',
         padding: '5px',
-        transition:
-          'border-bottom-color 250ms ease'
+        transition: 'border-bottom-color 250ms ease'
       }
     },
     {
-      selector:
-        '.prop-name-input:focus',
+      selector: '.prop-name-input:focus',
       styles: {
-        borderBottomColor:
-          'var(--secondary-color)'
+        borderBottomColor: 'var(--secondary-color)'
       }
     },
     {
       selector: '.pagination-input',
       styles: {
         maxWidth: '80px',
-        outline:
-          '2.5px solid var(--secondary-color)',
+        outline: '2.5px solid var(--secondary-color)',
         borderRadius: '5px',
         padding: '5px',
         fontSize: '17px'
       }
     },
     {
-      selector:
-        '.pagination-input-container',
+      selector: '.pagination-input-container',
       styles: {
         margin: '12.5px 0px',
         position: 'relative'
@@ -199,8 +175,7 @@ const componentStyle: StyleSheet = {
         left: '0',
         marginTop: '-.7em',
         color: 'black',
-        background:
-          'var(--primary-color)'
+        background: 'var(--primary-color)'
       }
     }
   ]
@@ -209,8 +184,7 @@ const componentStyle: StyleSheet = {
 const globalCSS: StyleSheet = {
   root: [
     {
-      selector:
-        '*, *::before, *::after',
+      selector: '*, *::before, *::after',
       styles: {
         margin: '0',
         padding: '0',
@@ -226,8 +200,7 @@ const globalCSS: StyleSheet = {
 
         position: 'relative',
         width: '100%',
-        fontFamily:
-          'Roboto, sans-serif',
+        fontFamily: 'Roboto, sans-serif',
         lineHeight: 'normal'
       }
     },
@@ -240,11 +213,9 @@ const globalCSS: StyleSheet = {
         zIndex: '99999999999',
         width: '100%',
 
-        boxShadow:
-          'hsla(0, 0%, 0%, 0.15) 0px 3px 3px 0px',
+        boxShadow: 'hsla(0, 0%, 0%, 0.15) 0px 3px 3px 0px',
         marginBottom: '10px',
-        backgroundColor:
-          'var(--primary-color)'
+        backgroundColor: 'var(--primary-color)'
       }
     },
     {
@@ -304,8 +275,7 @@ const globalCSS: StyleSheet = {
       }
     },
     {
-      selector:
-        '.selector-buttons > * ~ *',
+      selector: '.selector-buttons > * ~ *',
       styles: {
         marginLeft: '15px'
       }
@@ -314,8 +284,7 @@ const globalCSS: StyleSheet = {
       selector: '.icon',
       styles: {
         fontSize: '25px',
-        transition:
-          'transform 350ms ease'
+        transition: 'transform 350ms ease'
       }
     },
     {
@@ -326,10 +295,8 @@ const globalCSS: StyleSheet = {
         width: '39.5px',
         height: '39.5px',
         padding: '0px !important',
-        boxShadow:
-          '0 0 1px 0.5px hsla(0, 0%, 0%, 0.164)',
-        backgroundColor:
-          'var(--input-border-color)'
+        boxShadow: '0 0 1px 0.5px hsla(0, 0%, 0%, 0.164)',
+        backgroundColor: 'var(--input-border-color)'
       }
     },
     {
@@ -353,8 +320,7 @@ const globalCSS: StyleSheet = {
       }
     },
     {
-      selector:
-        '.scrape-button:hover .undo-button',
+      selector: '.scrape-button:hover .undo-button',
       styles: {
         color: 'var(--success-color)'
       }
@@ -368,8 +334,7 @@ const globalCSS: StyleSheet = {
       }
     },
     {
-      selector:
-        '.result-options > *:not(:first-child)',
+      selector: '.result-options > *:not(:first-child)',
       styles: {
         marginLeft: '10px'
       }
@@ -382,8 +347,7 @@ const globalCSS: StyleSheet = {
         alignItems: 'center',
         fontSize: '15px',
         fontWeight: 'bold',
-        backgroundColor:
-          'hsl(50, 6%, 82%)',
+        backgroundColor: 'hsl(50, 6%, 82%)',
         color: 'hsla(0, 0%, 0%, 0.8)',
         borderRadius: '3px',
         marginTop: '5px',
@@ -393,11 +357,9 @@ const globalCSS: StyleSheet = {
     {
       selector: '.result-ready',
       styles: {
-        backgroundColor:
-          'var(--success-color)',
+        backgroundColor: 'var(--success-color)',
         color: 'hsla(0, 0%, 100%, 0.9)',
-        transition:
-          'box-shadow 150ms ease-in'
+        transition: 'box-shadow 150ms ease-in'
       }
     },
     {
@@ -410,8 +372,7 @@ const globalCSS: StyleSheet = {
     {
       selector: '.option-button:hover',
       styles: {
-        backgroundColor:
-          'var(--input-border-color)',
+        backgroundColor: 'var(--input-border-color)',
         borderRadius: '15px'
       }
     },
@@ -429,95 +390,81 @@ const globalCSS: StyleSheet = {
       }
     },
     {
-      selector:
-        '.pagination-active > *',
+      selector: '.pagination-active > *',
       styles: {
-        color:
-          'var(--secondary-color) !important'
+        color: 'var(--secondary-color) !important'
       }
     },
     {
       selector: '.pagination-done > *',
       styles: {
-        color:
-          'var(--success-color) !important'
+        color: 'var(--success-color) !important'
       }
     }
   ]
 };
 
-export const detectionStyles: StyleSchema[] =
-  [
-    {
-      attr: {
-        name: DETECTOR_ATTR_NAME,
-        value: 'detected'
-      },
-      styles: {
-        cursor: 'default !important',
-        transition:
-          'all 100ms ease-in !important',
-        userSelect: 'none !important',
-        color: '#000 !important',
-        outline: 'none'
-      }
+export const detectionStyles: StyleSchema[] = [
+  {
+    attr: {
+      name: DETECTOR_ATTR_NAME,
+      value: 'detected'
     },
-    {
-      attr: {
-        name: SCRAPE_ATTRIBUTE_NAME,
-        value: 'suggested'
-      },
-      styles: {
-        borderRadius:
-          '0.3px !important',
-        color: '#000 !important',
-        outlineWidth:
-          '3.5px !important',
-        outlineStyle:
-          'solid !important',
-        transition:
-          'all 350ms cubic-bezier(0.68, -0.6, 0.32, 1.6)'
-      }
-    },
-    {
-      attr: {
-        name: SCRAPE_ATTRIBUTE_NAME,
-        value: 'selected'
-      },
-      styles: {
-        borderRadius:
-          '0.3px !important',
-        color: '#000 !important',
-        outlineWidth:
-          '3.5px !important',
-        outlineStyle: 'solid !important'
-      }
-    },
-    {
-      attr: {
-        name: SCRAPE_ATTRIBUTE_NAME,
-        value: 'rejected'
-      },
-      styles: {
-        backgroundColor:
-          '#F15412 !important',
-        borderRadius:
-          '2.5px !important',
-        color: '#fff !important'
-      }
-    },
-    {
-      attr: {
-        name: SCRAPE_ATTRIBUTE_NAME,
-        value: 'paginated'
-      },
-      styles: {
-        borderRadius:
-          '2.5px !important',
-        color: '#fff !important'
-      }
+    styles: {
+      cursor: 'default !important',
+      transition: 'all 100ms ease-in !important',
+      userSelect: 'none !important',
+      color: '#000 !important',
+      outline: 'none'
     }
-  ];
+  },
+  {
+    attr: {
+      name: SCRAPE_ATTRIBUTE_NAME,
+      value: 'suggested'
+    },
+    styles: {
+      borderRadius: '0.3px !important',
+      color: '#000 !important',
+      outlineWidth: '3.5px !important',
+      outlineStyle: 'solid !important',
+      transition: 'all 350ms cubic-bezier(0.68, -0.6, 0.32, 1.6)'
+    }
+  },
+  {
+    attr: {
+      name: SCRAPE_ATTRIBUTE_NAME,
+      value: 'selected'
+    },
+    styles: {
+      borderRadius: '0.3px !important',
+      color: '#000 !important',
+      outlineWidth: '3.5px !important',
+      outlineStyle: 'solid !important'
+    }
+  },
+  {
+    attr: {
+      name: SCRAPE_ATTRIBUTE_NAME,
+      value: 'rejected'
+    },
+    styles: {
+      backgroundColor: '#F15412 !important',
+      borderRadius: '2.5px !important',
+      color: '#fff !important'
+    }
+  },
+  {
+    attr: {
+      name: SCRAPE_ATTRIBUTE_NAME,
+      value: 'paginated'
+    },
+    styles: {
+      borderRadius: '2.5px !important',
+      color: '#fff !important'
+    }
+  }
+];
 
 export default [
   ...Object.values(globalCSS),

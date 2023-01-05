@@ -13,15 +13,10 @@ interface ScrapeInputPropTypes {
 }
 
 const ScrapeInput = (
-  {
-    placeholder,
-    value,
-    liftValue
-  }: ScrapeInputPropTypes,
+  { placeholder, value, liftValue }: ScrapeInputPropTypes,
   ref: LegacyRef<HTMLInputElement>
 ) => {
-  const [currentValue, setValue] =
-    useState(value);
+  const [currentValue, setValue] = useState(value);
 
   useEffect(() => {
     setValue(value);
@@ -31,9 +26,8 @@ const ScrapeInput = (
     liftValue(currentValue);
   };
 
-  const changeHandler = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => setValue(e.target.value);
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+    setValue(e.target.value);
 
   return (
     <input

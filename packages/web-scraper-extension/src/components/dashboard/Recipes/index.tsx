@@ -9,32 +9,23 @@ interface SavePagePropTypes {
   recipes: Recipes;
 }
 
-const SavedRecipes = ({
-  heading,
-  recipes
-}: SavePagePropTypes) => (
+const SavedRecipes = ({ heading, recipes }: SavePagePropTypes) => (
   <div>
-    <h4 className={classes.heading}>
-      {heading}
-    </h4>
+    <h4 className={classes.heading}>{heading}</h4>
     <ul>
-      {Object.entries(recipes).map(
-        ([hostname, recipeList]) => (
-          <BoolStateWrapper>
-            {(open, toggleRecipes) => (
-              <RecipeList
-                key={generateUid()}
-                hostname={hostname}
-                recipeList={recipeList}
-                open={open}
-                toggleRecipes={
-                  toggleRecipes
-                }
-              />
-            )}
-          </BoolStateWrapper>
-        )
-      )}
+      {Object.entries(recipes).map(([hostname, recipeList]) => (
+        <BoolStateWrapper>
+          {(open, toggleRecipes) => (
+            <RecipeList
+              key={generateUid()}
+              hostname={hostname}
+              recipeList={recipeList}
+              open={open}
+              toggleRecipes={toggleRecipes}
+            />
+          )}
+        </BoolStateWrapper>
+      ))}
     </ul>
   </div>
 );

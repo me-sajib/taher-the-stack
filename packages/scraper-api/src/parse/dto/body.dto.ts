@@ -49,8 +49,7 @@ export class ParseBodyDto {
     name: 'only_body',
     type: Boolean,
     default: false,
-    description:
-      'Return only body innerHTML'
+    description: 'Return only body innerHTML'
   })
   only_body?: boolean;
 
@@ -60,8 +59,7 @@ export class ParseBodyDto {
     name: 'only_text',
     type: Boolean,
     default: false,
-    description:
-      'Return only body innerText'
+    description: 'Return only body innerText'
   })
   only_text?: boolean;
 

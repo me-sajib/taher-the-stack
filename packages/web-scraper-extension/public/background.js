@@ -1,4 +1,5 @@
 const scriptPath = '<%main-js-path%>'; // this will be replace by post build
+/* global chrome */
 // this is background state
 const state = {
   limit: 0,
@@ -12,101 +13,67 @@ const state = {
 };
 
 async function getCurrentTab() {
-  const [tab] = await chrome.tabs.query(
-    {
-      active: true,
-      lastFocusedWindow: true
-    }
-  );
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true
+  });
 
   return tab;
 }
 
-async function createNewTab(
-  url,
-  index
-) {
-  const newTab =
-    await chrome.tabs.create({
-      url,
-      index:
-        index ??
-        state.extensionTab.index + 1,
-      active: true
-    });
+async function createNewTab(url, index) {
+  const newTab = await chrome.tabs.create({
+    url,
+    index: index ?? state.extensionTab.index + 1,
+    active: true
+  });
 
-  return [
-    newTab,
-    await getCurrentTab()
-  ];
+  return [newTab, await getCurrentTab()];
 }
 
 // run the easy scraper extension on click icon
-chrome.action.onClicked.addListener(
-  async (tab) => {
-    await chrome.scripting.executeScript(
-      {
-        target: { tabId: tab.id },
-        files: [scriptPath]
-      }
-    );
+chrome.action.onClicked.addListener(async (tab) => {
+  await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: [scriptPath]
+  });
 
-    chrome.tabs.sendMessage(
-      tab.id,
-      { type: 'RUN-EASY-SCRAPER' },
-      console.log
-    );
-  }
-);
+  chrome.tabs.sendMessage(
+    tab.id,
+    { type: 'RUN-EASY-SCRAPER' },
+    console.log
+  );
+});
 
 const viewResult = async (payload) => {
-  state.extensionTab =
-    await getCurrentTab();
+  state.extensionTab = await getCurrentTab();
 
   return payload.paginate.limit
     ? runPagination(payload)
     : openDashboard(payload);
 };
 
-chrome.runtime.onMessage.addListener(
-  ({ type, payload }) => {
-    switch (type) {
-      case 'VIEW_RESULT':
-        return viewResult(payload);
-      case 'RUN_RECIPE':
-        return runPagination(
-          payload,
-          true
-        );
-    }
+chrome.runtime.onMessage.addListener(({ type, payload }) => {
+  switch (type) {
+    case 'VIEW_RESULT':
+      return viewResult(payload);
+    case 'RUN_RECIPE':
+      return runPagination(payload, true);
   }
-);
+});
 
 // this function run all the pagination execution process
-async function runPagination(
-  payload,
-  isRecipePagination
-) {
-  const {
-    paginate,
+async function runPagination(payload, isRecipePagination) {
+  const { paginate, url, resultSchema } = payload;
+  const [paginateTab] = await createNewTab(
     url,
-    resultSchema
-  } = payload;
-  const [paginateTab] =
-    await createNewTab(
-      url,
-      isRecipePagination
-        ? state.dashboardTab.index + 1
-        : null
-    );
+    isRecipePagination ? state.dashboardTab.index + 1 : null
+  );
 
   state.startTime = Date.now();
   state.limit = paginate.limit;
 
-  const paginateHandler = (
-    tabId,
-    info
-  ) => {
+  const paginateHandler = (tabId, info) => {
     if (
       tabId === paginateTab.id &&
       info.status === 'complete' &&
@@ -128,49 +95,31 @@ async function runPagination(
         ]
       };
 
-      const saveResultHandler = async ([
-        { result }
-      ]) => {
-        const [results, totalScraped] =
-          result;
-        payload.results.push(
-          ...results
-        );
+      const saveResultHandler = async ([{ result }]) => {
+        const [results, totalScraped] = result;
+        payload.results.push(...results);
 
-        state.totalScraped +=
-          totalScraped;
+        state.totalScraped += totalScraped;
 
         if (state.limit === 0) {
-          payload.totalScraped =
-            state.totalScraped;
+          payload.totalScraped = state.totalScraped;
           state.totalScraped = 0;
-          payload.startTime =
-            state.startTime;
+          payload.startTime = state.startTime;
           state.startTime = null;
 
           if (isRecipePagination) {
-            await chrome.runtime.sendMessage(
-              {
-                type: 'OPEN_RECIPE_RESULT',
-                payload
-              }
-            );
-            completeScrapeNotifier(
-              state.dashboardTab.id
-            );
+            await chrome.runtime.sendMessage({
+              type: 'OPEN_RECIPE_RESULT',
+              payload
+            });
+            completeScrapeNotifier(state.dashboardTab.id);
 
-            await chrome.tabs.update(
-              state.dashboardTab.id,
-              { active: true }
-            );
-            chrome.tabs.remove(
-              paginateTab.id
-            );
+            await chrome.tabs.update(state.dashboardTab.id, {
+              active: true
+            });
+            chrome.tabs.remove(paginateTab.id);
           } else {
-            openDashboard(
-              payload,
-              paginateTab.index + 1
-            );
+            openDashboard(payload, paginateTab.index + 1);
           }
         }
       };
@@ -186,9 +135,7 @@ async function runPagination(
     }
   };
 
-  chrome.tabs.onUpdated.addListener(
-    paginateHandler
-  );
+  chrome.tabs.onUpdated.addListener(paginateHandler);
 }
 
 // this function send scrape complete message
@@ -203,68 +150,44 @@ function completeScrapeNotifier(tabId) {
 }
 
 // It will open a dash board via based on given payload
-async function openDashboard(
-  payload,
-  openIndex
-) {
+async function openDashboard(payload, openIndex) {
   completeScrapeNotifier();
   // remove previous dashboard if exist
   if (state.dashboardTab) {
-    await chrome.tabs.remove(
-      state.dashboardTab.id
-    );
+    await chrome.tabs.remove(state.dashboardTab.id);
   }
   // create a new dashboard tab
-  const [dashboardTab] =
-    await createNewTab(
-      chrome.runtime.getURL(
-        'index.html'
-      ),
-      state.extensionTab?.index + 1 ||
-        openIndex
-    );
-  chrome.tabs.onUpdated.addListener(
-    (tabId, { status }) => {
-      if (
-        tabId === dashboardTab.id &&
-        status === 'complete'
-      ) {
-        if (
-          state.dashboardTab !==
-          dashboardTab
-        ) {
-          chrome.tabs.sendMessage(
-            dashboardTab.id,
-            {
-              type: 'OPEN_DASHBOARD',
-              payload
-            },
-            (res) => {
-              console.log(res);
-              state.dashboardTab =
-                dashboardTab;
-            }
-          );
-        }
+  const [dashboardTab] = await createNewTab(
+    chrome.runtime.getURL('index.html'),
+    state.extensionTab?.index + 1 || openIndex
+  );
+  chrome.tabs.onUpdated.addListener((tabId, { status }) => {
+    if (tabId === dashboardTab.id && status === 'complete') {
+      if (state.dashboardTab !== dashboardTab) {
+        chrome.tabs.sendMessage(
+          dashboardTab.id,
+          {
+            type: 'OPEN_DASHBOARD',
+            payload
+          },
+          (res) => {
+            console.log(res);
+            state.dashboardTab = dashboardTab;
+          }
+        );
       }
     }
-  );
+  });
 
-  chrome.tabs.onRemoved.addListener(
-    (tabId) => {
-      if (
-        state.dashboardTab?.id === tabId
-      ) {
-        state.dashboardTab = null;
-      }
-
-      if (
-        state.extensionTab?.id === tabId
-      ) {
-        state.extensionTab = null;
-      }
+  chrome.tabs.onRemoved.addListener((tabId) => {
+    if (state.dashboardTab?.id === tabId) {
+      state.dashboardTab = null;
     }
-  );
+
+    if (state.extensionTab?.id === tabId) {
+      state.extensionTab = null;
+    }
+  });
 
   return payload;
 }
@@ -274,11 +197,7 @@ async function openDashboard(
  * this function will run in the browser context
  */
 function pageScraper(payload) {
-  let {
-    paginate,
-    resultSchema,
-    totalScraped
-  } = JSON.parse(payload);
+  let { paginate, resultSchema, totalScraped } = JSON.parse(payload);
 
   const scrapeElement = (element) => {
     if (!element) {
@@ -286,32 +205,16 @@ function pageScraper(payload) {
     }
 
     const data = {
-      text:
-        element instanceof HTMLElement
-          ? element.innerText
-          : '',
-      link:
-        element instanceof
-        HTMLAnchorElement
-          ? element.href
-          : '',
-      src:
-        element instanceof
-        HTMLImageElement
-          ? element.src
-          : ''
+      text: element instanceof HTMLElement ? element.innerText : '',
+      link: element instanceof HTMLAnchorElement ? element.href : '',
+      src: element instanceof HTMLImageElement ? element.src : ''
     };
-    const dataValues =
-      Object.values(data);
-    const isMultiValue =
-      dataValues.filter(Boolean)
-        .length > 1;
+    const dataValues = Object.values(data);
+    const isMultiValue = dataValues.filter(Boolean).length > 1;
 
     if (isMultiValue) {
       // filtering the empty result
-      return Object.entries(
-        data
-      ).reduce((acc, [key, value]) => {
+      return Object.entries(data).reduce((acc, [key, value]) => {
         if (value) {
           acc[key] = value;
         }
@@ -319,14 +222,10 @@ function pageScraper(payload) {
       }, {});
     }
 
-    return (
-      dataValues.find(Boolean) ?? ''
-    );
+    return dataValues.find(Boolean) ?? '';
   };
 
-  const resultScraper = (
-    resultSchema
-  ) => {
+  const resultScraper = (resultSchema) => {
     const scrapeElementReducer = (
       map,
       [propertyName, suggestSelector]
@@ -334,47 +233,32 @@ function pageScraper(payload) {
       let allElements = [];
 
       if (suggestSelector.length > 1) {
-        suggestSelector.forEach(
-          (selector, index) => {
-            allElements = [
-              ...document.querySelectorAll(
-                selector
-              )
-            ].reverse();
+        suggestSelector.forEach((selector, index) => {
+          allElements = [
+            ...document.querySelectorAll(selector)
+          ].reverse();
 
-            map.set(
-              `${propertyName}_COLLECTION-${
-                index + 1
-              }`,
-              allElements
-            );
-          }
-        );
+          map.set(
+            `${propertyName}_COLLECTION-${index + 1}`,
+            allElements
+          );
+        });
       } else {
         allElements = [
-          ...document.querySelectorAll(
-            suggestSelector.at()
-          )
+          ...document.querySelectorAll(suggestSelector.at())
         ].reverse();
-        map.set(
-          propertyName,
-          allElements.reverse()
-        );
+        map.set(propertyName, allElements.reverse());
       }
 
-      totalScraped +=
-        allElements.length;
+      totalScraped += allElements.length;
 
       return map;
     };
 
-    const resultElements =
-      Object.entries(
-        resultSchema
-      ).reduce(
-        scrapeElementReducer,
-        new Map()
-      );
+    const resultElements = Object.entries(resultSchema).reduce(
+      scrapeElementReducer,
+      new Map()
+    );
 
     const results = [];
 
@@ -388,12 +272,8 @@ function pageScraper(payload) {
       // generate the result scuff holder
       const result = {};
 
-      for (const [
-        propertyName,
-        elements
-      ] of resultElements) {
-        result[propertyName] =
-          scrapeElement(elements.pop());
+      for (const [propertyName, elements] of resultElements) {
+        result[propertyName] = scrapeElement(elements.pop());
       }
 
       results.push(result);
@@ -402,13 +282,10 @@ function pageScraper(payload) {
     return results;
   };
 
-  const results = resultScraper(
-    resultSchema
+  const results = resultScraper(resultSchema);
+  const paginateButton = document.querySelector(
+    paginate.selector || null
   );
-  const paginateButton =
-    document.querySelector(
-      paginate.selector || null
-    );
   paginateButton?.click();
 
   return [results, totalScraped];

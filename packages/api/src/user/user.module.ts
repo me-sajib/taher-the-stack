@@ -7,11 +7,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 @Module({
-  imports: [
-    PrismaClientModule,
-    JwtModule.register({}),
-    ConfigModule
-  ],
+  imports: [PrismaClientModule, JwtModule.register({}), ConfigModule],
   controllers: [UserController],
   providers: [UserService, JwtStrategy]
 })

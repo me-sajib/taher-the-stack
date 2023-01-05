@@ -2,10 +2,9 @@ import { HSL } from '../interfaces/extension';
 
 // inspired from -> https://stackoverflow.com/questions/46432335/hex-to-hsl-convert-javascript
 function hexToHsl(hex: string): HSL {
-  const result =
-    /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
-      hex
-    )!;
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+    hex
+  )!;
 
   let r = parseInt(result[1], 16);
   let g = parseInt(result[2], 16);
@@ -26,15 +25,11 @@ function hexToHsl(hex: string): HSL {
     h = s = 0; // achromatic
   } else {
     const d = max - min;
-    s =
-      l > 0.5
-        ? d / (2 - max - min)
-        : d / (max + min);
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
     switch (max) {
       case r:
-        h =
-          (g - b) / d + (g < b ? 6 : 0);
+        h = (g - b) / d + (g < b ? 6 : 0);
         break;
       case g:
         h = (b - r) / d + 2;

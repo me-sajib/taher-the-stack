@@ -4,10 +4,7 @@ import {
   HttpException,
   HttpStatus
 } from '@nestjs/common';
-import {
-  ApiOperation,
-  ApiResponse
-} from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 @Controller()
 export class AppController {
   @Get('health')
@@ -20,9 +17,6 @@ export class AppController {
     description: 'The ok message'
   })
   async health() {
-    return new HttpException(
-      'I am ok ;)',
-      HttpStatus.OK
-    );
+    return new HttpException('I am ok ;)', HttpStatus.OK);
   }
 }

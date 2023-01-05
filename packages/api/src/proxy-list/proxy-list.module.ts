@@ -15,9 +15,6 @@ import { ProxyListService } from './proxy-list.service';
     CheckProxyModule
   ],
   controllers: [ProxyListController],
-  providers: [
-    ProxyListService,
-    JwtStrategy
-  ]
+  providers: [ProxyListService, JwtStrategy]
 })
 export class ProxyListModule {}

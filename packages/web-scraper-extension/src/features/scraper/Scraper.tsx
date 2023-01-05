@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useRef
-} from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import Button from '../../components/Button';
 import PaginationConfigInput from '../../components/extension/PaginationConfigInput';
@@ -25,22 +22,13 @@ const Scraper = () => {
     clearButtonHandler,
     propertyNameChangeHandler
   } = useScraper();
-  const isScrapping = useAppSelector(
-    getIsScrapping
-  );
+  const isScrapping = useAppSelector(getIsScrapping);
 
-  const {
-    paginate,
-    currentSelector,
-    scrapeSelectors
-  } = state;
-  const prevSaveCount = useRef<number>(
-    scrapeSelectorList.length
-  );
+  const { paginate, currentSelector, scrapeSelectors } = state;
+  const prevSaveCount = useRef<number>(scrapeSelectorList.length);
 
   useEffect(() => {
-    prevSaveCount.current =
-      scrapeSelectorList.length;
+    prevSaveCount.current = scrapeSelectorList.length;
   }, [scrapeSelectorList.length]);
 
   if (currentSelector.totalCount) {
@@ -50,43 +38,25 @@ const Scraper = () => {
   return (
     <main>
       <header className={'scraper-bar'}>
-        <div
-          className={'selector-inputs'}
-        >
+        <div className={'selector-inputs'}>
           <ScrapeInput
             ref={inputRef}
-            placeholder={
-              'selector name'
-            }
+            placeholder={'selector name'}
             value={currentSelector.name}
-            liftValue={
-              propertyNameChangeHandler
-            }
+            liftValue={propertyNameChangeHandler}
           />
 
           <SelectorButtons
             inputRef={inputRef}
-            currentSelector={
-              currentSelector
-            }
-            scrapeSelectorList={
-              scrapeSelectorList
-            }
-            prevSaveCount={
-              prevSaveCount.current
-            }
-            saveSelectorHandler={
-              saveSelectorHandler
-            }
-            clearButtonHandler={
-              clearButtonHandler
-            }
+            currentSelector={currentSelector}
+            scrapeSelectorList={scrapeSelectorList}
+            prevSaveCount={prevSaveCount.current}
+            saveSelectorHandler={saveSelectorHandler}
+            clearButtonHandler={clearButtonHandler}
           />
         </div>
 
-        <div
-          className={'result-options'}
-        >
+        <div className={'result-options'}>
           <Button
             classes={addClass(
               'result-button',
@@ -94,42 +64,26 @@ const Scraper = () => {
                 !isScrapping &&
                 'result-ready'
             )}
-            innerText={
-              isScrapping
-                ? 'SCRAPPING'
-                : 'VIEW RESULTS'
-            }
+            innerText={isScrapping ? 'SCRAPPING' : 'VIEW RESULTS'}
             clickAction={
               scrapeSelectorList.length
-                ? viewResult.bind(
-                    null,
-                    scrapeSelectors,
-                    paginate
-                  )
+                ? viewResult.bind(null, scrapeSelectors, paginate)
                 : () => null
             }
           >
-            {isScrapping && (
-              <InfiniteLoading />
-            )}
+            {isScrapping && <InfiniteLoading />}
           </Button>
           <Button
             classes={addClass(
               'option-button',
-              paginate.active &&
-                'pagination-active',
-              paginate.limit &&
-                !paginate.active &&
-                'pagination-done'
+              paginate.active && 'pagination-active',
+              paginate.limit && !paginate.active && 'pagination-done'
             )}
             status={'next'}
             clickAction={togglePaginate}
           />
 
-          {Boolean(
-            paginate.limit &&
-              !paginate.active
-          ) && (
+          {Boolean(paginate.limit && !paginate.active) && (
             <>
               <PaginationConfigInput
                 type={'limit'}
@@ -153,13 +107,7 @@ const Scraper = () => {
       </header>
 
       {suggest && (
-        <pre
-          className={
-            'suggested-selector'
-          }
-        >
-          {suggest}
-        </pre>
+        <pre className={'suggested-selector'}>{suggest}</pre>
       )}
     </main>
   );

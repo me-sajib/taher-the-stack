@@ -22,14 +22,13 @@ interface SignUpFormTypes {
 
 const SignUpForm = () => {
   const router = useRouter();
-  const defaultValues: SignUpFormTypes =
-    {
-      fullname: '',
-      username: '',
-      email: '',
-      password: '',
-      remember: false
-    };
+  const defaultValues: SignUpFormTypes = {
+    fullname: '',
+    username: '',
+    email: '',
+    password: '',
+    remember: false
+  };
 
   const methods = useForm({
     defaultValues
@@ -40,9 +39,7 @@ const SignUpForm = () => {
     formState: { isSubmitting }
   } = methods;
 
-  const onSubmit = async (
-    formData: SignUpFormTypes
-  ) => {
+  const onSubmit = async (formData: SignUpFormTypes) => {
     try {
       const { data } = await axios.post(
         '/api/auth/sign-up',
@@ -51,32 +48,21 @@ const SignUpForm = () => {
 
       if (data.status === 400) {
         if (data.messages) {
-          return data.messages.forEach(
-            (message: string) =>
-              setError(
+          return data.messages.forEach((message: string) =>
+            setError(
+              message.split(/\s/).at(0) as keyof SignUpFormTypes,
+              {
                 message
-                  .split(/\s/)
-                  .at(
-                    0
-                  ) as keyof SignUpFormTypes,
-                {
-                  message
-                }
-              )
+              }
+            )
           );
         }
-        return setError(
-          data.message
-            .split(/\s/)
-            .at(0),
-          {
-            message: data.message
-          }
-        );
+        return setError(data.message.split(/\s/).at(0), {
+          message: data.message
+        });
       }
 
-      data.status === 202 &&
-        router.push('/proxy-list');
+      data.status === 202 && router.push('/proxy-list');
     } catch (e) {
       console.log(e);
       return null;
@@ -84,10 +70,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <FormProvider
-      methods={methods}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4">
         <RHFTextField
           name="fullname"
@@ -116,10 +99,7 @@ const SignUpForm = () => {
           classes="mb-3"
           rules={validator.password}
         />
-        <RHFCheckbox
-          name="remember"
-          label="Remember me"
-        />
+        <RHFCheckbox name="remember" label="Remember me" />
       </div>
 
       <Button

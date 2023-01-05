@@ -3,16 +3,9 @@ import React from 'react';
 
 interface ButtonPropTypes {
   text: string;
-  clickHandler?: (
-    event: React.MouseEvent
-  ) => void;
+  clickHandler?: (event: React.MouseEvent) => void;
   type?: 'button' | 'submit' | 'reset';
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'error'
-    | 'warning';
+  variant?: 'primary' | 'secondary' | 'success' | 'error' | 'warning';
   classes?: string;
   conditionClasses?: {
     [key: string]: boolean;

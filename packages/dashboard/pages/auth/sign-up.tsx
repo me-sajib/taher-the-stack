@@ -8,15 +8,12 @@ export default function SignUpPage() {
       sideTitle="Manage proxies more effectively with zero hassle"
       redirect={{
         path: 'sign-in',
-        title:
-          'Already have an account?',
+        title: 'Already have an account?',
         placeholder: 'Sign in'
       }}
       form={{
-        title:
-          'Get started absolutely free.',
-        subTitle:
-          'Free forever. No credit card needed.'
+        title: 'Get started absolutely free.',
+        subTitle: 'Free forever. No credit card needed.'
       }}
     >
       <SignUpForm />

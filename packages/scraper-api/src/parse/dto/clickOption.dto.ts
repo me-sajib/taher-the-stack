@@ -6,12 +6,7 @@ import {
   IsString
 } from 'class-validator';
 
-type MouseButton =
-  | 'left'
-  | 'right'
-  | 'middle'
-  | 'back'
-  | 'forward';
+type MouseButton = 'left' | 'right' | 'middle' | 'back' | 'forward';
 
 export class ClickOption {
   @IsString()
@@ -19,8 +14,7 @@ export class ClickOption {
   @ApiProperty({
     name: 'selector',
     type: String,
-    description:
-      'The valid css selector that you want to click'
+    description: 'The valid css selector that you want to click'
   })
   selector: string;
 
@@ -30,8 +24,7 @@ export class ClickOption {
     name: 'delay',
     type: Number,
     required: false,
-    description:
-      'The time delay to click'
+    description: 'The time delay to click'
   })
   delay?: number;
 
@@ -51,8 +44,7 @@ export class ClickOption {
     name: 'clickCount',
     type: Number,
     required: false,
-    description:
-      'The number of count to click'
+    description: 'The number of count to click'
   })
   clickCount?: number;
 }

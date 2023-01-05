@@ -1,13 +1,7 @@
 // form
-import {
-  Controller,
-  useFormContext
-} from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
-const HFCheckbox = ({
-  name,
-  label
-}) => {
+const HFCheckbox = ({ name, label }) => {
   const { control } = useFormContext();
 
   return (

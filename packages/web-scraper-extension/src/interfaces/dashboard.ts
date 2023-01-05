@@ -1,12 +1,6 @@
-import {
-  Paginate,
-  Result,
-  ResultSchema
-} from './extension';
+import { Paginate, Result, ResultSchema } from './extension';
 
-export type DownloadFormat =
-  | 'CSV'
-  | 'JSON';
+export type DownloadFormat = 'CSV' | 'JSON';
 
 export interface User {
   username: string;
@@ -26,8 +20,7 @@ export interface ScrapedPageInfo {
   totalScraped: number;
 }
 
-export interface Page
-  extends ScrapedPageInfo {
+export interface Page extends ScrapedPageInfo {
   name: string;
   hostname: string;
   updateAt: string;
@@ -57,9 +50,7 @@ export interface DashboardState {
   recipes: Recipes;
 }
 
-export interface PageFormState<
-  SchemaType = any
-> {
+export interface PageFormState<SchemaType = any> {
   name: string;
   url: string;
   paginate: Paginate;

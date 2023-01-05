@@ -1,6 +1,4 @@
-import anime, {
-  AnimeCallBack
-} from 'animejs';
+import anime, { AnimeCallBack } from 'animejs';
 
 const marginTop = (
   targets: string,

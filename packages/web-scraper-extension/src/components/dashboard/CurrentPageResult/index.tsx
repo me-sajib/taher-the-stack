@@ -19,10 +19,7 @@ const CurrentPageResult = ({
     createAt,
     startTime
   } = page;
-  const dates = [
-    ...Object.keys(histories),
-    createAt
-  ];
+  const dates = [...Object.keys(histories), createAt];
 
   const statuses = [
     {
@@ -38,16 +35,11 @@ const CurrentPageResult = ({
   if (startTime) {
     statuses.push(
       {
-        heading: formatDistanceStrict(
-          startTime,
-          date?.getTime()!
-        ),
+        heading: formatDistanceStrict(startTime, date?.getTime()!),
         status: 'time to complete'
       },
       {
-        heading: String(
-          page.paginate.limit || 1
-        ),
+        heading: String(page.paginate.limit || 1),
         status: 'page scraped'
       }
     );

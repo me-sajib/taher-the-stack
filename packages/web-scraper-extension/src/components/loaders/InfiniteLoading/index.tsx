@@ -3,8 +3,7 @@ import useInfiniteRotation from '../../../animations/useInfiniteRotation';
 import icon from '../../../icon';
 
 const InfiniteLoading = () => {
-  const infiniteRotation =
-    useInfiniteRotation();
+  const infiniteRotation = useInfiniteRotation();
 
   return (
     <animated.span

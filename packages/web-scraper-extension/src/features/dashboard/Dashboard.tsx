@@ -1,12 +1,5 @@
-import {
-  useEffect,
-  useRef
-} from 'react';
-import {
-  Navigate,
-  Route,
-  Routes
-} from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
 import { store } from '../../app/store';
 import BackButton from '../../components/dashboard/BackButton';
@@ -16,38 +9,23 @@ import NotFoundRecipe from '../../components/dashboard/NotFoundRecipe';
 import RecipeResult from '../../components/dashboard/RecipeResult';
 import SavePage from '../../components/dashboard/SaveRecipe';
 import SideBar from '../../components/dashboard/SideBar';
-import {
-  BODY_HOLDER,
-  EXTENSION_TAG_NAME
-} from '../../global';
+import { BODY_HOLDER, EXTENSION_TAG_NAME } from '../../global';
 import getChromeStore from '../../utils/getChromeStore';
-import {
-  getCurrentPage,
-  updateRecipes
-} from './dashboardSlice';
+import { getCurrentPage, updateRecipes } from './dashboardSlice';
 import styles from './index.module.css';
 
-async function loadRecipeFromStorage(
-  storageName: string
-) {
-  const storedRecipe =
-    await getChromeStore(storageName);
-  store.dispatch(
-    updateRecipes(storedRecipe)
-  );
+async function loadRecipeFromStorage(storageName: string) {
+  const storedRecipe = await getChromeStore(storageName);
+  store.dispatch(updateRecipes(storedRecipe));
 }
 
 const Dashboard = () => {
-  const currentPage = useAppSelector(
-    getCurrentPage
-  );
+  const currentPage = useAppSelector(getCurrentPage);
   const date = useRef<Date>(new Date());
 
   useEffect(() => {
     if (chrome.storage) {
-      loadRecipeFromStorage(
-        EXTENSION_TAG_NAME
-      );
+      loadRecipeFromStorage(EXTENSION_TAG_NAME);
     }
   }, []);
 
@@ -59,18 +37,11 @@ const Dashboard = () => {
         <Routes>
           <Route
             path="/index.html"
-            element={
-              <Navigate to="/result" />
-            }
+            element={<Navigate to="/result" />}
           />
 
           <Route path="/">
-            <Route
-              index
-              element={
-                <Navigate to="result" />
-              }
-            />
+            <Route index element={<Navigate to="result" />} />
 
             <Route
               path="result"
@@ -83,31 +54,18 @@ const Dashboard = () => {
             />
             <Route
               path="save-recipe"
-              element={
-                <SavePage
-                  page={currentPage}
-                />
-              }
+              element={<SavePage page={currentPage} />}
             />
-            <Route
-              path="not-found"
-              element={
-                <NotFoundRecipe />
-              }
-            />
+            <Route path="not-found" element={<NotFoundRecipe />} />
 
             <Route path="my-recipe/">
               <Route
                 path=":hostname/:id/edit"
-                element={
-                  <MyRecipeEditor />
-                }
+                element={<MyRecipeEditor />}
               />
               <Route
                 path=":hostname/:id/result"
-                element={
-                  <RecipeResult />
-                }
+                element={<RecipeResult />}
               />
             </Route>
           </Route>
@@ -115,9 +73,7 @@ const Dashboard = () => {
       </div>
 
       {/* this is button will render only on development mode */}
-      {Boolean(
-        BODY_HOLDER.children.length
-      ) && <BackButton />}
+      {Boolean(BODY_HOLDER.children.length) && <BackButton />}
     </div>
   );
 };

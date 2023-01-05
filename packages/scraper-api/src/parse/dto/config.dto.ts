@@ -1,9 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNumber,
-  IsOptional,
-  IsString
-} from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { Protocol } from 'puppeteer';
 
 export class ProvidedCaptchaDto {
@@ -18,8 +14,7 @@ export class ConfigPageDto {
     name: 'window_height',
     type: Number,
     required: false,
-    description:
-      'The height of the view port'
+    description: 'The height of the view port'
   })
   window_height?: number;
 
@@ -29,8 +24,7 @@ export class ConfigPageDto {
     name: 'window_width',
     type: Number,
     required: false,
-    description:
-      'The width of the view port'
+    description: 'The width of the view port'
   })
   window_width?: number;
 
@@ -89,8 +83,7 @@ export class ConfigPageDto {
     name: 'captcha',
     type: ProvidedCaptchaDto,
     required: false,
-    description:
-      'The captcha solve info'
+    description: 'The captcha solve info'
   })
   captcha?: ProvidedCaptchaDto;
 
@@ -100,8 +93,7 @@ export class ConfigPageDto {
     type: Boolean,
     required: false,
     default: false,
-    description:
-      'The captcha solve by default service'
+    description: 'The captcha solve by default service'
   })
   captcha_solve?: boolean;
 
@@ -111,8 +103,7 @@ export class ConfigPageDto {
     type: Boolean,
     required: false,
     default: false,
-    description:
-      'The switch of stealth mode'
+    description: 'The switch of stealth mode'
   })
   stealth_mode?: boolean;
 }

@@ -17,8 +17,7 @@ export class ExtractOption {
     name: 'selector',
     type: String,
     required: false,
-    description:
-      'The css selector of an element you want to scrape'
+    description: 'The css selector of an element you want to scrape'
   })
   selector: string;
 
@@ -28,8 +27,7 @@ export class ExtractOption {
     name: 'selector',
     enum: ['item', 'list'],
     required: false,
-    description:
-      'The out put amount type'
+    description: 'The out put amount type'
   })
   type?: 'item' | 'list';
 
@@ -39,8 +37,7 @@ export class ExtractOption {
     name: 'selector',
     type: ExtractionDto,
     required: false,
-    description:
-      'The out put amount type'
+    description: 'The out put amount type'
   })
   output?: string | ExtractionDto;
 
@@ -50,8 +47,7 @@ export class ExtractOption {
     name: 'clean',
     type: Boolean,
     required: false,
-    description:
-      'The boolean value of cleaner'
+    description: 'The boolean value of cleaner'
   })
   clean?: boolean;
 
@@ -61,8 +57,7 @@ export class ExtractOption {
     name: 'parent',
     type: String,
     required: false,
-    description:
-      'The css selector of parent element'
+    description: 'The css selector of parent element'
   })
   parent?: string;
 }

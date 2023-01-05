@@ -1,19 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../app/hooks';
 import { getRecipes } from '../../../features/dashboard/dashboardSlice';
-import {
-  Recipe,
-  Recipes
-} from '../../../interfaces/dashboard';
+import { Recipe, Recipes } from '../../../interfaces/dashboard';
 import ResultLayout from '../ResultLayout';
 
 const RecipeResult = () => {
-  const recipes: Recipes =
-    useAppSelector(getRecipes);
+  const recipes: Recipes = useAppSelector(getRecipes);
   const { hostname, id } = useParams();
-  const recipe: Recipe = recipes[
-    hostname as keyof Recipe
-  ].at(Number(id) - 1)!;
+  const recipe: Recipe = recipes[hostname as keyof Recipe].at(
+    Number(id) - 1
+  )!;
 
   const {
     name,
@@ -41,9 +37,7 @@ const RecipeResult = () => {
         status: 'time to complete'
       },
       {
-        heading: String(
-          recipe.paginate.limit || 1
-        ),
+        heading: String(recipe.paginate.limit || 1),
         status: 'page scraped'
       }
     );
