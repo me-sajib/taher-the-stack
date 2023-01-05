@@ -12,6 +12,7 @@ interface RequestParams {
   req: IncomingMessage;
   ssl: boolean;
 }
+
 export const generateClientRequest = ({
   proxy,
   req,

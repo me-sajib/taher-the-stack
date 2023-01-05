@@ -85,7 +85,6 @@
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js && node scripts/postbuild.js",
     "test": "node scripts/test.js",
-    "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\""
   },
   "eslintConfig": {
