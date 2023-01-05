@@ -32,31 +32,31 @@
   "lint-staged": {
     "./packages/api/src/**/**/*.ts": [
       "prettier --write .",
-      "eslint . --ext .ts, .tsx"
+      "eslint . --ext .ts,.tsx"
     ],
     "./packages/dashboard/**/**/*.{ts,tsx}": [
       "prettier --write .",
-      "eslint . --ext .ts, .tsx"
+      "eslint . --ext .ts,.tsx"
     ],
     "./packages/proxy-manager-extension/src/**/*.{ts,tsx}": [
       "prettier --write .",
-      "eslint . --ext .ts, .tsx"
+      "eslint . --ext .ts,.tsx"
     ],
     "./packages/proxy-rotator/src/**/*.ts": [
       "prettier --write .",
-      "eslint . --ext .ts, .tsx"
+      "eslint . --ext .ts,.tsx"
     ],
     "./packages/scraper-api/**/*.{ts,tsx}": [
       "prettier --write .",
-      "eslint . --ext .ts, .tsx"
+      "eslint . --ext .ts,.tsx"
     ],
     "./packages/web-scraper-extension/src/**/*.{ts,tsx}": [
       "prettier --write .",
-      "eslint . --ext .ts, .tsx"
+      "eslint . --ext .ts,.tsx"
     ],
     "./packages/website/**/*.{js,jsx}": [
       "prettier --write .",
-      "eslint . --ext .ts, .tsx"
+      "eslint . --ext .ts,.tsx"
     ]
   },
   "devDependencies": {
