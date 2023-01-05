@@ -16,8 +16,7 @@
     "dist",
     "coverage",
     "**/*.d.ts",
-    "**/*.js",
-    "public/*"
+    "**/*.js"
   ],
   "rules": {
     "no-console": "off",

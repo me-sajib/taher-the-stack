@@ -61,9 +61,9 @@ export class ManageHandler {
 
     const clientReqHandlers = createEventHandlers(this.clientReq);
 
-    this.EVENTS.slice(0, -2).forEach((event) => {
-      this.req.on(event, clientReqHandlers[event]);
-    });
+    this.EVENTS.slice(0, -2).forEach((event) =>
+      this.req.on(event, clientReqHandlers[event])
+    );
   }
 
   handleSocket() {

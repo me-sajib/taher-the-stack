@@ -1,0 +1,8 @@
+{
+  "label": "Proxy rotator",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "A clean & simple proxy rotator for the easy-proxy-manager app"
+  }
+}
