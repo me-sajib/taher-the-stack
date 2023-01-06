@@ -1,6 +1,5 @@
 ---
 title: Introduction
-
 sidebar_position: 1
 ---
 
@@ -15,12 +14,23 @@ sidebar_position: 1
 
 ### Proxy & Proxy List Management
 
-- Creating multiple lists of proxies with different login credentials through a unique username
+- Creating multiple lists of proxies with different login credentials through a unique username or Email
 - Adding individual proxies to specific lists
 - Editing and deleting proxies & proxy lists
-- Making bulk changes like editing, delete & recheck proxies and proxy lists
+- Making bulk changes like edit, delete & recheck proxies and proxy lists
 - Searching and filtering proxies and proxy lists by heading
 - Checking the status of individual and multiple proxies and proxy lists
-- Monitor the time of the proxy check
+- Monitoring the time of the proxy check
 - Browsing the internet with rotating proxy of proxy list through the extension
 - Browsing the internet through local proxies from any provider users want.
+
+### Web Scraping
+
+- Providing a dedicated API for web web scraping
+- Blocking any kind of resource like `jpg, png, gif, mp4` e.t.c. to scrape data blazingly fast.
+- Solving captcha through the passed id
+- Controlling browser interactions
+- Extracting data deeper and deeper through nested scrapping
+- Providing a browser configuration feature
+- Offering a **Chrome Extension** to scrape websites visually
+- Storing all data locally through recipe feature

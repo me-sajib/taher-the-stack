@@ -5,12 +5,8 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: process.env.DASHBOARD_URL || '*',
-      credentials: true
-    }
-  });
+  const app = await NestFactory.create(AppModule);
+  app.enableCors({ origin: '*' });
 
   const globalPrefix = 'api';
   app.use(cookieParser());
@@ -23,13 +19,13 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Easy Proxy manager API')
-    .setDescription('The api of easy proxy manager')
+    .setTitle('Proxy API')
+    .setDescription('The proxy api of SoftwareSheba stack')
     .setVersion('1.0.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+  SwaggerModule.setup('/api/docs', app, document);
 
   const port = process.env.PORT || 3333;
   await app.listen(port);

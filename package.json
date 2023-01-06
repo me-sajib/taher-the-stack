@@ -1,6 +1,8 @@
 {
   "name": "software-sheba-stack",
   "displayName": "SoftwareSheba Stack",
+  "private": true,
+  "license": "MIT",
   "sourceType": "module",
   "workspaces": [
     "packages/*"
