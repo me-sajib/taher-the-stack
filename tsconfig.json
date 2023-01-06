@@ -42,8 +42,8 @@
       "@software-sheba/scraper-api/src/*": [
         "packages/scraper-api/src"
       ],
-      "@software-sheba/web-scraper-extension/src/*": [
-        "packages/web-scraper-extension/src"
+      "@software-sheba/scraper-extension/src/*": [
+        "packages/scraper-extension/src"
       ],
       "@software-sheba/website/src/*": ["packages/website/src"]
     }

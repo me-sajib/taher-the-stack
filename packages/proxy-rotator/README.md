@@ -1,10 +1,10 @@
 # `@software-sheba/proxy-rotator`
 
-A clean & simple proxy rotator for easy-proxy-manager app
+A clean & simple proxy rotator server for the proxy-api
 
 ## Usage
 
-This sub-applications is specifically designed to retrieve proxies in a rotational sequence, ensuring that users can smoothly navigate the internet without being detected. These proxies can be accessed using a designated username and password, and are sourced from a comprehensive proxy list. Additionally, this sub-app is connected to the easy-proxy-manager database, allowing for efficient management of the rotating proxies. This helps users maintain a secure and anonymous connection to the internet at all times
+This sub-applications is specifically designed to retrieve proxies in a rotational sequence, ensuring that users can smoothly navigate the internet without being detected. These proxies can be accessed using a designated username and password, and are sourced from a comprehensive proxy list. Additionally, this sub-app is connected to the proxy-api database, allowing for efficient management of the rotating proxies. This helps users maintain a secure and anonymous connection to the internet at all times
 
 For get rotating proxy by using curl
 

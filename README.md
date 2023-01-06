@@ -1,4 +1,4 @@
-<h1 align="center">Easy Proxy Manager</h1>
+<h1 align="center">SoftwareSheba Stack</h1>
 <p align="center">Manage your proxies with pleasure</p>
 
 <p align="center">
@@ -9,7 +9,7 @@ Introducing Easy proxy manager - the ultimate proxy management tool! With user-f
 
 ## Sub apps
 
-1. [api](/packages/api/) - Mange proxies with REST api
+1. [proxy-api](/packages/proxy-api/) - Mange proxies with REST api
 2. [dashboard](/packages/dashboard/) - Frontend app for managing proxies in GUI
 3. [proxy-rotator](/packages/proxy-rotator/) - Rotate proxy server
 4. [extension](/packages/extension/) - Proxy manager extension to manage proxies
