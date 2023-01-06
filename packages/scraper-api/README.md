@@ -5,16 +5,6 @@ Rule the scrapping world
 ![image](./assets/example-.com.gif)
 ![image](assets/httpbin-org.gif)
 
-## Key features
-
-- **Configuration**: pass your own aspect
-  - **Block resources**: block any kind of resource like `jpg, png, gif, mp4` e.t.c. to scrape data blazingly fast.
-  - **Solve captchas**: smash the captcha by including one prop only.
-- **Instruction**: control the browser with just a bunch of props
-  - **Infinity scroll**: no more stuck to scraping in the infinite scroll
-- **Extraction**: extract what you want
-  - **Nested scrapping**: build your own scraping tree and scrape into deeper and deeper
-
 ## Installation
 
 To install all dependencies just run `yarn` or `npm i` (yarn recommended)
