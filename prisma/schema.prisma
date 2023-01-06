@@ -1,6 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -54,6 +53,6 @@ model Proxy {
   lastCheckAt  DateTime    @default(now())
   proxyListKey String
   proxyList    ProxyList   @relation(fields: [proxyListKey], references: [key], onDelete: Cascade)
-  author       User        @relation(fields: [userId], references: [id])
+  author       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
 }
