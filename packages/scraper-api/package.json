@@ -1,8 +1,8 @@
 {
   "name": "@software-sheba/scraper-api",
-  "version": "0.0.1",
-  "description": "",
-  "private": true,
+  "displayName": "Scraper API",
+  "version": "1.0.0",
+  "description": "Scrape website through API",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
