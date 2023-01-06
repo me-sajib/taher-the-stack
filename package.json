@@ -1,62 +1,39 @@
 {
-  "name": "software-sheba",
-  "private": true,
+  "name": "software-sheba-stack",
+  "displayName": "SoftwareSheba Stack",
   "sourceType": "module",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "dev": "lerna run dev",
-    "dev:api": "yarn lerna run dev --scope=@software-sheba/api",
-    "dev:dashboard": "yarn lerna run dev --scope=@software-sheba/dashboard",
-    "dev:proxy-manager-extension": "yarn lerna run dev --scope=@software-sheba/proxy-manager-extension",
+    "dev:proxy-api": "yarn lerna run dev --scope=@software-sheba/proxy-api",
+    "dev:proxy-dashboard": "yarn lerna run dev --scope=@software-sheba/proxy-dashboard",
+    "dev:proxy-extension": "yarn lerna run dev --scope=@software-sheba/proxy-manager-extension",
     "dev:proxy-rotator": "yarn lerna run dev --scope=@software-sheba/proxy-rotator",
     "dev:scraper-api": "yarn lerna run dev --scope=@software-sheba/scraper-api",
-    "dev:web-scraper-extension": "yarn lerna run dev --scope=@software-sheba/web-scraper-extension",
+    "dev:scraper-extension": "yarn lerna run dev --scope=@software-sheba/scraper-extension",
     "dev:website": "yarn lerna run start --scope=@software-sheba/website",
     "build": "lerna run build",
-    "build:api": "yarn lerna run build --scope=@software-sheba/api",
-    "build:dashboard": "yarn lerna run build--scope=@software-sheba/dashboard",
-    "build:proxy-manager-extension": "yarn lerna run build --scope=@software-sheba/proxy-manager-extension",
+    "build:proxy-api": "yarn lerna run build --scope=@software-sheba/proxy-api",
+    "build:proxy-dashboard": "yarn lerna run build--scope=@software-sheba/proxy-dashboard",
+    "build:proxy-extension": "yarn lerna run build --scope=@software-sheba/proxy-manager-extension",
     "build:proxy-rotator": "yarn lerna run build --scope=@software-sheba/proxy-rotator",
     "build:scraper-api": "yarn lerna run build--scope=@software-sheba/scraper-api",
-    "build:web-scraper-extension": "yarn lerna run build--scope=@software-sheba/web-scraper-extension",
+    "build:scraper-extension": "yarn lerna run build--scope=@software-sheba/scraper-extension",
     "build:website": "yarn lerna run build --scope=@software-sheba/website",
     "seed": "prisma db seed",
     "format": "prettier --write .",
+    "lint": "eslint . --ext .ts,.tsx,.jsx ",
     "prepare": "husky install"
   },
   "prisma": {
     "seed": "jiti prisma/seed.ts"
   },
   "lint-staged": {
-    "./packages/api/src/**/**/*.ts": [
-      "prettier --write .",
-      "eslint . --ext .ts,.tsx"
-    ],
-    "./packages/dashboard/**/**/*.{ts,tsx}": [
-      "prettier --write .",
-      "eslint . --ext .ts,.tsx"
-    ],
-    "./packages/proxy-manager-extension/src/**/*.{ts,tsx}": [
-      "prettier --write .",
-      "eslint . --ext .ts,.tsx"
-    ],
-    "./packages/proxy-rotator/src/**/*.ts": [
-      "prettier --write .",
-      "eslint . --ext .ts,.tsx"
-    ],
-    "./packages/scraper-api/**/*.{ts,tsx}": [
-      "prettier --write .",
-      "eslint . --ext .ts,.tsx"
-    ],
-    "./packages/web-scraper-extension/src/**/*.{ts,tsx}": [
-      "prettier --write .",
-      "eslint . --ext .ts,.tsx"
-    ],
-    "./packages/website/**/*.{js,jsx}": [
-      "prettier --write .",
-      "eslint . --ext .ts,.tsx"
+    "./packages/**/*.{ts,tsx,jsx}": [
+      "yarn format",
+      "yarn lint"
     ]
   },
   "devDependencies": {
