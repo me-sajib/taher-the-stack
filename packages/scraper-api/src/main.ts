@@ -6,15 +6,16 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({ origin: '*' });
 
   const config = new DocumentBuilder()
-    .setTitle('Easy scraper api')
+    .setTitle('Scraper api')
     .setDescription('Next generation scrapping tool')
-    .setVersion('1.0')
+    .setVersion('1.0.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   app.useGlobalPipes(
     new ValidationPipe({

@@ -1,33 +1,7 @@
-# `@software-sheba/scraper-api`
-
-Rule the scrapping world
-
-![image](./assets/example-.com.gif)
-![image](assets/httpbin-org.gif)
-
-## Env setup
-
-First, follow the `example.env` the `PROXY_URL` is optional if you created a `proxies.json` file like `proxies.example.json` & added your proxies. These proxies will use the round-robin method when you try to scrape any webpage.
-
-## Run
-
-To install all dependencies just run `yarn` or `npm i` (yarn recommended)
-
-```bash
-yarn
-```
-
-Now run the api with commands below
-
-```bash
-# development
-yarn dev # or year dev:scraper-api from root
-
-# build
-yarn build # or yarn build:scraper-api from root
-```
-
-## How it works
+---
+title: How it works
+sidebar_position: 3
+---
 
 - Easy scraper provides API from which you can scrape data from a web page.
 - It supports also proxy rotator mode. in every request, it uses a different proxy (that you provide) and makes you anonymous 🥷.
@@ -691,13 +665,3 @@ Also you can provide your custom `ExtractDto` structure by adding in the `output
 ```
 
 **NOTE**: If any property value isn't found it will return an empty string on that specific object.
-
-## Credits
-
-These open source softwares help us to build this api
-
-1. [Typescript](https://www.typescriptlang.org/)
-2. [NestJs](https://nestjs.com/)
-3. [Puppeteer](https://pptr.dev/)
-4. [Puppeteer-extra](https://www.npmjs.com/package/puppeteer-extra)
-5. [Normalize-url](https://www.npmjs.com/package/normalize-url)

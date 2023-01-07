@@ -5,6 +5,7 @@
   "description": "The easy proxy manager api",
   "homepage": "https://github.com/SoftwareSheba/easy-proxy-manager#readme",
   "license": "MIT",
+  "private": true,
   "main": "main.ts",
   "publishConfig": {
     "registry": "https://registry.yarnpkg.com"

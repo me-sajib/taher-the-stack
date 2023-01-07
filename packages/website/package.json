@@ -1,6 +1,8 @@
 {
   "name": "@software-sheba/website",
   "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
