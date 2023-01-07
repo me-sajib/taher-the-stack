@@ -89,7 +89,7 @@ function IndexPopup() {
     <main>
       <section className="bg-slate-900 p-3">
         <Header
-          heading={"Proxy manager extension"}
+          heading={"SoftwareSheba Stack"}
           closeHandler={closePopupHandler}
         />
         <ActiveProxyBanner
