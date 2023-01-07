@@ -4,12 +4,10 @@ import Layout from '@theme/Layout';
 import clsx from 'clsx';
 import React from 'react';
 import HomepageFeatures from '../components/HomepageFeatures';
-
+import 'swagger-ui-react/swagger-ui.css';
 import styles from './index.module.css';
 
 function HomepageHeader() {
-  // const { siteConfig } = useDocusaurusContext();
-
   return (
     <header className={styles.heroBanner}>
       <div className="container">

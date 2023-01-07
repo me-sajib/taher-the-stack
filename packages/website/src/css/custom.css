@@ -13,6 +13,10 @@
   box-shadow: none;
 }
 
+.swagger-ui pre {
+  background-color: unset;
+}
+
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #4f2e85;

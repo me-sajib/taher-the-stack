@@ -231,3 +231,7 @@ html[data-theme='dark'] .features {
   fill: url(#gradient-1) !important;
   stroke: url(#gradient-1) !important;
 }
+
+.swagger-ui .info .title small pre {
+  background-color: none;
+}
