@@ -2,6 +2,8 @@
   "name": "@software-sheba/scraper-extension",
   "displayName": "Scraper extension",
   "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",

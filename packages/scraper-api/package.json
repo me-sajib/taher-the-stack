@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Scrape website through API",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

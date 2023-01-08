@@ -3,6 +3,8 @@
   "displayName": "Proxy extension",
   "version": "1.0.0",
   "description": "Mange your proxies through extension",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",

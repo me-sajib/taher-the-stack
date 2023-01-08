@@ -9,6 +9,7 @@
   ],
   "homepage": "https://github.com/SoftwareSheba/easy-proxy-manager#readme",
   "license": "MIT",
+  "private": true,
   "publishConfig": {
     "registry": "https://registry.yarnpkg.com"
   },
