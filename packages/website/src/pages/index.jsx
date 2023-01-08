@@ -16,15 +16,17 @@ function HomepageHeader() {
             <div className={clsx(styles.relative, 'row')}>
               <div className="col">
                 <h1 className={styles.tagline}>
-                  The extension <br /> makes it easy to <br /> use
-                  proxies
+                  The Ultimate
+                  <br /> Proxy Management & <br />
+                  Scraping Stack
                 </h1>
               </div>
             </div>
             <div className="row">
               <div className="col">
                 <h2>
-                  It helps you to manage your proxies with ease.
+                  It helps you to manage your proxies with ease &
+                  scrape content with hassle free.
                 </h2>
               </div>
             </div>

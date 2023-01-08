@@ -7,26 +7,26 @@ const FeatureList = [
     title: 'Easy to use',
     description: (
       <>
-        Proxy manager extension was designed from the ground up to be
-        easily installed and used to connect your proxy up and running
-        quickly.
+        SoftwareSheba Stack was designed from the ground up to be
+        easily installed and used to running quickly.
       </>
     )
   },
   {
-    title: 'One click connection',
+    title: 'Proxy service',
     description: (
       <>
-        Connect your browser with any proxy server through one click.
+        Mange and use proxies through extension & dashboard. It
+        provides designated API to manager proxies.
       </>
     )
   },
   {
-    title: 'Fetch proxies from manager',
+    title: 'Scraping service',
     description: (
       <>
-        To retrieve all of your proxies from your proxy manager
-        account, simply sign in.
+        Scrape content from any website all over the world through api
+        & chrome extension
       </>
     )
   }

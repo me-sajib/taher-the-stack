@@ -4,7 +4,7 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
-const siteTitle = 'Proxy Manager Extension';
+const siteTitle = 'SoftwareSheba Stack';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
