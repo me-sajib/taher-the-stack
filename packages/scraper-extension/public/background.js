@@ -117,10 +117,11 @@ async function runPagination(payload, isRecipePagination) {
             await chrome.tabs.update(state.dashboardTab.id, {
               active: true
             });
-            chrome.tabs.remove(paginateTab.id);
           } else {
             openDashboard(payload, paginateTab.index + 1);
           }
+
+          chrome.tabs.remove(paginateTab.id);
         }
       };
 
