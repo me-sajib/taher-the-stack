@@ -17,16 +17,11 @@ const menus = [
     route: '/save-recipe',
     name: 'Save recipe',
     icon: 'save'
-  },
-  {
-    route: '/recipes-overview',
-    name: 'Recipes overview',
-    icon: 'collections'
   }
 ];
 
 const SideBar = () => {
-  const recipes = useAppSelector(getRecipes);
+  const recipes = useAppSelector(getRecipes) ?? {};
 
   const activeMenuHandler = ({ isActive }: { isActive: boolean }) =>
     addClass(isActive && classes.active, classes.menu);

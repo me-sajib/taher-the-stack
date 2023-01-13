@@ -1,7 +1,7 @@
 import { DownloadFormat } from '../interfaces/dashboard';
 import makePerfectId from '../utils/makePerfectId';
 
-const EXTENSION_TAG_NAME = 'easy-web-scraper';
+const EXTENSION_TAG_NAME = 'scraper-extension';
 const SCRAPE_ATTRIBUTE_NAME: string = makePerfectId('data-selected');
 const DETECTION_STYLE_ID: string = makePerfectId('ews-detection');
 const DETECTOR_ATTR_NAME: string = makePerfectId('data-selected');

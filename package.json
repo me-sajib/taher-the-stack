@@ -22,7 +22,7 @@
     "build:proxy-extension": "yarn lerna run build --scope=@software-sheba/proxy-extension",
     "build:proxy-rotator": "yarn lerna run build --scope=@software-sheba/proxy-rotator",
     "build:scraper-api": "yarn lerna run build--scope=@software-sheba/scraper-api",
-    "build:scraper-extension": "yarn lerna run build--scope=@software-sheba/scraper-extension",
+    "build:scraper-extension": "yarn lerna run build --scope=@software-sheba/scraper-extension",
     "build:website": "yarn lerna run build --scope=@software-sheba/website",
     "seed": "prisma db seed",
     "format": "prettier --write .",
