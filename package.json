@@ -18,7 +18,7 @@
     "dev:website": "yarn lerna run start --scope=@software-sheba/website",
     "build": "lerna run build",
     "build:proxy-api": "yarn lerna run build --scope=@software-sheba/proxy-api",
-    "build:proxy-dashboard": "yarn lerna run build--scope=@software-sheba/proxy-dashboard",
+    "build:proxy-dashboard": "yarn lerna run build --scope=@software-sheba/proxy-dashboard",
     "build:proxy-extension": "yarn lerna run build --scope=@software-sheba/proxy-extension",
     "build:proxy-rotator": "yarn lerna run build --scope=@software-sheba/proxy-rotator",
     "build:scraper-api": "yarn lerna run build--scope=@software-sheba/scraper-api",

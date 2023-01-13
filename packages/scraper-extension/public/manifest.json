@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "easy-web-scraper",
-  "version": "0.0.1",
+  "name": "Scraper Extension",
+  "version": "1.0.0",
   "description": "A chrome extension for web scraping",
   "icons": {
     "32": "./easy-scraper.png"
