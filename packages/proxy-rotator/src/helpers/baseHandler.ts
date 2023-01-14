@@ -1,6 +1,14 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { Socket } from 'net';
 import { ManageHandler, prepareClientReq } from '.';
 import { ServerEvent } from '../interfaces';
+
+const authRequiredHeader = {
+  'Proxy-Connection': 'close',
+  Connection: 'close',
+  'Proxy-Authenticate':
+    'Basic realm="Invalid proxy credentials or missing IP Authorization."'
+};
 
 export const baseHandler =
   (method: ServerEvent) =>
@@ -17,17 +25,26 @@ export const baseHandler =
           return manageHandler.handleSocket();
       }
     } catch (e) {
-      res.statusCode = e.statusCode;
+      if (res instanceof ServerResponse) {
+        res.statusCode = e.statusCode;
+        for (const key in authRequiredHeader) {
+          res.setHeader(key, authRequiredHeader[key]);
+        }
+      }
 
-      res.end(
-        JSON.stringify(
-          {
-            statusCode: res.statusCode,
-            message: e.message
-          },
-          null,
-          2
-        )
-      );
+      if (res instanceof Socket) {
+        res.write('HTTP/1.1 407 Proxy Authentication Required\r\n');
+        res.write('Content-Type: text/plain; charset=utf-8\r\n');
+
+        for (const key in authRequiredHeader) {
+          res.write(`${key}: ${authRequiredHeader[key]}\r\n`);
+        }
+
+        res.write('\r\n');
+
+        return res.end();
+      }
+
+      res.end(e.message);
     }
   };
