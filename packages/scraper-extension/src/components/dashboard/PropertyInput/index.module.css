@@ -1,0 +1,17 @@
+.inputBox {
+  position: relative;
+}
+
+.deleteButton {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.deleteButton:hover > * {
+  color: red;
+}

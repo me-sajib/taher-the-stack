@@ -1,0 +1,25 @@
+.container {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.modes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.mode {
+  padding: 5px;
+  font-size: 20px;
+  margin-right: 20px;
+  border-bottom-width: 3.5px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.active {
+  border-bottom-color: var(--primary-color);
+}

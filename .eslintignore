@@ -1,0 +1,6 @@
+.next
+.docusaurus
+.plasmo
+build
+node_modules
+dist

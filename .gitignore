@@ -1,9 +1,15 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# See http://help.github.com/ignore-buildfiles/ for more about ignoring files.
 
 # compiled output
-/dist
+dist
+build
 /tmp
 /out-tsc
+.plasmo
+.docusaurus
+.cache-loader
+.next
+
 
 # dependencies
 node_modules
@@ -16,6 +22,7 @@ node_modules
 *.launch
 .settings/
 *.sublime-workspace
+*.log
 
 # IDE - VSCode
 .vscode/*
@@ -40,13 +47,10 @@ Thumbs.db
 
 # Environments
 .env
-
-# Next.js
-.next
-
-# seed
-users.json
 .env*
 .flaskenv*
 !.env.project
 !.env.vault
+
+# seed
+migrations

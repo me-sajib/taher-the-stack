@@ -1,0 +1,48 @@
+.resultContainer {
+  overflow-y: auto;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px;
+
+  padding: 15px 15px 0px;
+}
+
+.container {
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.subContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-basis: 80%;
+}
+
+.selectContainer {
+  padding: 2.5px;
+}
+
+.pageIndicator {
+  font-size: 18px;
+  padding: 2px 7px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.actionButton {
+  font-size: 22px;
+  display: grid;
+  place-items: center;
+  background-color: transparent;
+  border: none;
+  padding: 0px 15px;
+}
+
+.activeIndicator {
+  color: white;
+  background-color: var(--primary-color);
+}
+
+.pageIndicator ~ .pageIndicator {
+  margin-left: 5px;
+}

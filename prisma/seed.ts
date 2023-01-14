@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import { PrismaClient } from '@prisma/client';
 import * as argon from 'argon2';
 
 const client = new PrismaClient();
@@ -13,8 +13,14 @@ interface SignUpUser {
 }
 
 async function seed() {
-  const { USER_COUNT, PROXY_LIST_COUNT, FULL_NAME, USERNAME, EMAIL, PASSWORD } =
-    process.env;
+  const {
+    USER_COUNT,
+    PROXY_LIST_COUNT,
+    FULL_NAME,
+    USERNAME,
+    EMAIL,
+    PASSWORD
+  } = process.env;
 
   if (USER_COUNT) {
     let totalUser: number = +USER_COUNT;
@@ -26,16 +32,18 @@ async function seed() {
       const user = {
         fullname: `${firstName} ${lastName}`,
         email: faker.internet.email(firstName, lastName),
-        username: `${firstName}${faker.random.alphaNumeric(5)}`.toLowerCase(),
-        password: 'Hello12345',
+        username: `${firstName}${faker.random.alphaNumeric(
+          5
+        )}`.toLowerCase(),
+        password: 'Hello12345'
       };
 
       // create user
       await client.user.create({
         data: {
           ...user,
-          password: await argon.hash(user.password),
-        },
+          password: await argon.hash(user.password)
+        }
       });
     }
 
@@ -50,14 +58,14 @@ async function seed() {
             username: `${username}${faker.random.alphaNumeric(
               4
             )}`.toLowerCase(),
-            password: faker.internet.password(5),
+            password: faker.internet.password(5)
           };
 
           await client.proxyList.create({
             data: {
               userId: id as string,
-              ...proxyList,
-            },
+              ...proxyList
+            }
           });
         }
       }
@@ -70,8 +78,8 @@ async function seed() {
         fullname: FULL_NAME,
         username: USERNAME,
         email: EMAIL,
-        password: await argon.hash(PASSWORD),
-      },
+        password: await argon.hash(PASSWORD)
+      }
     });
   }
 

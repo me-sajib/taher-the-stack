@@ -1,0 +1,30 @@
+{
+  "name": "@software-sheba/proxy-rotator",
+  "displayName": "Proxy rotator",
+  "version": "1.0.0",
+  "description": "A proxy rotator server",
+  "homepage": "https://github.com/SoftwareSheba/easy-proxy-manager#readme",
+  "license": "MIT",
+  "main": "main.js",
+  "private": true,
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftwareSheba/easy-proxy-manager.git"
+  },
+  "scripts": {
+    "dev": "nodemon --exec jiti src/main.ts",
+    "start": "jiti dist/main.js",
+    "build": "tsc -p .",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "bugs": {
+    "url": "https://github.com/SoftwareSheba/easy-proxy-manager/issues"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.7.1",
+    "argon2": "^0.30.2"
+  }
+}
