@@ -19,15 +19,22 @@ export const baseHandler =
     } catch (e) {
       res.statusCode = e.statusCode;
 
-      res.end(
-        JSON.stringify(
-          {
-            statusCode: res.statusCode,
-            message: e.message
-          },
-          null,
-          2
-        )
-      );
+      if (res instanceof ServerResponse) {
+        const authRequiredHeader = {
+          'Proxy-Connection': 'close',
+          Connection: 'close',
+          'Proxy-Authenticate':
+            'Basic realm="Invalid proxy credentials or missing IP Authorization."'
+        };
+
+        for (const key in authRequiredHeader) {
+          res.setHeader(key, authRequiredHeader[key]);
+        }
+      } else {
+        console.log({ res });
+        // const socket = res as Socket;
+      }
+
+      res.end(e.message);
     }
   };
