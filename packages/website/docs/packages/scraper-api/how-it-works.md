@@ -43,7 +43,7 @@ GET http://localshot:3333/parse?access_token=exampletoken&render=true&url=https:
 
 By adding different properties it will operate different actions for you. Every property can play their own actions.
 
-```json
+```jsonc
 {
   "config": {
     // ... configurations
@@ -169,7 +169,7 @@ If you would like to use your browser as stealth mode just turn the property lik
 
 You can pass custom cookies to the target webpages. to do this you have to pass array of cookies in the `cookies` field. the cookies will follow the `Protocol.Network.CookieParam` [interface](https://vanilla.aslushnikov.com/?Network.CookieParam)
 
-```json
+```jsonc
 {
   "config": {
     "cookies": [
@@ -257,7 +257,7 @@ If you need to interact with the browser, the instructions parameter will help y
 
 > The syntax
 
-```json
+```jsonc
 {
   "instructions": [
     {
@@ -274,7 +274,7 @@ If you need to interact with the browser, the instructions parameter will help y
 
 If you would like to wait a fixed amount of time just add it in instructions object like this.
 
-```json
+```jsonc
 {
   "instructions": [
     {
@@ -331,7 +331,7 @@ interface ClickOption {
 
 This property is a combination of `wait_for` & `click`
 
-```json
+```jsonc
 {
   "instructions": [
     {
@@ -442,7 +442,7 @@ This is an extraction object to extract data in JSON format. the structure of ex
 
 > example output
 
-```json
+```jsonc
 {
   "key_name": "the inner text of selected element (.selector), null if not found",
   "key_name-2": [
@@ -498,7 +498,7 @@ Typically it will return you the first HTML element that matches the selector. I
 
 > example output
 
-```json
+```jsonc
 {
   "first_post_title": "  First title",
   "all_post_title": [
@@ -644,7 +644,7 @@ Also you can provide your custom `ExtractDto` structure by adding in the `output
 
 > example output
 
-```json
+```jsonc
 {
   "articles": [
     {
