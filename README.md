@@ -1,10 +1,6 @@
 <h1 align="center">SoftwareSheba Stack</h1>
 <p align="center">The Ultimate Proxy Management & Scraping Stack</p>
 
-<p align="center">
-  <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="built with love">
-</p>
-
 **SoftwareSheba Stack** With a user-friendly **GUI** interface inside your browser, you can easily manage all of your proxy servers in one place. Need to rotate your proxies? No problem! This app allows you to get fresh proxies from the **proxy-rotator** dedicated server via URL. Plus, it offers a convenient **Chrome extension** that makes it easy to connect your proxies to your browser. Also it provides the **Scraper API** & **Scraping extension** from chrome browser. Try it out today and enjoy web scraping and anonymous access to the web, regardless of your location.
 
 ## Packages
